@@ -1,0 +1,96 @@
+Leaders
+=======
+
+We've learned how to map keys in a way that won't make us want to tear our hair
+out later, but you might have noticed one more problem.
+
+Every time we do something like `:nnoremap <space> dd` we've overwritten what
+`<space>` normally does.  What if we need that key later?
+
+There are a bunch of keys that you don't normally need in your day-to-day Vim
+usage.  `\` doesn't do anything.  `-`, `H`, `L`, and `<space>` do things that
+you almost never need.  Depending on how you work you may find others that you
+never use.
+
+Those are safe to map, but that only gives us five keys to work with.  What
+happened to Vim's legendary customizability?
+
+Mapping Key Sequences
+---------------------
+
+Unlike Emacs, Vim makes it easy to map more than just single keys.  Run these
+commands:
+
+    :nnoremap -d dd
+    :nnoremap -c ddO
+
+Try them out by typing `-d` and `-c` (quickly) in normal mode.  The first
+creates a custom mapping to delete a line, while the second "clears" a line and
+puts you into insert mode.
+
+This means we can pick a key that we don't care about (like `-`) as a "prefix"
+key and create mappings on top of it.  It means we have to type an extra key to
+activate our mappings, but one extra keystroke can easily be absorbed into
+muscle memory.
+
+If you think this might be a good idea, you're right, and it turns out that Vim
+already has mechanisms for this "prefix" key!
+
+Leader
+------
+
+Vim calls this "prefix" key "leader".  You can set your leader key to whatever
+you like.  Run this command:
+
+    :let mapleader = "-"
+
+You can replace `-` with any key you like.  I personally like `,` even though it
+shadows a useful function, because it's very easy to type.
+
+When you're creating new mappings you can use `<leader>` to mean "whatever
+I have my leader key set to".  Run this command:
+
+    :nnoremap <leader>d dd
+
+Now try it out by pressing your leader key and then `d`.  Vim will delete the
+current line.
+
+Why bother with setting `<leader>` at all, though?  Why not just include your
+"prefix" key directly in your mapping commands?
+
+First, you may decide you need the normal function of your leader later on down
+the road.  Defining it in one place makes it easy to change later.
+
+Second, when someone else is looking at your `~/.vimrc` file they'll immediately
+know what you mean when you say `<leader>`, and they can simply copy your
+mapping into their own `~/.vimrc` if they like it.
+
+Finally, many Vim plugins map things on top of your `<leader>`, so if you've
+already got it set up they will just work.
+
+Local Leader
+------------
+
+Vim has a second "leader" key called "localleader".  This is meant to be
+a prefix for mappings that only take effect for certain types of files, like
+Python files or HTML files.
+
+We'll talk about how to make mappings for specific types of files later in the
+book, but you can go ahead and set your "localleader" now:
+
+    :let maplocalleader = "\"
+
+You can use `<localleader>` in mappings and it will work just like `<leader>`
+does, except for resolving to a different key.
+
+Exercises
+---------
+
+Read `:help mapleader`.
+
+Read `:help maplocalleader`.
+
+Set `mapleader` and `maplocalleader` in your `~/.vimrc` file.
+
+Convert all the mappings you added to your `~/.vimrc` file in the previous
+chapters to be prefixed with `<leader>` so they don't shadow existing commands.

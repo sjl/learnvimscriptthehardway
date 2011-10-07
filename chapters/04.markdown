@@ -1,0 +1,103 @@
+Modal Mapping
+=============
+
+In the last chapter we talked about how to map keys in Vim.  We used the `map`
+command which made our keys work in normal mode.  If you played around a bit
+before moving on to this chapter, you may have noticed that our mappings also
+took effect in visual mode.
+
+We can be more specific about when we want our mappings to work by using `nmap`,
+`vmap`, and `imap`.  These tell Vim to only use the mapping in normal, visual,
+or insert mode respectively.
+
+Run this command:
+
+    nmap \ dd
+
+Now put your cursor in your text file, make sure you're in normal mode, and
+press `\`.  Vim will delete the current line.
+
+Now enter visual mode and try pressing `\`.  Nothing will happen, because we
+told Vim to only use that mapping in normal mode (and `\` doesn't do anything by
+default).
+
+Run this command:
+
+    vmap \ U
+
+Enter visual mode and select some text, then press `\`.  Vim will convert the
+text to uppercase!
+
+Try the `\` key a few times in normal and visual modes and notice that it now
+does something completely different depending on which mode you're in.
+
+Muscle Memory
+-------------
+
+At first the idea of mapping the same key to do different things depending on
+which mode you're in may sound like a terrible idea.  Why would you want to
+have to stop and think which mode you're in before pressing the key?  Wouldn't
+that negate any time you saved from the mapping itself?
+
+In practice it turns out that this isn't really a problem.  Once you start using
+Vim a lot you won't be thinking about the individual keys you're typing any
+more.  You'll think: "delete a line" and not "press `dd`".  Your fingers and
+brain will learn your mappings and the keys themselves will become subconscious.
+
+Insert Mode
+-----------
+
+Now that we've covered how to map keys in normal and visual mode, let's move on
+to insert mode.  Run this command:
+
+    imap <c-d> dd
+
+You might think that this would let you press `Ctrl+d` whenever you're in insert
+mode to delete the current line.  This would be nice, because now you don't need
+to go back into normal mode to cut out lines!
+
+Go ahead and try it.  It won't work -- instead it will just put two `d`s in your
+file!  That's pretty useless.
+
+The problem is that Vim is doing exactly what we told it to.  We said: "when
+I press `<c-d>` I want you to do what pressing `d` and `d` would normally do".
+
+Well, normally when you're in insert mode and press the `d` key twice, you get
+two `d`s in a row!
+
+To make this mapping do what we intended we need to be very explicit.  Run this
+command to change the mapping:
+
+    imap <c-d> <esc>dd
+
+The `<esc>` is our way of telling Vim to press the Escape key, which will take
+us out of insert mode.
+
+Now try the mapping.  It works!  But notice how you're now back in normal mode.
+This makes sense, because we told Vim that `<c-d>` should exit insert mode and
+delete a line, but we never told it to go back into insert mode.
+
+Run one more command to fix the mapping once and for all:
+
+    imap <c-d> <esc>ddi
+
+The `i` at the end reenters insert mode for us, and our mapping is finally
+complete.
+
+Exercises
+---------
+
+Set up a mapping so that you can press `<c-u>` to convert the current word to
+uppercase when you're in insert mode.  Remember that `U` in visual mode will
+uppercase the selection.  I find this mapping extremely useful when I'm writing
+out the name of a long constant -- I type out the constant in lower case and
+then uppercase it.
+
+Add that mapping to your `~/.vimrc` file.
+
+Set up a mapping so that you can uppercase the current word with `<c-u>` when in
+*normal* mode.  This will be slightly different than the previous mapping
+because you don't need to enter normal mode and you should end up back in normal
+mode instead of in insert mode.
+
+Add that mapping to your `~/.vimrc` file as well.

@@ -1,0 +1,62 @@
+Echoing Messages
+================
+
+The first piece of Vimscript we'll look at is `echom`.
+
+You can read the full documentation for the command by running `:help echom` in
+Vim.  As you go through this book you should try to read the `:help` for every
+new command you encounter to get a better understanding of how to use each one.
+
+Run the following command:
+
+    :echo "Hello, world!"
+
+You should see `Hello, world!` appear at the bottom of the window.
+
+Persistent Echoing
+------------------
+
+Now run the following command:
+
+    :echom "Hello again, world!"
+
+You should see `Hello again, world!` appear at the bottom of the window.
+
+To see the difference between these two commands, run one more new command:
+
+    :messages
+
+You should see a list of messages.  `Hello, world!` will *not* be in this list,
+but `Hello again, world!` *will* be in it.
+
+When you're writing more complicated Vim scripts later in this book you may find
+yourself wanting to "print some output" to help you debug problems.  Plain old
+`:echo`will print output, but it will often disappear by the time your script is
+done.  Using `:echom` will save the output and let you run `:messages` to view
+it later.
+
+Comments
+--------
+
+Before we move on we should mention comments.  When you write Vimscript code (in
+your `~/.vimrc` file or another one) you can add comments with the `"`
+character, like this:
+
+    " Make space more useful
+    nnoremap <space> za
+
+This doesn't *always* work (that's one of those ugly corners of Vimscript), but
+in most cases it does, and we'll talk about when it won't (and why that
+happens).
+
+Exercises
+---------
+
+Read `:help echo`.
+
+Read `:help echom`.
+
+Read `:help messages`.
+
+Add a line to your vimrc file that displays a friendly ASCII-art cat (`>^.^<`)
+whenever you open Vim.

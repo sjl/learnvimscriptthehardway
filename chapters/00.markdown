@@ -1,0 +1,38 @@
+Prerequisites
+=============
+
+To use this book you should have the latest version of Vim installed, which is
+version 7.3 at the time of this writing.  New versions of Vim are almost always
+backwards-compatible, so everything in this book should work just fine with
+newer versions.
+
+You should be comfortable editing files in Vim.  You should know basic Vim
+terminology like "buffer", "window", "normal mode", "insert mode" and "text
+object".
+
+If you're not at that point yet go through the `vimtutor` program, use Vim
+exclusively for a month or two, and come back when you've got Vim burned into
+your fingers.
+
+You should have some programming experience.  If you've never programmed before
+check out [Learn Python the Hard Way](http://learnpythonthehardway.org/) first.
+
+Creating a Vimrc File
+---------------------
+
+If you already know what a vimrc file is and have one, go on to the next
+chapter.
+
+A vimrc file is a file you create that contains some Vimscript code.  Vim will
+automatically run the code inside this file every time you open Vim.
+
+On Linux and Mac OS X this file is located in your home directory and named
+`.vimrc`.
+
+On Windows this file is located in your home folder and named `_vimrc`.
+
+To easily find the location and name of the file on *any* operating system, run
+`:echo $MYVIMRC` in Vim.  The path will be displayed at the bottom of the
+screen.
+
+Create this file if it doesn't already exist.

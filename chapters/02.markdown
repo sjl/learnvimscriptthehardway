@@ -1,0 +1,88 @@
+Setting Options
+===============
+
+Vim has many options you can set to change how it behaves.
+
+There are two main kinds of options: boolean options (either "on" or "off") and
+options that take a value.
+
+Run the following command:
+
+    :set number
+
+Line numbers should appear in Vim.  Now run this:
+
+    :set nonumber
+
+The line numbers should disappear.  `number` is a boolean option -- it can be
+off or on.  You turn it "on" by running `:set number` and "off" with `:set
+nonumber`.
+
+Toggling Options
+----------------
+
+You can also "toggle" boolean options to set them to the *opposite* of whatever
+they are now.  Run this:
+
+    :set number!
+
+The line numbers should reappear.  Now run it again:
+
+    :set number!
+
+They should disappear once more.  Adding a `!` (exclamation point or "bang") to
+a boolean option toggles it.
+
+Checking Options
+----------------
+
+You can ask Vim what an option is currently set to by using a `?`.  Run these
+commands and watch what happens after each:
+
+    :set number
+    :set number?
+    :set nonumber
+    :set number?
+
+Notice how the first `:set number?` command displayed `number` while the second
+displayed `nonumber`.
+
+Options with Values
+-------------------
+
+Some options take a value instead of just being off or on.  Run the following
+commands and watch what happens after each:
+
+    :set number
+    :set numberwidth=10
+    :set numberwidth=4
+    :set numberwidth?
+
+The `numberwidth` option changes how wide the column containing line numbers
+will be.
+
+Try checking what a few other common options are set to:
+
+    :set wrap?
+    :set numberwidth?
+
+Setting Multiple Options at Once
+--------------------------------
+
+Finally, you can specify more than one option in the same `:set` command.  Try
+running this:
+
+    :set number numberwidth=6
+
+Exercises
+---------
+
+Read `:help number`.
+
+Read `:help relativenumber`.
+
+Read `:help numberwidth`.
+
+Read `:help wrap`.
+
+Add a few lines to your vimrc file to set these four options however you like.
