@@ -58,10 +58,11 @@ following command:
     :autocmd BufNewFile *.txt :write
 
 This is almost the same as the last command, but this time it will only apply to
-files whose names end in `.txt`.  Try it out by running `:edit bar`, then
-`:quit`, then `:edit bar.txt`, then `:quit`.  You'll see that Vim writes the
-`bar.txt` automatically, but *doesn't* write `bar` because it doesn't match the
-pattern.
+files whose names end in `.txt`.
+
+Try it out by running `:edit bar`, then `:quit`, then `:edit bar.txt`, then
+`:quit`.  You'll see that Vim writes the `bar.txt` automatically, but *doesn't*
+write `bar` because it doesn't match the pattern.
 
 The final part of the command is the command we want to run when the event
 fires.  This is pretty self-explanatory, except for one catch: you can't use
@@ -81,8 +82,8 @@ We're getting a bit ahead of ourselves here because we're going to talk about
 `normal` later in the book, but for now you'll need to bear with me because it's
 tough to come up with useful examples at this point.
 
-Now create a new file called `foo.html`.  Edit it with Vim and enter the
-following text *exactly*, including the whitespace:
+Create a new file called `foo.html`.  Edit it with Vim and enter the following
+text *exactly*, including the whitespace:
 
     <html>
     <body>
@@ -117,13 +118,42 @@ whenever we *read* an HTML file as well as when we write it.  This could be
 useful if you have coworkers that don't indent their HTML well.
 
 A common idiom in Vim scripting is to pair the `BufRead` and `BufNewFile` events
-to run a command whenever you open a certain kind of file, regardless of whether
-it happened to exist already or not.  Run the following command:
+together to run a command whenever you open a certain kind of file, regardless
+of whether it happens to exist already or not.  Run the following command:
 
-    au BufNewFile,BufRead *.html setlocal nowrap
+    :autocmd BufNewFile,BufRead *.html setlocal nowrap
 
 This will turn line wrapping off whenever you're working on an HTML file.
-Don't worry about `setlocal` right now, we'll get to that later.
+
+FileType Events
+---------------
+
+One of the most useful events is the `FileType` event.  This event is fired
+whenever Vim sets a buffer's `filetype`.
+
+Let's set up a few useful mappings for a variety of file types.  Run the
+following commands:
+
+    :autocmd FileType javascript nnoremap <buffer> <localleader>c I//
+    :autocmd FileType python     nnoremap <buffer> <localleader>c I#
+
+Open a Javascript file (a file that ends in `.js`), pick a line and type
+`<localleader>c`.  This will comment out the line.
+
+Now open a Python file (a file that ends in `.py`), pick a line and type
+`<localleader>c`.  This will comment out the line, but it will use Python's
+comment character!
+
+Using autocommands alongside the buffer-local mappings we learned about in the
+last chapter we can create mappings that are specific to the type of file that
+we're editing.
+
+This reduces the load on our minds when we're coding.  Instead of having to
+think about moving to the beginning of the line and adding a comment character
+we can simply think "comment this line".
+
+You may have noticed that this mapping leaves us in insert mode.  Unfortunately
+we can't fix that just yet, but we'll get to it later in the book!
 
 Exercises
 ---------
@@ -131,3 +161,15 @@ Exercises
 Skim `:help autocmd-events` to see a list of all the events you can bind
 autocommands to.  You don't need to memorize each one right now, but just try
 to get a feel for the kinds of things you can do.
+
+Create a few `FileType` autocommands that use `setlocal` to set options for your
+favorite filetypes just the way you like them.  Some options you might like to
+change on a per-filetype basis are `wrap`, `list`, and `number`.
+
+Create a few more "comment this line" autocommands for filetypes you work with
+often.
+
+Add all of these autocommands to your `~/.vimrc` file.  Use your shortcut
+mappings for editing and sourcing it quickly, of course!
+
+
