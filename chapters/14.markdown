@@ -1,0 +1,40 @@
+Augroups
+========
+
+Augroups making organizing autocommands a lot easier. It's also a good idea to
+have them because otherwise you run the risk of duplicating your autocommands
+and slowing down Vim.
+
+Augroups can be given any case-sensitive name and wrap any autocommands you
+want. They don't have to be related in any way and can perform totally different
+commands. Obviously, it's a lot easier when you have an augroup around similar
+filetypes and functions - here's some for Markdown documents.
+
+    augroup Markdown
+        autocmd!
+        autocmd Filetype markdown inoremap <buffer> <C-b> ****<Esc>hi
+        autocmd Filetype markdown inoremap <buffer> <C-i> **<Esc>i
+    augroup END
+
+So these are two commands that map `CTRL+b` and `CTRL+i` to surround the cursor
+in Markdown's bold and italics syntax. Remember, these mappings are local to the
+current buffer only.
+
+You might have noticed that blank `autocmd!` in there right under the augroup
+declaration. What this does (and it so happens that this *only* works inside of
+augroup's) is it tells Vim that if you ever reload your `$MYVIMRC` by executing
+`:so $MYVIMRC`, then delete and redefine any autocmd's defined for **this**
+augroup.
+
+In general, augroup's prevent the autocommand's defined in them from being
+redefined every time your source your `~/.vimrc` file. You can see all
+autocommands and their groups by typing `:au` into Vim, which optionally accepts
+a `{group}` argument for seeing all autocommand's defined by a group.
+
+Exercises
+---------
+
+Go through your `~/.vimrc` and organize autocmd's into augroups, each defined
+with a blank `autocmd!` as it's first line. This is important if you ever change
+something in your `vimrc` and need to use `:so $MYVIMRC` a lot because duplicate
+autocmd's can slow down Vim and cause errors.
