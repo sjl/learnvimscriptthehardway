@@ -1,0 +1,91 @@
+More Mappings
+=============
+
+I know we've talked a lot about mappings so far, but we're going to practice
+them again now.  Mappings are one of the easiest, fastest ways to make your Vim
+editing more productive, so it's good to focus on them quite a bit.
+
+One concept that has showed up in several examples but that we haven't
+explicitly talked about is mapping a sequence of multiple keys.
+
+Run the following command:
+
+    :nnoremap jk dd
+
+Now make sure you're in normal mode and press `j` followed quickly by `k`.  Vim
+will delete the current line.
+
+Now try pressing only `j` and waiting for a bit.  If you don't press `k` quickly
+after the `j`, Vim decides that you don't want to active the mapping and instead
+runs the normal `j` functionality (moving down a line).
+
+This mapping will make it painful to move around our file, so lets remove it.
+Run the following command:
+
+    :nunmap jk
+
+Now typing `jk` in normal mode will move down and then up a line as usual.
+
+A More Complicated Mapping
+--------------------------
+
+You've seen a bunch of simple mappings so far, so it's time to look at something
+with a bit more meat to it.  Run the following command:
+
+    :nnoremap <leader>" viw<esc>a"<esc>hviwo<esc>i"<esc>lel
+
+Now *that's* an interesting mapping!  First, go ahead and try it out.  Enter
+normal mode, put your cursor over a word in your text and type `<leader>"`.  Vim
+will surround the word in double quotes!
+
+How does this work?  Let's split it apart into pieces and think of what each one
+does:
+
+    viw<esc>a"<esc>hviwo<esc>i"<esc>lel
+
+* `viw`: visually select the current word
+* `<esc>`: exit visual mode, which leaves the cursor on the last character of
+  the word
+* `a`: enter insert mode *after* the current character
+* `"`: insert a `"` into the text, because we're in insert mode
+* `<esc>`: return to normal mode
+* `h`: move left one character
+* `viw`: visually select the word once again
+* `o`: move the cursor to the opposite side of the visual selection
+* `<esc>`: exit visual mode, which leaves the cursor on the *first* character of
+  the word this time
+* `i`: enter insert mode *before* the current character
+* `"`: insert a `"` into the text again
+* `<esc>`: return to normal mode
+* `l`: move right, which puts our cursor on the first character of the word
+* `e`: move to the end of the word
+* `l`: move right, which puts our cursor over the ending quote
+
+Remember: because we used `nnoremap` instead of `nmap` it doesn't matter if
+we've mapped any of the keys in this sequence to something else.  Vim will use
+the default functionality for everything in the sequence.
+
+Hopefully you can see how much potential Vim's mappings have, as well as how
+unreadable they can become.
+
+Exercises
+---------
+
+Create a mapping similar to the one we just looked at, but for single quotes
+instead of double quotes.
+
+Try using `vnoremap` to add a mapping that will wrap whatever text you have
+*visually selected* in quotes.  You'll probably need the `gv` command for this,
+so read up on it with `:help gv`.
+
+Map `H` in normal mode to go to the beginning of the current line.  Since `h`
+moves left you can think of `H` as a "stronger" `h`.
+
+Map `L` in normal mode to go to the end of the current line. Since `l`
+moves right you can think of `L` as a "stronger" `l`.
+
+Find out what commands you just overwrote by reading `:help H` and `:help L`.
+Decide whether you care about them (you probably won't).
+
+Add all of these mappings to your `~/.vimrc` file, making sure to use your "edit
+`~/.vimrc`" and "source `~/.vimrc`" mappings to do so.

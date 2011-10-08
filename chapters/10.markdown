@@ -1,0 +1,78 @@
+Training Your Fingers
+=====================
+
+In this chapter we're going to talk about how to learn Vim more effectively, but
+we need to do a bit of preparation first.
+
+Let's set up one more mapping that will save more wear on your left hand than
+any other mapping you ever create.  Run the following command:
+
+    :inoremap jk <esc>
+
+Now enter insert mode and type `jk`.  Vim will act as if you pressed the escape
+key and return you to normal mode.
+
+There are a number of ways to exit insert mode in Vim:
+
+* The escape key
+* `<c-c>`
+* `<c-[>`
+
+Each of those requires you to stretch your fingers uncomfortably.  Using `jk` is
+great, because the keys are right under two of your strongest fingers and you
+don't have to perform a chord.
+
+Some people prefer using `jj` instead of `jk`, but I prefer `jk` for two
+reasons:
+
+* It's typed with two separate keys, so you can "roll" your fingers instead of
+  using the same one twice.
+* Pressing `jk` in normal mode out of habit will move down and then up, leaving
+  you exactly where you started.  Using `jj` in normal mode will move you to
+  a different place in your file.
+
+Learning the Map
+----------------
+
+Now that you've got a great new mapping, how can you learn to use it?  Chances
+are you've already got the escape key in your muscle memory, so in the heat of
+coding you'll hit it without even thinking.
+
+The trick to relearning a mapping is to *force* yourself to use it by
+*disabling* the old key(s).  Run the following command:
+
+    :inoremap <esc> <nop>
+
+This effectively disables the escape key in insert mode by telling Vim to
+perform `<nop>` (no operation) instead.
+
+Now you *have* to use your `jk` mapping to exit insert mode.  At first you'll
+forget, type escape and start trying to do something in normal mode and you'll
+wind up with stray characters in your text.
+
+It will be frustrating, but if you stick with it you'll be surprised at how fast
+your mind and fingers absorb the new mapping.  Within an hour or two you won't
+be accidentally hitting escape any more.
+
+This idea applies to any new mapping you create to replace an old one, and even
+to life in general.  When you want to change a habit, make it harder or
+impossible to do!
+
+If you want to start cooking meals instead of microwaving TV dinners, don't buy
+any TV dinners when you go shopping.  You'll cook some real food when you get
+hungry enough.
+
+If you want to quit smoking, always leave your cigarettes in your car's trunk.
+When you get the urge to have a casual cigarette you'll think of what a pain in
+the ass it will be to walk out to the car and are less likely to bother doing
+it.
+
+Exercises
+---------
+
+If you still find yourself using the arrow keys to navigate around Vim in normal
+mode, map them to `<nop>` to make yourself stop.
+
+If you still use the arrow keys in insert mode, map them to `<nop>` there too.
+The right way to use Vim is to get out of insert mode as soon as you can and use
+normal mode to move around.

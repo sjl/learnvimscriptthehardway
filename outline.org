@@ -7,8 +7,8 @@
 ** leaders
 ** editing .vimrc faster
 ** abbreviations
-** eating characters
 ** more about mappings
+** training with <nop>
 ** autocommands
 ** augroups
 ** buffer-specific abbreviations
@@ -23,7 +23,6 @@
 **** map
 **** verbose map
 ** operator-pending maps
-** training with <nop>
 ** status lines?
 ** a word on shortened command names
 * part 2 - programming in vimscript
