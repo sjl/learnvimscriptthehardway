@@ -9,11 +9,9 @@
 ** abbreviations
 ** more about mappings
 ** training with <nop>
+** buffer-local mappings and options
 ** autocommands
-** buffer-specific mappings
-** buffer-specific abbreviations
-** buffer-specific settings
-** filetype autocommands
+** buffer-local abbreviations
 ** augroups
 ** wrapping up mapping
 *** Mapping options

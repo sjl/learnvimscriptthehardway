@@ -1,0 +1,50 @@
+Buffer-Local Abbreviations
+==========================
+
+That last chapter was a monster, so let's tackle something easier.  We've seen
+how to define buffer-local mappings and options, so let's apply the same idea to
+abbreviations.
+
+Open your `foo` and `bar` files again, switch to `foo`, and run the following
+command:
+
+    :iabbrev <buffer> --- &mdash;
+
+While still in `foo` enter insert mode and type the following text:
+
+    Hello --- world.
+
+Vim will replace the `---` for you.  Now switch to `bar` and try it.  It should
+be no surprise that it's not replaced, because we defined the abbreviation to be
+local to the `foo` buffer.
+
+Autocommands and Abbreviations
+------------------------------
+
+Let's pair up these buffer-local abbreviations with autocommands to set them to
+make ourselves a little "snippet" system.
+
+Run the following commands:
+
+    :autocmd FileType javascript :iabbrev <buffer> iff if ( ) {}<left><left><left><left><left>
+    :autocmd FileType python     :iabbrev <buffer> iff if:<left>
+
+Open a Javascript file and try out the `iff` abbreviation.  Then open a Python
+file and try it there too.  Vim will perform the appropriate abbreviation
+depending on the type of the current file.
+
+Exercises
+---------
+
+Create a few more "snippet" abbreviations for some of the things you type often
+in specific kinds of files.  Some good candidates are `return` for most
+languages, `function` for javascript, and thinks like `&ldquo;` and `&rdquo;`
+for HTML files.
+
+Add these snippets to your `~/.vimrc` file.
+
+Remember: the best way to learn to use these new snippets is to *disable* the
+old way of doing things.  Running `:iabbrev <buffer> return NOPENOPENOPE` will
+*force* you to use your abbreviation instead.  Add these "training" snippets to
+match all the ones you created to save time.
+
