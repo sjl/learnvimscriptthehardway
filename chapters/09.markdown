@@ -32,7 +32,7 @@ A More Complicated Mapping
 You've seen a bunch of simple mappings so far, so it's time to look at something
 with a bit more meat to it.  Run the following command:
 
-    :nnoremap <leader>" viw<esc>a"<esc>hviwo<esc>i"<esc>lel
+    :nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
 Now *that's* an interesting mapping!  First, go ahead and try it out.  Enter
 normal mode, put your cursor over a word in your text and type `<leader>"`.  Vim
@@ -41,7 +41,7 @@ will surround the word in double quotes!
 How does this work?  Let's split it apart into pieces and think of what each one
 does:
 
-    viw<esc>a"<esc>hviwo<esc>i"<esc>lel
+    viw<esc>a"<esc>hbi"<esc>lel
 
 * `viw`: visually select the current word
 * `<esc>`: exit visual mode, which leaves the cursor on the last character of
@@ -50,10 +50,7 @@ does:
 * `"`: insert a `"` into the text, because we're in insert mode
 * `<esc>`: return to normal mode
 * `h`: move left one character
-* `viw`: visually select the word once again
-* `o`: move the cursor to the opposite side of the visual selection
-* `<esc>`: exit visual mode, which leaves the cursor on the *first* character of
-  the word this time
+* `b`: move back to the beginning of the word
 * `i`: enter insert mode *before* the current character
 * `"`: insert a `"` into the text again
 * `<esc>`: return to normal mode

@@ -13,15 +13,6 @@
 ** autocommands
 ** buffer-local abbreviations
 ** augroups
-** wrapping up mapping
-*** Mapping options
-**** <silent>
-**** <script>
-**** <unique>
-**** <expr>
-*** checking mappings
-**** map
-**** verbose map
 ** operator-pending maps
 ** status lines?
 ** a word on shortened command names
