@@ -1,0 +1,52 @@
+* part 1 - basic .vimrc stuff
+** echoing
+** setting options
+** basic mapping
+** modal mapping
+** strict mapping
+** leaders
+** editing .vimrc faster
+** autocommands
+** augroups
+** status lines
+** abbreviations
+** buffer-specific mapping
+** other mapping options
+*** <silent>
+*** <script>
+*** <unique>
+*** <expr>
+** operator-pending maps
+** training with <nop>
+* part 2 - programming in vimscript
+** variables
+** variable scopes
+** conditionals
+** comparisons
+** functions
+** function varargs
+** functions (more)
+** strings
+** string functions
+** normal!
+** execute
+** execute normal!
+** lists
+** looping
+** dictionaries
+** paths
+** command!
+* part 3 - creating a full plugin
+** intro and plugin layout
+** pathogen
+** autoload
+** folding
+** syntax
+** compilers
+*** makeprg
+*** errorformat
+** customization
+** documentation
+** mapping
+** customizing maps
+** distributing
