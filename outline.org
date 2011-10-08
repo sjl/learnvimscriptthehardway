@@ -6,18 +6,26 @@
 ** strict mapping
 ** leaders
 ** editing .vimrc faster
+** abbreviations
+** eating characters
+** more about mappings
 ** autocommands
 ** augroups
-** status lines
-** abbreviations
-** buffer-specific mapping
-** other mapping options
-*** <silent>
-*** <script>
-*** <unique>
-*** <expr>
+** buffer-specific abbreviations
+** buffer-specific mappings
+** wrapping up mapping
+*** Mapping options
+**** <silent>
+**** <script>
+**** <unique>
+**** <expr>
+*** checking mappings
+**** map
+**** verbose map
 ** operator-pending maps
 ** training with <nop>
+** status lines?
+** a word on shortened command names
 * part 2 - programming in vimscript
 ** variables
 ** variable scopes

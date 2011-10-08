@@ -17,9 +17,10 @@ The book is [copyright][license] 2011 by Steve Losh, all rights reserved.  You
 can redistribute it as long as you don't make any changes and don't charge for
 it.
 
-The source code to the book is available [on BitBucket][hg] and [on GitHub][git]
-If you find any mistakes or feel you could improve it feel free to send a pull
-request.
+The source code to the book is available [on BitBucket][hg] and [on
+GitHub][git].  If you find any mistakes or feel you could improve it feel free
+to send a pull request, but I'm retaining the copyright on the book for now, so
+if you're not comfortable with that I understand.
 
 [book]: /
 [hg]: http://bitbucket.org/sjl/learnvimscriptthehardway/

@@ -22,16 +22,16 @@ Editing Mapping
 Lets add a mapping that will open our `~/.vimrc` file in a split so we can edit
 it and get back to coding.  Run this command:
 
-    :nnoremap <leader>ev <c-w>v:edit $MYVIMRC<cr>
+    :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 I like to think of this command as "**e**dit my **v**imrc file".
 
 `$MYVIMRC` is a special Vim variable that points to your `~/.vimrc` file.  Don't
 worry about that for right now, just trust me that that variable works.
 
-Pressing `<c-w>v` in Vim opens a new vertical split.  If you'd prefer
-a horizontal split replace the `v` with an `s`, but in this age of widescreen
-monitors I don't know why you would.
+`:vsplit` opens a new vertical split.  If you'd prefer a horizontal split you
+can replace it with `:split`, but in this age of widescreen monitors I don't
+know why you would.
 
 Take a minute and think through that command in your mind.  The goal is: "open
 my `~/.vimrc` file in a new split".  Why does it work?  Why is every single
