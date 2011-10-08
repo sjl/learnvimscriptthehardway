@@ -1,133 +1,107 @@
-Autocommands
-============
+Buffer-Local Options and Mappings
+=================================
 
-Now we're going to look at a topic almost as important as mappings:
-autocommands.
+Now we're going to take a few minutes to revisit three things we've already
+talked about: mappings, abbreviations and options, but with a twist: we're going
+to set each of them in a single buffer at a time.
 
-Autocommands are a way to tell Vim to run certain commands whenever certain
-events happen.  Let's dive right into an example.
+The true power of this idea will become apparent in the next chapter, but we
+need to lay the groundwork for it now.
 
-First, open a new file with `:edit foo` and close it right away with `:quit`.
-Look on your hard drive and you'll notice that the file is not there.  This is
-because Vim doesn't actually *create* the file until you save it for the first
-time.
+For this chapter you'll need to open two files in Vim, each in its own split.
+We'll call them `foo` and `bar`, but you can name them whatever you like.  Put
+some text into each of them.
 
-Let's change it so that Vim creates files as soon as you edit them.  Run the
-following command:
+Mappings
+--------
 
-    :autocmd BufNewFile * :write
+Switch to file `foo` and run the following commands:
 
-This is a lot to take it, but try it out and see that it works.  Run `:edit foo`
-again, close it with `:quit`, and look at your hard drive.  This time the file
-will be there (and empty, of course).
+    :nnoremap          <leader>d dd
+    :nnoremap <buffer> <leader>x dd
 
-You'll have to close Vim to remove the autocommand.  We'll talk about how to
-avoid this in a later chapter.
+Now stay in file `foo`, make sure you're in normal mode, and type `<leader>d`.
+Vim will delete a line.  This is nothing new to us.
 
-Autocommand Structure
----------------------
+Still in file `foo`, type `<leader>x`.  Vim will delete a line again.  This
+makes sense because we mapped `<leader>x` to `dd` as well.
 
-Let's take a closer look at the autocommand we just created:
+Now move over to file `bar`.  While in normal mode, type `<leader>d`.  Again,
+Vim deletes the current line.  Nothing surprising here either.
 
-    :autocmd BufNewFile * :write
-             ^          ^ ^
-             |          | |
-             |          | The command to run.
-             |          |
-             |          A "pattern" to filter the event.
-             |
-             The "event" to watch for.
+Now for the twist: while still in file `bar` type `<leader>x`.
 
-The first piece of the command is the type of event we want to watch for.  Vim
-offers *many* events to watch.  Some of them include:
+Nothing happened!
 
-* Starting to edit a file that doesn't already exist.
-* Reading a file, whether it exists or not.
-* Switching a buffer's `filetype`.
-* Not pressing a key on your keyboard for a certain amount of time.
-* Entering insert mode.
-* Exiting insert mode.
+The `<buffer>` in the second `nnoremap` command told Vim to only consider that
+mapping when we're in the same buffer as where we defined it.
 
-This is just a tiny sample of the available events -- there are many more you
-can use to do lots of interesting things.
+Local Leader
+------------
 
-The next part of the command is a "pattern" that lets you be more specific about
-when you want the command to fire.  Start up a new Vim instance and run the
-following command:
+In our example we used `<leader>x` for our buffer-local mapping, but this is bad
+form.  In general, when you create a mapping that only applies to specific
+buffers you should use `<localleader>` instead of `<leader>`.
 
-    :autocmd BufNewFile *.txt :write
+Using two separate "leader" keys provides a sort of "namespacing" that will help
+you keep all your various mappings straight in your head.
 
-This is almost the same as the last command, but this time it will only apply to
-files whose names end in `.txt`.  Try it out by running `:edit bar`, then
-`:quit`, then `:edit bar.txt`, then `:quit`.  You'll see that Vim writes the
-`bar.txt` automatically, but *doesn't* write `bar` because it doesn't match the
-pattern.
+It's even more important when you're writing a plugin for other people to use.
+The convention of using `<localleader>` for local mappings will prevent your
+plugin from overwriting someone else's `<leader>` mapping that they've
+painstakingly burned into their fingers over time.
 
-The final part of the command is the command we want to run when the event
-fires.  This is pretty self-explanatory, except for one catch: you can't use
-special characters like `<cr>` in the command.  We'll talk about how to get
-around this limitation later in the book, but for now you'll just have to live
-with it.
+Settings
+--------
 
-Another Example
----------------
+In one of the earliest chapters of the book we talked about settings options
+with `set`.  Some options always apply to all of Vim, but others can be set on
+a per-buffer basis.
 
-Let's define another autocommand, this time using a different event.  Run the
-following command:
+Switch to file `foo` and run the following command:
 
-    :autocmd BufWrite *.html :normal gg=G
+    :setlocal wrap
 
-We're getting a bit ahead of ourselves here because we're going to talk about
-`normal` later in the book, but for now you'll need to bear with me because it's
-tough to come up with useful examples at this point.
+Now switch to file `bar` and run this command:
 
-Now create a new file called `foo.html`.  Edit it with Vim and enter the
-following text *exactly*, including the whitespace:
+    :setlocal nowrap
 
-    <html>
-    <body>
-     <p>Hello!</p>
-                     </body>
-                      </html>
+Make your Vim window smaller and you'll see that the lines in `foo` wrap, but
+the lines in `bar` don't.
 
-Now save this file with `:w`.  What happened?  Vim seems to have reindented the
-file for us before saving it!
+Let's try another option.  Switch to `foo` and run this command:
 
-For now I want you to trust me that running `:normal gg=G` will tell Vim to
-reindent the current file.  Don't worry about how that works just yet.
+    :setlocal number
 
-What we *do* want to pay attention to is the autocommand.  The event type is
-`BufWrite`, which means the event will be checked whenever you write *any* file.
+Now switch over to `bar` and run this command:
 
-We used a pattern of `*.html` to ensure that this command will only fire when
-we're working on files that end in `.html`.  This lets us target our
-autocommands at specific files, which is a very powerful idea that we'll
-continue to explore later on.
+    :setlocal nonumber
 
-Multiple Events
----------------
+You now have line numbers in `foo` but not in `bar`.
 
-You can create a single autocommand bound to *multiple* events by separating the
-events with a comma.  Run this command:
+Not all options can be used with `setlocal`.  To see if you can set a particular
+option locally, read its `:help`.
 
-    :autocmd BufWrite,BufRead *.html :normal gg=G
+Shadowing
+---------
 
-This is almost like our last command, except it will also reindent the code
-whenever we *read* an HTML file as well as when we write it.  This could be
-useful if you have coworkers that don't indent their HTML well.
+Before we move on, let's look at a particularly interesting property of local
+mappings.  Switch over to `foo` and run the following commands:
 
-A common idiom in Vim scripting is to pair the `BufRead` and `BufNewFile` events
-to run a command whenever you open a certain kind of file, regardless of whether
-it happened to exist already or not.  Run the following command:
+    :nnoremap <buffer> Q x
+    :nnoremap          Q dd
 
-    au BufNewFile,BufRead *.html setlocal nowrap
+Now switch to file `foo` and type `Q`.  What happens?
 
-This will turn line wrapping off whenever you're working on an HTML file.
-Don't worry about `setlocal` right now, we'll get to that later.
+When you press `Q`, Vim will run the first mapping, not the second, because the
+first mapping is *more specific* than the second.
+
+Switch to file `bar` and type `Q` to see that Vim uses the second mapping,
+because it's not shadowed by the first in this buffer.
 
 Exercises
 ---------
 
-Skim `:help autocmd-events` to see a list of all the events you can bind
-autocommands to.  You don't need to memorize each one right now, but just try
-to get a feel for the kinds of things you can do.
+Read `:help setlocal`.
+
+Read `:help map-local`.
