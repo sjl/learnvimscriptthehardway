@@ -1,0 +1,123 @@
+Responsible Coding
+==================
+
+So far we've covered a bunch of Vim commands that let you customize Vim quickly.
+All of them except for autocommand groups were single-line commands that you
+can add to your `~/.vimrc` file in seconds.
+
+In the next part of the book we're going to dive into Vimscript as a real
+programming language, but before we do that I want to talk a bit about how to
+stay sane while writing larger chunks of Vimscript.
+
+Commenting
+----------
+
+Vimscript is extremely powerful, but has grown organically over the years into
+a twisty maze ready to ensnare the unwary who enter it.
+
+Options and commands are often terse and hard to read, and working around
+compatibility issues can increase the complexity of your code.  Writing a plugin
+and allowing for user customization introduces another entire layer above that!
+
+Be defensive when writing anything that takes more than a few lines of
+Vimscript.  Add a comment explaining what it does, and if there is a relevant
+help topic mention it!
+
+This not only benefits you when you try to maintain it months or years later,
+but also helps other people understand it if you share your `~/.vimrc` file on
+GitHub (which I highly recommend).
+
+Grouping
+--------
+
+Our mappings for editing and sourcing `~/.vimrc` have made it quick and easy to
+add new things to it on the fly.  Unfortunately this also makes it easy for it
+to grow out of control and become hard to navigate.
+
+One way to combat this is to use Vim's code folding capabilities and group lines
+into sections.  If you've never used Vim's folding before check out this great
+tutorial.
+
+First we need to set up folding for Vimscript files.  Add the following lines to
+your `~/.vimrc` file:
+
+    augroup filetype_vim
+        au!
+        au FileType vim setlocal foldmethod=marker
+    augroup END
+
+This will tell Vim to use the `marker` method of folding for any Vimscript
+files.  Go ahead and run `:setlocal foldmethod=marker` the window with your
+`~/.vimrc` now.  Sourcing the file won't work, because Vim has already set the
+FileType for this file and the autocommand only fires when that happens.  In the
+future you won't need to do it manually.
+
+Now lines before and after that autocommand group that look like this:
+
+    " Vimscript file settings ---------------------- {{{
+    augroup filetype_vim
+        au!
+        au FileType vim setlocal foldmethod=marker
+    augroup END
+    " }}}
+
+Return to normal mode, put your cursor on any of those lines and type `za`.  Vim
+will fold the lines starting at the one containing `{{{` and ending at the one
+containing `}}}`.  Typing `za` again will unfold the lines.
+
+You may think that adding explicit comments to source code that describe folding
+is ugly at first.  I thought the same way when I first saw it.  For most files
+I still think it's wrong.  Not everyone uses the same editor, so littering your
+code with folding comments is just noisy to anyone else looking at the code in
+something other than Vim.
+
+Vimscript files a special case, though.  It's highly unlikely that someone who
+doesn't use Vim will be reading your code, and it's especially important to
+group things explicitly and thoughtfully when writing Vimscript.
+
+Try it out for a while and there's a good chance the idea will grow on you.
+
+Short Names
+-----------
+
+Vim allows you to use abbreviated names for most commands and options.  For
+example, both of these commands do exactly the same thing:
+
+    :setlocal wrap
+    :setl wrap
+
+I'd like to *strongly* caution you against using these abbreviations in your
+`~/.vimrc` file and in plugins that you write.  Vimscript is terse and cryptic
+enough to begin with -- shortening things further is only going to make it even
+harder to read.  Even if *you* know what a certain short command means, someone
+else reading your code might not.
+
+With that said, the abbreviated forms are *great* for running commands manually
+in the middle of coding.  No one will ever see them again after you press
+return, so there's no reason to press more keys than you have to.
+
+Exercises
+---------
+
+Go through your entire `~/.vimrc` file and arrange the lines into related
+groups.  Some places to start might be: "Basic Settings", "FileType-specific
+settings", "Mappings", and "Status Line".  Add folding markers with headings to
+each section.
+
+Find out how to make Vim fold everything automatically the first time you open
+the file.  Look at `:help foldlevelstart` for a good place to start.
+
+Go through your `~/.vimrc` file and change any abbreviated commands and options
+to their full names.
+
+Look through your `~/.vimrc` file and make sure you don't have any sensitive
+information inside.  Create a git or Mercurial repository, move the file into
+it, and symlink that file to `~/.vimrc`.
+
+Commit the repository you just made and put it on BitBucket or GitHub so other
+people can see it and get ideas for their own.  Be sure to commit and push the
+repository fairly often so your changes are recorded.
+
+If you use Vim on more than one machine, clone down that repository and symlink
+the file there as well.  This will make it simple and easy to use the exact same
+Vim configuration on all machines you work with.
