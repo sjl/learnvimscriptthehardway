@@ -105,8 +105,8 @@ If we perform this replacement in our mapping and look at the result we can see
 that the mapping is going to perform:
 
     :normal! ?^==\+$<cr>:nohlsearch<cr>kvg_
-                    ^^^^    ^^^^
-                     ||      ||
+                    ^^^^           ^^^^
+                     ||             ||
     These are ACTUAL carriage returns, NOT the four characters
     "left angle bracket", "c", "r", and "right angle bracket".
 
