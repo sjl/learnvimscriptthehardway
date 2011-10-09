@@ -189,6 +189,10 @@ the regex in these mappings to work for either type of heading.  You may want to
 check out `:help pattern-overview`.  Remember that the regex is inside of
 a string, so backslashes will need to be escaped.
 
+Add two autocommands to your `~/.vimrc` file that will create these mappings.
+Make sure to only map them in the appropriate buffers, and make sure to group
+them so they don't get duplicated each time you source the file.
+
 Read `:help normal`.
 
 Read `:help execute`.
