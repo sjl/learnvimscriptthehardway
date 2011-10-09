@@ -14,8 +14,8 @@
 ** DONE buffer-local abbreviations
 ** DONE augroups
 ** DONE operator-pending maps
-** TODO more operator-pending maps
-** TODO basic status lines
+** DONE more operator-pending maps
+** DONE basic status lines
 ** TODO a word on shortened command names
 * part 2 - programming in vimscript
 ** variables
