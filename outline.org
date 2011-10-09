@@ -1,21 +1,22 @@
 * part 1 - basic .vimrc stuff
-** echoing
-** setting options
-** basic mapping
-** modal mapping
-** strict mapping
-** leaders
-** editing .vimrc faster
-** abbreviations
-** more about mappings
-** training with <nop>
-** buffer-local mappings and options
-** autocommands
-** buffer-local abbreviations
-** augroups
-** operator-pending maps
-** status lines?
-** a word on shortened command names
+** DONE echoing
+** DONE setting options
+** DONE basic mapping
+** DONE modal mapping
+** DONE strict mapping
+** DONE leaders
+** DONE editing .vimrc faster
+** DONE abbreviations
+** DONE more about mappings
+** DONE training with <nop>
+** DONE buffer-local mappings and options
+** DONE autocommands
+** DONE buffer-local abbreviations
+** DONE augroups
+** DONE operator-pending maps
+** TODO more operator-pending maps
+** TODO basic status lines
+** TODO a word on shortened command names
 * part 2 - programming in vimscript
 ** variables
 ** variable scopes
@@ -46,5 +47,6 @@
 ** customization
 ** documentation
 ** mapping
+** dynamic status lines
 ** customizing maps
 ** distributing
