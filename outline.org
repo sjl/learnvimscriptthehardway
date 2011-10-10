@@ -21,7 +21,7 @@
 ** DONE variables
 ** DONE variable scopes
 ** DONE conditionals
-** TODO comparisons
+** DONE comparisons
 ** TODO functions
 ** TODO function varargs
 ** TODO functions (more)

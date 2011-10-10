@@ -1,0 +1,118 @@
+Comparisons
+===========
+
+We've gone over conditionals, but `if` statements aren't very useful if we can't
+compare things.  Of course Vim lets us compare values, but it's not as
+straightforward as it may seem.
+
+Run the following command:
+
+    :if 10 > 1
+    :    echom "foo"
+    :endif
+
+Vim will, of course, display "foo".  Now run this command:
+
+    :if 10 > 2001
+    :    echom "bar"
+    :endif
+
+Vim displays nothing, because `10` is not greater than `2001`.  So far
+everything works as expected.  Run this command:
+
+    :if 10 == 11
+    :    echom "first"
+    :elseif 10 == 10
+    :    echom "second"
+    :endif
+
+Vim displays "second".  Nothing surprising here.  Let's try comparing strings.
+Run this command:
+
+    :if "foo" == "bar"
+    :    echom "one"
+    :elseif "foo" == "foo"
+    :    echom "two"
+    :endif
+
+Vim echoes "two".  There's still nothing surprising, so what was I going on
+about at the beginning?
+
+Case Sensitivity
+----------------
+
+Run the following commands:
+
+    :set noignorecase
+    :if "foo" == "FOO"
+    :    echom "vim is case insensitive"
+    :elseif "foo" == "foo"
+    :    echom "vim is case sensitive"
+    :endif
+
+Vim evaluates the `elseif`, so apparently Vimscript is case sensitive.  Good to
+know, but nothing earth-shattering.  Now run these commands:
+
+    :set ignorecase
+    :if "foo" == "FOO"
+    :    echom "no, it couldn't be"
+    :elseif "foo" == "foo"
+    :    echom "this must be the one"
+    :endif
+
+**Woah**.  Stop right there.  Yes, you saw that right.
+
+**The behavior of `==` depends on a user's settings.**
+
+I promise I'm not messing with you.  Try it again and see.  I'm not kidding,
+I can't make this stuff up.
+
+Code Defensively
+----------------
+
+What does this mean?  It means that you can *never* trust the `==` comparison
+when writing a plugin for other people to use.  A bare `==` should *never*
+appear in your plugins' code.
+
+This idea is the same as the "`nmap` versus `nnoremap`" one.  *Never* trust your
+users' settings.  Vim is old, vast, and complicated.  When writing a plugin you
+*have* to assume that users will have every variation of every setting.
+
+So how can you get around this ridiculousness?  It turns out that Vim has *two
+extra sets* of comparison operators to deal with this.
+
+Run the following command:
+
+    :set ignorecase
+    :if "foo" ==? "FOO"
+    :    echom "first"
+    :elseif "foo" ==? "foo"
+    :    echom "second"
+    :endif
+
+Vim displays "first" because `==?` is the "case-insensitive no matter what the
+user has set" comparison operator.  Now run the following command:
+
+    :set ignorecase
+    :if "foo" ==? "FOO"
+    :    echom "one"
+    :elseif "foo" ==? "foo"
+    :    echom "two"
+    :endif
+
+Vim displays "two" because `==#` is the "case-sensitive no matter what the user
+has set" comparison operator.
+
+The moral of this story is that you should *always* use explicit case sensitive
+or insensitive comparisons.  Using the normal forms is *wrong* and it *will*
+break at some point.  Save yourself the trouble and type the extra character.
+
+Exercises
+---------
+
+Play around with `:set ignorecase` and `:set noignorecase` and see how various
+comparisons act.
+
+Read `:help ignorecase` to see why someone might set that option.
+
+Read `:help expr4` to see all the available comparison operators.
