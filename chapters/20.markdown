@@ -1,0 +1,36 @@
+Variable Scoping
+================
+
+So far Vimscript's variables may seem familiar if you come from a dynamic
+language like Python or Ruby.  For the most part variables act like you would
+expect, but Vim adds a certain twist to variables: scoping.
+
+Open two buffers in separate splits, then go into one of then and run the
+following commands:
+
+    :let b:hello = "world"
+    :echo hello
+
+As expected, Vim displays "world".  Now switch to the other buffer and run the
+echo command again:
+
+    :echo hello
+
+This time Vim throws an error, saying it can't find the variable.
+
+When we used `b:` in the variable name we told Vim that the variable `hello`
+should be local to the current buffer.
+
+Vim has many different scopes for variables, but we need to learn a little more
+about Vimscript before we can take advantage of the rest.  For now, just
+remember that when you see a variable that start with a character and a colon
+that it's describing a scoped variable.
+
+Exercises
+---------
+
+Skim over the list of scopes in `:help internal-variables`.  Don't worry if you
+don't know what some of them mean, just take a look and keep them in the back of
+your mind.
+
+

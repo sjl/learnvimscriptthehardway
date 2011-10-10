@@ -18,8 +18,8 @@
 ** DONE basic status lines
 ** DONE a word on shortened command names
 * part 2 - programming in vimscript
-** TODO variables
-** variable scopes
+** DONE variables
+** DONE variable scopes
 ** conditionals
 ** comparisons
 ** functions

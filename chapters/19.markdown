@@ -127,3 +127,6 @@ to a string?
 
 Go back through your `~/.vimrc` file and undo the changes.  You should never use
 `let` if `set` will suffice -- it's harder to read.
+
+Read `:help registers` and look over the list of registers you can read and
+write.
