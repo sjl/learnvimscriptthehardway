@@ -1,0 +1,110 @@
+Conditionals
+============
+
+Every programming language has a way to branch, and in Vimscript that method is
+the `if` statement.  The `if` statement is the core of branching in Vim.
+There's no `unless` statement like Ruby, so any decision making you do in your
+coding will be done with `if`s.
+
+Before we talk about Vim's `if` statement we need to take a short detour to talk
+about syntax so we're all on the same page.
+
+Multiple-Line Statements
+------------------------
+
+Sometimes can't fit a piece of Vimscript on a single line of code.  We saw this
+when we talked about autocommand groups.  Here's a chunk of code we used before:
+
+    :augroup testgroup
+    :    autocmd BufWrite * :echom "Baz"
+    :augroup END
+
+You can write this as three separate lines in a Vimscript file, which is ideal,
+but it gets tedious to write this way when running commands manually.  Instead
+you can separate each line with a pipe character (`|`).  Run the following
+command:
+
+    :echom "foo" | echom "bar"
+
+Vim will treat that as two separate commands.  Use `:messages` to check the log
+if you didn't see both lines appear.
+
+For the rest of this book if you want to manually run a command but don't want
+to bother typing in the newlines and colons, feel free to put it all on one line
+separated by pipes.
+
+Basic If
+--------
+
+Now that we've got that out of the way, run the following commands:
+
+    :if 1
+    :    echom "ONE"
+    :endif
+
+Vim will display "ONE", because the integer `1` is "truthy".  Now try this
+command:
+
+    :if 0
+    :    echom "ZERO"
+    :endif
+
+Vim will *not* display "ZERO" because the integer `0` is "falsy".  Let's see how
+strings behave.  Run this command:
+
+    :if "something"
+    :    echom "INDEED"
+    :endif
+
+The results may surprise you.  Vim does *not* necessarily treat a non-empty
+string as "truthy", so it will not display anything!
+
+Let's dive a bit further down the rabbit hole.  Run this command:
+
+    :if "9024"
+    :    echom "WHAT?!"
+    :endif
+
+This time Vim *does* display the text!  What's going on here?
+
+To try to wrap our heads around what's going on, run the following two commands:
+
+    :echom "hello" + 10
+    :echom "10hello" + 10
+    :echom "hello10" + 10
+
+The first command causes Vim to echo "10", the second command echoes "20", and
+the third echoes "10" again!
+
+After observing all of these commands we can draw a few informed conclusions
+about Vimscript:
+
+* Vim will try to coerce variables (and literals) when necessary.  When `10 + 
+  "20foo"` is evaluated Vim will convert `"20foo"` to an integer (which
+  results in `20`) and then add it to `10`.
+* Strings that start with a number are coerced to that number, otherwise they're
+  coerced to `0`.
+* Vim will execute the body of an `if` statement when its condition evaluates to
+  a non-zero integer, *after* all coersion takes place.
+
+Else and Elseif
+---------------
+
+Vim, like Python, supports both "else" and "else if" clauses.  Run the following
+commands:
+
+    :if 0
+    :    echom "if"
+    :elseif "nope!"
+    :    echom "elseif"
+    :else
+    :    echom "finally!"
+    :endif
+
+Vim echoes "finally!" because both of the previous conditions evaluate to zero,
+which is falsy.
+
+Exercises
+---------
+
+Drink a beer to console yourself about Vim's coersion of strings to integers.

@@ -20,7 +20,7 @@
 * part 2 - programming in vimscript
 ** DONE variables
 ** DONE variable scopes
-** conditionals
+** DONE conditionals
 ** comparisons
 ** functions
 ** function varargs
