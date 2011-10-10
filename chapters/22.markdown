@@ -94,9 +94,9 @@ Vim displays "first" because `==?` is the "case-insensitive no matter what the
 user has set" comparison operator.  Now run the following command:
 
     :set ignorecase
-    :if "foo" ==? "FOO"
+    :if "foo" ==# "FOO"
     :    echom "one"
-    :elseif "foo" ==? "foo"
+    :elseif "foo" ==# "foo"
     :    echom "two"
     :endif
 
@@ -106,6 +106,16 @@ has set" comparison operator.
 The moral of this story is that you should *always* use explicit case sensitive
 or insensitive comparisons.  Using the normal forms is *wrong* and it *will*
 break at some point.  Save yourself the trouble and type the extra character.
+
+When you're comparing integers this distinction obviously doesn't matter.
+Still, I feel that it's better to use the case-sensitive comparisons everywhere,
+even where they're not needed, than to forget them in a place that they *are*
+needed.
+
+Using `==#` and `==?` with integers will work just fine, and if you change them
+to strings in the future it will work correctly.  If you'd rather use `==` for
+integers that's fine, but you need to remember to you change the comparison if
+you change them to strings in the future.
 
 Exercises
 ---------
