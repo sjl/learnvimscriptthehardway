@@ -21,32 +21,32 @@
 ** DONE variables
 ** DONE variable scopes
 ** DONE conditionals
-** comparisons
-** functions
-** function varargs
-** functions (more)
-** strings
-** string functions
-** normal!
-** execute
-** execute normal!
-** lists
-** looping
-** dictionaries
-** paths
-** command!
+** TODO comparisons
+** TODO functions
+** TODO function varargs
+** TODO functions (more)
+** TODO strings
+** TODO string functions
+** TODO normal!
+** TODO execute
+** TODO execute normal!
+** TODO lists
+** TODO looping
+** TODO dictionaries
+** TODO paths
+** TODO command!
 * part 3 - creating a full plugin
-** intro and plugin layout
-** pathogen
-** autoload
-** folding
-** syntax
-** compilers
+** TODO intro and plugin layout
+** TODO pathogen
+** TODO autoload
+** TODO folding
+** TODO syntax
+** TODO compilers
 *** makeprg
 *** errorformat
-** customization
-** documentation
-** mapping
-** dynamic status lines
-** customizing maps
-** distributing
+** TODO customization
+** TODO documentation
+** TODO mapping
+** TODO dynamic status lines
+** TODO customizing maps
+** TODO distributing
