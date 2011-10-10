@@ -114,7 +114,7 @@ needed.
 
 Using `==#` and `==?` with integers will work just fine, and if you change them
 to strings in the future it will work correctly.  If you'd rather use `==` for
-integers that's fine, but you need to remember to you change the comparison if
+integers that's fine, but you need to remember to change the comparison if
 you change them to strings in the future.
 
 Exercises
