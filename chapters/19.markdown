@@ -64,7 +64,7 @@ commands:
     :set textwidth?
 
 This time Vim displays "textwidth=110".  When you set an option using `set` you
-can only set it to a single, literal value.  When you use `let` and set it as
+can only set it to a single literal value.  When you use `let` and set it as
 a variable you can use the full power of Vimscript to determine the value.
 
 Local Options
@@ -82,6 +82,37 @@ Now switch to the other file and run this command:
     :let &l:number = 0
 
 Notice that the first window has line numbers and the second does not.
+
+Registers as Variables
+----------------------
+
+You can also read and set *registers* as variables.  Run the following command:
+
+    :let @a = "hello!"
+
+Now put your cursor somewhere in your text and type `"ap`.  This command tells
+Vim to "paste the contents of register `a` here".  We just set the contents of
+that register, so Vim pastes "hello!" into your text.
+
+Registers can also be read.  Run the following command:
+
+    :echo @a
+
+Vim will echo "hello!".
+
+Select a word in your file and yank it with `y`, then run this command:
+
+    :echo @"
+
+Vim will echo the word you just yanked.  The `"` register is the "unnamed"
+register, which is where text you yank without specifying a destination will go.
+
+Perform a search in your file with `/someword`, then run the following command:
+
+    :echo @/
+
+Vim will echo the search pattern you just used.  This lets you programmatically
+read and modify the current search pattern, which can be very useful at times.
 
 Exercises
 ---------
