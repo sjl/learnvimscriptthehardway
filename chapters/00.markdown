@@ -4,18 +4,20 @@ Prerequisites
 To use this book you should have the latest version of Vim installed, which is
 version 7.3 at the time of this writing.  New versions of Vim are almost always
 backwards-compatible, so everything in this book should work just fine with
-newer versions.
+anything after 7.3 too.
 
-You should be comfortable editing files in Vim.  You should know basic Vim
-terminology like "buffer", "window", "normal mode", "insert mode" and "text
-object".
+You should be comfortable editing files in Vim.
+
+You should know basic Vim terminology like "buffer", "window", "normal mode",
+"insert mode" and "text object".
 
 If you're not at that point yet go through the `vimtutor` program, use Vim
 exclusively for a month or two, and come back when you've got Vim burned into
 your fingers.
 
 You should have some programming experience.  If you've never programmed before
-check out [Learn Python the Hard Way](http://learnpythonthehardway.org/) first.
+check out [Learn Python the Hard Way](http://learnpythonthehardway.org/) first
+and come back to this book when you're done.
 
 Creating a Vimrc File
 ---------------------

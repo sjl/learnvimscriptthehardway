@@ -4,7 +4,7 @@ who want to learn how to customize Vim.
 Before reading this book you should be comfortable using Vim and know what terms
 like "buffer", "window" and "insert mode" mean.
 
-The book is divided into three sections:
+LVSTHW is divided into three sections:
 
 * The first covers basic Vim commands that you can use in your `~/.vimrc` file
   to customize Vim quickly and easily.
@@ -12,6 +12,11 @@ The book is divided into three sections:
   things like variables, comparisons, and functions.
 * The third walks through the creation of a sample plugin intended for
   distribution to other Vim users.
+
+Currently the book is a work in progress.  Once it's finished you'll be able to
+buy ebook and possibly hard copy versions.  If you want to get on the mailing
+list to know when it's officially completed you can sign up at [Learn Vimscript
+the Hard Way on Leanpub][leanpub].
 
 The book is [copyright][license] 2011 by Steve Losh, all rights reserved.  You
 can redistribute it as long as you don't make any changes and don't charge for
@@ -26,3 +31,4 @@ if you're not comfortable with that I understand.
 [hg]: http://bitbucket.org/sjl/learnvimscriptthehardway/
 [git]: http://github.com/sjl/learnvimscriptthehardway/
 [license]: /license.html
+[leanpub]: http://leanpub.com/learnvimscriptthehardway

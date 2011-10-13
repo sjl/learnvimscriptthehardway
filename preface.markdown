@@ -35,15 +35,23 @@ You may already be an experienced programmer who's used to reading code and
 understanding it straight away.  If so: it doesn't matter.  Learning Vim and
 Vimscript is a different experience from learning a normal programming language.
 
-**Type.  In.  The.  Exercises.**
+**Type in *all* the commands.**
 
-First, Vimscript is old and has a lot of dusty corners and twisty hallways.  One
-configuration option can change how the entire language works.  By typing
-*every* command in *every* exercise you'll discover problems with your Vim build
-or configuration on the simpler commands, which will be easier to diagnose and
-fix.
+**Do *all* the exercises.**
+
+Vimscript is old and has a lot of dusty corners and twisty hallways.  One
+configuration option can change how the entire language works.
+
+By typing *every* command in *every* lesson exercise and doing *every* exercise
+you'll discover problems with your Vim build or configuration on the simpler
+commands, which will be easier to diagnose and fix.
 
 Second, Vimscript *is* Vim.  To save a file in Vim, you type `:write` (or `:w`
 for short) and press return.  To save a file in a Vimscript, you use `write`.
 Mastering a text editor means developing muscle memory, which you simply can't
 get from just reading.
+
+I hope you'll find this book useful.  It's *not* meant to be a comprehensive
+guide to Vimscript.  It's meant to get you comfortable enough with the language
+to read other people's code (with regular side-trips to `:help`) and recognize
+some common pitfalls.

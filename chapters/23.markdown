@@ -1,0 +1,137 @@
+Functions
+=========
+
+Like most programming languages, Vimscript has functions.  Let's take a look at
+how to create them, and then talk about some of their quirks.
+
+Run the following commands:
+
+    :function meow()
+
+You might think this would start defining a functione named `Meow`.
+Unfortunately this is not the case, and we've already run into one of
+Vimscript's quirks.
+
+**Vimscript functions *must* start with a capital letter if they are unscoped!**
+
+Even if you *do* add a scope to a function (we'll talk about that in a bit) you
+may as well capitalize the first letter of function names anyway.  Most
+Vimscript coders seem to do it, so don't break the convention.
+
+Okay, let's define a function for real this time.  Run the following commands:
+
+    :function Meow()
+    :  echom "Meow!"
+    :endfunction
+
+This time Vim will happily define the function.  Let's try running it:
+
+    :call Meow()
+
+Vim will display "Meow!" as expected.
+
+Let's try returning a value.  Run the following commands:
+
+    :function GetMeow()
+    :  return "Meow String!"
+    :endfunction
+
+Now try it out by running this command:
+
+    :echom GetMeow()
+
+Vim will call the function and give the result to `echom`, which will display
+"Meow String!".
+
+Calling Functions
+-----------------
+
+We can already see that there are two different ways of calling functions in
+Vimscript.
+
+When you want to call a function directly you use the `call` command.  Run the
+following commands:
+
+    :call Meow()
+    :call GetMeow()
+
+The first will display "Meow!" but the second doesn't display anything. The
+return value is thrown away when you use `call`, so this is only useful when the
+function has side effects.
+
+The second way to call functions is in expressions.  You don't need to use
+`call` in this case, you can just name the function.  Run the following command:
+
+    :echom GetMeow()
+
+As we saw before, this calls `GetMeow` and passes the return value to `echom`.
+
+Implicit Returning
+------------------
+
+Run the following command:
+
+    :echom Meow()
+
+This will display two lines: "Meow!" and "0".  The first obviously comes from
+the `echom` inside of `Meow`.  The second shows us that if a Vimscript function
+doesn't return a value, it implicitly return `0`.  Let's use this to our
+advantage.  Run the following commands:
+
+    :function TextwidthIsTooWide()
+    :  if &l:numberwidth ># 80
+    :    return 1
+    :  endif
+    :endfunction
+
+This function uses a lot of important concepts we've seen before:
+
+* `if` statements
+* Treating options as variables
+* Localizing those option variables
+* Case-sensitive comparisons
+
+If any of those sound unfamiliar you should go back a few chapters and read
+about them.
+
+We've now defined a function that will tell us if the `textwidth` setting is
+"too wide" in the current buffer (because 80 characters is, of course, the
+correct width for anything but HTML).
+
+Let's try using it.  Run the following commands:
+
+    :set textwidth=80
+    :if TextwidthIsTooWide()
+    :  echom "WARNING: Wide text!"
+    :endif
+
+What did we do here?
+
+* First we set the `textwidth` globally to `80`.
+* The we ran an if statement that checked if `TextwidthIsTooWide()` was truthy.
+* This wound up not being the case, so the `if`'s body wasn't executed.
+
+Because we never explicitly returned a value, Vim returned `0` from the
+function, which is falsy.  Let's try changing that.  Run the following commands:
+
+    :setlocal textwidth=100
+    :if TextwidthIsTooWide()
+    :  echom "WARNING: Wide text!"
+    :endif
+
+This time the `if` statement in the function executes its body, returns `1`, and
+so the `if` we manually typed in executes *its* body.
+
+Exercises
+---------
+
+Read `:help call`.  Ignore anything about "ranges" for now.  How many arguments
+can you pass to a function?  Is this surprising?
+
+Read the first paragraph of `:help E124` and find out what characters you're
+allowed to use in function names.  Are underscores okay?  Dashes?  Accented
+characters?  Unicode characters?  If it's not clear from the documentation just
+try them out.
+
+Read `:help return`.  What's the "short form" of that command (which I told you
+to never use)?  Is it what you expected?  If not, why not?

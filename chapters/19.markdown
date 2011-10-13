@@ -21,7 +21,8 @@ a string: "bar".  Now run these commands:
     :echo foo
 
 Vim will display "42", because we've reassigned `bar` to the integer "42".  From
-this we can see that Vimscript is dynamically typed.
+this it may seem that Vimscript is dynamically typed.  That's not the case, but
+we'll talk more about that later.
 
 Options as Variables
 --------------------
