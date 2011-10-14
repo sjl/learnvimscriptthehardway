@@ -23,9 +23,7 @@
 ** DONE conditionals
 ** DONE comparisons
 ** DONE functions
-** TODO function scoping
-** TODO function varargs
-** TODO functions (more)
+** DONE function arguments
 ** TODO strings
 ** TODO string functions
 ** TODO normal!
@@ -36,6 +34,7 @@
 ** TODO dictionaries
 ** TODO paths
 ** TODO exceptions
+** TODO functions again
 ** TODO command!
 * part 3 - creating a full plugin
 ** TODO intro and plugin layout

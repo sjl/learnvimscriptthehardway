@@ -8,13 +8,13 @@ Run the following commands:
 
     :function meow()
 
-You might think this would start defining a functione named `Meow`.
+You might think this would start defining a function named `Meow`.
 Unfortunately this is not the case, and we've already run into one of
 Vimscript's quirks.
 
 **Vimscript functions *must* start with a capital letter if they are unscoped!**
 
-Even if you *do* add a scope to a function (we'll talk about that in a bit) you
+Even if you *do* add a scope to a function (we'll talk about that later) you
 may as well capitalize the first letter of function names anyway.  Most
 Vimscript coders seem to do it, so don't break the convention.
 
