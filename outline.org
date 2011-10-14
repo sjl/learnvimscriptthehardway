@@ -24,8 +24,10 @@
 ** DONE comparisons
 ** DONE functions
 ** DONE function arguments
+** DONE numbers
 ** TODO strings
 ** TODO string functions
+** TODO regexes
 ** TODO normal!
 ** TODO execute
 ** TODO execute normal!

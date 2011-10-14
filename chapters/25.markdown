@@ -1,0 +1,101 @@
+Numbers
+=======
+
+Now it's time to start taking a closer look at the different types of variables
+you can use.  First we'll go over Vim's numeric types.
+
+Vimscript has two types of numeric variables: Numbers and Floats.  A Number is
+a 32 bit signed integer.  A Float is, obviously, a floating point number.
+
+Number Formats
+--------------
+
+You can specify Numbers in a few different ways.  Run the following command.
+
+    :echom 100
+
+No surprises here -- Vim displays "100".  Now run this command:
+
+    :echom 0xff
+
+This time Vim displays "255".  You can specify numbers in hex notation by
+prefixing them with `0x` or `0X`.  Now run this command:
+
+    :echom 010
+
+You can also use octal by starting a number with a `0`.  Be careful with this,
+because it's easy to make mistakes.  Try the following commands:
+
+    :echom 017
+    :echom 019
+
+Vim will print "15" for the first command, because "18" in octal is equal to
+"18" in decimal.  For the second command Vim treats it as a decimal number, even
+though it starts with a `0`, because it's not a valid octal number.
+
+Because Vim silently does the wrong thing in this case, I'd recommend avoiding
+the use of octal numbers when possible.
+
+Float Formats
+-------------
+
+Floats can also be specified in multiple ways.  Run the following command:
+
+    :echo 100.1
+
+Notice that we're using `echo` here and not `echom` like we usually to.  We'll
+talk why in a moment.
+
+Vim displays "100.1" as expected.  You can also use exponential notation.  Run
+this command:
+
+    :echo 5.45e+3
+
+Vim displays "5450.0".  A negative exponent can also be used.  Run this command:
+
+    :echo 15.45e-2
+
+Vim displays "0.1545".  The `+` or `-` before the power of ten is optional, if
+it's omitted the it's assumed to be positive.  Run the following command:
+
+    :echo 15.3e9
+
+Vim will display "1.53e10", which is equivalent.  The decimal point and number
+after it are *not* optional.  Run the following command and see that it crashes:
+
+    :echo 5e10
+
+Coercion
+--------
+
+When you combine a Number and a Float through arithmetic, comparison, or any
+other operation Vim will cast the Number to a Float, resulting in a Float.  Run
+the following command:
+
+    :echo 2 * 2.0
+
+Vim displays "2.0".
+
+Division
+--------
+
+When dividing two Numbers, the remainder is dropped.  Run the following command:
+
+    :echo 3 / 2
+
+Vim displays "1".  If you want Vim to perform float point division one of the
+numbers needs to be a Float, which will cause the other one to be coerced to
+a Float as well.  Run this command:
+
+    :echo 3 / 2.0
+
+Vim displays "1.5".  The "3" is coerced to a Float, and then normal floating
+point division is performed.
+
+Exercises
+---------
+
+Read `:help Float`.  When might floating point number not work in Vimscript?
+
+Read `:help floating-point-precision`.  What might this mean if you're writing
+a Vim plugin that deals with floating point numbers?
