@@ -162,7 +162,7 @@ section's heading".
 What's different about this mapping?  Let's look at them side by side:
 
     :onoremap ih :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
-    :onoremap ah :<c-u>execute "normal! ?^==\\+\r:nohlsearch\rg_vk0"<cr>
+    :onoremap ah :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rg_vk0"<cr>
 
 The only difference from the previous mapping is the very end, where we select
 the text to operate on:
