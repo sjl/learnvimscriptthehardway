@@ -1,0 +1,143 @@
+Strings
+=======
+
+The next type of variable we'll look at is the String.  Since Vim is all about
+manipulating text you'll be using this one quite a bit.
+
+Run the following command:
+
+    :echom "Hello"
+
+Vim will echo "Hello".  So far, so good.
+
+Concatenation
+-------------
+
+One of the most common things you'll want to do with strings is adding them
+together.  Run this command:
+
+    :echom "Hello, " + "world"
+
+What happened?  Vim displayed "0" for some reason!
+
+Here's the issue: Vim's `+` operator is *only* for Numbers.  When you pass
+a string to `+` Vim will try to coerce it to a Number before performing the
+addition.  Run the following command:
+
+    :echom "3 mice" + "2 cats"
+
+This time Vim displays "5", because the strings are coerced to the numbers "3"
+and "2" respectively.
+
+When I said "Number" I really *meant* Number.  Vim will *not* coerce strings to
+Floats!  Try this command to see prove this:
+
+    :echom 10 + "10.10"
+
+Vim displays "20" because it dropped everything after the decimal point when
+coercing "10.10" to a Number.
+
+To combine strings you need to use the concatenation operator.  Run the
+following command:
+
+    :echom "Hello, " . "world"
+
+This time Vim displays "Hello, world".  `.` is the "concatenate strings"
+operator in Vim, which lets you combine strings.  It doesn't add whitespace or
+anything else in between.
+
+Coercion works both ways.  Kind of.  Try this command:
+
+    :echom 10 . "foo"
+
+Vim will display "10foo".  First it coerces `10` to a String, then it
+concatenates it with the string on the right hand side.  Things get a bit
+stickier when we're working with Floats, though.  Run this command:
+
+    :echom 10.1 . "foo"
+
+This time Vim throws an error, saying we're using a Float as a String.  Vim will
+happily let you use a String as a Float when performing addition, but *won't*
+let you use a Float as a String when concatenating.
+
+The moral of this story is that Vim is a lot like Javascript: it allows you to
+play fast and loose with types sometimes, but it's a really bad idea to do so
+because it will come back to bite you at some point.
+
+When writing Vimscript, make sure you know what the type of each of your
+variables is.  If you need to change that type you should use a function to
+explicitly change it, even if it's not strictly necessary at the moment.  Don't
+rely on Vim's coercion because at some point you *will* regret it.
+
+Special Characters
+------------------
+
+Like most programming languages, Vimscript lets you use escape sequences in
+strings to represent hard-to-type characters.  Run the following command:
+
+    :echom "foo \"bar\""
+
+The `\"` in the string is replaced with a double quote character, as you would
+probably expect.  Escape sequences work mostly as you would expect.  Run the
+following command:
+
+    :echom "foo\\bar"
+
+Vim displays "foo\bar", because `\\` is the escape sequence for a literal
+backslash, just like in most programming languages.  Now run the following
+command (note that it's an `echo` and *not* an `echom`):
+
+    :echo "foo\nbar"
+
+This time Vim will display two lines, "foo" and "bar", because the `\n` is
+replaced with a newline.  Now try running this command:
+
+    :echom "foo\nbar"
+
+Vim will display something like "foo^@bar".  When you use `echom` with a String
+instead of `echo` Vim will echo the exact characters of the string, which
+sometimes means that it will show a different representation than plain old
+`echo`.  `^@` is Vim's way of saying "newline character".
+
+Literal Strings
+---------------
+
+Vim also lets you use "literal strings" to avoid excessive use of escape
+sequences.  Run the following command:
+
+    :echom '\n\\'
+
+Vim displays `\n\\`.  Using single quotes tells Vim that you want the string
+*exactly* as-in, with no escape sequences.  The one exception is that two single
+quotes in a row will produce a single single quote.  Try this command:
+
+    :echom 'That''s enough.'
+
+Vim will display "That's enough."  Two single quotes is the *only* sequence that
+has special meaning in a literal string.
+
+Truthiness
+----------
+
+You might be wondering how Vim treats strings when used in an `if` statement.
+Run the following command:
+
+    :if "foo"
+    :  echo "yes"
+    :else
+    :  echo "no"
+    :endif
+
+Vim will display "no".  If you're wondering why this happens you should reread
+the chapter on conditionals, because we talked about it there.
+
+Exercises
+---------
+
+Read `:help expr-quote`.  Review the list of escape sequences you can use in
+a normal Vim string.  Find out how to insert a tab character.
+
+Try to figure out a way to insert a tab character into a string *without* using
+an escape sequence.  Read `:help i_CTRL-V` for a hint.
+
+Read `:help literal-string`.

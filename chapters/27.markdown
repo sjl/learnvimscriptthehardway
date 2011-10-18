@@ -1,0 +1,88 @@
+String Functions
+================
+
+Vim has many built-in functions to manipulate strings.  In this chapter we'll
+look at a few of the most important ones.
+
+Length
+------
+
+The first function we'll look at is `strlen`.  Run the following command:
+
+    :echom strlen("foo")
+
+Vim displays "3", which is the length of the string "foo".  Now try the
+following command:
+
+    :echom len("foo")
+
+Vim once again displays "3".  When used with Strings `len` and `strlen` have
+identical effects.  We'll come back to `len` later in the book.
+
+Splitting
+---------
+
+Run the following command (note that it's an `echo` and not an `echom`):
+
+    :echo split("one two three")
+
+Vim displays "['one', 'two', 'three']".  The `split` function splits a String
+into a List.  We'll talk about Lists shortly, but for now don't worry too much
+about them.
+
+You can also tell Vim to use a separator other than "whitespace" for splitting.
+Run the following command:
+
+    :echo split("one,two,three", ",")
+
+Vim will once again display "['one', 'two', 'three']", because the second
+argument to `split` tells it to split the string on the comma character instead
+of on whitespace.
+
+Joining
+-------
+
+Not only can you split strings, you can also join them.  Run the following
+command:
+
+    :echo join(["foo", "bar"], "...")
+
+Vim will display "foo...bar".  Don't worry about the list syntax for now.
+
+`split` and `join` can be paired to great effect.  Run the following command:
+
+    :echo join(split("foo bar"), ";")
+
+Vim displays "foo;bar".  First we split the string "foo bar" into a list, then
+we joined that list together using a semicolon as the separator.
+
+Lower and Upper Case
+--------------------
+
+Vim has two functions to change the case of Strings.  Run the following
+commands:
+
+    :echom tolower("Foo")
+    :echom toupper("Foo")
+
+Vim displays "foo" and "FOO".  This should be pretty easy to understand.
+
+In many languages (like Python) a common idiom is to force strings to lowercase
+before comparing them to perform a case-insensitive comparison.  In Vimscript
+this isn't necessary because we have the case-insensitive comparison operators.
+Reread the chapter on comparisons if you don't remember those.
+
+It's up to you to decide whether to use `tolower` and `==#`, or just `==?` to
+perform case-sensitive comparisons.  There doesn't seem to be any strong
+preference in the Vimscript community.  Pick one and stick to it for all of your
+scripts.
+
+Exercises
+---------
+
+Read `:help functions` and skim the list of built-in functions for ones that
+mention the word "String".  Use the `/` command to make it easier (remember,
+Vim's help files can be navigated like any other kind of file).  There are
+a *lot* of functions here, so don't feel like you need to read the documentation
+for every single one.  Just try to get an idea of what's available if you need
+it in the future.

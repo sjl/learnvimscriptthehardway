@@ -119,13 +119,13 @@ We'll come back to status lines later in the book, but there's one more simple
 code that can be very useful immediately.  Run the following commands:
 
     :set statusline=%f         " Path to the file
-    :set statusline+=%-        " Switch to the right side
+    :set statusline+=%=        " Switch to the right side
     :set statusline+=%l        " Current line
     :set statusline+=/         " Separator
     :set statusline+=%L        " Total lines
 
 Now the status line will contain the path to the file on the left side, and the
-current/total lines on the right side.  The `%-` code tells Vim that everything
+current/total lines on the right side.  The `%=` code tells Vim that everything
 coming after that should be aligned (as a whole) to the right instead of the
 left.
 

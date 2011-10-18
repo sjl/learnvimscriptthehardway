@@ -25,8 +25,8 @@
 ** DONE functions
 ** DONE function arguments
 ** DONE numbers
-** TODO strings
-** TODO string functions
+** DONE strings
+** DONE string functions
 ** TODO regexes
 ** TODO normal!
 ** TODO execute
