@@ -1,0 +1,187 @@
+Basic Regular Expressions
+=========================
+
+Vim is a text editor, which means that a great deal of your Vimscript code will
+be dedicated to working with text.  Vim has powerful support for regular
+expressions, but as usual there are some quirks.
+
+Type the following text into a buffer:
+
+    max = 10
+
+    print "Starting"
+
+    for i in range(max):
+        print "Counter:", i
+
+    print "Done"
+
+This is the text we'll use to experiment with Vimscript's regex support.
+
+Highlighting
+------------
+
+Before we start we need to turn on search highlighting so we can see what we're
+doing.  Run the following command:
+
+    :set hlsearch incsearch
+
+`hlsearch` tells Vim to highlight all matches in a file when you perform
+a search, and `incsearch` tells Vim to highlight the *next* match while you're
+still typing out your search pattern.
+
+Searching
+---------
+
+Put your cursor at the top of the file and run the following command:
+
+    /print
+
+As you type in each letter, Vim will start highlighting them in the first line.
+When you press return to execute the search *all* the instances of "print" will
+be highlighted and your cursor will be moved to the next match.
+
+Now try running the following command:
+
+    :execute "normal! gg/print\<cr>"
+
+This will go to the top of the file and perform a search for print, putting us
+at the first match.  It does this using `:execute "normal! ..."` which we've
+seen in previous chapters.
+
+To get to the second match in the file you can just tack more commands onto the
+string.  Run this command:
+
+    :execute "normal! gg/print\<cr>n"
+
+Vim will put the cursor on the second "print" in the buffer (and all the matches
+will be highlighted).
+
+Let's try going in the opposite direction.  Run this command:
+
+    :execute "normal! G?print\<cr>"
+
+This time we move to the bottom of the file with `G` and use `?` to search
+backward instead of forward.
+
+All of these searching commands should be familiar -- we're mostly going over
+them to get you used to the `:execute "normal! ..."` idiom, because it will let
+you do anything you know how to do in vanilla Vim in your Vimscript code.
+
+Magic
+-----
+
+The `/` and `?` commands actually take regular expressions, not just literal
+characters.  Run the following command:
+
+    :execute "normal! gg/for .+ in .+:\<cr>"
+
+Vim complains that the pattern is not found!  I told you that Vim supports
+regular expressions in searches, so what's going on?  Try the following command:
+
+    :execute "normal! gg/for .\\+ in .\\+:\<cr>"
+
+This time Vim highlights the "for" loop as we expected in the first place.  Take
+a minute and try to think about what exactly changed before moving on.  Remember
+that `execute` takes a String.
+
+The answer is that there are two reasons we needed to write the command like we
+did:
+
+* First, `execute` takes a String, so the double backslashes we used turn into
+  single backslashes by the time they get to `normal!`.
+* Vim, has *four* different "modes" of parsing regular expressions!  The default
+  mode requires a backslash before the `+` character to make it mean "1 or more
+  of the preceding character" instead of "a literal plus sign".
+
+You can see this a bit easier by just running the search in Vim directly.  Type
+the following command and press return:
+
+    /print .\+
+
+You can see the `\+` working its magic now.  The double backslashes were only
+used because we were passing the pattern as a String to `execute`.
+
+Literal Strings
+---------------
+
+As we mentioned in the chapter on Strings, Vim allows you to use single quotes
+to define a "literal string" that passes through characters directly.  For
+example, the string `'a\nb'` is four characters long.
+
+Can we use literal strings to avoid having to type those double backslashes?
+Think about this for a minute or two before you move on, because the answer is
+a bit more complicated that you might think.
+
+Try running the following command (note the single quotes and single backslashes
+this time):
+
+    :execute 'normal! gg/for .\+ in .\+:\<cr>'
+
+Vim moves you to the top of the file but doesn't move you to the first match.
+Is this what you expected?
+
+The command doesn't work because we need the `\<cr>` in the pattern to be
+escaped into a real carriage return character, which tells the search command to
+actually run.  Because we're in a literal string, it's the equivalent of typing
+`/for .\+ in .\+:\<cr>` in vanilla Vim, which obviously isn't what we want.
+
+All hope is not lost, though!  Remember that Vim allows you to concatenate
+strings, so for larger commands we can use this to split apart the string into
+easier to read chunks.  Run the following command:
+
+    :execute "normal! gg" . '/for .\+ in .\+:' . "\<cr>"
+
+This concatenates the three smaller strings before sending them to `execute`,
+and lets us use a literal string for the regex while using normal strings for
+everything else.
+
+Very Magic
+----------
+
+You may be wondering about Vimscript's four different modes of regex parsing and
+how they're different from the regular expressions you're used to from languages
+like Python, Perl or Ruby.  You can read their documentation if you really want
+to, but if you want the sane, easy solution just read on.
+
+Run the following command:
+
+    :execute "normal! gg" . '/\vfor .+ in .+:' . "\<cr>"
+
+We've split the pattern out from the rest of the command into its own literal
+string again, and this time we started the pattern with `\v`.  This tells Vim to
+use its "very magic" regex parsing mode, which is pretty much the same as you're
+used to in any other programming language.
+
+If you simply start all of your regular expressions with `\v` you'll never need
+to worry about Vimscript's three other crazy regex modes.
+
+Exercises
+---------
+
+Read `:help magic` carefully.
+
+Read `:help pattern-overview` to see the kinds of things Vim regexes support.
+Stop after the character classes.
+
+Read `:help match`.  Try running the `:match Error /\v.../` command a few times
+by hand.
+
+Edit your `~/.vimrc` file to add a mapping that will use `match` to highlight
+trailing whitespace as an error.  A good key to use might be `<leader>w`.
+
+Add another mapping that will clear the match (perhaps `<leader>W`).
+
+Add a normal mode mapping that will automatically insert `\v` for you whenever
+you begin a search.  If you're stuck remember that Vim's mappings are extremely
+simple and you just need to tell it which keys to press when you use the mapped
+key.
+
+Add the `hlsearch` and `incsearch` options to your `~/.vimrc` file, set however
+you prefer.
+
+Read `:help nohlsearch`.  Note that this is a *command* and *not* the "off mode"
+setting of `hlsearch`!
+
+Add a mapping to "stop highlighting items from the last search" to your
+`~/.vimrc` file.

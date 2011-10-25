@@ -116,6 +116,9 @@ quotes in a row will produce a single single quote.  Try this command:
 Vim will display "That's enough."  Two single quotes is the *only* sequence that
 has special meaning in a literal string.
 
+We'll revisit literal strings when they become most useful, later in the book
+(when we dive into regular expressions).
+
 Truthiness
 ----------
 

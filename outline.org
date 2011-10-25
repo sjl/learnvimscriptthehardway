@@ -27,13 +27,14 @@
 ** DONE numbers
 ** DONE strings
 ** DONE string functions
-** TODO regexes
 ** TODO normal!
 ** TODO execute
 ** TODO execute normal!
+** DONE basic regexes
 ** TODO lists
 ** TODO looping
 ** TODO dictionaries
+** TODO advanced regexes
 ** TODO paths
 ** TODO exceptions
 ** TODO functions again
