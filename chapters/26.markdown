@@ -83,7 +83,7 @@ following command:
 
     :echom "foo\\bar"
 
-Vim displays "foo\bar", because `\\` is the escape sequence for a literal
+Vim displays `foo\bar`, because `\\` is the escape sequence for a literal
 backslash, just like in most programming languages.  Now run the following
 command (note that it's an `echo` and *not* an `echom`):
 
