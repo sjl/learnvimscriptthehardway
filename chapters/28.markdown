@@ -1,0 +1,65 @@
+Execute
+=======
+
+The `execute` command is used to evaluate a string as if it were a Vimscript
+command.  Run the following command:
+
+    :execute "echom 'Hello, world!'"
+
+Vim evaluates `echom 'Hello, world!'` as a command and dutifully echoes it to
+the screen and message log.  Execute is a very powerful tool because it lets you
+build commands out of arbitrary strings.
+
+Let's try a more useful example.  Prepare by opening a file in Vim, then using
+`:edit "foo.txt"` in the same window to open a new buffer.  Now run the
+following command:
+
+    :execute "rightbelow vsplit " . bufname("#")
+
+Vim will open the first file in a vertical split to the right of the second
+file.  What happened here?
+
+First, Vim sees builds the command string by concatenating "rightbelow vsplit
+" with the result of the `bufname("#")` call.
+
+We'll look at the function more later, but for now just trust that it returns
+the path of the previous buffer.  You can play with it using `echom` if you want
+to see for yourself.
+
+Once `bufname` is evaluated Vim has a string that looks something like
+"rightbelow vsplit bar.txt".  The `execute` command evaluates this as
+a Vimscript command which opens the split with the file.
+
+Is Execute Dangerous?
+---------------------
+
+In most programming languages the use of such an "eval" construct to evaluate
+strings as program code is frowned upon, to put it lightly.  Vimscript's
+`execute` command doesn't bear the same stigma for two reasons.
+
+First, most Vimscript code only ever takes input from a single person: the user.
+If the user wants to input a tricky string that will cause an `execute` command
+to do something bad, well, it's their computer!
+
+Contrast this with other languages, where programs constantly take input from
+untrusted users.  Vim is a unique environment where the normal security concerns
+simple aren't common.
+
+The second reason is that because Vimscript has sometimes arcane and tricky
+syntax, `execute` is often the easiest, most straightforward way to get
+something done.  In most other languages using an "eval" construct won't usually
+save you much typing, but in Vimscript it can collapse many lines into a single
+one.
+
+Exercises
+---------
+
+Skim `:help execute` to get an idea of some of the things you can and can't use
+`execute` for.  Don't dive too deeply yet -- we're going to revisit it very
+soon.
+
+Read `:help leftabove`, `:help rightbelow`, `:help :split`, and `:help :vsplit`
+(notice the extra colon in the last two topics).
+
+Add a mapping to your `~/.vimrc` file that opens the previous buffer in a split
+of your choosing (vertical/horizontal, above/below/left/right).

@@ -1,0 +1,101 @@
+Normal
+======
+
+So far we've covered some of the most useful Vimscript commands, but what about
+all the stuff you do on a daily basis in normal mode?  Can we somehow use all
+the knowledge we have from editing text in our scripting?
+
+The answer is: "of course".  Run the following command:
+
+    :normal G
+
+Vim will move your cursor to the last line in the current file, just like
+pressing `G` in normal mode would.  Now run the following command:
+
+    :normal ggdd
+
+Vim will move to the first line in the file (`gg`) and then delete it (`dd`).
+
+The `normal` command simply takes a sequence of keys and pretends they were
+typed in normal mode.  Seems simple enough.
+
+Avoiding Mappings
+-----------------
+
+Run the following command to map the `G` key to something else:
+
+    :nnoremap G dd
+
+Now pressing `G` in normal mode will delete a line.  Try this command:
+
+    :normal G
+
+Vim will delete the current line.  The `normal` command will take into account
+any mappings that exist.
+
+This means that we need something like the `nnoremap` version of `nmap` for
+`normal`, otherwise we'll never be able to use it since we can't know what keys
+our users have mapped.
+
+Luckily Vim has a `normal!` command that does exactly this.  Run this command:
+
+    :normal! G
+
+This time Vim moves to the bottom of the file even though `G` has been mapped.
+
+When writing Vim scripts you should **always** use `normal!`, **never** plain
+old `normal`.  You can't trust what keys your users will have mapped in their
+`~/.vimrc` files.
+
+Special Characters
+------------------
+
+If you play around with `normal!` long enough you'll probably notice a problem.
+Try the following command:
+
+    :normal! /foo<cr>
+
+At first glance it may seem like this should perform a search for "foo", but
+you'll see that it doesn't work.  The problem is that `normal!` doesn't parse
+special character sequences like `<cr>`.
+
+In this case Vim thinks you wanted to search for the character sequence "f, o,
+o, left angle bracket, c, r, right angle bracket", and thinks that you never
+even pressed return to perform the search!
+
+We'll talk about how to get around this in the next chapter.
+
+Exercises
+---------
+
+Read `:help normal`.  The end of it will hint at the topic of the next chapter.
+
+Extra Credit
+------------
+
+If you're not feeling up for a challenge, skip this section.  If you are, good
+luck!
+
+Recall what `:help normal` said about undo.  Try to make a mapping that will
+delete two lines but let you undo each deletion separately.  `nnoremap <leader>d
+dddd` is a good place to start.
+
+You won't actually need `normal!` for this (`nnoremap` will suffice), but it
+illustrates a good point: sometimes reading about one Vim command can spark an
+interest in something unrelated.
+
+If you've never used the `helpgrep` command you'll probably need it now.  Read
+`:help helpgrep`.  Pay attention to the parts about how to navigate between the
+matches.
+
+Don't worry about patterns yet, we're going to cover them soon.  For now it's
+enough to know that you can use something like `foo.*bar` to find lines
+containing that regex in the documentation.
+
+Unfortunately `helpgrep` can be frustrating at times because you need to know
+what words to search for before you can find them!  I'll cut you some slack and
+tell you that in this case you're looking for a way to break Vim's undo sequence
+manually, so that the two deletes in your mapping can be undone separately.
+
+In the future, be pragmatic.  Sometimes Google is quicker and easier when you
+don't know exactly what you're after.
