@@ -1,0 +1,59 @@
+Looping
+=======
+
+You might be surprised to realize that we've gone through thirty five chapters
+of a programming language book without even mentioning loops!  Vimscript offers
+so many other options for performing actions on text (`normal!`, etc) that loops
+aren't as necessary as they are in most other languages.
+
+Even so, you'll definitely need them some day, so now we'll take a look at the
+two main kinds of loops Vim supports.
+
+For Loops
+---------
+
+The first kind of loop is the `for` loop.  This may seem odd if you're used to
+Java, C or Javascript `for` loops, but turns out to be quite elegant.  Run the
+following commands:
+
+    :let c = 0
+
+    :for i in [1, 2, 3, 4]
+    :  let c += i
+    :endfor
+
+    :echom c
+
+Vim displays "10", which is the result of adding together each element in the
+list.  Vimscript `for` loops iterate over lists (or dictionaries, which we'll
+cover later).
+
+There's no equivalent to the C-style `for (int i = 0; i < foo; i++)` loop form in
+Vimscript.  This might seem bad at first, but in practice you'll never miss it.
+
+While Loops
+-----------
+
+Vim also supports the classic `while` loop.  Run the following commands:
+
+    :let c = 1
+    :let total = 0
+
+    :while c <= 4
+    :  let total += c
+    :  let c += 1
+    :endwhile
+
+    :echom total
+
+Once again Vim displays "10".  This loop should be familiar to just about anyone
+who's programmed before, so we won't spend any time on it.  You won't use it
+very often.  Keep it in the back of your mind for the rare occasions that you
+want it.
+
+Exercises
+---------
+
+Read `:help for`.
+
+Read `:help while`.
