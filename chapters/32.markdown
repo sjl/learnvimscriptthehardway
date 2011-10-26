@@ -148,7 +148,7 @@ Try it out again and nothing will seem to happen.  Vim has filled the quickfix
 window with the results, but we haven't opened it yet.  Run the following
 command:
 
-    :nnoremap <leader>G :execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
+    :nnoremap <leader>g :execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
 
 Now try the mapping and you'll see that Vim automatically opens the quickfix
 window with the search results.  All we did was tack `:copen<cr>` onto the end
@@ -157,7 +157,7 @@ of our mapping.
 As the finishing touch we'll remove all the grep output Vim displays while
 searching.  Run the following command:
 
-    :nnoremap <leader>G :silent execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
+    :nnoremap <leader>g :silent execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
 
 We're done, so try it out and admire your hard work!  The `silent` command just
 runs the command that follows it while hiding any messages it would normally
