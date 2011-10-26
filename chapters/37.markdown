@@ -1,0 +1,140 @@
+Dictionaries
+============
+
+The last type of Vimscript variable we'll talk about is the dictionary.
+Vimscript dictionaries are similar to Python's dicts, Ruby's hashes, and
+Javascript's objects.
+
+Dictionaries are created using curly brackets.  Values are heterogeneous, but
+*keys are always coerced to strings*.  You didn't think things were going to be
+*completely* sane, did you?
+
+Run this command:
+
+    :echo {'a': 1, 100: 'foo'}
+
+Vim displays `{'a': 1, '100': 'foo'}`, which shows that Vimscript does indeed
+coerce keys to strings while leaving values alone.
+
+Vimscript avoids the stupidity of the Javascript standard and lets you use
+a comma after the last element in a dictionary.  Run the following command:
+
+    :echo {'a': 1, 100: 'foo',}
+
+Once again Vim displays `{'a': 1, '100': 'foo'}`.  You should *always* use the
+trailing comma in your dictionaries, *especially* when they're defined on
+multiple lines, because it will make adding new entries less error-prone.
+
+Indexing
+--------
+
+To look up a key in a dictionary you use the same syntax as most languages.  Run
+this command:
+
+    :echo {'a': 1, 100: 'foo',}['a']
+
+Vim displays `1`.  Try it with a non-string index:
+
+    :echo {'a': 1, 100: 'foo',}[100]
+
+Vim coerces the index to a string before performing the lookup, which makes
+sense since keys can only ever be strings.
+
+Vimscript also supports the Javascript-style "dot" lookup when the key is
+a string consisting only of letters, digits and/or underscores.  Try the
+following commands:
+
+    :echo {'a': 1, 100: 'foo',}.a
+    :echo {'a': 1, 100: 'foo',}.100
+
+Vim displays the correct element in both cases.  How you choose to index your
+dictionaries is a matter of taste and style.
+
+Assigning and Adding
+--------------------
+
+Adding entries to dictionaries is done by simply assigning them like variables.
+Run this command:
+
+    :let foo = {'a': 1}
+    :let foo.a = 100
+    :let foo.b = 200
+    :echo foo
+
+Vim displays `{'a': 100, 'b': 200}`, which shows that assigning and adding
+entries both work the same way.
+
+Removing Entries
+----------------
+
+There are two ways to remove entries from a dictionary.  Run the following
+commands:
+
+    :let test = remove(foo, 'a')
+    :unlet foo.b
+    :echo foo
+    :echo test
+
+Vim displays `{}` and `100`.  The `remove` function will remove the entry with
+the given key from the given dictionary and return the removed value.  The
+`unlet` command also removes dictionary entries, but you can't use the value.
+
+You cannot remove nonexistent entries from a dictionary.  Try running this
+command:
+
+    :unlet foo["asdf"]
+
+Vim throws an error.
+
+The choice of `remove` or `unlet` is mostly a matter of personal taste.  If
+pressed I'd recommend using `remove` everywhere because it's more flexible than
+`unlet`.  `remove` can do anything `unlet` can do but the reverse isn't true, so
+you can always be consistent if you use `remove`.
+
+Dictionary Functions
+--------------------
+
+Like lists, Vim has a number of built-in functions for working with
+dictionaries.  Run the following command:
+
+    :echom get({'a': 100}, 'a', 'default')
+    :echom get({'a': 100}, 'b', 'default')
+
+Vim displays `100` and `default`, just like the `get` function for lists.
+
+You can also check if a given key is present in a given dictionary.  Run this
+commands:
+
+    :echom has_key({'a': 100}, 'a')
+    :echom has_key({'a': 100}, 'b')
+
+Vim displays `1` and `0`.  Remember that Vimscript treats `0` as falsy and any
+other number as truthy.
+
+You can pull the key-value pairs out of a dictionary with `items`.  Run this
+command:
+
+    :echo items({'a': 100, 'b': 200})
+
+Vim will display a nested list that looks something like `[['a', 100], ['b',
+200]]`.  As far as I can tell Vimscript dictionaries are *not* guaranteed to be
+ordered, so don't expect that the items you get out of an `items` call will be
+in a specific order!
+
+You can get just the keys or just the values with the `keys` and `values`
+functions.  They work as expected -- look them up.
+
+Exercises
+---------
+
+Read `:help Dictionary`.  All of it.  Notice the capital "D".
+
+Read `:help get()`.
+
+Read `:help has_key()`.
+
+Read `:help items()`.
+
+Read `:help keys()`.
+
+Read `:help values()`.
