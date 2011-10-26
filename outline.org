@@ -32,7 +32,7 @@
 ** DONE execute normal!
 ** DONE basic regexes
 ** DONE Case Study: GrepMotion
-** TODO lists
+** DONE lists
 ** TODO looping
 ** TODO dictionaries
 ** TODO advanced regexes
