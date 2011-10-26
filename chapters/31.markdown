@@ -45,9 +45,9 @@ Now try running the following command:
 
     :execute "normal! gg/print\<cr>"
 
-This will go to the top of the file and perform a search for print, putting us
-at the first match.  It does this using `:execute "normal! ..."` which we
-saw in the previous chapter.
+This will go to the top of the file and perform a search for "print", putting us
+at the first match.  It does this using `:execute "normal! ..."` which we saw in
+the previous chapter.
 
 To get to the second match in the file you can just add more commands onto the
 end of the string.  Run this command:

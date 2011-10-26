@@ -35,6 +35,7 @@
 ** DONE lists
 ** DONE looping
 ** DONE dictionaries
+** TODO toggling
 ** TODO advanced regexes
 ** TODO paths
 ** TODO exceptions
