@@ -1,5 +1,5 @@
-Case Study: GrepMotion, Part One
-================================
+Case Study: Grep Operator, Part One
+===================================
 
 In this chapter and the next we're going to walk through creating
 a fairly-complicated piece of Vimscript.  We'll talk about several things we
@@ -145,14 +145,23 @@ this command:
     :nnoremap <leader>g :execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>
 
 Try it out again and nothing will seem to happen.  Vim has filled the quickfix
-window with the results, but we haven't opened it yet.  Let's add that as the
-finishing touch.  Run the following command:
+window with the results, but we haven't opened it yet.  Run the following
+command:
 
-    :nnoremap <leader>g :execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
+    :nnoremap <leader>G :execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
 
 Now try the mapping and you'll see that Vim automatically opens the quickfix
 window with the search results.  All we did was tack `:copen<cr>` onto the end
 of our mapping.
+
+As the finishing touch we'll remove all the grep output Vim displays while
+searching.  Run the following command:
+
+    :nnoremap <leader>G :silent execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
+
+We're done, so try it out and admire your hard work!  The `silent` command just
+runs the command that follows it while hiding any messages it would normally
+display.
 
 Exercises
 ---------
@@ -171,3 +180,5 @@ Read `:help copen`.
 
 Add a height to the `:copen` command in the mapping we created to make sure the
 quickfix window is opened to whatever height you prefer.
+
+Read `:help silent`.

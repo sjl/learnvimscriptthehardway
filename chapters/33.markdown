@@ -1,0 +1,255 @@
+Case Study: Grep Operator, Part Two
+===================================
+
+Now that we've got a preliminary sketch of our solution, it's time to flesh it
+out into something powerful.
+
+Remember: our original goal was to create a "grep operator".  There are a whole
+bunch of new things we need to cover to do this, but we're going to follow the
+same process we did in the last chapter: start with something simple and
+transform it until it does what you need.
+
+Before we start, comment out the mapping we creating the previous chapter from
+your `~/.vimrc` file -- we're going to use the same keystroke for our new
+operator.
+
+Create a File
+-------------
+
+Creating an operator will take a number of commands and typing those out by
+hand will get tedious very quickly.  You could add it to your `~/.vimrc` file,
+but let's create a separate file just for this operator instead.  It's meaty
+enough to warrant a file of its own.
+
+First, find your Vim `plugin` directory.  On Linux or OS X this will be at
+`~/.vim/plugin`.  If you're on Windows it will be at TODO.  If this directory
+doesn't exist, create it.
+
+Inside `plugin/` create a file named `grep-operator.vim`.  This is where you'll
+place the code for this new operator.  When you're editing the file you can run
+`:source %` to reload the code at any time.  This file will also be loaded each
+time you open Vim just like `~/.vimrc`.
+
+Remember that you *must* write the file before you source it for the changes to
+be seen!
+
+Skeleton
+--------
+
+To create a new Vim operator you'll start with two components: a function and
+a mapping.  Start by adding the following code to `grep-operator.vim`:
+
+    nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
+
+    function! GrepOperator(type)
+        echom "Test"
+    endfunction
+
+Write the file and source it with `:source %`.  Try it out by pressing
+`<leader>giw` to say "grep inside word".  Vim will echo "Test" *after* accepting
+the `iw` motion, which means we've laid out the skeleton.
+
+The function is simple and nothing we haven't seen before, but that mapping is
+a bit more complicated.  First we set the `operatorfunc` option to our function,
+and then we run `g@` which calls this function as an operator.  This may seem
+a bit convoluted, but it's how Vim works.
+
+For now it's okay to consider this mapping to be black magic.  You can delve
+into the detailed documentation later.
+
+Visual Mode
+-----------
+
+We've added the operator to normal mode, but we'll want to be able to use it
+from visual mode as well.  Add another mapping below the first:
+
+    vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
+
+Write and source the file.  Now visually select something and press `<leader>g`.
+Nothing happens, but Vim does echo "Test", so our function is getting called.
+
+We've seen the `<c-u>` in this mapping before but never explained what it did.
+Try visually selecting some text and pressing `:`.  Vim will open a command line
+as it usually does when `:` is pressed, but it automatically fills in `'<,'>` at
+the beginning of the line!
+
+Vim is trying to be helpful and inserts this text to make the command you're
+about to run function on the visually selected range.  In this case, however, we
+don't want the help.  We use `<c-u>` to say "delete from the cursor to the
+beginning of the line", removing the text.  This leaves us with a bare `:`,
+ready for the `call` command.
+
+The `call GrepOperator()` is simply a function call like we've seen before, but
+the `visualmode()` we're passing as an argument is new.  This function is
+a built-in Vim function that returns a one-character string representing the
+last type of visual mode used: `"v"` for characterwise, `"V"` for
+linewise, and a `ctrl-v` character for blockwise.
+
+Motion Types
+------------
+
+The function we defined takes a `type` argument.  We know that when we use the
+operator from visual mode it will be the result of `visualmode()`, but what
+about when we run it as an operator from normal mode?
+
+Edit the function body so the file looks like this:
+
+    nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
+    vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
+
+    function! GrepOperator(type)
+        echom a:type
+    endfunction
+
+Source the file, then go ahead and try it out in a variety of ways.  Some
+examples of the output you get are:
+
+* Pressing `viw<leader>g` echoes `v` because we were in characterwise visual
+  mode.
+* Pressing `Vjj<leader>g` echoes `V` because we were in linewise visual mode.
+* Pressing `<leader>giw` echoes `char` because we used a characterwise motion
+  with the operator.
+* Pressing `<leader>gG` echoes `line` because we used a linewise motion with the
+  operator.
+
+Now we know how we can tell the difference between motion types, which will be
+important when we select the text to search for.
+
+Copying the Text
+----------------
+
+Our function is going to need to somehow get access to the text the user wants
+to search for, and the easiest way to do that is to simply copy it.  Edit the
+function to look like this:
+
+    nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
+    vnoremap <leader>g :<C-U>call GrepOperator(visualmode())<cr>
+
+    function! GrepOperator(type)
+        if a:type ==# 'v'
+            execute "normal! `<v`>y"
+        elseif a:type ==# 'char'
+            execute "normal! `[v`]y"
+        else
+            return
+        endif
+
+        echom @@
+    endfunction
+
+Wow.  That's a lot of new stuff.  Try it out by pressing things like
+`<leader>giw`, `<leader>g2e` and `vi(<leader>g`.  Each time Vim will echo the
+text that the motion covers, so clearly we're making progress!
+
+Let's break this new code down one step at a time.  First we have an `if`
+statement that checks the `a:type` argument.  If the type is `'v'` it was called
+from characterwise visual mode, so we do something to copy the visually-selected
+text.
+
+Notice that we use the case-sensitive comparison `==#`.  If we used plain `==`
+and the user has `ignorecase` set it would match `"V"` as well, which is *not*
+what we want.  Code defensively!
+
+The second case of the `if` fires if the operator was called from normal mode
+using a characterwise motion.
+
+The final case simply returns.  We explicitly ignore the cases of
+linewise/blockwise visual mode and linewise/blockwise motions.  Grep doesn't
+search across lines by default, so having a newline in the search pattern
+doesn't make any sense!
+
+Each of our two `if` cases runs a `normal!` command that does two
+things:
+
+* Visually select the range of text we want by:
+    * Moving to mark at the beginning of the range.
+    * Entering characterwise visual mode.
+    * Moving to the mark at the end of the range.
+* Yanking the visually selected text.
+
+Don't worry about the specific marks for now.  You'll learn why they need to be
+different when you complete the exercises at the end of this chapter.
+
+The final line of the function echoes the variable `@@`.  Remember that
+variables starting with an `@` are registers.  `@@` is the "unnamed" register:
+the one that Vim places text into when you yank or delete without specify
+a particular register.
+
+In a nutshell: we select the text to search for, yank it, then echo the yanked
+text.
+
+Escaping the Search Term
+------------------------
+
+Now that we've got the text we need in a Vim string we can escape it like we did
+in the previous chapter.  Modify the `echom` command so it looks like this:
+
+    nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
+    vnoremap <leader>g :<C-U>call GrepOperator(visualmode())<cr>
+
+    function! GrepOperator(type)
+        if a:type ==# 'v'
+            normal! `<v`>y
+        elseif a:type ==# 'char'
+            normal! `[v`]y
+        else
+            return
+        endif
+
+        echom shellescape(@@)
+    endfunction
+
+Write and source the file and try it out by visually selecting some text with
+a special character in it and pressing `<leader>g`.  Vim will echo a version of
+the selected text suitable for passing to a shell command.
+
+Running Grep
+------------
+
+We're finally ready to add the `grep!` command that will perform the actual
+search.  Replace the `echom` line so the code looks like this:
+
+    nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
+    vnoremap <leader>g :<C-U>call GrepOperator(visualmode())<cr>
+
+    function! GrepOperator(type)
+        if a:type ==# 'v'
+            normal! `<v`>y
+        elseif a:type ==# 'char'
+            normal! `[v`]y
+        else
+            return
+        endif
+
+        silent execute "grep! -R " . shellescape(@@) . " ."
+        copen
+    endfunction
+
+This should look familiar.  We simply execute the `silent execute "grep! ..."`
+command we came up with in the last chapter.  It's even more readable here
+because we're not trying to stuff the entire thing into a `nnoremap` command!
+
+Write and source the file, then try it out and enjoy the fruits of your labor!
+
+Because we've defined a brand new Vim operator we can use it in a lot of
+different ways, such as:
+
+* `viw<leader>g`: Visually select a word, then grep for it.
+* `<leader>g4w`: Grep for the next four words.
+* `<leader>gt;`: Grep until semicolon.
+* `<leader>gi[`: Grep inside square brackets.
+
+This highlights one of the best things about Vim: its editing commands are like
+a language.  When you add a new verb it automatically works with (most of) the
+existing nouns and adjectives.
+
+Exercises
+---------
+
+Read `:help visualmode()`.
+
+Read `:help c_ctrl-u`.
+
+Read `:help operatorfunc`.
+
+Read `:help map-operator`.

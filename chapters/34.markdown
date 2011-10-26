@@ -1,0 +1,97 @@
+Case Study: Grep Operator, Part Three
+=====================================
+
+Our shiny new "grep operator" is working great, but part of writing Vimscript is
+being considerate and making your users' lives easier.  We can do two more
+things to make our operator play nicely in the Vim ecosystem.
+
+
+Saving Registers
+----------------
+
+By yanking the text into the unnamed register we destroy anything that was
+previously in there.
+
+This isn't very nice to our users, so let's save the contents of that register
+before we yank and restore it after we've done.  Change the code to look like
+this:
+
+    nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
+    vnoremap <leader>g :<C-U>call GrepOperator(visualmode())<cr>
+
+    function! GrepOperator(type)
+        let saved_unnamed_register = @@
+
+        if a:type ==# 'v'
+            normal! `<v`>y
+        elseif a:type ==# 'char'
+            normal! `[v`]y
+        else
+            return
+        endif
+
+        silent execute "grep! -R " . shellescape(@@) . " ."
+        copen
+
+        let @@ = saved_unnamed_register
+    endfunction
+
+We've added two `let` statements at the top and bottom of the function.  The
+first saves the contents of `@@` into a variable and the second restores it.
+
+Write and source the file.  Make sure it works by yanking some text, then
+pressing `<leader>giw` to run our operator, then pressing `p` to paste the text
+you yanked before.
+
+When writing Vim plugins you should *always* strive to save and restore any
+settings or registers your code modifies so you don't surprise and confuse your
+users.
+
+Namespacing
+-----------
+
+Our script created a function named "GrepOperator" in the global namespace.
+This probably isn't a big deal, but when you're writing Vimscript it's far
+better to be safe than sorry.
+
+We can avoid polluting the global namespace by tweaking a couple of lines in our
+code.  Edit the file to look like this:
+
+    nnoremap <leader>g :set operatorfunc=<SID>GrepOperator<cr>g@
+    vnoremap <leader>g :<C-U>call <SID>GrepOperator(visualmode())<cr>
+
+    function! s:GrepOperator(type)
+        let saved_unnamed_register = @@
+
+        if a:type ==# 'v'
+            normal! `<v`>y
+        elseif a:type ==# 'char'
+            normal! `[v`]y
+        else
+            return
+        endif
+
+        silent execute "grep! -R " . shellescape(@@) . " ."
+        copen
+
+        let @@ = saved_unnamed_register
+    endfunction
+
+The first three lines of the script have changed.  First, we modified the
+function name to start with `s:` which places it in the current script's
+namespace.
+
+We also modified the mappings and prepended the `GrepOperator` function name
+with `<SID>` so they could find the function.  If we hadn't done this they would
+have tried to find the function in the global namespace, which wouldn't have
+worked.
+
+Congratulations, our `grep-operator.vim` script is not only extremely useful,
+but it's also a considerate Vimscript citizen!
+
+Exercises
+---------
+
+Read `:help <SID>`.
+
+Treat yourself to a snack.  You deserve it!

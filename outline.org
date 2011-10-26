@@ -31,7 +31,7 @@
 ** DONE execute
 ** DONE execute normal!
 ** DONE basic regexes
-** TODO Case Study: GrepMotion
+** DONE Case Study: GrepMotion
 ** TODO lists
 ** TODO looping
 ** TODO dictionaries
