@@ -1,0 +1,200 @@
+Toggling
+========
+
+In one of the first chapters we talked about how to set options in Vim.  For
+boolean options we can use `set someoption!` to "toggle" the option.  This is
+expecially nice when we create a mapping for that command.
+
+Run the following command:
+
+    :nnoremap <leader>N :setlocal number!<cr>
+
+Try it out by pressing `<leader>N` in normal mode.  Vim will toggle the line
+numbers for the current window off and on.  Creating a "toggle" mapping like
+this is really handy, because we don't need to have two separate keys to turn
+something off and on.
+
+Unfortunately this only works for boolean options.  If we want to toggle
+a non-boolean option we'll need to do a bit more work.
+
+Toggling Options
+----------------
+
+Let's start by creating a function that will toggle an option for us, and
+a mapping that will call it.  Put the following into your `~/.vimrc` file (or
+a separate file in `~/.vim/plugin/` if you prefer):
+
+    nnoremap <c-f> :call FoldColumnToggle()<cr>
+
+    function! FoldColumnToggle()
+        echom &foldcolumn
+    endfunction
+
+Write and source the file, then try it out by pressing `<c-f>`.  Vim will
+display the current value of the `foldcolumn` option.  Go ahead and read `:help
+foldcolumn` if you're unfamiliar with this option.
+
+Let's add in the actual toggling functionality.  Edit the code to look like
+this:
+
+    nnoremap <c-f> :call FoldColumnToggle()<cr>
+
+    function! FoldColumnToggle()
+        if &foldcolumn
+            setlocal foldcolumn=0
+        else
+            setlocal foldcolumn=4
+        endif
+    endfunction
+
+Write and source the file and try it out.  Each time you press it Vim will
+either show or hide the fold column.
+
+The `if` statement simply checks if `&foldcolumn` is truthy (remember that Vim
+treats the integer 0 as falsy and any other number as truthy).  If so, it sets
+it to zero (which hides it).  Otherwise it sets it to four.  Pretty simple.
+
+You can use a simple function like this to toggle any option where `0` means
+"off" and any other number is "on".
+
+Toggling Other Things
+---------------------
+
+Options aren't the only thing we might want to toggle.  One particularly nice
+thing to have a mapping for is the quickfix window.  Let's start with the same
+skeleton as before.  Add the following code to your file:
+
+    nnoremap <c-q> :call QuickfixToggle()<cr>
+
+    function! QuickfixToggle()
+        return
+    endfunction
+
+This mapping doesn't do anything yet.  Let's transform it into something
+slightly more useful (but not completely finished yet).  Change the code to
+look like this:
+
+    nnoremap <c-q> :call QuickfixToggle()<cr>
+
+    function! QuickfixToggle()
+        copen
+    endfunction
+
+Write and source the file.  If you try out the mapping now you'll see that it
+simply opens the quickfix window.
+
+To get the "toggling" behavior we're looking for we'll use a quick, dirty
+solution: a global variable.  Change the code to look like this:
+
+    nnoremap <c-q> :call QuickfixToggle()<cr>
+
+    function! QuickfixToggle()
+        if g:quickfix_is_open
+            cclose
+            let g:quickfix_is_open = 0
+        else
+            copen
+            let g:quickfix_is_open = 1
+        endif
+    endfunction
+
+What we've done is pretty simple -- we're simply storing a global variable
+describing the open/closed state of the quickfix window whenever we call the
+function.
+
+Write and source the file, and try to run the mapping.  Vim will complain that
+the variable is not defined yet!  Let's fix that by initializing it once:
+
+    nnoremap <c-q> :call QuickfixToggle()<cr>
+
+    let g:quickfix_is_open = 0
+
+    function! QuickfixToggle()
+        if g:quickfix_is_open
+            cclose
+            let g:quickfix_is_open = 0
+        else
+            copen
+            let g:quickfix_is_open = 1
+        endif
+    endfunction
+
+Write and source the file, and try the mapping.  It works!
+
+Improvements
+------------
+
+Our toggle function works, but has a few problems.
+
+The first is that if the user manually opens or closes the window with `:copen`
+or `:cclose` our global variable doesn't get updated.  This isn't really a huge
+problem in practice because most of the time the user will probably be opening
+the window with the mapping, and if not they can always just press it again.
+
+This illustrates an important point about writing Vimscript code: if you try to
+handle every single edge case you'll get bogged down in it and never get any
+work done.
+
+Getting something that works most of the time (and doesn't explode when it
+doesn't work) and getting back to coding is usually better than spending hours
+getting it 100% perfect.  The exception is when you're writing a plugin you
+expect many people to use.  In that case it's best to spend the time and make it
+bulletproof to keep your users happy and reduce bug reports.
+
+Restoring Windows/Buffers
+-------------------------
+
+The other problem with our function is that if the user runs the mapping when
+they're already in the quickfix window, Vim closes it and dumps them into the
+last split instead of sending them back where they were.  This is annoying if
+you just want to check the quickfix window really quick and get back to working.
+
+To solve this we'll introduce an idiom that comes in handy a lot when writing
+Vim plugins.  Edit your code to look like this:
+
+    nnoremap <c-q> :call QuickfixToggle()<cr>
+
+    let g:quickfix_is_open = 0
+
+    function! QuickfixToggle()
+        if g:quickfix_is_open
+            cclose
+            let g:quickfix_is_open = 0
+            execute g:quickfix_return_to_window . "wincmd w"
+        else
+            let g:quickfix_return_to_window = winnr()
+            copen
+            let g:quickfix_is_open = 1
+        endif
+    endfunction
+
+We've added two new lines in this mapping.  One of them (in the `else` clause)
+sets another global variable which saves the current window number before we run
+`:copen`.
+
+The second line (in the `if` clause) executes `wincmd w` with that number
+prepended as a count, which tells Vim to go to that window.
+
+Once again our solution isn't bulletproof, because the user might open or close
+new split between runs of the mapping.  Even so, it handles the majority of
+cases so it's good enough for now.
+
+This strategy of manually saving global state would be frowned upon in most
+serious programs, but for tiny little Vimscript functions it's a quick and dirty
+way of getting something mostly working and moving on with your life.
+
+Exercises
+---------
+
+Read `:help foldcolumn`.
+
+Read `:help winnr()`
+
+Read `:help ctrl-w_w`.
+
+Read `:help wincmd`.
+
+Read `:help ctrl-q` and `:help ctrl-f` to see what you overwrote with these
+mappings.
+
+Namespace the functions by adding `s:` and `<SID>` where necessary.
