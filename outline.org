@@ -37,8 +37,8 @@
 ** DONE dictionaries
 ** DONE toggling
 ** DONE functional programming
+** DONE paths
 ** TODO advanced regexes
-** TODO paths
 ** TODO exceptions
 ** TODO functions again
 ** TODO command!
