@@ -35,7 +35,8 @@
 ** DONE lists
 ** DONE looping
 ** DONE dictionaries
-** TODO toggling
+** DONE toggling
+** DONE functional programming
 ** TODO advanced regexes
 ** TODO paths
 ** TODO exceptions
