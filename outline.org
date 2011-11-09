@@ -43,7 +43,8 @@
 ** TODO functions again
 ** TODO command!
 * part 3 - creating a full plugin
-** TODO intro and plugin layout
+** TODO intro
+** TODO plugin layout
 ** TODO pathogen
 ** TODO autoload
 ** TODO folding

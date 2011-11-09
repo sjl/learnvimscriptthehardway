@@ -1,0 +1,129 @@
+Plugin Layout in the Dark Ages
+==============================
+
+The first thing we need to talk about is how to structure our plugin.  In the
+past this was a messy affair, but now there's a tool that makes the process of
+installing Vim plugins much, *much* saner.
+
+We need to go over the basic layout first, then we'll talk about how to restore
+our sanity.
+
+Basic Layout
+------------
+
+Vanilla Vim supports splitting plugins into multiple files.  There are a number
+of different directories you can create under `~/.vim` that mean various things.
+
+We'll cover the most important directories now, but don't stress out too much
+about them.  We'll go over them one at a time as we create our Potion plugin.
+
+Before we continue we need to talk about some vocabulary.
+
+I've been using the word "plugin" to mean "a big ol' hunk of Vimscript that does
+a bunch of related stuff".  Vim has a more specific meaning of "plugin", which
+is "a file in `~/.vim/plugins/`".
+
+Most of the time I'll be using the first definition, but if something is unclear
+please [let me know](http://twitter.com/stevelosh/) and I'll try to reword it.
+
+~/.vim/colors/
+--------------
+
+Files inside `~/.vim/colors/` are treated as color schemes.  For example: if you
+run `:color mycolors` Vim will look for a file at `~/.vim/colors/mycolors.vim`
+and run it.  That file should contain all the Vimscript commands necessary to
+generate your color scheme.
+
+We're not going to cover color schemes in this book.  If you want to create your
+own you should copy an existing scheme and modify it.  Remember that `:help` is
+your friend.
+
+~/.vim/plugin/
+--------------
+
+Files inside `~/.vim/plugin/` will each be run once *every time* Vim starts.
+These files are meant to contain code that you always want loaded whenever you
+start Vim.
+
+~/.vim/ftdetect/
+----------------
+
+Any files in `~/.vim/ftdetect/` will *also* be run every time you start Vim.
+
+"ftdetect" stands for "filetype detection".  The files in this directory should
+set up autocommands that detect and set the `filetype` of files, and *nothing
+else*.  This means they should never be more than one or two lines long.
+
+~/.vim/ftplugin/
+----------------
+
+Files in `~/.vim/ftplugin/` are different.
+
+The naming of these files matters.  When Vim sets a buffer's `filetype` to
+a value it then looks for a file in `~/.vim/ftplugin/` that matches.  For
+example: if you run `set filetype=derp` Vim will look for
+`~/.vim/ftplugin/derp.vim`.  If that file exists, it will run it.
+
+Vim also supports directories inside `~/.vim/ftplugin/`.  To continue our
+example: `set filetype=derp` will also make Vim run any and all `*.vim` files
+inside `~/.vim/ftplugin/derp/`.  This lets you split up your plugin's `ftplugin`
+files into logical groups.
+
+Because these files are run every time a buffer's `filetype` is set they *must*
+only set buffer-local options!  If they set options globally they would
+overwrite them for all open buffers!
+
+~/.vim/indent/
+--------------
+
+Files in `~/.vim/indent/` are a lot like `ftplugin` files -- they get loaded
+based on their names.
+
+`indent` files should set options related to indentation for their filetypes,
+and those options should be buffer-local.
+
+Yes, you could simply put this code in the `ftplugin` files, but it's better to
+separate it out so other Vim users will understand what you're doing.  It's just
+a convention, but please be a considerate plugin author and follow it.
+
+~/.vim/compiler/
+----------------
+
+Files in `~/.vim/compiler/` work exactly like `indent` files.  They should set
+compiler-related options in the current buffer based on their names.
+
+Don't worry about what "compiler-related options" means right now.  We'll cover
+that later.
+
+~/.vim/after/
+-------------
+
+The `~/.vim/after/` directory is a bit of a hack.  Files in this directory will
+be loaded every time Vim starts, but *after* the files in `~/.vim/plugin/`.
+
+This allows you to override Vim's internal files.  In practice you'll rarely
+need this, so don't worry about it until you find yourself thinking "Vim sets
+option X and I want something different".
+
+~/.vim/autoload/
+----------------
+
+The `~/.vim/autoload/` directory is an incredibly important hack.  It sounds
+a lot more complicated than it actually is.
+
+In a nutshell: `autoload` is a way to delay the loading of your plugin's code
+until it's actually needed.  We'll cover this in more detail later when we
+refactor our plugin's code to take advantage of it.
+
+~/.vim/doc/
+-----------
+
+Finally, the `~/.vim/doc/` directory is where you can add documentation for your
+plugin.  Vim has a huge focus on documentation (as evidenced by all the `:help`
+commands we've been running) so it's important to document your plugins.
+
+Exercises
+---------
+
+Reread this chapter.  I'm not kidding.  Make sure you understand (in a very
+rough way) what each directory we've talked about does.
