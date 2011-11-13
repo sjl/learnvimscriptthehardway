@@ -74,7 +74,7 @@ the following command:
 
     :echo 2 * 2.0
 
-Vim displays "2.0".
+Vim displays "4.0".
 
 Division
 --------
