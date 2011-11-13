@@ -80,8 +80,11 @@ book, but you can go ahead and set your "localleader" now:
 
     :let maplocalleader = "\\"
 
-You can use `<localleader>` in mappings and it will work just like `<leader>`
-does, except for resolving to a different key.
+Notice that we have to use `\\` and not just `\` because `\` is the escape
+character in strings.  You'll learn more about this later.
+
+Now you can use `<localleader>` in mappings and it will work just like
+`<leader>` does, except for resolving to a different key.
 
 Exercises
 ---------
