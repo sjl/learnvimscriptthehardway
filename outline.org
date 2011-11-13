@@ -43,12 +43,13 @@
 ** TODO functions again
 ** TODO command!
 * part 3 - creating a full plugin
-** TODO intro
-** TODO plugin layout
-** TODO pathogen
+** DONE intro
+** DONE plugin layout
+** DONE pathogen
+** TODO ftdetect
+** TODO syntax
 ** TODO autoload
 ** TODO folding
-** TODO syntax
 ** TODO compilers
 *** makeprg
 *** errorformat
