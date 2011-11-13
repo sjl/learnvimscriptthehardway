@@ -78,7 +78,7 @@ Python files or HTML files.
 We'll talk about how to make mappings for specific types of files later in the
 book, but you can go ahead and set your "localleader" now:
 
-    :let maplocalleader = "\"
+    :let maplocalleader = "\\"
 
 You can use `<localleader>` in mappings and it will work just like `<leader>`
 does, except for resolving to a different key.
