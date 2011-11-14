@@ -46,7 +46,7 @@
 ** DONE intro
 ** DONE plugin layout
 ** DONE pathogen
-** TODO ftdetect
+** DONE ftdetect
 ** TODO syntax
 ** TODO autoload
 ** TODO folding

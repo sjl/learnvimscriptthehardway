@@ -1,0 +1,76 @@
+Detecting Filetypes
+===================
+
+Let's create a Potion file we can use as a sample as we're working on our
+plugin.  Create a `factorial.pn` file somewhere and put the following Potion
+code inside it:
+
+    factorial = (n):
+        total = 1
+        n to 1 (i):
+            total *= i.
+        total.
+
+    10 times (i):
+        i string print
+        '! is: ' print
+        factorial (i) string print
+        "\n" print.
+
+This code creates a simple factorial function and calls it ten times, printing
+the results each time.  Go ahead and run it with `potion factorial.pn`.  The
+output should look like this:
+
+    0! is: 0
+    1! is: 1
+    2! is: 2
+    3! is: 6
+    4! is: 24
+    5! is: 120
+    6! is: 720
+    7! is: 5040
+    8! is: 40320
+    9! is: 362880
+
+Detecting Potion Files
+----------------------
+
+Open `factorial.pn` in Vim and run the following command:
+
+    :set filetype?
+
+Vim will display `filetype=` because it doesn't know what a `.pn` file is yet.
+Let's fix that.
+
+Create `ftdetect/potion.vim` in your plugin's repo.  Put the following lines
+into it:
+
+    augroup potion_detect
+        au!
+        au BufNewFile,BufRead *.pn set filetype=potion
+    augroup END
+
+This creates an autocommand group with one autocommand inside: a command to set
+the filetype of `.pn` files to `potion`.  Pretty straightforward.
+
+Close the `factorial.pn` file and reopen it.  Now run the previous command
+again:
+
+    :set filetype?
+
+This time Vim displays `filetype=potion`.  When Vim started up it loaded the
+autocommand group inside `~/.vim/bundle/potion.vim`, and when it opened
+`factorial.pn` the autocommand fired, setting the `filetype` to `potion`.
+
+Now that we've taught Vim to recognize Potion files we can move on to actually
+creating some useful behavior in our plugin.
+
+Exercises
+---------
+
+Read `:help ft`.  Don't worry if you don't understand everything there.
+
+Read `:help setfiletype`.
+
+Modify the Potion plugin's `ftdetect/potion.vim` script to use `setfiletype`
+instead of `set filetype`.
