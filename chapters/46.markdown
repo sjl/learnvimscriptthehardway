@@ -1,0 +1,131 @@
+Advanced Syntax Highlighting
+============================
+
+So far we've defined some simple syntax highlighting for Potion files: keywords
+and functions.
+
+If you didn't do the exercises in the last chapter, you need to go back and do
+them.  I'm going to assume you did them.
+
+In fact, you should go back and do *any* exercises you skipped.  Even if you
+think you don't need them, you *need* to do them for this book to be effective.
+Please trust me on this.
+
+Highlighting Comments
+---------------------
+
+One obvious part of Potion that we need to highlight is comments.  The problem
+is that Potion comments start with `#` which is (almost always) not in
+`iskeyword`.
+
+If you don't know what `iskeyword` means, you didn't listen to me.  Go back and
+*do the damn exercises*.  I'm not just throwing useless busywork at you when
+I write the exercises for each chapter.  You *really* need to do them to
+understand the book.
+
+Because `#` isn't a keyword character we need to use a regular expression to
+match it (and the rest of the comment).  We'll do this with `syntax match`
+instead of `syntax keyword`.  Add the following lines to your syntax file:
+
+    syntax match potionComment "\v#.*$"
+    highlight link potionComment Comment
+
+I'm not going to tell you where to put them in the file any more.  You're
+a programmer: use your judgement.
+
+Close and reopen `factorial.pn`.  Add a comment somewhere in the file and you'll
+see that it's highlighted as a comment.
+
+The second line is simple: it tells Vim to highlight anything in the
+`potionComment` syntax group as a `Comment`.
+
+The first line is something new.  We use `syntax match` which tells Vim to match
+*regexes* instead of literal keywords.
+
+Notice that the regular expression we're using starts with `\v` which tells Vim
+to use "very magic" mode.  Reread the chapter on Basic Regular Expressions if
+you're not sure what that means.
+
+In this particular case the "very magic" mode isn't necessary.  But in the
+future we might change this regex and wonder why it's not working, so I'd
+recommend *always* using "very magic" regexes for consistency.
+
+As for the regex itself, it's fairly simple: comments start with a hash and
+include all characters from there to the end of the line.
+
+If you need a refresher course on regular expressions you should take a look at
+[Learn Regex the Hard Way][regex] by Zed Shaw.
+
+[regex]: http://regex.learncodethehardway.org/
+
+Highlighting Operators
+----------------------
+
+Another part of Potion we need regexes to highlight is operators.  Add the
+following to your syntax file:
+
+    syntax match potionOperator "\v\*\="
+    syntax match potionOperator "\v/\="
+    syntax match potionOperator "\v\+\="
+    syntax match potionOperator "\v-\="
+    syntax match potionOperator "\v\*"
+    syntax match potionOperator "\v/"
+    syntax match potionOperator "\v\+"
+    syntax match potionOperator "\v-"
+    syntax match potionOperator "\v\?"
+
+    highlight link potionOperator Operator
+
+Close and reopen `factorial.pn`.  Notice that the `*=` in the factorial function
+is now highlighted.
+
+The first thing you probably noticed about this hunk of code is that I put each
+regex on its own line instead of grouping them like I did with keywords.  This
+is because `syntax match` does *not* support multiple groups on a single line.
+
+You should also note that I used `\v` at the beginning of every regular
+expression, even when it wasn't strictly necessary.  I prefer to keep my regex
+syntax consistent when writing Vimscript, even if it means a few extra
+characters.
+
+You might be wondering why I didn't use a regex like `"\v-\=?"` to match both
+`-` *and* `-=` in one line.  You can absolutely do that if you want to.  It will
+work just fine.  I just tend to think of `-` and `-=` as separate operators, so
+I put them on separate lines.
+
+Defining those operators as separate matches simplifies the regexes at the cost
+of some extra verbosity.  I prefer doing it like that, but you may feel
+differently.  Use your judgement.
+
+I also never defined `=` as an operator.  We'll do that in a second, but
+I wanted to avoid it for now so I could teach you a lesson.
+
+Because I used separate regexes for `-` and `-=` I had to define `-` *after*
+`-=`!
+
+If I did it in the opposite order and used `-=` in a Potion file, Vim would
+match `-` (and highlight it, of course) and only `=` would remain for matching.
+This shows when you're building groups with `syntax match` each group "consumes"
+pieces of the file that can't be matched later.
+
+This is an oversimplification, but I don't want to get bogged down in the
+details just yet.  For now, your rule of thumb should be to match larger groups
+first and smaller groups later.
+
+Let's go ahead and add `=` as an operator, now that we've had our lesson:
+
+    syntax match potionOperator "\v\="
+
+Take a second and think about where you need to put this in the syntax file.
+Reread the last few paragraphs if you need a hint.
+
+Exercises
+---------
+
+Read `:help syn-match`.
+
+We didn't make `:` an operator in our example.  Read the Potion docs and make
+a conscious decision about whether to make `:` an operator.  If you decide to do
+so, add it to the syntax file.
+
+Do the same for `.` and `/`.

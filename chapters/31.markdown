@@ -18,6 +18,12 @@ Type the following text into a buffer:
 
 This is the text we'll use to experiment with Vimscript's regex support.
 
+I'm going to assume that you know the basics of regular expressions.  If you
+don't you should definitely stop reading this book and start reading [Learn
+Regex the Hard Way][regex] by Zed Shaw.  Come back when you're done with that.
+
+[regex]: http://regex.learncodethehardway.org/
+
 Highlighting
 ------------
 
