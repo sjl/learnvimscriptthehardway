@@ -1,0 +1,54 @@
+Even More Advanced Syntax Highlighting
+======================================
+
+Syntax highlighting in Vim is a topic that could easily fill a book of its own.
+
+We're going to cover one last important part of it here and then move on to
+other things.  If you want to learn more you can read the Vim documentation with
+`:help syntax` and look at syntax files other people have made.
+
+Highlighting Strings
+--------------------
+
+Potion, like most programming languages, supports string literals like `"Hello,
+world!"`.  We should highlight these as strings.  To do this we'll use the
+`syntax region` command.  Add the following to your Potion syntax file:
+
+    syntax region potionString start=/\v"/ skip=/\v\\./ end=/\v"/
+    highlight link potionString String
+
+Close and reopen your `factorial.pn` file and you'll see that the string at the
+end of the file is highlighted!
+
+The last line here should be familiar.  Reread the previous two chapters if you
+don't understand what it does.
+
+The first line adds to a syntax group using a "region".  Regions have a "start"
+pattern and an "end" pattern that specify where they start and end.  In this
+case, a Potion string starts when we see a double quote and ends when we see the
+next double quote.
+
+The "skip" argument to `syntax region` allows us to handle string escapes like
+`"She said: \"Vimscript is tricky, but useful\"!"`.
+
+If we didn't use the `skip` argument Vim would end the string at the `"` before
+`Vimscript`, which is not what we want!
+
+In a nutshell, the `skip` argument to `syntax region` tells Vim: "once you start
+matching this region, I want you to ignore anything that matches `skip`, even if
+it would normally be considered the end of the region".
+
+Take a few minutes and think through this.  What happens with something like
+`"foo \\" bar"`?  Is that the correct behavior?  Will that *always* be the
+correct behavior?  Close this book, take a few minutes and really *think* about
+this!
+
+Exercises
+---------
+
+Add syntax highlighting for single quoted strings.
+
+Read `:help syn-region`.
+
+Reading that should take longer than reading this chapter.  Pour yourself
+a drink, you've earned it!

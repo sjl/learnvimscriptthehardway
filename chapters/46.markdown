@@ -129,3 +129,9 @@ a conscious decision about whether to make `:` an operator.  If you decide to do
 so, add it to the syntax file.
 
 Do the same for `.` and `/`.
+
+Add a syntax group `potionNumber` that highlights numbers.  Link it to the
+highlight group `Number`.  Remember that Potion supports numbers like `2`,
+`0xffaf`, `123.23`, `1e-2`, and `1.9956e+2`.  Remember to balance the time it
+takes to handle edge cases with the amount of time those edge cases will
+actually be used.
