@@ -1,0 +1,120 @@
+Basic Syntax Highlighting
+=========================
+
+Now that we've gotten the boilerplate out of the way it's time to start writing
+some useful code for our Potion plugin.  We'll start with some simple syntax
+highlighting.
+
+Create a `syntax/potion.vim` file in your plugin's repo.  Put the following code
+into the file:
+
+    if exists("b:current_syntax")
+        finish
+    endif
+
+    echom "Our syntax highlighting code will go here."
+
+    let b:current_syntax = "potion"
+
+Close Vim, and then open your `factorial.pn` file.  Nothing will happen, but if
+you run `:messages` you'll see that the file was indeed loaded.
+
+**Note:**  Whenever I tell you to open the Potion file I want you to do it in
+a *new Vim window/instance* instead of in a split/tab.  Opening a new Vim window
+causes Vim to reload all your bundled files for that window, whereas using
+a split does not.
+
+The lines at the beginning and end of the file are a convention that prevents it
+from being loaded if syntax highlighting has already been enabled for this
+buffer.
+
+Highlighting Keywords
+---------------------
+
+For the rest of this chapter we'll ignore the `if` and `let` boilerplate at the
+beginning and end of the file.  Don't remove those lines, just forget about them.
+
+Replace the placeholder `echom` in the file with the following code:
+
+    syntax keyword potionKeyword to times
+    highlight link potionKeyword Keyword
+
+Close the `factorial.pn` file and reopen it.  The `to` and `times` words will be
+highlighted as keywords in your color scheme!
+
+These two lines show the basic structure of simple syntax highlighting in Vim.
+To highlight a piece of syntax:
+
+* You first define a "chunk" of syntax using `syntax keyword` or a related
+  command (which we'll talk about later).
+* You then link "chunks" to highlighting groups.  A highlighting group is
+  something you define in a color scheme, for example "function names should be
+  blue".
+  
+This lets plugin authors define the "chunks" of syntax in ways that make sense
+to them, and then link them to common highlighting groups.  It also lets color
+scheme creators define colors for a common set of programming constructs so they
+don't need to know about individual languages.
+
+Potion has a bunch of other keywords that we haven't used in our toy program, so
+lets edit our syntax file to highlight those too:
+
+    syntax keyword potionKeyword loop times to while
+    syntax keyword potionKeyword if elsif else
+    syntax keyword potionKeyword class return
+
+    highlight link potionKeyword Keyword
+
+First of all: the last line hasn't changed.  We're still telling Vim that
+anything in the `potionKeyword` syntax group should be highlighted as
+a `Keyword`.
+
+We've now got three lines, each starting with `syntax keyword potionKeyword`.
+This shows that running this command multiple times doesn't *reset* the syntax
+group -- it adds to it!  This lets you define groups piecemeal.
+
+How you define your groups is up to you:
+
+* You might just toss everything onto one line and be done with it.
+* You might prefer to break the lines up so they fit within 80 columns to make
+  them easier to read.
+* You could have a separate line for each item in a group, to make diffs looks
+  nicer.
+* You could do what I've done here and group related items together.
+
+Highlighting Functions
+----------------------
+
+Another standard Vim highlighting group is `Function`.  Let's add some of the
+built-in Potion functions to our highlighting script.  Edit the guts of your
+syntax file so it looks like this:
+
+    syntax keyword potionKeyword loop times to while
+    syntax keyword potionKeyword if elsif else
+    syntax keyword potionKeyword class return
+
+    syntax keyword potionFunction print join string
+
+    highlight link potionKeyword Keyword
+    highlight link potionFunction Function
+
+Close and reopen `factorial.pn` and you'll see that the built-in potion
+functions are now highlighted.
+
+This works exactly the same way as keyword highlighting.  We've defined a new
+syntax group and linked it to a different highlighting group.
+
+Exercises
+---------
+
+Think about why the `if exists` and `let` lines at the beginning and end of the
+file are useful.  If you can't figure it out, don't worry about it.  I had to
+ask Tim Pope to be sure.
+
+Skim over `:help syn-keyword`.  Pay close attention to the part that mentions
+`iskeyword`.
+
+Read `:help iskeyword`.
+
+Read `:help group-name` to get an idea of some common highlighting groups that
+color scheme authors frequently use.

@@ -32,6 +32,13 @@ output should look like this:
     8! is: 40320
     9! is: 362880
 
+If you don't get this output, or you get an error, stop and figure out what's
+gone wrong.  The code should work exactly as-is.
+
+Take some time to understand how the code works.  Refer to the Potion docs
+liberally.  It's not critical to understanding Vimscript but it will make you
+a better programmer.
+
 Detecting Potion Files
 ----------------------
 
@@ -45,13 +52,14 @@ Let's fix that.
 Create `ftdetect/potion.vim` in your plugin's repo.  Put the following lines
 into it:
 
-    augroup potion_detect
-        au!
-        au BufNewFile,BufRead *.pn set filetype=potion
-    augroup END
+    au BufNewFile,BufRead *.pn set filetype=potion
 
-This creates an autocommand group with one autocommand inside: a command to set
-the filetype of `.pn` files to `potion`.  Pretty straightforward.
+This creates a single autocommand: a command to set the filetype of `.pn` files
+to `potion`.  Pretty straightforward.
+
+Notice that we *didn't* use an autocommand group like we usually would.  Vim
+automatically wraps the contents of `ftdetect/*.vim` files in autocommand groups
+for you, so you don't need to worry about it.
 
 Close the `factorial.pn` file and reopen it.  Now run the previous command
 again:
