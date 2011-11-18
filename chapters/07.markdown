@@ -105,11 +105,11 @@ Now we can easily add new mappings during the heat of coding.  We:
 
 * Use `<leader>ev` to open the file.
 * Add the mapping.
-* Use `:wq` to write the file and close the split, bringing us back to where we
+* Use `ZZ` to write the file and close the split, bringing us back to where we
   were.
 * Use `<leader>sv` to source the file and make our changes take effect.
 
-That's nine keystrokes plus whatever it takes to define the mapping.  It's very
+That's eight keystrokes plus whatever it takes to define the mapping.  It's very
 little overhead, which reduces the chance that we break our concentration.
 
 Exercises
