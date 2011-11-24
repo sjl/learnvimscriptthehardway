@@ -29,8 +29,8 @@ because it's easy to make mistakes.  Try the following commands:
     :echom 017
     :echom 019
 
-Vim will print "15" for the first command, because "18" in octal is equal to
-"18" in decimal.  For the second command Vim treats it as a decimal number, even
+Vim will print "15" for the first command, because "17" in octal is equal to
+"15" in decimal.  For the second command Vim treats it as a decimal number, even
 though it starts with a `0`, because it's not a valid octal number.
 
 Because Vim silently does the wrong thing in this case, I'd recommend avoiding
