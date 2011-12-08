@@ -5,6 +5,7 @@ Let's create a Potion file we can use as a sample as we're working on our
 plugin.  Create a `factorial.pn` file somewhere and put the following Potion
 code inside it:
 
+    :::text
     factorial = (n):
         total = 1
         n to 1 (i):
@@ -21,6 +22,7 @@ This code creates a simple factorial function and calls it ten times, printing
 the results each time.  Go ahead and run it with `potion factorial.pn`.  The
 output should look like this:
 
+    :::text
     0! is: 0
     1! is: 1
     2! is: 2
@@ -44,6 +46,7 @@ Detecting Potion Files
 
 Open `factorial.pn` in Vim and run the following command:
 
+    :::vim
     :set filetype?
 
 Vim will display `filetype=` because it doesn't know what a `.pn` file is yet.
@@ -52,6 +55,7 @@ Let's fix that.
 Create `ftdetect/potion.vim` in your plugin's repo.  Put the following lines
 into it:
 
+    :::vim
     au BufNewFile,BufRead *.pn set filetype=potion
 
 This creates a single autocommand: a command to set the filetype of `.pn` files
@@ -64,6 +68,7 @@ for you, so you don't need to worry about it.
 Close the `factorial.pn` file and reopen it.  Now run the previous command
 again:
 
+    :::vim
     :set filetype?
 
 This time Vim displays `filetype=potion`.  When Vim started up it loaded the

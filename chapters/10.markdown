@@ -7,6 +7,7 @@ we need to do a bit of preparation first.
 Let's set up one more mapping that will save more wear on your left hand than
 any other mapping you ever create.  Run the following command:
 
+    :::vim
     :inoremap jk <esc>
 
 Now enter insert mode and type `jk`.  Vim will act as if you pressed the escape
@@ -41,6 +42,7 @@ coding you'll hit it without even thinking.
 The trick to relearning a mapping is to *force* yourself to use it by
 *disabling* the old key(s).  Run the following command:
 
+    :::vim
     :inoremap <esc> <nop>
 
 This effectively disables the escape key in insert mode by telling Vim to

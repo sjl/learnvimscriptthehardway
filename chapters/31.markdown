@@ -7,6 +7,7 @@ expressions, but as usual there are some quirks.
 
 Type the following text into a buffer:
 
+    :::python
     max = 10
 
     print "Starting"
@@ -30,6 +31,7 @@ Highlighting
 Before we start we need to turn on search highlighting so we can see what we're
 doing.  Run the following command:
 
+    :::vim
     :set hlsearch incsearch
 
 `hlsearch` tells Vim to highlight all matches in a file when you perform
@@ -41,6 +43,7 @@ Searching
 
 Put your cursor at the top of the file and run the following command:
 
+    :::vim
     /print
 
 As you type in each letter, Vim will start highlighting them in the first line.
@@ -49,6 +52,7 @@ be highlighted and your cursor will be moved to the next match.
 
 Now try running the following command:
 
+    :::vim
     :execute "normal! gg/print\<cr>"
 
 This will go to the top of the file and perform a search for "print", putting us
@@ -58,6 +62,7 @@ the previous chapter.
 To get to the second match in the file you can just add more commands onto the
 end of the string.  Run this command:
 
+    :::vim
     :execute "normal! gg/print\<cr>n"
 
 Vim will put the cursor on the second "print" in the buffer (and all the matches
@@ -65,6 +70,7 @@ will be highlighted).
 
 Let's try going in the opposite direction.  Run this command:
 
+    :::vim
     :execute "normal! G?print\<cr>"
 
 This time we move to the bottom of the file with `G` and use `?` to search
@@ -80,11 +86,13 @@ Magic
 The `/` and `?` commands actually take regular expressions, not just literal
 characters.  Run the following command:
 
+    :::vim
     :execute "normal! gg/for .+ in .+:\<cr>"
 
 Vim complains that the pattern is not found!  I told you that Vim supports
 regular expressions in searches, so what's going on?  Try the following command:
 
+    :::vim
     :execute "normal! gg/for .\\+ in .\\+:\<cr>"
 
 This time Vim highlights the "for" loop as we expected in the first place.  Take
@@ -103,6 +111,7 @@ did:
 You can see this a bit easier by just running the search in Vim directly.  Type
 the following command and press return:
 
+    :::vim
     /print .\+
 
 You can see the `\+` working its magic now.  The double backslashes were only
@@ -122,6 +131,7 @@ a bit more complicated that you might think.
 Try running the following command (note the single quotes and single backslashes
 this time):
 
+    :::vim
     :execute 'normal! gg/for .\+ in .\+:\<cr>'
 
 Vim moves you to the top of the file but doesn't move you to the first match.
@@ -136,6 +146,7 @@ All hope is not lost, though!  Remember that Vim allows you to concatenate
 strings, so for larger commands we can use this to split apart the string into
 easier to read chunks.  Run the following command:
 
+    :::vim
     :execute "normal! gg" . '/for .\+ in .\+:' . "\<cr>"
 
 This concatenates the three smaller strings before sending them to `execute`,
@@ -152,6 +163,7 @@ to, but if you want the sane, easy solution just read on.
 
 Run the following command:
 
+    :::vim
     :execute "normal! gg" . '/\vfor .+ in .+:' . "\<cr>"
 
 We've split the pattern out from the rest of the command into its own literal

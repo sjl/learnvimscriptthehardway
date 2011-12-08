@@ -10,6 +10,7 @@ Let's say you're writing some text in Markdown.  If you haven't used Markdown
 before, don't worry, for our purposes here it's very simple.  Type the following
 into a file:
 
+    :::markdown
     Topic One
     =========
 
@@ -26,6 +27,7 @@ The lines "underlined" with `=` characters are treated as heading by Markdown.
 Lets create some mappings that let us target headings with movements.  Run the
 following command:
 
+    :::vim
     :onoremap ih :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
 
 This mapping is pretty complicated, so put your cursor in one of the paragraphs
@@ -39,6 +41,7 @@ the `<c-u>` for the moment as well.
 
 Now we're looking at the remainder of the line:
 
+    :::vim
     :execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
 
 Normal
@@ -47,10 +50,12 @@ Normal
 The `:normal` command takes a set of characters and performs whatever action
 they would do if they were typed in normal mode.  Run this command:
 
+    :::vim
     :normal gg
 
 Vim will move you to the top of the file.  Now run this command:
 
+    :::vim
     :normal >>
 
 Vim will indent the current line.
@@ -68,11 +73,13 @@ Execute
 
 The `execute` takes a string and performs it as a command.  Run this:
 
+    :::vim
     :execute "write"
 
 Vim will write your file, just as if you had typed `:write`.  Now run this
 command:
 
+    :::vim
     :execute "normal! gg"
 
 Vim will run `:normal! gg`, which as we just saw will move you to the top of the
@@ -81,6 +88,7 @@ itself?
 
 Look at the following command and try to guess what it will do:
 
+    :::vim
     :normal! gg/a<cr>
 
 It seems like it should:
@@ -104,6 +112,7 @@ escape sequence that puts a literal backslash in the string.
 If we perform this replacement in our mapping and look at the result we can see
 that the mapping is going to perform:
 
+    :::text
     :normal! ?^==\+$<cr>:nohlsearch<cr>kvg_
                     ^^^^           ^^^^
                      ||             ||
@@ -113,6 +122,7 @@ that the mapping is going to perform:
 So now `normal!` will execute these characters as if we had typed them in normal
 mode.  Let's split them apart at the returns to find out what they're doing:
 
+    :::vim
     ?^==\+$
     :nohlsearch
     kvg_
@@ -152,6 +162,7 @@ recap it in a nutshell:
 
 Let's look at one more mapping before we move on.  Run the following command:
 
+    :::vim
     :onoremap ah :<c-u>execute "normal! ?^==\\+\r:nohlsearch\rg_vk0"<cr>
 
 Try it by putting your cursor in a section's text and typing `cah`.  This time
@@ -161,12 +172,14 @@ section's heading".
 
 What's different about this mapping?  Let's look at them side by side:
 
+    :::vim
     :onoremap ih :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
     :onoremap ah :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rg_vk0"<cr>
 
 The only difference from the previous mapping is the very end, where we select
 the text to operate on:
 
+    :::vim
     kvg_
     g_vk0
 

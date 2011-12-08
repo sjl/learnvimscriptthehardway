@@ -29,6 +29,7 @@ degree.
 
 Add the following function to your file:
 
+    :::vim
     function! Sorted(l)
         let new_list = deepcopy(a:l)
         call sort(new_list)
@@ -46,6 +47,7 @@ the original list won't be changed.
 This prevents side effects and helps us write code that is easier to reason
 about and test.  Let's add a few more helper functions in this same style:
 
+    :::vim
     function! Reversed(l)
         let new_list = deepcopy(a:l)
         call reverse(new_list)
@@ -89,6 +91,7 @@ Functions as Variables
 Vimscript supports using variables to store functions, but the syntax is a bit
 obtuse.  Run the following commands:
 
+    :::vim
     :let Myfunc = function("Append")
     :echo Myfunc([1, 2], 3)
 
@@ -99,6 +102,7 @@ must start with a capital letter.
 Functions can be stored in lists just like any other kind of variable.  Run the
 following commands:
 
+    :::vim
     :let funcs = [function("Append"), function("Pop")]
     :echo funcs[1](['a', 'b', 'c'], 1)
 
@@ -115,6 +119,7 @@ not familiar with that term, higher-order functions are functions that take
 
 We'll begin with the trusty "map" function.  Add this to your file:
 
+    :::vim
     function! Mapped(fn, l)
         let new_list = deepcopy(a:l)
         call map(new_list, string(a:fn) . '(v:val)')
@@ -123,6 +128,7 @@ We'll begin with the trusty "map" function.  Add this to your file:
 
 Source and write the file, and try it out by running the following commands:
 
+    :::vim
     :let mylist = [[1, 2], [3, 4]]
     :echo Mapped(function("Reversed"), mylist)
 
@@ -140,6 +146,7 @@ actual work.  Read `:help map()` now to see how it works.
 Now we'll create a few other common higher-order functions.  Add the following to
 your file:
 
+    :::vim
     function! Filtered(fn, l)
         let new_list = deepcopy(a:l)
         call filter(new_list, string(a:fn) . '(v:val)')
@@ -148,6 +155,7 @@ your file:
 
 Try `Filtered()` out with the following commands:
 
+    :::vim
     :let mylist = [[1, 2], [], ['foo'], []]
     :echo Filtered(function('len'), mylist)
 
@@ -160,6 +168,7 @@ function, so it filters out all the elements whose length is zero.
 
 Finally we'll create the counterpart to `Filtered()`:
 
+    :::vim
     function! Removed(fn, l)
         let new_list = deepcopy(a:l)
         call filter(new_list, '!' . string(a:fn) . '(v:val)')
@@ -168,6 +177,7 @@ Finally we'll create the counterpart to `Filtered()`:
 
 Try it out just like we did with `Filtered()`:
 
+    :::vim
     :let mylist = [[1, 2], [], ['foo'], []]
     :echo Removed(function('len'), mylist)
 

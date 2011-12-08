@@ -8,10 +8,12 @@ and powerful, but we're just going to cover the most common uses here.
 We're only going to worry about insert mode abbreviations in this book. Run the
 following command:
 
+    :::vim
     :iabbrev adn and
 
 Now enter insert mode and type:
 
+    :::text
     One adn two.
 
 As soon as you hit space after typing the "adn" Vim will replace it with "and".
@@ -19,11 +21,13 @@ As soon as you hit space after typing the "adn" Vim will replace it with "and".
 Correcting typos like this is a great use for abbreviations.  Run these
 commands:
 
+    :::vim
     :iabbrev waht what
     :iabbrev tehn then
 
 Now enter insert mode again and type:
 
+    :::text
     Well, I don't know waht we should do tehn.
 
 Notice how *both* abbreviations were substituted, even though you didn't type
@@ -36,6 +40,7 @@ Vim will substitute an abbreviation when you type any "non-keyword character"
 after an abbreviation.  "Non-keyword character" means any character not in the
 `iskeyword` option.  Run this command:
 
+    :::vim
     :set iskeyword?
 
 You should see something like `iskeyword=@,48-57,_,192-255`.  This format is
@@ -63,6 +68,7 @@ More Abbreviations
 Abbreviations are useful for more than just correcting typos.  Let's add a few
 more that can help in day-to-day text editing.  Run the following commands:
 
+    :::vim
     :iabbrev @@    steve@stevelosh.com
     :iabbrev ccopy Copyright 2011 Steve Losh, all rights reserved.
 
@@ -82,6 +88,7 @@ example.
 
 Run this command:
 
+    :::vim
     :inoremap ssig --<cr>Steve Losh<cr>steve@stevelosh.com
 
 This is a *mapping* intended to let you insert your signature quickly.  Try it
@@ -90,6 +97,7 @@ out by entering insert mode and typing `ssig`.
 It seems to work great, but there's a problem.  Try entering insert mode and
 typing this text:
 
+    :::text
     Larry Lessig wrote the book "Remix".
 
 You'll notice that Vim has expanded the `ssig` in Larry's name!  Mappings don't
@@ -99,6 +107,7 @@ at the specific sequence that you map.
 Remove the mapping and replace it with an abbreviation by running the following
 commands:
 
+    :::vim
     :iunmap ssig
     :iabbrev ssig --<cr>Steve Losh<cr>steve@stevelosh.com
 

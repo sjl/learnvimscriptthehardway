@@ -12,6 +12,7 @@ Absolute Paths
 Sometimes it's handy to be able to get the absolute path of a certain file for
 use with external scripts.  Run the following commands:
 
+    :::vim
     :echom expand('%')
     :echom expand('%:p')
     :echom fnamemodify('foo.txt', ':p')
@@ -35,12 +36,14 @@ Listing Files
 You might also want to get a listing of files in a specific directory.  Run the
 following command:
 
+    :::vim
     :echo globpath('.', '*')
 
 Vim will display all of the files and directories in the current directory.  The
 `globpath()` function returns a string, with each name separated by a newline.
 To get a list you'll need to `split()` it yourself.  Run this command:
 
+    :::vim
     :echo split(globpath('.', '*'), '\n')
 
 This time Vim displays a Vimscript list containing each path.  If you've got
@@ -49,12 +52,14 @@ newlines in your filenames you're on your own, sorry.
 `globpath()`'s wildcards work mostly as you would expect.  Run the following
 command:
 
+    :::vim
     :echo split(globpath('.', '*.txt'), '\n')
 
 Vim displays a list of all `.txt` files in the current directory.
 
 You can recursively list files with `**`.  Run this command:
 
+    :::vim
     :echo split(globpath('.', '**'), '\n')
 
 Vim will list all files and directories under the current directory.

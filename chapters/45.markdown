@@ -8,6 +8,7 @@ highlighting.
 Create a `syntax/potion.vim` file in your plugin's repo.  Put the following code
 into the file:
 
+    :::vim
     if exists("b:current_syntax")
         finish
     endif
@@ -36,6 +37,7 @@ beginning and end of the file.  Don't remove those lines, just forget about them
 
 Replace the placeholder `echom` in the file with the following code:
 
+    :::vim
     syntax keyword potionKeyword to times
     highlight link potionKeyword Keyword
 
@@ -59,6 +61,7 @@ don't need to know about individual languages.
 Potion has a bunch of other keywords that we haven't used in our toy program, so
 lets edit our syntax file to highlight those too:
 
+    :::vim
     syntax keyword potionKeyword loop times to while
     syntax keyword potionKeyword if elsif else
     syntax keyword potionKeyword class return
@@ -89,6 +92,7 @@ Another standard Vim highlighting group is `Function`.  Let's add some of the
 built-in Potion functions to our highlighting script.  Edit the guts of your
 syntax file so it looks like this:
 
+    :::vim
     syntax keyword potionKeyword loop times to while
     syntax keyword potionKeyword if elsif else
     syntax keyword potionKeyword class return

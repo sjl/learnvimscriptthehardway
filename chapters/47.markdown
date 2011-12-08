@@ -14,6 +14,7 @@ Potion, like most programming languages, supports string literals like `"Hello,
 world!"`.  We should highlight these as strings.  To do this we'll use the
 `syntax region` command.  Add the following to your Potion syntax file:
 
+    :::vim
     syntax region potionString start=/\v"/ skip=/\v\\./ end=/\v"/
     highlight link potionString String
 

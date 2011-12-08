@@ -3,6 +3,7 @@ Autocommand Groups
 
 A few chapters ago we learned about autocommands.  Run the following command:
 
+    :::vim
     :autocmd BufWrite * :echom "Writing buffer!"
 
 Now write your current buffer with `:write` and run `:messages` to view the
@@ -13,6 +14,7 @@ You should see the "Writing buffer!" message in the list twice.
 
 Now run the exact same autocommand again:
 
+    :::vim
     :autocmd BufWrite * :echom "Writing buffer!"
 
 Write your current buffer one more time and run `:messages`.  You will see the
@@ -35,11 +37,13 @@ run slower because it executes the same commands over and over.
 
 To simulate this, try running the following command:
 
+    :::vim
     :autocmd BufWrite * :sleep 200m
 
 Now write the file.  You may or may not notice a slight sluggishness in Vim's
 writing time.  Now run the command three more times:
 
+    :::vim
     :autocmd BufWrite * :sleep 200m
     :autocmd BufWrite * :sleep 200m
     :autocmd BufWrite * :sleep 200m
@@ -60,6 +64,7 @@ autocommands into named groups.
 Open a fresh instance of Vim to clear out the autocommands from before, then run
 the following commands:
 
+    :::vim
     :augroup testgroup
     :    autocmd BufWrite * :echom "Foo"
     :    autocmd BufWrite * :echom "Bar"
@@ -71,6 +76,7 @@ type it if you don't want to.
 Write a buffer and check `:messages`.  You should see both "Foo" and "Bar".  Now
 run the following commands:
 
+    :::vim
     :augroup testgroup
     :    autocmd BufWrite * :echom "Baz"
     :augroup END
@@ -92,6 +98,7 @@ When you use `augroup` multiple times Vim will *combine* the groups each time.
 If you want to *clear* a group you can use `autocmd!` inside the group.  Run the
 following commands:
 
+    :::vim
     :augroup testgroup
     :    autocmd!
     :    autocmd BufWrite * :echom "Cats"
@@ -109,6 +116,7 @@ source it.
 
 Add the follow to your `~/.vimrc` file:
 
+    :::vim
     augroup filetype_html
         autocmd!
         autocmd FileType html nnoremap <buffer> <localleader>f Vatzf

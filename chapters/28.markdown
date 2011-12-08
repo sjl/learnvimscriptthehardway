@@ -4,6 +4,7 @@ Execute
 The `execute` command is used to evaluate a string as if it were a Vimscript
 command.  Run the following command:
 
+    :::vim
     :execute "echom 'Hello, world!'"
 
 Vim evaluates `echom 'Hello, world!'` as a command and dutifully echoes it to
@@ -14,6 +15,7 @@ Let's try a more useful example.  Prepare by opening a file in Vim, then using
 `:edit "foo.txt"` in the same window to open a new buffer.  Now run the
 following command:
 
+    :::vim
     :execute "rightbelow vsplit " . bufname("#")
 
 Vim will open the first file in a vertical split to the right of the second

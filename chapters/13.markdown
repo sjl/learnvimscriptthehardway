@@ -8,10 +8,12 @@ abbreviations.
 Open your `foo` and `bar` files again, switch to `foo`, and run the following
 command:
 
+    :::vim
     :iabbrev <buffer> --- &mdash;
 
 While still in `foo` enter insert mode and type the following text:
 
+    :::text
     Hello --- world.
 
 Vim will replace the `---` for you.  Now switch to `bar` and try it.  It should
@@ -26,6 +28,7 @@ make ourselves a little "snippet" system.
 
 Run the following commands:
 
+    :::vim
     :autocmd FileType javascript :iabbrev <buffer> iff if ( ) {}<left><left><left><left><left>
     :autocmd FileType python     :iabbrev <buffer> iff if:<left>
 

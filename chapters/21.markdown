@@ -15,6 +15,7 @@ Multiple-Line Statements
 Sometimes can't fit a piece of Vimscript on a single line of code.  We saw this
 when we talked about autocommand groups.  Here's a chunk of code we used before:
 
+    :::vim
     :augroup testgroup
     :    autocmd BufWrite * :echom "Baz"
     :augroup END
@@ -24,6 +25,7 @@ but it gets tedious to write this way when running commands manually.  Instead
 you can separate each line with a pipe character (`|`).  Run the following
 command:
 
+    :::vim
     :echom "foo" | echom "bar"
 
 Vim will treat that as two separate commands.  Use `:messages` to check the log
@@ -38,6 +40,7 @@ Basic If
 
 Now that we've got that out of the way, run the following commands:
 
+    :::vim
     :if 1
     :    echom "ONE"
     :endif
@@ -45,6 +48,7 @@ Now that we've got that out of the way, run the following commands:
 Vim will display "ONE", because the integer `1` is "truthy".  Now try this
 command:
 
+    :::vim
     :if 0
     :    echom "ZERO"
     :endif
@@ -52,6 +56,7 @@ command:
 Vim will *not* display "ZERO" because the integer `0` is "falsy".  Let's see how
 strings behave.  Run this command:
 
+    :::vim
     :if "something"
     :    echom "INDEED"
     :endif
@@ -61,6 +66,7 @@ string as "truthy", so it will not display anything!
 
 Let's dive a bit further down the rabbit hole.  Run this command:
 
+    :::vim
     :if "9024"
     :    echom "WHAT?!"
     :endif
@@ -69,6 +75,7 @@ This time Vim *does* display the text!  What's going on here?
 
 To try to wrap our heads around what's going on, run the following two commands:
 
+    :::vim
     :echom "hello" + 10
     :echom "10hello" + 10
     :echom "hello10" + 10
@@ -93,6 +100,7 @@ Else and Elseif
 Vim, like Python, supports both "else" and "else if" clauses.  Run the following
 commands:
 
+    :::vim
     :if 0
     :    echom "if"
     :elseif "nope!"

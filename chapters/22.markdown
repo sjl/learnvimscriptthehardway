@@ -7,12 +7,14 @@ straightforward as it may seem.
 
 Run the following command:
 
+    :::vim
     :if 10 > 1
     :    echom "foo"
     :endif
 
 Vim will, of course, display "foo".  Now run this command:
 
+    :::vim
     :if 10 > 2001
     :    echom "bar"
     :endif
@@ -20,6 +22,7 @@ Vim will, of course, display "foo".  Now run this command:
 Vim displays nothing, because `10` is not greater than `2001`.  So far
 everything works as expected.  Run this command:
 
+    :::vim
     :if 10 == 11
     :    echom "first"
     :elseif 10 == 10
@@ -29,6 +32,7 @@ everything works as expected.  Run this command:
 Vim displays "second".  Nothing surprising here.  Let's try comparing strings.
 Run this command:
 
+    :::vim
     :if "foo" == "bar"
     :    echom "one"
     :elseif "foo" == "foo"
@@ -43,6 +47,7 @@ Case Sensitivity
 
 Run the following commands:
 
+    :::vim
     :set noignorecase
     :if "foo" == "FOO"
     :    echom "vim is case insensitive"
@@ -53,6 +58,7 @@ Run the following commands:
 Vim evaluates the `elseif`, so apparently Vimscript is case sensitive.  Good to
 know, but nothing earth-shattering.  Now run these commands:
 
+    :::vim
     :set ignorecase
     :if "foo" == "FOO"
     :    echom "no, it couldn't be"
@@ -83,6 +89,7 @@ extra sets* of comparison operators to deal with this.
 
 Run the following command:
 
+    :::vim
     :set ignorecase
     :if "foo" ==? "FOO"
     :    echom "first"
@@ -93,6 +100,7 @@ Run the following command:
 Vim displays "first" because `==?` is the "case-insensitive no matter what the
 user has set" comparison operator.  Now run the following command:
 
+    :::vim
     :set ignorecase
     :if "foo" ==# "FOO"
     :    echom "one"

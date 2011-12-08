@@ -10,6 +10,7 @@ explicitly talked about is mapping a sequence of multiple keys.
 
 Run the following command:
 
+    :::vim
     :nnoremap jk dd
 
 Now make sure you're in normal mode and press `j` followed quickly by `k`.  Vim
@@ -22,6 +23,7 @@ runs the normal `j` functionality (moving down a line).
 This mapping will make it painful to move around our file, so lets remove it.
 Run the following command:
 
+    :::vim
     :nunmap jk
 
 Now typing `jk` in normal mode will move down and then up a line as usual.
@@ -32,6 +34,7 @@ A More Complicated Mapping
 You've seen a bunch of simple mappings so far, so it's time to look at something
 with a bit more meat to it.  Run the following command:
 
+    :::vim
     :nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
 Now *that's* an interesting mapping!  First, go ahead and try it out.  Enter
@@ -41,6 +44,7 @@ will surround the word in double quotes!
 How does this work?  Let's split it apart into pieces and think of what each one
 does:
 
+    :::vim
     viw<esc>a"<esc>hbi"<esc>lel
 
 * `viw`: visually select the current word

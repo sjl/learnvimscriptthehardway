@@ -3,6 +3,7 @@ Function Arguments
 
 Vimscript functions can, of course, take arguments.  Run the following commands:
 
+    :::vim
     :function DisplayName(name)
     :  echom "Hello!  My name is:"
     :  echom a:name
@@ -10,6 +11,7 @@ Vimscript functions can, of course, take arguments.  Run the following commands:
 
 Run the function:
 
+    :::vim
     :call DisplayName("Your Name")
 
 Vim will display two lines: "Hello!  My name is:" and "Your Name".
@@ -21,6 +23,7 @@ chapter.
 Let's remove this scope prefix and see how Vim reacts.  Run the following
 commands:
 
+    :::vim
     :function UnscopedDisplayName(name)
     :  echom "Hello!  My name is:"
     :  echom name
@@ -39,6 +42,7 @@ Varargs
 Vimscript functions can optionally take variable-length argument lists like
 Javascript and Python.  Run the following commands:
 
+    :::vim
     :function Varg(...)
     :  echom a:0
     :  echom a:1
@@ -69,6 +73,7 @@ looked at lists quite yet, so don't worry about this too much.  You can't use
 You can use varargs together with regular arguments too.  Run the following
 commands:
 
+    :::vim
     :function Varg2(foo, ...)
     :  echom a:foo
     :  echom a:0
@@ -86,6 +91,7 @@ Assignment
 
 Try running the following commands:
 
+    :::vim
     :function Assign(foo)
     :  let a:foo = "Nope"
     :  echom a:foo
@@ -96,6 +102,7 @@ Try running the following commands:
 Vim will throw an error, because you can't reassign argument variables.  Now run
 these commands:
 
+    :::vim
     :function AssignGood(foo)
     :  let foo_tmp = a:foo
     :  let foo_tmp = "Yep"

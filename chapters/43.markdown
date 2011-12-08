@@ -41,16 +41,19 @@ Create a `colors` directory on your Desktop.  Create a file in that directory
 called `mycolor.vim` (you can leave it empty for this demonstration).  Open Vim
 and run this command:
 
+    :::vim
     :color mycolor
 
 Vim will display an error, because it doesn't know to look on your Desktop for
 files.  Now run this command:
 
+    :::vim
     :set runtimepath=/Users/sjl/Desktop
 
 You'll need to change the path to match the path of your own Desktop, of course.
 Now try the color command again:
 
+    :::vim
     :color mycolor
 
 This time Vim doesn't throw an error, because it was able to find the
@@ -85,6 +88,7 @@ inside the plugin's repository!
 
 Our plugin's repository will wind up looking like this:
 
+    :::text
     potion/
         README
         LICENSE
@@ -115,5 +119,3 @@ Create `README` and `LICENSE` files in the repository and commit them.
 Push the repository up to Bitbucket or GitHub.
 
 Read `:help runtimepath`.
-
-

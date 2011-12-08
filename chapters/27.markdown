@@ -9,11 +9,13 @@ Length
 
 The first function we'll look at is `strlen`.  Run the following command:
 
+    :::vim
     :echom strlen("foo")
 
 Vim displays "3", which is the length of the string "foo".  Now try the
 following command:
 
+    :::vim
     :echom len("foo")
 
 Vim once again displays "3".  When used with Strings `len` and `strlen` have
@@ -24,6 +26,7 @@ Splitting
 
 Run the following command (note that it's an `echo` and not an `echom`):
 
+    :::vim
     :echo split("one two three")
 
 Vim displays "['one', 'two', 'three']".  The `split` function splits a String
@@ -33,6 +36,7 @@ about them.
 You can also tell Vim to use a separator other than "whitespace" for splitting.
 Run the following command:
 
+    :::vim
     :echo split("one,two,three", ",")
 
 Vim will once again display "['one', 'two', 'three']", because the second
@@ -45,12 +49,14 @@ Joining
 Not only can you split strings, you can also join them.  Run the following
 command:
 
+    :::vim
     :echo join(["foo", "bar"], "...")
 
 Vim will display "foo...bar".  Don't worry about the list syntax for now.
 
 `split` and `join` can be paired to great effect.  Run the following command:
 
+    :::vim
     :echo join(split("foo bar"), ";")
 
 Vim displays "foo;bar".  First we split the string "foo bar" into a list, then
@@ -62,6 +68,7 @@ Lower and Upper Case
 Vim has two functions to change the case of Strings.  Run the following
 commands:
 
+    :::vim
     :echom tolower("Foo")
     :echom toupper("Foo")
 

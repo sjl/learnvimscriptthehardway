@@ -39,6 +39,7 @@ Skeleton
 To create a new Vim operator you'll start with two components: a function and
 a mapping.  Start by adding the following code to `grep-operator.vim`:
 
+    :::vim
     nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
 
     function! GrepOperator(type)
@@ -63,6 +64,7 @@ Visual Mode
 We've added the operator to normal mode, but we'll want to be able to use it
 from visual mode as well.  Add another mapping below the first:
 
+    :::vim
     vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
 
 Write and source the file.  Now visually select something and press `<leader>g`.
@@ -94,6 +96,7 @@ about when we run it as an operator from normal mode?
 
 Edit the function body so the file looks like this:
 
+    :::vim
     nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
     vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
 
@@ -122,6 +125,7 @@ Our function is going to need to somehow get access to the text the user wants
 to search for, and the easiest way to do that is to simply copy it.  Edit the
 function to look like this:
 
+    :::vim
     nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
     vnoremap <leader>g :<C-U>call GrepOperator(visualmode())<cr>
 
@@ -184,6 +188,7 @@ Escaping the Search Term
 Now that we've got the text we need in a Vim string we can escape it like we did
 in the previous chapter.  Modify the `echom` command so it looks like this:
 
+    :::vim
     nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
     vnoremap <leader>g :<C-U>call GrepOperator(visualmode())<cr>
 
@@ -209,6 +214,7 @@ Running Grep
 We're finally ready to add the `grep!` command that will perform the actual
 search.  Replace the `echom` line so the code looks like this:
 
+    :::vim
     nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
     vnoremap <leader>g :<C-U>call GrepOperator(visualmode())<cr>
 

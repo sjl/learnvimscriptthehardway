@@ -27,6 +27,7 @@ Because `#` isn't a keyword character we need to use a regular expression to
 match it (and the rest of the comment).  We'll do this with `syntax match`
 instead of `syntax keyword`.  Add the following lines to your syntax file:
 
+    :::vim
     syntax match potionComment "\v#.*$"
     highlight link potionComment Comment
 
@@ -64,6 +65,7 @@ Highlighting Operators
 Another part of Potion we need regexes to highlight is operators.  Add the
 following to your syntax file:
 
+    :::vim
     syntax match potionOperator "\v\*\="
     syntax match potionOperator "\v/\="
     syntax match potionOperator "\v\+\="
@@ -114,6 +116,7 @@ first and smaller groups later.
 
 Let's go ahead and add `=` as an operator, now that we've had our lesson:
 
+    :::vim
     syntax match potionOperator "\v\="
 
 Take a second and think about where you need to put this in the syntax file.

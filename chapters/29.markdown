@@ -7,11 +7,13 @@ the knowledge we have from editing text in our scripting?
 
 The answer is: "of course".  Run the following command:
 
+    :::vim
     :normal G
 
 Vim will move your cursor to the last line in the current file, just like
 pressing `G` in normal mode would.  Now run the following command:
 
+    :::vim
     :normal ggdd
 
 Vim will move to the first line in the file (`gg`) and then delete it (`dd`).
@@ -24,10 +26,12 @@ Avoiding Mappings
 
 Run the following command to map the `G` key to something else:
 
+    :::vim
     :nnoremap G dd
 
 Now pressing `G` in normal mode will delete a line.  Try this command:
 
+    :::vim
     :normal G
 
 Vim will delete the current line.  The `normal` command will take into account
@@ -39,6 +43,7 @@ our users have mapped.
 
 Luckily Vim has a `normal!` command that does exactly this.  Run this command:
 
+    :::vim
     :normal! G
 
 This time Vim moves to the bottom of the file even though `G` has been mapped.
@@ -53,6 +58,7 @@ Special Characters
 If you play around with `normal!` long enough you'll probably notice a problem.
 Try the following command:
 
+    :::vim
     :normal! /foo<cr>
 
 At first glance it may seem like this should perform a search for "foo", but

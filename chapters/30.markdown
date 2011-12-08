@@ -4,6 +4,7 @@ Execute Normal!
 Now that we've seen `execute` and `normal!` we can talk about a common Vimscript
 idiom.  Run the following command:
 
+    :::vim
     :execute "normal! gg/foo\<cr>dd"
 
 This will move to the top of the file, search for the first occurrence of "foo",
@@ -17,6 +18,7 @@ the return needed to actually perform the search.  Combining `normal!` with
 string escape sequences to generate the non-printing characters you need.  Try
 the following command:
 
+    :::vim
     :execute "normal! mqA;\<esc>`q"
 
 What does this do?  Let's break it apart:

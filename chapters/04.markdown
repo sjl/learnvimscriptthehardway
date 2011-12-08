@@ -12,7 +12,8 @@ or insert mode respectively.
 
 Run this command:
 
-    nmap \ dd
+    :::vim
+    :nmap \ dd
 
 Now put your cursor in your text file, make sure you're in normal mode, and
 press `\`.  Vim will delete the current line.
@@ -23,7 +24,8 @@ default).
 
 Run this command:
 
-    vmap \ U
+    :::vim
+    :vmap \ U
 
 Enter visual mode and select some text, then press `\`.  Vim will convert the
 text to uppercase!
@@ -50,7 +52,8 @@ Insert Mode
 Now that we've covered how to map keys in normal and visual mode, let's move on
 to insert mode.  Run this command:
 
-    imap <c-d> dd
+    :::vim
+    :imap <c-d> dd
 
 You might think that this would let you press `Ctrl+d` whenever you're in insert
 mode to delete the current line.  This would be nice, because now you don't need
@@ -68,7 +71,8 @@ two `d`s in a row!
 To make this mapping do what we intended we need to be very explicit.  Run this
 command to change the mapping:
 
-    imap <c-d> <esc>dd
+    :::vim
+    :imap <c-d> <esc>dd
 
 The `<esc>` is our way of telling Vim to press the Escape key, which will take
 us out of insert mode.
@@ -79,7 +83,8 @@ delete a line, but we never told it to go back into insert mode.
 
 Run one more command to fix the mapping once and for all:
 
-    imap <c-d> <esc>ddi
+    :::vim
+    :imap <c-d> <esc>ddi
 
 The `i` at the end reenters insert mode for us, and our mapping is finally
 complete.

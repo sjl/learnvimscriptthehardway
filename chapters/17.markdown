@@ -5,11 +5,13 @@ Vim allows you to customize the text in the status line at the bottom of each
 window.  This is done through the `statusline` option.  Run the following
 command:
 
+    :::vim
     :set statusline=%f
 
 You should see the path to the file (relative to the current directory) in the
 status line.  Now run this command:
 
+    :::vim
     :set statusline=%f\ -\ FileType:\ %y
 
 Now you'll see something like "foo.markdown - FileType: [markdown]" in the
@@ -28,6 +30,7 @@ the second chapter.
 Status lines can get extremely complicated very quickly, so there's a better way
 to set them that will let us be more clear.  Run the following commands:
 
+    :::vim
     :set statusline=%f         " Path to the file
     :set statusline+=\ -\      " Separator
     :set statusline+=FileType: " Label
@@ -40,6 +43,7 @@ several months later).
 
 Run the following command:
 
+    :::vim
     :set statusline=%l    " Current line
     :set statusline+=/    " Separator
     :set statusline+=%L   " Total lines
@@ -53,6 +57,7 @@ Width and Padding
 Additional characters can be used in some of the various `%` codes to change how
 the information is displayed.  Run the following command:
 
+    :::vim
     :set statusline=%4l
 
 The line number in the status line will now be proceeded by enough spaces to
@@ -62,19 +67,23 @@ to prevent the text in the status line from shifting around distractingly.
 By default the padding spaces are added on the left side of the value.  Run this
 command:
 
+    :::vim
     :set statusline=Current:\ %4l\ Total:\ %4L
 
 Your status line will now look like this:
 
+    :::text
     Current:   12 Total:  223
 
 You can use `-` to place padding on the right instead of the left.  Run this
 command:
 
+    :::vim
     :set statusline=Current:\ %-4l\ Total:\ %-4L
 
 Your status line will now look like this:
 
+    :::text
     Current: 12   Total: 223 
 
 This looks much nicer because the numbers are next to their labels.
@@ -82,6 +91,7 @@ This looks much nicer because the numbers are next to their labels.
 For codes that result in a number you can tell Vim to pad with zeros instead of
 spaces.  Run the following command:
 
+    :::vim
     :set statusline=%04l
 
 Now your status line will read "0012" when on line twelve.
@@ -89,15 +99,18 @@ Now your status line will read "0012" when on line twelve.
 Finally, you can also set the maximum width of a code's output.  Run this
 command:
 
+    :::vim
     :set statusline=%F
 
 `%F` displays the *full* path to the current file.  Now run this command to
 change the maximum width:
 
+    :::vim
     :set statusline=%.20F
 
 The path will be truncated if necessary, looking something like this:
 
+    :::text
     <hapters/17.markdown
 
 This can be useful for preventing paths and other long codes from taking up the
@@ -108,6 +121,7 @@ General Format
 
 The general format for a code in a status line is shown in `:help statusline`:
 
+    :::text
     %-0{minwid}.{maxwid}{item}
 
 Everything except the `%` and the item is optional.
@@ -118,6 +132,7 @@ Splitting
 We'll come back to status lines later in the book, but there's one more simple
 code that can be very useful immediately.  Run the following commands:
 
+    :::vim
     :set statusline=%f         " Path to the file
     :set statusline+=%=        " Switch to the right side
     :set statusline+=%l        " Current line

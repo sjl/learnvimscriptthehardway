@@ -10,6 +10,7 @@ to map keys in insert and other modes in the next chapter.
 
 Type a few lines of text into a file, then run:
 
+    :::vim
     :map \ x
 
 Put your cursor somewhere in the text and press `\`.  Notice how Vim deleted the
@@ -18,6 +19,7 @@ character under the cursor, just like if you had pressed `x`.
 We already have a key for "delete that character under the cursor", so let's
 change that mapping to something slightly more useful.  Run this command:
 
+    :::vim
     :map \ dd
 
 Now put your cursor on a line somewhere and press `\` again.  This time Vim
@@ -29,6 +31,7 @@ Special Characters
 You can use `<keyname>` to tell Vim about special keys that are hard to type.
 Try running this command:
 
+    :::vim
     :map <space> viw
 
 Put your cursor on a word in your text and press the space bar.  Vim will
@@ -36,6 +39,7 @@ visually select the word.
 
 You can also map modifier keys like Ctrl and Alt.  Run this:
 
+    :::vim
     :map <c-d> dd
 
 Now pressing `Ctrl+d` on your keyboard will run `dd`.
@@ -46,6 +50,7 @@ Commenting
 Remember in the first lesson where we talked about comments?  Mapping keys is
 one of the places where Vim comments don't work.  Try running this command:
 
+    :::vim
     :map <space> viw " Use space to select a word
 
 If you try pressing `<space>` now, something horrible will almost certainly

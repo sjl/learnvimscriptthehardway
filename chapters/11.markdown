@@ -17,6 +17,7 @@ Mappings
 
 Switch to file `foo` and run the following commands:
 
+    :::vim
     :nnoremap          <leader>d dd
     :nnoremap <buffer> <leader>x dd
 
@@ -60,10 +61,12 @@ a per-buffer basis.
 
 Switch to file `foo` and run the following command:
 
+    :::vim
     :setlocal wrap
 
 Now switch to file `bar` and run this command:
 
+    :::vim
     :setlocal nowrap
 
 Make your Vim window smaller and you'll see that the lines in `foo` wrap, but
@@ -71,10 +74,12 @@ the lines in `bar` don't.
 
 Let's try another option.  Switch to `foo` and run this command:
 
+    :::vim
     :setlocal number
 
 Now switch over to `bar` and run this command:
 
+    :::vim
     :setlocal nonumber
 
 You now have line numbers in `foo` but not in `bar`.
@@ -88,6 +93,7 @@ Shadowing
 Before we move on, let's look at a particularly interesting property of local
 mappings.  Switch over to `foo` and run the following commands:
 
+    :::vim
     :nnoremap <buffer> Q x
     :nnoremap          Q dd
 

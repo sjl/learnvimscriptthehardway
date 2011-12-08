@@ -21,6 +21,7 @@ Mapping Key Sequences
 Unlike Emacs, Vim makes it easy to map more than just single keys.  Run these
 commands:
 
+    :::vim
     :nnoremap -d dd
     :nnoremap -c ddO
 
@@ -42,6 +43,7 @@ Leader
 Vim calls this "prefix" key "leader".  You can set your leader key to whatever
 you like.  Run this command:
 
+    :::vim
     :let mapleader = "-"
 
 You can replace `-` with any key you like.  I personally like `,` even though it
@@ -50,6 +52,7 @@ shadows a useful function, because it's very easy to type.
 When you're creating new mappings you can use `<leader>` to mean "whatever
 I have my leader key set to".  Run this command:
 
+    :::vim
     :nnoremap <leader>d dd
 
 Now try it out by pressing your leader key and then `d`.  Vim will delete the
@@ -78,6 +81,7 @@ Python files or HTML files.
 We'll talk about how to make mappings for specific types of files later in the
 book, but you can go ahead and set your "localleader" now:
 
+    :::vim
     :let maplocalleader = "\\"
 
 Notice that we have to use `\\` and not just `\` because `\` is the escape

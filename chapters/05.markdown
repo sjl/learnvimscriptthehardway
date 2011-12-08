@@ -8,6 +8,7 @@ will save time.  These work, but they have a downside.
 
 Run the following commands:
 
+    :::vim
     :nmap - dd
     :nmap \ -
 
@@ -26,6 +27,7 @@ Recursion
 
 Run this command:
 
+    :::vim
     :nmap dd O<esc>jddk
 
 You might think that this would change `dd` to:
@@ -77,6 +79,7 @@ Nonrecursive Mapping
 Vim offers another set of mapping commands that will *not* take mappings into
 account when they perform their actions.  Run these commands:
 
+    :::vim
     :nmap x dd
     :nnoremap \ x
 

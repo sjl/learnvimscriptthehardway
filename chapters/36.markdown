@@ -16,6 +16,7 @@ The first kind of loop is the `for` loop.  This may seem odd if you're used to
 Java, C or Javascript `for` loops, but turns out to be quite elegant.  Run the
 following commands:
 
+    :::vim
     :let c = 0
 
     :for i in [1, 2, 3, 4]
@@ -36,6 +37,7 @@ While Loops
 
 Vim also supports the classic `while` loop.  Run the following commands:
 
+    :::vim
     :let c = 1
     :let total = 0
 

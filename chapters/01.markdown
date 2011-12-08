@@ -9,6 +9,7 @@ new command you encounter to get a better understanding of how to use each one.
 
 Run the following command:
 
+    :::vim
     :echo "Hello, world!"
 
 You should see `Hello, world!` appear at the bottom of the window.
@@ -18,12 +19,14 @@ Persistent Echoing
 
 Now run the following command:
 
+    :::vim
     :echom "Hello again, world!"
 
 You should see `Hello again, world!` appear at the bottom of the window.
 
 To see the difference between these two commands, run one more new command:
 
+    :::vim
     :messages
 
 You should see a list of messages.  `Hello, world!` will *not* be in this list,
@@ -42,6 +45,7 @@ Before we move on we should mention comments.  When you write Vimscript code (in
 your `~/.vimrc` file or another one) you can add comments with the `"`
 character, like this:
 
+    :::vim
     " Make space more useful
     nnoremap <space> za
 

@@ -68,6 +68,7 @@ much faster.  We'll map this to `<leader>g` for now.
 We'll start with a skeleton of the mapping and fill it in as we go.  Run this
 command:
 
+    :::vim
     :nnoremap <leader> g :grep -R something .<cr>
 
 If you've read `:help grep` this should be pretty easy to understand.  We've
@@ -82,6 +83,7 @@ The Search Term
 First we need to search for the word under the cursor, not the string
 "something".  Run the following command:
 
+    :::vim
     :nnoremap <leader>g :grep -R <cword> .<cr>
 
 Now try it out.  `<cword>` is a special bit of text you can use in Vim's
@@ -90,6 +92,7 @@ before running the command.
 
 You can use `<cWORD>` to get a WORD instead of a word.  Run this command:
 
+    :::vim
     :nnoremap <leader>g :grep -R <cWORD> .<cr>
 
 Now try the mapping when your cursor is over something like "foo-bar".  Vim will
@@ -106,6 +109,7 @@ word contained a command more dangerous than `ls`.
 
 To try to fix this we'll quote the argument in the grep call.  Run this command:
 
+    :::vim
     :nnoremap <leader>g :grep -R '<cWORD>' .<cr>
 
 Most shells treat single-quoted text as (almost) literal, so our mapping is much
@@ -120,11 +124,13 @@ Because `shellescape()` works on Vim strings, we'll need to dynamically build
 the command with `execute`.  First run the following command to transform the
 `:grep` mapping into `:execute "..."` form:
 
+    :::vim
     :nnoremap <leader>g :execute "grep -R '<cWORD>' ."<cr>
 
 Try it out and make sure it still works.  If not, find any typos and fix them.
 Then run the following command, which uses `shellescape` to fix the search term:
 
+    :::vim
     :nnoremap <leader>g :execute "grep -R " . shellescape("<cWORD>") . " ."<cr>
 
 And now our mapping won't break if the word we're searching for happens to
@@ -142,12 +148,14 @@ finished.  First, we said that we don't want to go to the first result
 automatically, and we can use `grep!` instead of plain `grep` to do that.  Run
 this command:
 
+    :::vim
     :nnoremap <leader>g :execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>
 
 Try it out again and nothing will seem to happen.  Vim has filled the quickfix
 window with the results, but we haven't opened it yet.  Run the following
 command:
 
+    :::vim
     :nnoremap <leader>g :execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
 
 Now try the mapping and you'll see that Vim automatically opens the quickfix
@@ -157,6 +165,7 @@ of our mapping.
 As the finishing touch we'll remove all the grep output Vim displays while
 searching.  Run the following command:
 
+    :::vim
     :nnoremap <leader>g :silent execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
 
 We're done, so try it out and admire your hard work!  The `silent` command just

@@ -41,6 +41,7 @@ tutorial.
 First we need to set up folding for Vimscript files.  Add the following lines to
 your `~/.vimrc` file:
 
+    :::vim
     augroup filetype_vim
         au!
         au FileType vim setlocal foldmethod=marker
@@ -54,6 +55,7 @@ future you won't need to do it manually.
 
 Now lines before and after that autocommand group that look like this:
 
+    :::vim
     " Vimscript file settings ---------------------- {{{
     augroup filetype_vim
         au!
@@ -83,6 +85,7 @@ Short Names
 Vim allows you to use abbreviated names for most commands and options.  For
 example, both of these commands do exactly the same thing:
 
+    :::vim
     :setlocal wrap
     :setl wrap
 

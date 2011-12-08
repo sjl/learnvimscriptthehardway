@@ -6,6 +6,7 @@ how to create them, and then talk about some of their quirks.
 
 Run the following commands:
 
+    :::vim
     :function meow()
 
 You might think this would start defining a function named `Meow`.
@@ -20,24 +21,28 @@ Vimscript coders seem to do it, so don't break the convention.
 
 Okay, let's define a function for real this time.  Run the following commands:
 
+    :::vim
     :function Meow()
     :  echom "Meow!"
     :endfunction
 
 This time Vim will happily define the function.  Let's try running it:
 
+    :::vim
     :call Meow()
 
 Vim will display "Meow!" as expected.
 
 Let's try returning a value.  Run the following commands:
 
+    :::vim
     :function GetMeow()
     :  return "Meow String!"
     :endfunction
 
 Now try it out by running this command:
 
+    :::vim
     :echom GetMeow()
 
 Vim will call the function and give the result to `echom`, which will display
@@ -52,6 +57,7 @@ Vimscript.
 When you want to call a function directly you use the `call` command.  Run the
 following commands:
 
+    :::vim
     :call Meow()
     :call GetMeow()
 
@@ -62,6 +68,7 @@ function has side effects.
 The second way to call functions is in expressions.  You don't need to use
 `call` in this case, you can just name the function.  Run the following command:
 
+    :::vim
     :echom GetMeow()
 
 As we saw before, this calls `GetMeow` and passes the return value to `echom`.
@@ -71,6 +78,7 @@ Implicit Returning
 
 Run the following command:
 
+    :::vim
     :echom Meow()
 
 This will display two lines: "Meow!" and "0".  The first obviously comes from
@@ -78,6 +86,7 @@ the `echom` inside of `Meow`.  The second shows us that if a Vimscript function
 doesn't return a value, it implicitly return `0`.  Let's use this to our
 advantage.  Run the following commands:
 
+    :::vim
     :function TextwidthIsTooWide()
     :  if &l:numberwidth ># 80
     :    return 1
@@ -100,6 +109,7 @@ correct width for anything but HTML).
 
 Let's try using it.  Run the following commands:
 
+    :::vim
     :set textwidth=80
     :if TextwidthIsTooWide()
     :  echom "WARNING: Wide text!"
@@ -114,6 +124,7 @@ What did we do here?
 Because we never explicitly returned a value, Vim returned `0` from the
 function, which is falsy.  Let's try changing that.  Run the following commands:
 
+    :::vim
     :setlocal textwidth=100
     :if TextwidthIsTooWide()
     :  echom "WARNING: Wide text!"

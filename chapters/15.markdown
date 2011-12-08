@@ -11,6 +11,7 @@ movement would take you.
 
 Some examples of operators are `d`, `y`, and `c`.  For example:
 
+    :::text
            Operator
            vvvvvv
     dw   " Delete to next word
@@ -22,10 +23,12 @@ Some examples of operators are `d`, `y`, and `c`.  For example:
 Vim lets you create new movements that work with all existing commands.  Run the
 following command:
 
+    :::vim
     :onoremap p i(
 
 Now type the follow text into a buffer:
 
+    :::python
     return person.get_pets(type="cat", fluffy_only=True)
 
 Put your cursor on the word "cat" and type `dp`.  What happened?  Vim deleted
@@ -40,6 +43,7 @@ parentheses".
 We can use this new mapping immediately with all operators.  Type the same text
 as before into the buffer (or simply undo the change):
 
+    :::python
     return person.get_pets(type="cat", fluffy_only=True)
 
 Put your cursor on the word "cat" and type `cp`.  What happened?  Vim deleted
@@ -48,10 +52,12 @@ because you used "change" instead of "delete".
 
 Let's try another example.  Run the following command:
 
+    :::vim
     :onoremap b /return<cr>
 
 Now type the following text into a buffer:
 
+    :::python
     def count(i):
         i += 1
         print i
@@ -82,11 +88,13 @@ can do.
 Vim isn't in the habit of limiting what you can do, so of course there's a way
 around this problem.  Run the following command:
 
+    :::vim
     :onoremap in( :<c-u>normal! f(vi(<cr>
 
 This might look frightening, but let's try it out.  Enter the following text
 into the buffer:
 
+    :::python
     print foo(bar)
 
 Put your cursor somewhere in the word "print" and type `cin(`.  Vim will delete
@@ -99,6 +107,7 @@ current line.
 Let's make a companion "inside last parenthesis" ("previous" woud be a better
 word, but it would shadow the "paragraph" movement).  Run the following command:
 
+    :::vim
     :onoremap il( :<c-u>normal! F)vi(<cr>
 
 Try it out on some text of your own to make sure it works.
@@ -107,6 +116,7 @@ So how do these mappings work?  First, the `<c-u>` is something special that you
 can ignore for now -- just know that it needs to be there to make the mappings
 work in all cases.  If we remove that we're left with:
 
+    :::vim
     :normal! F)vi(<cr>
 
 `:normal!` is something we'll talk about in a later chapter, but for now it's
@@ -118,6 +128,7 @@ like pressing `dddd`.  The `<cr>` at the end of the mapping is what executes the
 So now we know that the mapping is essentially just running the last block of
 keys:
 
+    :::vim
     F)vi(
 
 This is fairly simple:

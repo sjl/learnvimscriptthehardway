@@ -6,6 +6,7 @@ manipulating text you'll be using this one quite a bit.
 
 Run the following command:
 
+    :::vim
     :echom "Hello"
 
 Vim will echo "Hello".  So far, so good.
@@ -16,6 +17,7 @@ Concatenation
 One of the most common things you'll want to do with strings is adding them
 together.  Run this command:
 
+    :::vim
     :echom "Hello, " + "world"
 
 What happened?  Vim displayed "0" for some reason!
@@ -24,6 +26,7 @@ Here's the issue: Vim's `+` operator is *only* for Numbers.  When you pass
 a string to `+` Vim will try to coerce it to a Number before performing the
 addition.  Run the following command:
 
+    :::vim
     :echom "3 mice" + "2 cats"
 
 This time Vim displays "5", because the strings are coerced to the numbers "3"
@@ -32,6 +35,7 @@ and "2" respectively.
 When I said "Number" I really *meant* Number.  Vim will *not* coerce strings to
 Floats!  Try this command to see prove this:
 
+    :::vim
     :echom 10 + "10.10"
 
 Vim displays "20" because it dropped everything after the decimal point when
@@ -40,6 +44,7 @@ coercing "10.10" to a Number.
 To combine strings you need to use the concatenation operator.  Run the
 following command:
 
+    :::vim
     :echom "Hello, " . "world"
 
 This time Vim displays "Hello, world".  `.` is the "concatenate strings"
@@ -48,12 +53,14 @@ anything else in between.
 
 Coercion works both ways.  Kind of.  Try this command:
 
+    :::vim
     :echom 10 . "foo"
 
 Vim will display "10foo".  First it coerces `10` to a String, then it
 concatenates it with the string on the right hand side.  Things get a bit
 stickier when we're working with Floats, though.  Run this command:
 
+    :::vim
     :echom 10.1 . "foo"
 
 This time Vim throws an error, saying we're using a Float as a String.  Vim will
@@ -75,23 +82,27 @@ Special Characters
 Like most programming languages, Vimscript lets you use escape sequences in
 strings to represent hard-to-type characters.  Run the following command:
 
+    :::vim
     :echom "foo \"bar\""
 
 The `\"` in the string is replaced with a double quote character, as you would
 probably expect.  Escape sequences work mostly as you would expect.  Run the
 following command:
 
+    :::vim
     :echom "foo\\bar"
 
 Vim displays `foo\bar`, because `\\` is the escape sequence for a literal
 backslash, just like in most programming languages.  Now run the following
 command (note that it's an `echo` and *not* an `echom`):
 
+    :::vim
     :echo "foo\nbar"
 
 This time Vim will display two lines, "foo" and "bar", because the `\n` is
 replaced with a newline.  Now try running this command:
 
+    :::vim
     :echom "foo\nbar"
 
 Vim will display something like "foo^@bar".  When you use `echom` with a String
@@ -105,12 +116,14 @@ Literal Strings
 Vim also lets you use "literal strings" to avoid excessive use of escape
 sequences.  Run the following command:
 
+    :::vim
     :echom '\n\\'
 
 Vim displays `\n\\`.  Using single quotes tells Vim that you want the string
 *exactly* as-in, with no escape sequences.  The one exception is that two single
 quotes in a row will produce a single single quote.  Try this command:
 
+    :::vim
     :echom 'That''s enough.'
 
 Vim will display "That's enough."  Two single quotes is the *only* sequence that
@@ -125,6 +138,7 @@ Truthiness
 You might be wondering how Vim treats strings when used in an `if` statement.
 Run the following command:
 
+    :::vim
     :if "foo"
     :  echo "yes"
     :else

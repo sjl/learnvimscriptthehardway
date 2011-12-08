@@ -8,12 +8,14 @@ expect, but Vim adds a certain twist to variables: scoping.
 Open two buffers in separate splits, then go into one of then and run the
 following commands:
 
+    :::vim
     :let b:hello = "world"
     :echo hello
 
 As expected, Vim displays "world".  Now switch to the other buffer and run the
 echo command again:
 
+    :::vim
     :echo hello
 
 This time Vim throws an error, saying it can't find the variable.

@@ -16,6 +16,7 @@ This isn't very nice to our users, so let's save the contents of that register
 before we yank and restore it after we've done.  Change the code to look like
 this:
 
+    :::vim
     nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
     vnoremap <leader>g :<C-U>call GrepOperator(visualmode())<cr>
 
@@ -57,6 +58,7 @@ better to be safe than sorry.
 We can avoid polluting the global namespace by tweaking a couple of lines in our
 code.  Edit the file to look like this:
 
+    :::vim
     nnoremap <leader>g :set operatorfunc=<SID>GrepOperator<cr>g@
     vnoremap <leader>g :<C-U>call <SID>GrepOperator(visualmode())<cr>
 

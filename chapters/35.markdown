@@ -8,11 +8,13 @@ lists.
 Vimscript lists are ordered, heterogeneous collections of elements.  Run the
 following command:
 
+    :::vim
     :echo ['foo', 3, 'bar']
 
 Vim displays the list.  Lists can of course be nested.  Run the following
 command:
 
+    :::vim
     :echo ['foo', [3, 'bar']]
 
 Vim happily displays the list.
@@ -23,11 +25,13 @@ Indexing
 Vimscript lists are zero-indexed, and you can get at the elements in the usual
 way.  Run this command:
 
+    :::vim
     :echo [0, [1, 2]][1]
 
 Vim displays "[1, 2]".  You can also index from the end of the list, much like
 Python.  Try this command:
 
+    :::vim
     :echo [0, [1, 2]][-2]
 
 Vim displays `0`.  The index `-1` refers to the last element in the list, `-2`
@@ -39,17 +43,20 @@ Slicing
 Vim lists can also be sliced.  This will *look* familiar to Python programmers,
 but it does *not* always act the same way!  Run this command:
 
+    :::vim
     :echo ['a', 'b', 'c', 'd', 'e'][0:2]
 
 Vim displays "['a', 'b', 'c']" (elements 0, 1 and 2).  You can safely exceed the
 upper bound as well.  Try this command:
 
+    :::vim
     :echo ['a', 'b', 'c', 'd', 'e'][0:100000]
 
 Vim simply displays the entire list.
 
 Slice indexes can be negative.  Try this command:
 
+    :::vim
     :echo ['a', 'b', 'c', 'd', 'e'][-2:-1]
 
 Vim displays "['d', 'e']" (elements -2 and -1).
@@ -57,6 +64,7 @@ Vim displays "['d', 'e']" (elements -2 and -1).
 When slicing lists you can leave off the first index to mean "the beginning"
 and/or the last index to mean "the end".  Run the following commands:
 
+    :::vim
     :echo ['a', 'b', 'c', 'd', 'e'][:1]
     :echo ['a', 'b', 'c', 'd', 'e'][3:]
 
@@ -65,6 +73,7 @@ Vim displays "['a', 'b']" and "['d', 'e']".
 Like Python, Vimscript allows you to index and slice strings too.  Run the
 following command:
 
+    :::vim
     :echo "abcd"[0:2]
 
 Vim displays "abc".
@@ -74,7 +83,8 @@ Concatenation
 
 You can combine Vim lists with `+`.  Try this command:
 
-    echo ['a', 'b'] + ['c']
+    :::vim
+    :echo ['a', 'b'] + ['c']
 
 Vim, unsurprisingly, displays "['a', 'b', 'c']".  There's not much else to say
 here -- Vimscript lists are surprisingly sane compared to the rest of the
@@ -86,6 +96,7 @@ List Functions
 Vim has a number of built-in functions for working with lists.  Run these
 commands:
 
+    :::vim
     :let foo = ['a']
     :call add(foo, 'b')
     :echo foo
@@ -93,10 +104,12 @@ commands:
 Vim mutates the list `foo` in-place to append `'b'` and displays "['a', 'b']".
 Now run this command:
 
+    :::vim
     :echo len(foo)
 
 Vim displays "2", the length of the list.  Try these commands:
 
+    :::vim
     :echo get(foo, 0, 'default')
     :echo get(foo, 100, 'default')
 
@@ -106,6 +119,7 @@ is out of range in the list.
 
 Run this command:
 
+    :::vim
     :echo index(foo, 'b')
     :echo index(foo, 'nope')
 
@@ -114,6 +128,7 @@ given item in the given list, or `-1` if the item is not in the list.
 
 Now run this command:
 
+    :::vim
     :echo join(foo)
     :echo join(foo, '---')
     :echo join([1, 2, 3], '')
@@ -124,6 +139,7 @@ none is given), coercing each item to a string if necessary/possible.
 
 Run the following commands:
 
+    :::vim
     :call reverse(foo)
     :echo foo
     :call reverse(foo)

@@ -7,6 +7,7 @@ expecially nice when we create a mapping for that command.
 
 Run the following command:
 
+    :::vim
     :nnoremap <leader>N :setlocal number!<cr>
 
 Try it out by pressing `<leader>N` in normal mode.  Vim will toggle the line
@@ -24,6 +25,7 @@ Let's start by creating a function that will toggle an option for us, and
 a mapping that will call it.  Put the following into your `~/.vimrc` file (or
 a separate file in `~/.vim/plugin/` if you prefer):
 
+    :::vim
     nnoremap <c-f> :call FoldColumnToggle()<cr>
 
     function! FoldColumnToggle()
@@ -37,6 +39,7 @@ foldcolumn` if you're unfamiliar with this option.
 Let's add in the actual toggling functionality.  Edit the code to look like
 this:
 
+    :::vim
     nnoremap <c-f> :call FoldColumnToggle()<cr>
 
     function! FoldColumnToggle()
@@ -64,6 +67,7 @@ Options aren't the only thing we might want to toggle.  One particularly nice
 thing to have a mapping for is the quickfix window.  Let's start with the same
 skeleton as before.  Add the following code to your file:
 
+    :::vim
     nnoremap <c-q> :call QuickfixToggle()<cr>
 
     function! QuickfixToggle()
@@ -74,6 +78,7 @@ This mapping doesn't do anything yet.  Let's transform it into something
 slightly more useful (but not completely finished yet).  Change the code to
 look like this:
 
+    :::vim
     nnoremap <c-q> :call QuickfixToggle()<cr>
 
     function! QuickfixToggle()
@@ -86,6 +91,7 @@ simply opens the quickfix window.
 To get the "toggling" behavior we're looking for we'll use a quick, dirty
 solution: a global variable.  Change the code to look like this:
 
+    :::vim
     nnoremap <c-q> :call QuickfixToggle()<cr>
 
     function! QuickfixToggle()
@@ -105,6 +111,7 @@ function.
 Write and source the file, and try to run the mapping.  Vim will complain that
 the variable is not defined yet!  Let's fix that by initializing it once:
 
+    :::vim
     nnoremap <c-q> :call QuickfixToggle()<cr>
 
     let g:quickfix_is_open = 0
@@ -152,6 +159,7 @@ you just want to check the quickfix window really quick and get back to working.
 To solve this we'll introduce an idiom that comes in handy a lot when writing
 Vim plugins.  Edit your code to look like this:
 
+    :::vim
     nnoremap <c-q> :call QuickfixToggle()<cr>
 
     let g:quickfix_is_open = 0

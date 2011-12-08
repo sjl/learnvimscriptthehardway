@@ -11,6 +11,7 @@ Dictionaries are created using curly brackets.  Values are heterogeneous, but
 
 Run this command:
 
+    :::vim
     :echo {'a': 1, 100: 'foo'}
 
 Vim displays `{'a': 1, '100': 'foo'}`, which shows that Vimscript does indeed
@@ -19,6 +20,7 @@ coerce keys to strings while leaving values alone.
 Vimscript avoids the stupidity of the Javascript standard and lets you use
 a comma after the last element in a dictionary.  Run the following command:
 
+    :::vim
     :echo {'a': 1, 100: 'foo',}
 
 Once again Vim displays `{'a': 1, '100': 'foo'}`.  You should *always* use the
@@ -31,10 +33,12 @@ Indexing
 To look up a key in a dictionary you use the same syntax as most languages.  Run
 this command:
 
+    :::vim
     :echo {'a': 1, 100: 'foo',}['a']
 
 Vim displays `1`.  Try it with a non-string index:
 
+    :::vim
     :echo {'a': 1, 100: 'foo',}[100]
 
 Vim coerces the index to a string before performing the lookup, which makes
@@ -44,6 +48,7 @@ Vimscript also supports the Javascript-style "dot" lookup when the key is
 a string consisting only of letters, digits and/or underscores.  Try the
 following commands:
 
+    :::vim
     :echo {'a': 1, 100: 'foo',}.a
     :echo {'a': 1, 100: 'foo',}.100
 
@@ -56,6 +61,7 @@ Assigning and Adding
 Adding entries to dictionaries is done by simply assigning them like variables.
 Run this command:
 
+    :::vim
     :let foo = {'a': 1}
     :let foo.a = 100
     :let foo.b = 200
@@ -70,6 +76,7 @@ Removing Entries
 There are two ways to remove entries from a dictionary.  Run the following
 commands:
 
+    :::vim
     :let test = remove(foo, 'a')
     :unlet foo.b
     :echo foo
@@ -82,6 +89,7 @@ the given key from the given dictionary and return the removed value.  The
 You cannot remove nonexistent entries from a dictionary.  Try running this
 command:
 
+    :::vim
     :unlet foo["asdf"]
 
 Vim throws an error.
@@ -97,6 +105,7 @@ Dictionary Functions
 Like lists, Vim has a number of built-in functions for working with
 dictionaries.  Run the following command:
 
+    :::vim
     :echom get({'a': 100}, 'a', 'default')
     :echom get({'a': 100}, 'b', 'default')
 
@@ -105,6 +114,7 @@ Vim displays `100` and `default`, just like the `get` function for lists.
 You can also check if a given key is present in a given dictionary.  Run this
 commands:
 
+    :::vim
     :echom has_key({'a': 100}, 'a')
     :echom has_key({'a': 100}, 'b')
 
@@ -114,6 +124,7 @@ other number as truthy.
 You can pull the key-value pairs out of a dictionary with `items`.  Run this
 command:
 
+    :::vim
     :echo items({'a': 100, 'b': 200})
 
 Vim will display a nested list that looks something like `[['a', 100], ['b',

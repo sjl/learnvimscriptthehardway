@@ -11,12 +11,14 @@ The first thing we need to talk about are variables.
 
 Run the following commands:
 
+    :::vim
     :let foo = "bar"
     :echo foo
 
 Vim will display "bar".  `foo` is now a variable, and we've assigned it
 a string: "bar".  Now run these commands:
 
+    :::vim
     :let foo = 42
     :echo foo
 
@@ -30,6 +32,7 @@ Options as Variables
 You can read and set *options* as variables by using a special syntax.  Run the
 following commands:
 
+    :::vim
     :set textwidth=80
     :echo &textwidth
 
@@ -39,11 +42,13 @@ name.
 
 Let's see how Vim works with boolean options.  Run the following commands:
 
+    :::vim
     :set nowrap
     :echo &wrap
 
 Vim displays "0".  Now try these commands:
 
+    :::vim
     :set wrap
     :echo &wrap
 
@@ -53,6 +58,7 @@ that Vim treats *any* non-zero integer as "truthy", and this is indeed the case.
 
 We can also *set* options as variables.  Run the following commands:
 
+    :::vim
     :let &textwidth = 100
     :set textwidth?
 
@@ -61,6 +67,7 @@ Vim will display "textwidth=100".
 Why would we want to do this when we could just use `set`? Run the following
 commands:
 
+    :::vim
     :let &textwidth = &textwidth + 10
     :set textwidth?
 
@@ -76,10 +83,12 @@ If you want to set the *local* value of an option as a variable, instead of the
 
 Open two files in separate splits.  Run the following command:
 
+    :::vim
     :let &l:number = 1
 
 Now switch to the other file and run this command:
 
+    :::vim
     :let &l:number = 0
 
 Notice that the first window has line numbers and the second does not.
@@ -89,6 +98,7 @@ Registers as Variables
 
 You can also read and set *registers* as variables.  Run the following command:
 
+    :::vim
     :let @a = "hello!"
 
 Now put your cursor somewhere in your text and type `"ap`.  This command tells
@@ -97,12 +107,14 @@ that register, so Vim pastes "hello!" into your text.
 
 Registers can also be read.  Run the following command:
 
+    :::vim
     :echo @a
 
 Vim will echo "hello!".
 
 Select a word in your file and yank it with `y`, then run this command:
 
+    :::vim
     :echo @"
 
 Vim will echo the word you just yanked.  The `"` register is the "unnamed"
@@ -110,6 +122,7 @@ register, which is where text you yank without specifying a destination will go.
 
 Perform a search in your file with `/someword`, then run the following command:
 
+    :::vim
     :echo @/
 
 Vim will echo the search pattern you just used.  This lets you programmatically

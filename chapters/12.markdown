@@ -15,6 +15,7 @@ time.
 Let's change it so that Vim creates files as soon as you edit them.  Run the
 following command:
 
+    :::vim
     :autocmd BufNewFile * :write
 
 This is a lot to take in, but try it out and see that it works.  Run `:edit foo`
@@ -29,6 +30,7 @@ Autocommand Structure
 
 Let's take a closer look at the autocommand we just created:
 
+    :::text
     :autocmd BufNewFile * :write
              ^          ^ ^
              |          | |
@@ -55,6 +57,7 @@ The next part of the command is a "pattern" that lets you be more specific about
 when you want the command to fire.  Start up a new Vim instance and run the
 following command:
 
+    :::vim
     :autocmd BufNewFile *.txt :write
 
 This is almost the same as the last command, but this time it will only apply to
@@ -76,6 +79,7 @@ Another Example
 Let's define another autocommand, this time using a different event.  Run the
 following command:
 
+    :::vim
     :autocmd BufWrite *.html :normal gg=G
 
 We're getting a bit ahead of ourselves here because we're going to talk about
@@ -85,6 +89,7 @@ tough to come up with useful examples at this point.
 Create a new file called `foo.html`.  Edit it with Vim and enter the following
 text *exactly*, including the whitespace:
 
+    :::html
     <html>
     <body>
      <p>Hello!</p>
@@ -111,6 +116,7 @@ Multiple Events
 You can create a single autocommand bound to *multiple* events by separating the
 events with a comma.  Run this command:
 
+    :::vim
     :autocmd BufWrite,BufRead *.html :normal gg=G
 
 This is almost like our last command, except it will also reindent the code
@@ -121,6 +127,7 @@ A common idiom in Vim scripting is to pair the `BufRead` and `BufNewFile` events
 together to run a command whenever you open a certain kind of file, regardless
 of whether it happens to exist already or not.  Run the following command:
 
+    :::vim
     :autocmd BufNewFile,BufRead *.html setlocal nowrap
 
 This will turn line wrapping off whenever you're working on an HTML file.
@@ -134,6 +141,7 @@ whenever Vim sets a buffer's `filetype`.
 Let's set up a few useful mappings for a variety of file types.  Run the
 following commands:
 
+    :::vim
     :autocmd FileType javascript nnoremap <buffer> <localleader>c I//
     :autocmd FileType python     nnoremap <buffer> <localleader>c I#
 

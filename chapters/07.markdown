@@ -22,6 +22,7 @@ Editing Mapping
 Lets add a mapping that will open our `~/.vimrc` file in a split so we can edit
 it and get back to coding.  Run this command:
 
+    :::vim
     :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 I like to think of this command as "**e**dit my **v**imrc file".
@@ -94,6 +95,7 @@ which is a pain.
 
 Let's add a mapping to make this easier:
 
+    :::vim
     :nnoremap <leader>sv :source $MYVIMRC<cr>
 
 I like to think of this command as "**s**ource my **v**imrc file".
