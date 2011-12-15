@@ -47,9 +47,9 @@
 ** DONE plugin layout
 ** DONE pathogen
 ** DONE ftdetect
-** TODO syntax
-** TODO autoload
+** DONE syntax
 ** TODO folding
+** TODO autoload
 ** TODO compilers
 *** makeprg
 *** errorformat

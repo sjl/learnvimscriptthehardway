@@ -1,0 +1,126 @@
+Basic Folding
+=============
+
+If you've never used code folding in Vim, you don't know what you're missing.
+Read `:help usr_28` and spend some time playing around with it in your normal
+work.  Come back to this chapter once you've got it in your fingers.
+
+Types of Folding
+----------------
+
+Vim supports six different ways of defining how your text should be folded.
+
+### Manual
+
+You create the folds by hand and they're stored in RAM by Vim.  When you close
+Vim they go away and you have to recreate them the next time you edit the file.
+
+This method can be handy if you combine it with some custom mappings to make it
+easy to create folds.  We won't do that in this book, but keep it in the back
+of your mind in case you run across a case where it could be handy.
+
+### Marker
+
+Vim folds your code based on characters in the actual text.
+
+Usually these characters are put in comments (like `// {{{`), but in some
+languages you can get away with using something in the language's syntax itself,
+like `{` and `}` in Javascript files.
+
+It may seem ugly to clutter up your code with comments that are purely for your
+text editor, but the advantage is that it lets you hand-craft folds for
+a specific file.  This can be really nice if you're working with a large file
+that you want to organize in a very specific way.
+
+### Diff
+
+A special folding mode used when diff'ing files.  We won't talk about this one
+at all because Vim automatically handles it.
+
+### Expr
+
+This lets you use a custom piece of Vimscript to define where folds occur.  It's
+the most powerful method, but also requires the most work.  We'll talk about
+this in the next chapter.
+
+### Indent
+
+Vim uses your code's indentation to determine folds.  Lines at the same
+indentation level fold together, and lines with only whitespace (and blank
+lines) are simply folded with their neighbors.
+
+This is essentially free to use because your code is already indented; all you
+have to do is turn it on.  This will be our first method of adding folding to
+Potion files.
+
+Potion Folding
+--------------
+
+Let's take a look at our sample Potion file once again:
+
+    :::text
+    factorial = (n):
+        total = 1
+        n to 1 (i):
+            total *= i.
+        total.
+
+    10 times (i):
+        i string print
+        '! is: ' print
+        factorial (i) string print
+        "\n" print.
+
+The bodies of the function and loop are both indented.  This means we can get
+some basic folding with very little effort by using indent folding.
+
+Create an `ftplugin` folder in your Potion plugin's repository, and create
+a `potion.vim` file inside of it.
+
+Remember that Vim will run the code in this file whenever it sets a buffer's
+`filetype` to `potion` (because it's named `potion.vim`).
+
+Add the following line to this file:
+
+    :::vim
+    setlocal foldmethod=indent
+
+Close Vim and open the `factorial.pn` file again.  It may or may not be folded
+immediately, but go ahead and try folding and unfolding the indented blocks.
+
+One line of Vimscript gave us some useful folding!  That's pretty cool!
+
+Let's add one more line to the `ftplugin/potion.vim` file to make Vim
+automatically fold everything whenever we open a Potion file:
+
+    :::vim
+    setlocal foldlevel=0
+
+Close and reopen your example file and now the folds will all be closed (if they
+weren't already).
+
+Exercises
+---------
+
+Read `:help foldmethod`.
+
+Read `:help fold-manual`.
+
+Read `:help fold-marker` and `:help foldmarker`.
+
+Read `:help fold-indent`.
+
+Read `:help fdl` and `:help foldlevelstart`.
+
+Read `:help foldminlines`.
+
+Add a line to `ftplugin/potion.vim` that uses `foldminlines` to allow
+single-line blocks to be "folded", for consistency.  Make sure it works on the
+`total *= i.` line of the example file.
+
+Some people might not want to automatically fold everything when they open
+a Potion file.  We want our plugin to be useful to everyone, so remove the
+`foldlevel` line from `ftplugin/potion.vim`.
+
+Add a `Filetype` autocommand to your `~/.vimrc` file that sets `foldlevel` to
+0 to replace the line we removed from the plugin.
