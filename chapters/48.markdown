@@ -74,30 +74,60 @@ Let's take a look at our sample Potion file once again:
 The bodies of the function and loop are both indented.  This means we can get
 some basic folding with very little effort by using indent folding.
 
+Before we start, go ahead and add a comment above the `total *= i.` line so we
+have a nice multiple-line inner block to test with.  You'll learn why we need to
+do this when you do the exercises, but for now just trust me.  The file should
+now look like this:
+
+    :::text
+    factorial = (n):
+        total = 1
+        n to 1 (i):
+            # Multiply the running total.
+            total *= i.
+        total.
+
+    10 times (i):
+        i string print
+        '! is: ' print
+        factorial (i) string print
+        "\n" print.
+
 Create an `ftplugin` folder in your Potion plugin's repository, and create
-a `potion.vim` file inside of it.
+a `potion` folder inside that.  Finally, create a `folding.vim` file inside of
+*that*.
 
 Remember that Vim will run the code in this file whenever it sets a buffer's
-`filetype` to `potion` (because it's named `potion.vim`).
+`filetype` to `potion` (because it's in a folder named `potion`).
+
+Putting all folding-related code into its own file is generally a good idea and
+will help us keep the various functionality of our plugin organized.
 
 Add the following line to this file:
 
     :::vim
     setlocal foldmethod=indent
 
-Close Vim and open the `factorial.pn` file again.  It may or may not be folded
-immediately, but go ahead and try folding and unfolding the indented blocks.
+Close Vim and open the `factorial.pn` file again.  Play around with the new
+folding with `zR`, `zM`, and `za`.
 
 One line of Vimscript gave us some useful folding!  That's pretty cool!
 
-Let's add one more line to the `ftplugin/potion.vim` file to make Vim
-automatically fold everything whenever we open a Potion file:
+You might notice that the lines inside the inner loop of the `factorial`
+function aren't folded even though they're indented.  What's going on?
+
+It turns out that by default Vim will ignore lines beginning with a `#`
+character when using `indent` folding.  This works great when editing C files
+(where `#` signals a preprocessor directive) but isn't very helpful when you're
+editing other types of files.
+
+Let's add one more line to the `ftplugin/potion/folding.vim` file to fix this:
 
     :::vim
-    setlocal foldlevel=0
+    setlocal foldmethod=indent
+    setlocal foldignore=
 
-Close and reopen your example file and now the folds will all be closed (if they
-weren't already).
+Close and reopen `factorial.pn` and now the inner block will be folded properly.
 
 Exercises
 ---------
@@ -114,13 +144,4 @@ Read `:help fdl` and `:help foldlevelstart`.
 
 Read `:help foldminlines`.
 
-Add a line to `ftplugin/potion.vim` that uses `foldminlines` to allow
-single-line blocks to be "folded", for consistency.  Make sure it works on the
-`total *= i.` line of the example file.
-
-Some people might not want to automatically fold everything when they open
-a Potion file.  We want our plugin to be useful to everyone, so remove the
-`foldlevel` line from `ftplugin/potion.vim`.
-
-Add a `Filetype` autocommand to your `~/.vimrc` file that sets `foldlevel` to
-0 to replace the line we removed from the plugin.
+Read `:help foldignore`.

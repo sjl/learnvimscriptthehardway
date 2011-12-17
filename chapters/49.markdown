@@ -1,0 +1,758 @@
+Advanced Folding
+================
+
+In the last chapter we used Vim's `indent` folding to add some quick and dirty
+folding to Potion files.
+
+Open `factorial.pn` and make sure all the folds are closed with `zM`.  The file
+should now look something like this:
+
+    :::text
+    factorial = (n):
+    +--  5 lines: total = 1
+
+    10 times (i):
+    +--  4 lines: i string print
+
+Toggle the first fold and it will look like this:
+
+    :::text
+    factorial = (n):
+        total = 1
+        n to 1 (i):
+    +---  2 lines: # Multiply the running total.
+        total.
+
+    10 times (i):
+    +--  4 lines: i string print
+
+This is pretty nice, but I personally prefer to fold the first line of a block
+with its contents.  In this chapter we'll write some custom folding code, and
+when we're done our folds will look like this:
+
+    :::text
+    factorial = (n):
+        total = 1
+    +---  3 lines: n to 1 (i):
+        total.
+
+    +--  5 lines: 10 times (i):
+
+This is more compact and (to me) easier to read.  If you prefer the `indent`
+method that's okay, but do this chapter anyway just to get some practice writing
+Vim folding expressions.
+
+Folding Theory
+--------------
+
+When writing custom folding code it helps to have an idea of how Vim "thinks" of
+folding.  Here are the rules in a nutshell:
+
+* Each line of code in a file has a "foldlevel".  This is always either zero or
+  a positive integer.
+* Lines with a foldlevel of zero are *never* included in any fold.
+* Adjacent lines with the same foldlevel are folded together.
+* If a fold of level X is closed, any subsequent lines with a foldlevel greater
+  than or equal to X are folded along with it until you reach a line with
+  a level less than X.
+
+It's easiest to get a feel for this with an example.  Open a Vim window and
+paste the following text into it.
+
+    :::text
+    a
+        b
+        c
+            d
+            e
+        f
+    g
+
+Turn on `indent` folding by running the following command:
+
+    :::vim
+    :setlocal foldmethod=indent
+
+Play around with the folds for a minute to see how they behave.
+
+Now run the following command to view the foldlevel of line 1:
+
+    :::vim
+    :echom foldmethod(1)
+
+Vim will display `0`.  Now let's find the foldlevel of line 2:
+
+    :::vim
+    :echom foldmethod(2)
+
+Vim will display `1`.  Let's try line 3:
+
+    :::vim
+    :echom foldmethod(3)
+
+Once again Vim displays `1`.  This means that lines 2 and 3 are part of a level
+1 fold.
+
+Here are the foldlevels for each line:
+
+    :::text
+    a           0
+        b       1
+        c       1
+            d   2
+            e   2
+        f       1
+    g           0
+
+Reread the rules at the beginning of this section.  Open and close each fold in
+this file, look at the foldlevels, and make sure you understand why the folds
+behave as they do.
+
+Once you're confident that you understand how every line's foldlevel works to
+create the folding structure, move on to the next section.
+
+
+First: Make a Plan
+------------------
+
+Before we dive into writing code, let's try to sketch out some rough "rules" for
+our folding.
+
+First, lines that are indented should be folded together.  We also want the
+*previous* line folded with them, so that something like this:
+
+    :::text
+    hello = (name):
+        'Hello, ' print
+        name print.
+
+Will fold like this:
+
+    :::text
+    +--  3 lines: hello = (name):
+
+Blank lines should be at the same level as *later* lines, so blank lines at the
+end of a fold won't be included in it.  This means that this:
+
+    :::text
+    hello = (name):
+        'Hello, ' print
+        name print.
+
+    hello('Steve')
+
+Will fold like this:
+
+    :::text
+    +--  3 lines: hello = ():
+
+    hello('Steve')
+
+And *not* like this:
+
+    :::text
+    +--  4 lines: hello = ():
+    hello('Steve')
+
+These rules are a matter of personal preference, but for now this is the way
+we're going to implement folding.
+
+Getting Started
+---------------
+
+Let's get started on our custom folding code by opening Vim with two splits.
+One should contain our `ftplugin/potion/folding.vim` file, and the other should
+contain our sample `factorial.pn`.
+
+In the previous chapter we closed and reopened Vim to make our changes to
+`folding.vim` take effect, but it turns out there's an easier way to do that.
+
+Remember that any files inside `ftplugin/potion/` will be run whenever the
+`filetype` of a buffer is set to `potion`.  This means you can simply run `:set
+ft=potion` in the split containing `factorial.pn` and Vim will reload the
+folding code!
+
+This is much faster than closing and reopening the file every time.  The only
+thing you need to remember is that you have to *save* `folding.vim` to disk,
+otherwise your unsaved changes won't be taken into account.
+
+Expr Folding
+------------
+
+We're going to use Vim's `expr` folding to give us unlimited flexibility in how
+our code is folded.
+
+We can go ahead and remove the `foldignore` from `folding.vim` because it's only
+relevant when using `indent` folding.  We also want to tell Vim to use `expr`
+folding, so change the contents of `folding.vim` to look like this:
+
+    :::vim
+    setlocal foldmethod=expr
+    setlocal foldexpr=GetPotionFold(v:lnum)
+
+    function! GetPotionFold(lnum)
+        return '0'
+    endfunction
+
+The first line simply tells Vim to use `expr` folding.
+
+The second line defines the expression Vim should use to get the foldlevel of
+a line.  When Vim runs the expression it will set `v:lnum` to the line number of
+the line it wants to know about.  Our expression will call a custom function
+with this number as an argument.
+
+Finally we define a dummy function that simply returns `'0'` for every line.
+Note that it's returning a String and not an Integer.  We'll see why shortly.
+
+Go ahead and reload the folding code by saving `folding.vim` and running `:set
+ft=potion` in `factorial.pn`.  Our function returns `'0'` for every line, so
+Vim won't fold anything at all.
+
+Blank Lines
+-----------
+
+Let's take care of the special case of blank lines first.  Modify the
+`GetPotionFold` function to look like this:
+
+    :::vim
+    function! GetPotionFold(lnum)
+        if getline(a:lnum) =~? '\v^\s*$'
+            return '-1'
+        endif
+
+        return '0'
+    endfunction
+
+We've added an `if` statement to take care of the blank lines.  How does it
+work?
+
+First we use `getline(a:lnum)` to get the content of the current line as
+a String.
+
+We compare this to the regex `\v^\s*$`.  Remember that `\v` turns on "very
+magic" ("sane") mode.  This regex will match "beginning of line, any number
+of whitespace characters, end of line".
+
+The comparison is using the case-insensitive match operator `=~?`.  Technically
+we don't have to be worried about case since we're only matching whitespace, but
+I prefer to be more explicit when using comparison operators on Strings.  You
+can use `=~` instead if you prefer.
+
+If you need a refresher on using regular expressions in Vim you should go back
+and reread the "Basic Regular Expressions" chapter and the chapters on the "Grep
+Operator".
+
+If the current line has some non-whitespace characters it won't match and we'll
+just return `'0'` as before.
+
+If the current line *does* match the regex (i.e. is it's empty or just
+whitespace) we return the string `'-1'`.
+
+Earlier I said that a line's foldlevel can be zero or a positive integer, so
+what's happening here?
+
+Special Foldlevels
+------------------
+
+Your custom folding expression can return a foldlevel directly, or return one of
+a few "special" strings that tell Vim how to fold the line without directly
+specifying its level.
+
+`'-1'` is one of these special strings.  It tells Vim that the level of this
+line is "undefined".  Vim will interpret this as "the foldlevel of this line is
+equal to the foldlevel of the line above or below it, whichever is smaller".
+
+This isn't *exactly* what our plan called for, but we'll see that it's close
+enough and will do what we want.
+
+Vim can "chain" these undefined lines together, so if you have two in a row
+followed by a line at level 1, it will set the last undefined line to 1, then
+the next to last to 1, then the first to 1.
+
+When writing custom folding code you'll often find a few types of line that you
+can easily set a specific level for.  Then you'll use `'-1'` (and some other
+special foldlevels we'll see soon) to "cascade" the proper folding levels to the
+rest of the file.
+
+If you reload the folding code for `factorial.pn` Vim *still* won't fold any
+lines together.  This is because all the lines have a foldlevel of either zero
+or "undefined".  The level `0` will "cascade" through the undefined lines and
+eventually all the lines will have their foldlevel set to `0`.
+
+An Indentation Level Helper
+---------------------------
+
+To tackle non-blank lines we'll need to know their indentation level, so let's
+create a small helper function to calculate it for us.  Add the following
+function above `GetPotionFold`:
+
+    :::vim
+    function! IndentLevel(lnum)
+        return indent(a:lnum) / &shiftwidth
+    endfunction
+
+Reload the folding code.  Test out your function by running the following
+command in the `factorial.pn` buffer:
+
+    :::vim
+    :echom IndentLevel(1)
+
+Vim displays `0` because line 1 is not indented.  Now try it on line 2:
+
+    :::vim
+    :echom IndentLevel(2)
+
+This time Vim displays `1`.  Line two has 4 spaces at the beginning, and
+`shiftwidth` is set to 4, so 4 divided by 4 is 1.
+
+`IndentLevel` is fairly straightforward.  The `indent(a:lnum)` returns the
+number of spaces at the beginning of the given line number.  We divide that by
+the `shiftwidth` of the buffer to get the indentation level.
+
+Why did we use `&shiftwidth` instead of just dividing by 4?  If someone prefers
+two-space indentation in their Potion files, dividing by 4 would produce an
+incorrect result.  We use the `shiftwidth` setting to allow for any number of
+spaces per level.
+
+One More Helper
+---------------
+
+It might not be obvious where to go from here.  Let's stop and think about what
+type of information we need to have to figure out how to fold a non-blank line.
+
+We need to know the indentation level of the line itself.  We've got that
+covered with the `IndentLevel` function, so we're all set there.
+
+We'll also need to know the indentation level of the *next non-blank line*,
+because we want to fold the "header" lines with their indented bodies.
+
+Let's write a helper function to get the number of the next non-blank line after
+a given line.  Add the following function above `IndentLevel`:
+
+    :::vim
+    function! s:NextNonBlankLine(lnum)
+        let numlines = line('$')
+        let current = a:lnum + 1
+
+        while current <= numlines
+            if getline(current) =~? '\v\S'
+                return current
+            endif
+
+            let current += 1
+        endwhile
+
+        return -2
+    endfunction
+
+This function is a bit longer, but is pretty simple.  Let's take it
+piece-by-piece.
+
+First we store the total number of lines in the file with `line('$')`.  Check
+out the documentation for `line()` to see how this works.
+
+Next we set the variable `current` to the number of the next line.
+
+We then start a loop that will walk through each line in the file.
+
+If the line matches the regex `\v\S`, which means "match a character that's
+*not* a whitespace character", then it must be non-blank, so we should return
+its line number.
+
+If the line doesn't match, we loop around to the next one.
+
+If the loop gets all the way to the end of the file without ever returning, then
+there are *no* non-blank lines after the current line!  We return `-2` if that
+happens to indicate this.  `-2` isn't a valid line number, so it's an easy way
+to say "sorry, there's no valid result".
+
+We could have returned `-1`, because that's not a valid line number either.
+I could have even picked `0`, since line numbers in Vim start at `1`!  So why
+did I pick `-2`, which seems like a strange choice?
+
+I chose `-2` because we're working with folding code, and `'-1'` (and `'0'`) is
+a special Vim foldlevel string.
+
+When my eyes are reading over this file and I see a `-1` my brain immediately
+thinks "undefined foldlevel".  The same is true with `0`.  I picked `-2` here
+simply to make it obvious that it's *not* a foldlevel, but is instead an
+"error".
+
+If this feels weird to you, you can safely change the `-2` to a `-1` or a `0`.
+It's just a coding style preference.
+
+Finishing the Fold Function
+---------------------------
+
+This is turning out to be quite a long chapter, so let's wrap up the folding
+function.  Change `GetPotionFold` to look like this:
+
+    :::vim
+    function! GetPotionFold(lnum)
+        if getline(a:lnum) =~? '\v^\s*$'
+            return '-1'
+        endif
+
+        let this_indent = IndentLevel(a:lnum)
+        let next_indent = IndentLevel(NextNonBlankLine(a:lnum))
+
+        if next_indent == this_indent
+            return this_indent
+        elseif next_indent < this_indent
+            return this_indent
+        elseif next_indent > this_indent
+            return '>' . next_indent
+        endif
+    endfunction
+
+That's a lot of new code!  Let's step through it to see how it all works.
+
+### Blanks
+
+First we have our check for blank lines.  Nothing's changed there.
+
+If we get past that check we know we're looking at a non-blank line.
+
+### Finding Indentation Levels
+
+Next we use our two helper functions to get the indent level of the current
+line, and the indent level of the next non-blank line.
+
+You might wonder what happens if `NextNonBlankLine` returns our error condition
+of `-2`.  If that happens, `indent(-2)` will be run.  Running `indent()` on
+a nonexistent line number will just return `-1`.  Go ahead and try it yourself
+with `:echom indent(-2)`.
+
+`-1` divided by any `shiftwidth` larger than `1` will return `0`.  This may seem
+like a problem, but it turns out that it won't be.  For now, don't worry about
+it.
+
+### Equal Indents
+
+Now that we have the indentation levels of the current line and the next
+non-blank line, we can compare them and decide how to fold the current line.
+
+Here's the `if` statement again:
+
+    :::vim
+    if next_indent == this_indent
+        return this_indent
+    elseif next_indent < this_indent
+        return this_indent
+    elseif next_indent > this_indent
+        return '>' . next_indent
+    endif
+
+First we check if the two lines have the same indentation level.  If they do, we
+simply return that indentation level as the foldlevel!
+
+An example of this would be:
+
+    :::text
+    a
+    b
+        c
+        d
+    e
+
+If we're looking at the line containing "c", it has an indentation level of 1.
+This is the same as the level of the next non-blank line ("d"), so we return `1`
+as the foldlevel.
+
+If we're looking at "a", it has an indentation level of 0.  This is the same as
+the level of the next non-blank line ("b"), so we return `0` as the foldlevel.
+
+This case fills in two foldlevels in this simple example:
+
+    :::text
+    a       0
+    b       ?
+        c   1
+        d   ?
+    e       ?
+
+By pure luck this also handles the special "error" case of the last line as
+well!  Remember we said that `next_indent` will be `0` if our helper function
+returns `-2`.
+
+In this example the line "e" has an indent level of `0`, and `next_indent` will
+also be set to `0`, so this case matches and returns `0`.  The foldlevels now
+look like this:
+
+    :::text
+    a       0
+    b       ?
+        c   1
+        d   ?
+    e       0
+
+### Lesser Indent Levels
+
+Once again, here's the `if` statement:
+
+    :::vim
+    if next_indent == this_indent
+        return this_indent
+    elseif next_indent < this_indent
+        return this_indent
+    elseif next_indent > this_indent
+        return '>' . next_indent
+    endif
+
+The second part of the `if` checks if the indentation level of the next line is
+*smaller* than the current line.  This would be like line "d" in our example.
+
+If that's the case, we once again return the indentation level of the current
+line.
+
+Now our example looks like this:
+
+    :::text
+    a       0
+    b       ?
+        c   1
+        d   1
+    e       0
+
+You could, of course, combine these two cases with `&&`, but I prefer to keep
+them separate to make it more explicit.  You might feel differently.  It's
+a style issue.
+
+Again, purely by luck, this case handles the other possible "error" case of our
+helper function.  Imagine that we have a file like this:
+
+    :::text
+    a
+        b
+        c
+
+The first case takes care of line "b":
+
+    :::text
+    a       ?
+        b   1
+        c   ?
+
+Line "c" is the last line, and it has an indentation level of 1.  The
+`next_indent` will be set to `0` thanks to our helper functions.  The second
+part of the `if` matches and sets the foldlevel to the current indentation
+level, or `1`:
+
+    :::text
+    a       ?
+        b   1
+        c   1
+
+This works out great, because "b" and "c" will be folded together.
+
+### Greater Indentation Levels
+
+Here's that tricky `if` statement for the last time:
+
+    :::vim
+    if next_indent == this_indent
+        return this_indent
+    elseif next_indent < this_indent
+        return this_indent
+    elseif next_indent > this_indent
+        return '>' . next_indent
+    endif
+
+And our example file:
+
+    :::text
+    a       0
+    b       ?
+        c   1
+        d   1
+    e       0
+
+The only line we haven't figured out is "b", because:
+
+* "b" has an indent level of `0`.
+* "c" has an indent level of `1`.
+* 1 is not equal to 0, nor is 1 less than 0.
+
+The last case checks if the next line has a *larger* indentation level than the
+current one.
+
+This is the case that Vim's `indent` folding gets wrong, and it's the entire
+reason we're writing this custom folding in the first place!
+
+The final case says that when the next line is indented more than the current
+one, it should return a string of a `>` character and the indentation level of
+the *next* line.  What the heck is *that*?
+
+Returning a string like `>1` from the fold expression is another one of Vim's
+"special" foldlevels.  It tells Vim that the current line should *open* a fold
+of the given level.
+
+In this simple example we could have simply returned the number, but we'll see
+why this is important shortly.
+
+In this case line "b" will open a fold at level 1, which makes our example look
+like this:
+
+    :::text
+    a       0
+    b       >1
+        c   1
+        d   1
+    e       0
+
+That's exactly what we want!  Hooray!
+
+Review
+------
+
+If you've made it this far you should feel proud of yourself.  Even simple
+folding code like this can be tricky and mind bending.
+
+Before we end, let's go through our original `factorial.pn` code and see how our
+folding expression fills in the foldlevels of its lines.
+
+Here's `factorial.pn` for reference:
+
+    :::text
+    factorial = (n):
+        total = 1
+        n to 1 (i):
+            # Multiply the running total.
+            total *= i.
+        total.
+
+    10 times (i):
+        i string print
+        '! is: ' print
+        factorial (i) string print
+        "\n" print.
+
+First, set any blank lines' foldlevels will be set to undefined:
+
+    :::text
+    factorial = (n):
+        total = 1
+        n to 1 (i):
+            # Multiply the running total.
+            total *= i.
+        total.
+                                             undefined
+    10 times (i):
+        i string print
+        '! is: ' print
+        factorial (i) string print
+        "\n" print.
+
+Any lines where the next line's indentation is *equal* to its own are set to its
+own level:
+
+    :::text
+    factorial = (n):
+        total = 1                            1
+        n to 1 (i):
+            # Multiply the running total.    2
+            total *= i.
+        total.
+                                             undefined
+    10 times (i):
+        i string print                       1
+        '! is: ' print                       1
+        factorial (i) string print           1
+        "\n" print.                          1
+
+The same thing happens when the next line's indentation is *less* than the
+current line's: 
+
+    :::text
+    factorial = (n):
+        total = 1                            1
+        n to 1 (i):
+            # Multiply the running total.    2
+            total *= i.                      2
+        total.                               1
+                                             undefined
+    10 times (i):
+        i string print                       1
+        '! is: ' print                       1
+        factorial (i) string print           1
+        "\n" print.                          1
+
+The last case is when the next line's indentation is *greater* than the current
+line's.  When that happens the line's foldlevel is set to *open* a fold of the
+*next* line's foldlevel:
+
+    :::text
+    factorial = (n):                         >1
+        total = 1                            1
+        n to 1 (i):                          >2
+            # Multiply the running total.    2
+            total *= i.                      2
+        total.                               1
+                                             undefined
+    10 times (i):                            >1
+        i string print                       1
+        '! is: ' print                       1
+        factorial (i) string print           1
+        "\n" print.                          1
+
+Now we've got a foldlevel for every line in the file.  All that's left is for
+Vim to resolve any undefined lines.
+
+Earlier I said that undefined lines will take on the smallest foldlevel of
+either of their neighbors.
+
+That's how Vim's manual describes it, but it's not entirely accurate.  If that
+were the case, the blank line in our file would take foldlevel 1, because both
+of its neighbors have a foldlevel of 1.
+
+In reality, the blank line will be given a foldlevel of 0!
+
+The reason for this is that we didn't just set the `10 times (i):` line to
+foldlevel `1` directly.  We told Vim that the line *opens* a fold of level `1`.
+Vim is smart enough to know that this means the undefined line should be set to
+`0` instead of `1`.
+
+The exact logic of this is probably buried deep within Vim's source code.  In
+general Vim behaves pretty intelligently when resolving undefined lines against
+"special" foldlevels, so it will usually do what you want.
+
+Once Vim's resolved the undefined line it has a complete description of how to
+fold each line in the file, which looks like this:
+
+    :::text
+    factorial = (n):                         1
+        total = 1                            1
+        n to 1 (i):                          2
+            # Multiply the running total.    2
+            total *= i.                      2
+        total.                               1
+                                             0
+    10 times (i):                            1
+        i string print                       1
+        '! is: ' print                       1
+        factorial (i) string print           1
+        "\n" print.                          1
+
+That's it, we're done!  Reload the folding code and play around with the fancy
+new folding in `factorial.pn`.
+
+Exercises
+---------
+
+Read `:help foldexpr`.
+
+Read `:help fold-expr`.  Pay particular attention to all the "special" strings
+your expression can return.
+
+Read `:help getline`.
+
+Read `:help indent()`.
+
+Read `:help line()`.
+
+Figure out why it's important that we use `.` to combine the `>` character with
+the number in our folding function.  What would happen if you used `+` instead?
+Why?
+
+Put this book down and go outside for a while to let your brain recover from
+this chapter.
