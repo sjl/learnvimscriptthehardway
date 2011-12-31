@@ -53,7 +53,7 @@ files.  Go ahead and run `:setlocal foldmethod=marker` the window with your
 FileType for this file and the autocommand only fires when that happens.  In the
 future you won't need to do it manually.
 
-Now lines before and after that autocommand group that look like this:
+Now add lines before and after that autocommand group so that it looks like this:
 
     :::vim
     " Vimscript file settings ---------------------- {{{
