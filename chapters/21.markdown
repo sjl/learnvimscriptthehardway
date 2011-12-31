@@ -12,7 +12,7 @@ about syntax so we're all on the same page.
 Multiple-Line Statements
 ------------------------
 
-Sometimes can't fit a piece of Vimscript on a single line of code.  We saw this
+Sometimes you can't fit a piece of Vimscript on a single line of code.  We saw this
 when we talked about autocommand groups.  Here's a chunk of code we used before:
 
     :::vim
