@@ -48,14 +48,14 @@
 ** DONE pathogen
 ** DONE ftdetect
 ** DONE syntax
-** TODO folding
-** TODO autoload
+** DONE folding
 ** TODO compilers
 *** makeprg
 *** errorformat
+** TODO autoload
 ** TODO customization
-** TODO documentation
-** TODO mapping
 ** TODO dynamic status lines
+** TODO mapping
 ** TODO customizing maps
+** TODO documentation
 ** TODO distributing

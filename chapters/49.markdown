@@ -587,7 +587,7 @@ Returning a string like `>1` from the fold expression is another one of Vim's
 "special" foldlevels.  It tells Vim that the current line should *open* a fold
 of the given level.
 
-In this simple example we could have simply returned the number, but we'll see
+In this simple example we could have just returned the number, but we'll see
 why this is important shortly.
 
 In this case line "b" will open a fold at level 1, which makes our example look
@@ -627,7 +627,7 @@ Here's `factorial.pn` for reference:
         factorial (i) string print
         "\n" print.
 
-First, set any blank lines' foldlevels will be set to undefined:
+First, any blank lines' foldlevels will be set to undefined:
 
     :::text
     factorial = (n):
@@ -753,6 +753,9 @@ Read `:help line()`.
 Figure out why it's important that we use `.` to combine the `>` character with
 the number in our folding function.  What would happen if you used `+` instead?
 Why?
+
+We defined our helper functions as global functions, but that's not a good idea.
+Change them to be script-local functions.
 
 Put this book down and go outside for a while to let your brain recover from
 this chapter.
