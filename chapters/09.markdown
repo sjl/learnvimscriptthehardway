@@ -17,8 +17,8 @@ Now make sure you're in normal mode and press `j` followed quickly by `k`.  Vim
 will delete the current line.
 
 Now try pressing only `j` and waiting for a bit.  If you don't press `k` quickly
-after the `j`, Vim decides that you don't want to active the mapping and instead
-runs the normal `j` functionality (moving down a line).
+after the `j`, Vim decides that you don't want to activate the mapping and
+instead runs the normal `j` functionality (moving down a line).
 
 This mapping will make it painful to move around our file, so lets remove it.
 Run the following command:
