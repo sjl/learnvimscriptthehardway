@@ -1,61 +1,31 @@
-* part 1 - basic .vimrc stuff
-** DONE echoing
-** DONE setting options
-** DONE basic mapping
-** DONE modal mapping
-** DONE strict mapping
-** DONE leaders
-** DONE editing .vimrc faster
-** DONE abbreviations
-** DONE more about mappings
-** DONE training with <nop>
-** DONE buffer-local mappings and options
-** DONE autocommands
-** DONE buffer-local abbreviations
-** DONE augroups
-** DONE operator-pending maps
-** DONE more operator-pending maps
-** DONE basic status lines
-** DONE a word on shortened command names
-* part 2 - programming in vimscript
-** DONE variables
-** DONE variable scopes
-** DONE conditionals
-** DONE comparisons
-** DONE functions
-** DONE function arguments
-** DONE numbers
-** DONE strings
-** DONE string functions
-** DONE normal!
-** DONE execute
-** DONE execute normal!
-** DONE basic regexes
-** DONE Case Study: GrepMotion
-** DONE lists
-** DONE looping
-** DONE dictionaries
-** DONE toggling
-** DONE functional programming
-** DONE paths
-** TODO advanced regexes
-** TODO exceptions
-** TODO functions again
-** TODO command!
 * part 3 - creating a full plugin
-** DONE intro
-** DONE plugin layout
-** DONE pathogen
-** DONE ftdetect
-** DONE syntax
-** DONE folding
-** TODO compilers
-*** makeprg
-*** errorformat
-** TODO autoload
-** TODO customization
-** TODO dynamic status lines
+** ... stuff that's done ...
 ** TODO mapping
-** TODO customizing maps
+*** run and view output
+*** run and view bytecode + output
+*** :nnoremap <buffer> ]] /\v^\S<cr>:noh<cr>
+*** :nnoremap <buffer> [[ ?\v^\S<cr>:noh<cr>
+*** :inoremap :<cr> :<cr><tab>.<left>
+** TODO customization
+*** mappings
+**** custom leader
+**** disable entirely
+**** autoinsert period
+*** behaviour
+**** vertical/horizontal preview splits
+**** split sizes
+** TODO dynamic status lines
+** TODO autoload
 ** TODO documentation
+*** TOC
+*** Mappings
+*** Configuration
+*** Bugs
+*** License
 ** TODO distributing
+*** GitHub
+*** Vim.org
+*** a Web page
+* TODO Where to go from here
+** Omnicomplete
+** makeprg, errorfmt
