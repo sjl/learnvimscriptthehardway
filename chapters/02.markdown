@@ -86,7 +86,7 @@ running this:
 Exercises
 ---------
 
-Read `:help number`.
+Read `:help 'number'` (note the quotes).
 
 Read `:help relativenumber`.
 
