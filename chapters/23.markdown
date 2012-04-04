@@ -88,7 +88,7 @@ advantage.  Run the following commands:
 
     :::vim
     :function TextwidthIsTooWide()
-    :  if &l:numberwidth ># 80
+    :  if &l:textwidth ># 80
     :    return 1
     :  endif
     :endfunction

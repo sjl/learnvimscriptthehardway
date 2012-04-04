@@ -147,7 +147,7 @@ straight is the remember the following two rules:
 
 * If your operator-pending mapping ends with some text visually selected, Vim
   will operate on that text.
-* Otherwise, Vim will operator on the text between the original cursor position
+* Otherwise, Vim will operate on the text between the original cursor position
   and the new position.
 
 Exercises
