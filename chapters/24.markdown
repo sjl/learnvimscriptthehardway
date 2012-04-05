@@ -111,7 +111,7 @@ these commands:
 
     :call AssignGood("test")
 
-This time the function works, and Vim displays "Yes".
+This time the function works, and Vim displays "Yep".
 
 Exercises
 ---------

@@ -71,7 +71,8 @@ Try checking what a few other common options are set to:
 
     :::vim
     :set wrap?
-    :set numberwidth?
+    :set shiftround?
+    :set matchtime?
 
 Setting Multiple Options at Once
 --------------------------------
@@ -85,7 +86,7 @@ running this:
 Exercises
 ---------
 
-Read `:help number`.
+Read `:help 'number'` (note the quotes).
 
 Read `:help relativenumber`.
 
@@ -93,4 +94,8 @@ Read `:help numberwidth`.
 
 Read `:help wrap`.
 
-Add a few lines to your vimrc file to set these four options however you like.
+Read `:help shiftround`.
+
+Read `:help matchtime`.
+
+Add a few lines to your vimrc file to set these options however you like.

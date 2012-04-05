@@ -5,7 +5,7 @@
 *** run and view bytecode + output
 *** :nnoremap <buffer> ]] /\v^\S<cr>:noh<cr>
 *** :nnoremap <buffer> [[ ?\v^\S<cr>:noh<cr>
-*** :inoremap :<cr> :<cr><tab>.<left>
+** TODO indent files
 ** TODO customization
 *** mappings
 **** custom leader
@@ -29,3 +29,23 @@
 * TODO Where to go from here
 ** Omnicomplete
 ** makeprg, errorfmt
+** Read the fucking documentation
+** Read the source of some popular plugins
+*** Powerline for a mindfuck
+*** Fugitive
+* Ideas
+** MOAR SYNTAX
+** MOAR MAPPING
+*** <expr>
+*** <c-e>
+** String Escaping
+** Character theory
+   i.e. <c-v>n vs n
+** <M-Trap>
+** <C-Trap>
+** !
+** GUI-Specific stuff
+** Color schemes
+** command!
+** Case Studies
+*** Visual mode * from Scrooloose
