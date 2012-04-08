@@ -1,0 +1,115 @@
+Section Movement Theory
+=======================
+
+If you've never used Vim's section movement commands (`[[`, `]]`, `[]` and `][`)
+take a second and read the help for them now.  Go ahead and read `:help section`
+as well.
+
+Confused yet?  That's okay, so was I the first time I read that stuff.  We're
+going to take a quick detour from writing code to learn about how these
+movements work, and then in the next chapter we'll make our Potion plugin
+support them.
+
+Nroff Files
+-----------
+
+The four "section movement" commands are conceptually meant to move around
+between "sections" of a file.
+
+All of these commands are designed to work with [nroff files][] by default.
+Nroff is a language like LaTeX or Markdown -- it's used to write text that will
+be reformatted later (it's actually the format used by UNIX man pages).
+
+Nroff files use a certain set of "macros" to define "section headings".  For
+example, here's an excerpt from the `awk` man page:
+
+    :::nroff
+    .SH NAME                                                     ***
+    awk \- pattern-directed scanning and processing language
+    .SH SYNOPSIS                                                 ***
+    .B awk
+    [
+    .BI \-F
+    .I fs
+    ]
+    [
+    .BI \-v
+    .I var=value
+    ]
+    [
+    .I 'prog'
+    |
+    .BI \-f
+    .I progfile
+    ]
+    [
+    .I file ...
+    ]
+    .SH DESCRIPTION                                              ***
+    .I Awk
+    scans each input
+    .I file
+    for lines that match ...
+
+The lines starting with `.SH` are section headings.  I've marked them with
+`***`.  The four section movement commands will move your cursor between these
+section heading lines.
+
+Vim considers any line starting with `.` and one of the nroff heading macros to
+be a section header, *even when you're not editing an nroff file*!
+
+You can change the macros by changing the `sections` setting, but Vim still
+requires a period at the beginning of the line, and the macros must be pairs of
+characters, so that setting doesn't add enough flexibility for Potion files.
+
+Braces
+------
+
+Section movement commands *also* look for one more thing: an opening or closing
+curly brace (`{` or `}`) as the first character on a line.
+
+`[[` and `]]` look for opening braces, while `[]` and `][` look for closing
+braces.
+
+This extra "hack" allows you to move between sections of C-like languages
+easily.  However, these rules are always the same no matter what type of file
+you're in!
+
+Put the following into a buffer:
+
+    :::text
+    Test           A B
+    Test
+
+    .SH Hello      A B
+
+    Test
+
+    {              A
+    Test
+    }                B
+
+    Test
+
+    .H World       A B
+
+    Test
+    Test           A B
+
+Now run `:set filetype=basic` to tell Vim that this is a BASIC file, and try the
+section movement comments.
+
+The `[[` and `]]` commands will move between the lines marked `A`, while `[]`
+and `][` move between the lines marked `B`.
+
+This shows us that Vim always uses these same two rules for section movement,
+even for languages where neither one makes sense (like BASIC)!
+
+[nroff files]: http://en.wikipedia.org/wiki/Nroff
+
+Exercises
+---------
+
+Read `:help section` again, now that you know the story of section movement.
+
+Read `:help sections` just for the fun of it.

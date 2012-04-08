@@ -1,0 +1,372 @@
+Potion Section Movement
+=======================
+
+Now that we know how section movement works, let's remap the commands to work
+in a way that makes sense for Potion files.
+
+First we need to decide what "section" should mean for a Potion file.  There are
+two pairs of section movement commands, so we can come up with two "schemes" and
+our users can choose the one they prefer.
+
+Let's use the following two schemes to define where Potion sections start:
+
+1. Any line following a blank line that contains non-whitespace as the first
+   character, or the first line in the file.
+2. Any line that contains non-whitespace as the first character, an equal sign
+   somewhere inside the line, and ends with a colon.
+
+Using a slightly-expanded version of our sample `factorial.pn` file, here's
+what these rules will consider to be section headers:
+
+    :::text
+    # factorial.pn                              1
+    # Print some factorials, just for fun.
+
+    factorial = (n):                            1 2
+        total = 1
+
+        n to 1 (i):
+            total *= i.
+
+        total.
+
+    print_line = ():                            1 2
+        "-=-=-=-=-=-=-=-\n" print.
+
+    print_factorial = (i):                      1 2
+        i string print
+        '! is: ' print
+        factorial (i) string print
+        "\n" print.
+
+    "Here are some factorials:\n\n" print       1
+
+    print_line ()                               1
+    10 times (i):
+        print_factorial (i).
+    print_line ()
+
+Our first definition tends to be more liberal.  It defines a section to be
+roughly a "top-level chunk of text".
+
+The second definition is more restrictive.  It defines a section to be
+(effectively) a function definition.
+
+Custom Mappings
+---------------
+
+Create a `ftplugin/potion/sections.vim` file in your plugin's repo.  This
+is where we'll put the code for section movement.  Remember that this code will
+be run whenever a buffer's `filetype` is set to `potion`.
+
+We're going to remap all four section movement commands, so go ahead and create
+a "skeleton" file:
+
+    :::vim
+    noremap <script> <buffer> <silent> [[ <nop>
+    noremap <script> <buffer> <silent> ]] <nop>
+
+    noremap <script> <buffer> <silent> [] <nop>
+    noremap <script> <buffer> <silent> ][ <nop>
+
+Notice that we use `noremap` commands instead of `nnoremap`, because we want
+these to work in operator-pending mode too.  That way you'll be able to do
+things like `d]]` to "delete from here to the next section".
+
+We make the mappings buffer-local so they'll only apply to Potion files and
+won't take over globally.
+
+We also make them silent, because the user won't care about the details of how
+we move between sections.
+
+Using a Function
+----------------
+
+The code for performing the section movements is going to be very similar for
+all of the various commands, so let's abstract it into a function that our
+mappings will call.
+
+You'll see this strategy in a lot of Vim plugins that create a number of similar
+mappings.  It's easier to read and maintain then stuffing all the functionality
+in to a bunch of mapping lines.
+
+Change the `sections.vim` file to contain this:
+
+    :::vim
+    function! s:NextSection(type, backwards)
+    endfunction
+
+    noremap <script> <buffer> <silent> ]] :call <SID>NextSection(1, 0)<cr>
+    noremap <script> <buffer> <silent> [[ :call <SID>NextSection(1, 1)<cr>
+
+    noremap <script> <buffer> <silent> ][ :call <SID>NextSection(2, 0)<cr>
+    noremap <script> <buffer> <silent> [] :call <SID>NextSection(2, 1)<cr>
+
+Notice that we're using `<SID>` and a script-local function to avoid polluting
+the global namespace with our helper function.
+
+Each mapping simply calls `NextSection` with the appropriate arguments to
+perform the movement.  Now we can start implementing `NextSection`.
+
+Base Movement
+-------------
+
+Let's think about what our function needs to do.  We want to move the cursor to
+the next "section", and an easy way to move the cursor somewhere is with the `/`
+and `?` commands.
+
+Edit `NextSection` to look like this:
+
+    :::vim
+    function! s:NextSection(type, backwards)
+        if a:backwards
+            let dir = '?'
+        else
+            let dir = '/'
+        endif
+
+        execute 'silent normal! ' . dir . 'foo' . "\r"
+    endfunction
+
+Now the function uses the `execute normal!` pattern we've seen before to perform
+either `/foo` or `?foo`, depending on the value given for `backwards`.  This is
+a good start.
+
+Moving on, we're obviously going to need to search for something other than
+`foo`, and that pattern is going to depend on whether we want to use the first
+or second definition of section headings.
+
+Change `NextSection` to look like this:
+
+    :::vim
+    function! s:NextSection(type, backwards)
+        if a:type == 1
+            let pattern = 'one'
+        elseif a:type == 2
+            let pattern = 'two'
+        endif
+
+        if a:backwards
+            let dir = '?'
+        else
+            let dir = '/'
+        endif
+
+        execute 'silent normal! ' . dir . pattern . "\r"
+    endfunction
+
+Now we just need to fill in the patterns, so let's go ahead and do that.
+
+Top Level Text Sections
+-----------------------
+
+Replace the first `let pattern = '...'` line with the following:
+
+    :::vim
+    let pattern = '\v(\n\n^\S|%^)'
+
+To understand how the regular expression works, remember the definition of
+"section" that we're implementing:
+
+> Any line following a blank line that contains a non-whitespace as the first
+> character, or the first line in the file.
+
+The `\v` at the beginning simply forces "very magic" mode like we've seen
+several times before.
+
+The remainder of the regex is a group with two options.  The first, `\n\n^\S`,
+searches for "a newline, followed by a newline, followed by a non-whitespace
+character".  This finds the first set of lines in our definition.
+
+The other option is `%^`, which is a special Vim regex atom that means
+"beginning of file".
+
+Now we're at a point where we can try out the first two mappings.  Save
+`ftplugin/potion/sections.vim` and run `:set filetype=potion` in your sample
+Potion buffer.  The `[[` and `]]` commands should work, but somewhat oddly.
+
+Search Flags
+------------
+
+You'll notice that when you move between sections your cursor gets placed on the
+blank line above the one we actually want to move to.  Think about why this
+happens before reading on.
+
+The answer is that we searched using `/` (or `?`) and by default Vim places your
+cursor at the beginning of matches.  For example, when you run `/foo` your
+cursor will be placed on the "f" in "foo".
+
+To tell Vim to put the cursor at the end of the match instead of the beginning,
+we can use a search flag.  Try searching in your Potion file like so:
+
+    :::vim
+    /factorial/e
+
+Vim will find the word "factorial" and move you to it.  Press `n` a few times to
+move through the matches.  The `e` flag tells Vim to put the cursor at the end
+of matches instead of the beginning.  Try it in the other direction too:
+
+    :::vim
+    ?factorial?e
+
+Let's modify our function to use a search flag to put our cursor on the other
+end of the matches for this section:
+
+    :::vim
+    function! s:NextSection(type, backwards)
+        if a:type == 1
+            let pattern = '\v(\n\n^\S|%^)'
+            let flags = 'e'
+        elseif a:type == 2
+            let pattern = 'two'
+            let flags = ''
+        endif
+
+        if a:backwards
+            let dir = '?'
+        else
+            let dir = '/'
+        endif
+
+        execute 'silent normal! ' . dir . pattern . dir . flags . "\r"
+    endfunction
+
+We've changed two things here.  First, we set a `flags` variable depending on
+the type of section movement.  For now we only worry about the first type, which
+is going to need a flag of `e`.
+
+Second, we've concatenated `dir` and `flags` to the search string.  This will
+add `?e` or `/e` depending on which direction we're searching.
+
+Save the file, switch back to your sample Potion file and run `:set ft=potion`
+to make the changes take effect.  Now try `[[` and `]]` to see them working
+properly!
+
+Function Definitions
+--------------------
+
+It's time to tackle our second definition of "section", and luckily this one is
+much more straightforward than the first.  Recall the definition we need to
+implement:
+
+> Any line that contains a non-whitespace as the first character, an equal sign
+> somewhere inside the line, and ends with a colon.
+
+We can use a fairly simple regex to find these lines.  Change the second `let
+pattern = '...'` line in the function to this:
+
+    :::vim
+    let pattern = '\v^\S.*\=.*:$'
+
+This regex should look much less frightening than the last one.  I'll leave it
+as an exercise for you to figure out how it works -- it's a pretty
+straightforward translation of our definition.
+
+Save the file, run `:set filetype=potion` in `factorial.pn`, and try out the new
+`][` and `[]` mappings.  They should work as expected.
+
+We don't need a search flag here because putting the cursor at the beginning of
+the match (the default) works just fine.
+
+Visual Mode
+-----------
+
+Our section movement commands work great in normal mode, but we need to add
+a bit more to make them work in visual mode as well.  First, change the function
+to look like this:
+
+    :::vim
+    function! s:NextSection(type, backwards, visual)
+        if a:visual
+            normal! gv
+        endif
+
+        if a:type == 1
+            let pattern = '\v(\n\n^\S|%^)' 
+            let flags = 'e'
+        elseif a:type == 2
+            let pattern = '\v^\S.*\=.*:$'
+            let flags = ''
+        endif
+
+        if a:backwards
+            let dir = '?'
+        else
+            let dir = '/'
+        endif
+
+        execute 'silent normal! ' . dir . pattern . dir . flags . "\r"
+    endfunction
+
+Two things have changed.  First, the function takes an extra argument so it know
+whether it's being called from visual mode or not.  Second, if it's called from
+visual mode we run `gv` to restore the visual selection.
+
+Why do we need to do this?  Let's try something that will make it clear.
+Visually select some text in any buffer and then run the following command:
+
+    :::vim
+    :echom "hello"
+
+Vim will display "hello" but the visual selection will also be cleared!
+
+When running an ex mode command with `:` the visual selection is always cleared.
+The `gv` command reselects the previous visual selection, so this will "undo"
+the clearing.  It's a useful command, and can be handy in your day-to-day work
+too.
+
+Now we need to update the existing mappings to pass `0` in for the new `visual`
+argument:
+
+    :::vim
+    noremap  <script> <buffer> <silent> ]] :call <SID>NextSection(1, 0, 0)<cr>
+    noremap  <script> <buffer> <silent> [[ :call <SID>NextSection(1, 1, 0)<cr>
+
+    noremap  <script> <buffer> <silent> ][ :call <SID>NextSection(2, 0, 0)<cr>
+    noremap  <script> <buffer> <silent> [] :call <SID>NextSection(2, 1, 0)<cr>
+
+Nothing too complex there.  Now let's add the visual mode mappings as the final
+piece of the puzzle:
+
+    :::vim
+    vnoremap <script> <buffer> <silent> ]] :<c-u>call <SID>NextSection(1, 0, 1)<cr>
+    vnoremap <script> <buffer> <silent> [[ :<c-u>call <SID>NextSection(1, 1, 1)<cr>
+
+    vnoremap <script> <buffer> <silent> ][ :<c-u>call <SID>NextSection(2, 0, 1)<cr>
+    vnoremap <script> <buffer> <silent> [] :<c-u>call <SID>NextSection(2, 1, 1)<cr>
+
+These mappings all pass `1` for the `visual` argument to tell Vim to reselect
+the last selection before performing the movement.  They also use the `<c-u>`
+trick we learned about in the Grep Operator chapters.
+
+Save the file, `:set ft=potion` in the Potion file and you're done!  Give your
+new mappings a try.  Things like `v]]` and `d[]` should all work properly now.
+
+Why Bother?
+-----------
+
+This has been a long chapter for some seemingly small functionality, but you've
+learned and practiced a lot of useful things along the way:
+
+* Using `noremap` instead of `nnoremap` to create mappings that work as
+  movements and motions.
+* Using a single function with several arguments to simplify creating related
+  mappings.
+* Building up functionality in a Vimscript function incrementally.
+* Building up an `execute 'normal! ...'` string programatically.
+* Using simple searches to move around with regexes.
+* Using special regex atoms like `%^` (beginning of file).
+* Using search flags to modify how searches work.
+* Handling visual mode mappings that need to retain the visual selection.
+
+Go ahead and do the exercises (it's just a bit of `:help` reading) and then grab
+some ice cream.  You've earned it after this chapter!
+
+Exercises
+---------
+
+Read `:help search()`.  This is a useful function to know, but you can also use
+the flags listed with the `/` and `?` commands.
+
+Read `:help ordinary-atom` to learn about more interesting things you can use in
+search patterns.
