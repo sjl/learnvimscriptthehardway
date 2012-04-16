@@ -4,7 +4,7 @@ Functions
 Like most programming languages, Vimscript has functions.  Let's take a look at
 how to create them, and then talk about some of their quirks.
 
-Run the following commands:
+Run the following command:
 
     :::vim
     :function meow()

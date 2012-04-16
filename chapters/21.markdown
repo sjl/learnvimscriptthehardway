@@ -45,8 +45,8 @@ Now that we've got that out of the way, run the following commands:
     :    echom "ONE"
     :endif
 
-Vim will display "ONE", because the integer `1` is "truthy".  Now try this
-command:
+Vim will display "ONE", because the integer `1` is "truthy".  Now try these
+commands:
 
     :::vim
     :if 0
@@ -54,7 +54,7 @@ command:
     :endif
 
 Vim will *not* display "ZERO" because the integer `0` is "falsy".  Let's see how
-strings behave.  Run this command:
+strings behave.  Run these commands:
 
     :::vim
     :if "something"
@@ -64,7 +64,7 @@ strings behave.  Run this command:
 The results may surprise you.  Vim does *not* necessarily treat a non-empty
 string as "truthy", so it will not display anything!
 
-Let's dive a bit further down the rabbit hole.  Run this command:
+Let's dive a bit further down the rabbit hole.  Run these commands:
 
     :::vim
     :if "9024"
