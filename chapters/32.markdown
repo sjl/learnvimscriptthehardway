@@ -69,7 +69,7 @@ We'll start with a skeleton of the mapping and fill it in as we go.  Run this
 command:
 
     :::vim
-    :nnoremap <leader> g :grep -R something .<cr>
+    :nnoremap <leader>g :grep -R something .<cr>
 
 If you've read `:help grep` this should be pretty easy to understand.  We've
 looked at lots of mappings before, and there's nothing new here.
