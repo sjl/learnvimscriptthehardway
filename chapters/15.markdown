@@ -104,7 +104,7 @@ You can think of this mapping as meaning "inside next parenthesis", and it will
 perform the operator on the text inside the next set of parenthesis on the
 current line.
 
-Let's make a companion "inside last parenthesis" ("previous" woud be a better
+Let's make a companion "inside last parenthesis" ("previous" would be a better
 word, but it would shadow the "paragraph" movement).  Run the following command:
 
     :::vim
