@@ -41,7 +41,7 @@ Exercises
 
 Create a few more "snippet" abbreviations for some of the things you type often
 in specific kinds of files.  Some good candidates are `return` for most
-languages, `function` for javascript, and thinks like `&ldquo;` and `&rdquo;`
+languages, `function` for javascript, and things like `&ldquo;` and `&rdquo;`
 for HTML files.
 
 Add these snippets to your `~/.vimrc` file.
