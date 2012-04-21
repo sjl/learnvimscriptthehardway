@@ -74,7 +74,7 @@ command:
 If you've read `:help grep` this should be pretty easy to understand.  We've
 looked at lots of mappings before, and there's nothing new here.
 
-Obviously we're not done yet, so lets refine this mapping until it meets our
+Obviously we're not done yet, so let's refine this mapping until it meets our
 simplified goal.
 
 The Search Term
