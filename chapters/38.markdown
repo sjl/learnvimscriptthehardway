@@ -3,7 +3,7 @@ Toggling
 
 In one of the first chapters we talked about how to set options in Vim.  For
 boolean options we can use `set someoption!` to "toggle" the option.  This is
-expecially nice when we create a mapping for that command.
+especially nice when we create a mapping for that command.
 
 Run the following command:
 

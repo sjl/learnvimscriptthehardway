@@ -20,7 +20,7 @@ Now try pressing only `j` and waiting for a bit.  If you don't press `k` quickly
 after the `j`, Vim decides that you don't want to activate the mapping and
 instead runs the normal `j` functionality (moving down a line).
 
-This mapping will make it painful to move around our file, so lets remove it.
+This mapping will make it painful to move around our file, so let's remove it.
 Run the following command:
 
     :::vim

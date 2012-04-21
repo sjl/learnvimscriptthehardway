@@ -97,7 +97,7 @@ mappings.  Switch over to `foo` and run the following commands:
     :nnoremap <buffer> Q x
     :nnoremap          Q dd
 
-Now switch to file `foo` and type `Q`.  What happens?
+Staying in file `foo`, type `Q`.  What happens?
 
 When you press `Q`, Vim will run the first mapping, not the second, because the
 first mapping is *more specific* than the second.

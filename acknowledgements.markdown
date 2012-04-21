@@ -7,3 +7,4 @@ correct typos:
 * [Psycojoker](https://github.com/Psycojoker)
 * [manojkumarm](https://github.com/manojkumarm)
 * [dmedvinsky](https://github.com/dmedvinsky)
+* [flatcap](https://github.com/flatcap)

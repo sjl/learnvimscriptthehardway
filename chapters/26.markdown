@@ -120,7 +120,7 @@ sequences.  Run the following command:
     :echom '\n\\'
 
 Vim displays `\n\\`.  Using single quotes tells Vim that you want the string
-*exactly* as-in, with no escape sequences.  The one exception is that two single
+*exactly* as-is, with no escape sequences.  The one exception is that two single
 quotes in a row will produce a single single quote.  Try this command:
 
     :::vim
