@@ -2,7 +2,7 @@ Case Study: Grep Operator, Part One
 ===================================
 
 In this chapter and the next we're going to walk through creating
-a fairly-complicated piece of Vimscript.  We'll talk about several things we
+a fairly complicated piece of Vimscript.  We'll talk about several things we
 haven't seen before, as well as how some of the things we've studied fit
 together in practice.
 
@@ -69,7 +69,7 @@ We'll start with a skeleton of the mapping and fill it in as we go.  Run this
 command:
 
     :::vim
-    :nnoremap <leader> g :grep -R something .<cr>
+    :nnoremap <leader>g :grep -R something .<cr>
 
 If you've read `:help grep` this should be pretty easy to understand.  We've
 looked at lots of mappings before, and there's nothing new here.

@@ -73,7 +73,7 @@ Let's dive a bit further down the rabbit hole.  Run this command:
 
 This time Vim *does* display the text!  What's going on here?
 
-To try to wrap our heads around what's going on, run the following two commands:
+To try to wrap our heads around what's going on, run the following three commands:
 
     :::vim
     :echom "hello" + 10
