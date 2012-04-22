@@ -108,7 +108,7 @@ We can put this on GitHub or Bitbucket and users can simply clone it down into
 Exercises
 ---------
 
-Install Pathogen if you haven't already done so.
+Install [Pathogen][] if you haven't already done so.
 
 Create a Mercurial or Git repository for your plugin, called `potion`.  You can
 put it anywhere you like and symlink it into `~/.vim/bundle/potion/` or just put
