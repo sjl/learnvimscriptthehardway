@@ -5,14 +5,14 @@ We've gone over conditionals, but `if` statements aren't very useful if we can't
 compare things.  Of course Vim lets us compare values, but it's not as
 straightforward as it may seem.
 
-Run the following command:
+Run the following commands:
 
     :::vim
     :if 10 > 1
     :    echom "foo"
     :endif
 
-Vim will, of course, display "foo".  Now run this command:
+Vim will, of course, display "foo".  Now run these commands:
 
     :::vim
     :if 10 > 2001
@@ -20,7 +20,7 @@ Vim will, of course, display "foo".  Now run this command:
     :endif
 
 Vim displays nothing, because `10` is not greater than `2001`.  So far
-everything works as expected.  Run this command:
+everything works as expected.  Run these commands:
 
     :::vim
     :if 10 == 11
@@ -30,7 +30,7 @@ everything works as expected.  Run this command:
     :endif
 
 Vim displays "second".  Nothing surprising here.  Let's try comparing strings.
-Run this command:
+Run these commands:
 
     :::vim
     :if "foo" == "bar"
@@ -87,7 +87,7 @@ users' settings.  Vim is old, vast, and complicated.  When writing a plugin you
 So how can you get around this ridiculousness?  It turns out that Vim has *two
 extra sets* of comparison operators to deal with this.
 
-Run the following command:
+Run the following commands:
 
     :::vim
     :set ignorecase
@@ -98,7 +98,7 @@ Run the following command:
     :endif
 
 Vim displays "first" because `==?` is the "case-insensitive no matter what the
-user has set" comparison operator.  Now run the following command:
+user has set" comparison operator.  Now run the following commands:
 
     :::vim
     :set ignorecase

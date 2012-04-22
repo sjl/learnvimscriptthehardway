@@ -12,7 +12,7 @@ the screen and message log.  Execute is a very powerful tool because it lets you
 build commands out of arbitrary strings.
 
 Let's try a more useful example.  Prepare by opening a file in Vim, then using
-`:edit "foo.txt"` in the same window to open a new buffer.  Now run the
+`:edit foo.txt` in the same window to open a new buffer.  Now run the
 following command:
 
     :::vim
