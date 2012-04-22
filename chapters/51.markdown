@@ -87,7 +87,7 @@ all of the various commands, so let's abstract it into a function that our
 mappings will call.
 
 You'll see this strategy in a lot of Vim plugins that create a number of similar
-mappings.  It's easier to read and maintain then stuffing all the functionality
+mappings.  It's easier to read and maintain than stuffing all the functionality
 in to a bunch of mapping lines.
 
 Change the `sections.vim` file to contain this:
@@ -298,7 +298,7 @@ to look like this:
         execute 'silent normal! ' . dir . pattern . dir . flags . "\r"
     endfunction
 
-Two things have changed.  First, the function takes an extra argument so it know
+Two things have changed.  First, the function takes an extra argument so it knows
 whether it's being called from visual mode or not.  Second, if it's called from
 visual mode we run `gv` to restore the visual selection.
 
