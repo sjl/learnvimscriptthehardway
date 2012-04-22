@@ -26,7 +26,7 @@ following command:
     :::vim
     :onoremap p i(
 
-Now type the follow text into a buffer:
+Now type the following text into a buffer:
 
     :::python
     return person.get_pets(type="cat", fluffy_only=True)
