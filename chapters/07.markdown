@@ -74,7 +74,7 @@ You've spent $50 and one hour, but now instead of taking a full minute to check
 your work, it takes ten seconds.
 
 Assuming you charge $100 per hour for freelance work, you've got to make up one
-an a half hours of time for this investment to be worthwhile.  If you're saving
+and a half hours of time for this investment to be worthwhile.  If you're saving
 50 seconds per photo, you need to take about 109 photos for project to pay for
 itself.
 
