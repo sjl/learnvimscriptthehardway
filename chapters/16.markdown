@@ -48,7 +48,9 @@ Normal
 ------
 
 The `:normal` command takes a set of characters and performs whatever action
-they would do if they were typed in normal mode.  Run this command:
+they would do if they were typed in normal mode.  We'll go into greater detail
+in a later chapter, but we've seen it a few times already so it's time to at
+least get a taste.  Run this command:
 
     :::vim
     :normal gg
@@ -60,13 +62,8 @@ Vim will move you to the top of the file.  Now run this command:
 
 Vim will indent the current line.
 
-In our mapping we're using a version of `:normal` with a `!` at the end.  This
-version will *not* take any existing mappings into account, whereas plain
-`:normal` will use them.
-
-In effect, `:normal!` is to `:normal` as `nnoremap` is to `nmap`.  You should
-*always* prefer `:normal!` for the same reasons you should always use
-`nnoremap`, which we discussed in an earlier chapter.
+For now, don't worry about the `!` after `normal` in our mapping.  We'll talk
+about that later.
 
 Execute
 -------
