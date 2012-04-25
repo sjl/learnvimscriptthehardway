@@ -90,7 +90,7 @@ extra sets* of comparison operators to deal with this.
 Run the following command:
 
     :::vim
-    :set ignorecase
+    :set noignorecase
     :if "foo" ==? "FOO"
     :    echom "first"
     :elseif "foo" ==? "foo"
