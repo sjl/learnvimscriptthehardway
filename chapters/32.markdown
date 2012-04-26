@@ -131,7 +131,7 @@ Try it out and make sure it still works.  If not, find any typos and fix them.
 Then run the following command, which uses `shellescape` to fix the search term:
 
     :::vim
-    :nnoremap <leader>g :execute "grep -R " . shellescape("<cWORD>") . " ."<cr>
+    :nnoremap <leader>g :execute "grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
 
 And now our mapping won't break if the word we're searching for happens to
 contain strange characters.
@@ -149,14 +149,14 @@ automatically, and we can use `grep!` instead of plain `grep` to do that.  Run
 this command:
 
     :::vim
-    :nnoremap <leader>g :execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>
+    :nnoremap <leader>g :execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>
 
 Try it out again and nothing will seem to happen.  Vim has filled the quickfix
 window with the results, but we haven't opened it yet.  Run the following
 command:
 
     :::vim
-    :nnoremap <leader>g :execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
+    :nnoremap <leader>g :execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
 
 Now try the mapping and you'll see that Vim automatically opens the quickfix
 window with the search results.  All we did was tack `:copen<cr>` onto the end
@@ -166,7 +166,7 @@ As the finishing touch we'll remove all the grep output Vim displays while
 searching.  Run the following command:
 
     :::vim
-    :nnoremap <leader>g :silent execute "grep! -R " . shellescape("<cWORD>") . " ."<cr>:copen<cr>
+    :nnoremap <leader>g :silent execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
 
 We're done, so try it out and admire your hard work!  The `silent` command just
 runs the command that follows it while hiding any messages it would normally
@@ -178,6 +178,8 @@ Exercises
 Add the mapping we just created to your `~/.vimrc` file.
 
 Read `:help :grep`.
+
+Read `:help expand()`
 
 Read `:help cnext` and `:help cprevious`.  Try them out after using your new
 grep mapping.
