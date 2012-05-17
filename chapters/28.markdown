@@ -45,7 +45,7 @@ to do something bad, well, it's their computer!
 
 Contrast this with other languages, where programs constantly take input from
 untrusted users.  Vim is a unique environment where the normal security concerns
-simple aren't common.
+simply aren't common.
 
 The second reason is that because Vimscript has sometimes arcane and tricky
 syntax, `execute` is often the easiest, most straightforward way to get
