@@ -51,7 +51,7 @@ writing time.  Now run the command three more times:
 Write the file again.  This time the slowness will be more apparent.
 
 Obviously you won't have any autocommands that do nothing but sleep, but the
-`~/.vimrc` of a seasoned Vim user can easy reach 1,000 lines, many of which will
+`~/.vimrc` of a seasoned Vim user can easily reach 1,000 lines, many of which will
 be autocommands.  Combine that with autocommands defined in any installed
 plugins and it can definitely affect performance.
 
@@ -114,7 +114,7 @@ Now that we know how to group autocommands and clear those groups, we can use
 this to add autocommands to `~/.vimrc` that don't add a duplicate every time we
 source it.
 
-Add the follow to your `~/.vimrc` file:
+Add the following to your `~/.vimrc` file:
 
     :::vim
     augroup filetype_html
