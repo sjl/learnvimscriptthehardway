@@ -22,7 +22,7 @@ a string: "bar".  Now run these commands:
     :let foo = 42
     :echo foo
 
-Vim will display "42", because we've reassigned `bar` to the integer "42".  From
+Vim will display "42", because we've reassigned `foo` to the integer "42".  From
 this it may seem that Vimscript is dynamically typed.  That's not the case, but
 we'll talk more about that later.
 

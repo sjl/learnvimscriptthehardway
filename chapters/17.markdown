@@ -41,7 +41,7 @@ rest we used `+=` to build up the option one piece at a time.  We also added
 comments explaining each piece for other people reading the code (or ourselves
 several months later).
 
-Run the following command:
+Run the following commands:
 
     :::vim
     :set statusline=%l    " Current line

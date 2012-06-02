@@ -21,7 +21,7 @@ following command:
 Vim will open the first file in a vertical split to the right of the second
 file.  What happened here?
 
-First, Vim sees builds the command string by concatenating "rightbelow vsplit
+First, Vim builds the command string by concatenating "rightbelow vsplit
 " with the result of the `bufname("#")` call.
 
 We'll look at the function more later, but for now just trust that it returns

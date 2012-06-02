@@ -353,7 +353,7 @@ learned and practiced a lot of useful things along the way:
 * Using a single function with several arguments to simplify creating related
   mappings.
 * Building up functionality in a Vimscript function incrementally.
-* Building up an `execute 'normal! ...'` string programatically.
+* Building up an `execute 'normal! ...'` string programmatically.
 * Using simple searches to move around with regexes.
 * Using special regex atoms like `%^` (beginning of file).
 * Using search flags to modify how searches work.

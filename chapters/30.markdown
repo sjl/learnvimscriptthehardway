@@ -14,7 +14,7 @@ Previously we tried to use `normal!` with a search command but couldn't enter
 the return needed to actually perform the search.  Combining `normal!` with
 `execute` fixes that problem.
 
-`execute` lets you build commands programatically, so you can use Vim's normal
+`execute` lets you build commands programmatically, so you can use Vim's normal
 string escape sequences to generate the non-printing characters you need.  Try
 the following command:
 

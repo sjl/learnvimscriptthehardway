@@ -107,8 +107,8 @@ following commands:
 Now try writing your file and checking `:messages`.  This time Vim only echoed
 "Cats" when you wrote the file.
 
-Using in Your Vimrc
--------------------
+Using Autocommands in Your Vimrc
+--------------------------------
 
 Now that we know how to group autocommands and clear those groups, we can use
 this to add autocommands to `~/.vimrc` that don't add a duplicate every time we
