@@ -78,17 +78,17 @@ Play around with the folds for a minute to see how they behave.
 Now run the following command to view the foldlevel of line 1:
 
     :::vim
-    :echom foldmethod(1)
+    :echom foldlevel(1)
 
 Vim will display `0`.  Now let's find the foldlevel of line 2:
 
     :::vim
-    :echom foldmethod(2)
+    :echom foldlevel(2)
 
 Vim will display `1`.  Let's try line 3:
 
     :::vim
-    :echom foldmethod(3)
+    :echom foldlevel(3)
 
 Once again Vim displays `1`.  This means that lines 2 and 3 are part of a level
 1 fold.
@@ -330,7 +330,7 @@ Let's write a helper function to get the number of the next non-blank line after
 a given line.  Add the following function above `IndentLevel`:
 
     :::vim
-    function! s:NextNonBlankLine(lnum)
+    function! NextNonBlankLine(lnum)
         let numlines = line('$')
         let current = a:lnum + 1
 
