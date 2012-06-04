@@ -330,7 +330,7 @@ Let's write a helper function to get the number of the next non-blank line after
 a given line.  Add the following function above `IndentLevel`:
 
     :::vim
-    function! s:NextNonBlankLine(lnum)
+    function! NextNonBlankLine(lnum)
         let numlines = line('$')
         let current = a:lnum + 1
 
