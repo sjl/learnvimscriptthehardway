@@ -10,7 +10,7 @@ a 32 bit signed integer.  A Float is, obviously, a floating point number.
 Number Formats
 --------------
 
-You can specify Numbers in a few different ways.  Run the following command.
+You can specify Numbers in a few different ways.  Run the following command:
 
     :::vim
     :echom 100

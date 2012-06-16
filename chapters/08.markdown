@@ -89,7 +89,7 @@ example.
 Run this command:
 
     :::vim
-    :inoremap ssig --<cr>Steve Losh<cr>steve@stevelosh.com
+    :inoremap ssig -- <cr>Steve Losh<cr>steve@stevelosh.com
 
 This is a *mapping* intended to let you insert your signature quickly.  Try it
 out by entering insert mode and typing `ssig`.
@@ -109,7 +109,7 @@ commands:
 
     :::vim
     :iunmap ssig
-    :iabbrev ssig --<cr>Steve Losh<cr>steve@stevelosh.com
+    :iabbrev ssig -- <cr>Steve Losh<cr>steve@stevelosh.com
 
 Now try out the abbreviation again.
 

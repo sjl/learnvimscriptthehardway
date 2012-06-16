@@ -90,7 +90,7 @@ When you press `\` Vim ignores the `x` mapping and does whatever it would do for
 character.
 
 Each of the `*map` commands has a `*noremap` counterpart that ignores other
-mappings: `nnoremap`, `vnoremap`, and `inoremap`.
+mappings: `noremap`, `nnoremap`, `vnoremap`, and `inoremap`.
 
 When to Use
 -----------
@@ -102,7 +102,7 @@ counterparts?  The answer is: always.
 
 **No, seriously, ALWAYS.**
 
-Using a bare `nmap` is just *asking* for pain down the road when you install
+Using a bare `*map` is just *asking* for pain down the road when you install
 a plugin or add a new custom mapping.  Save yourself the trouble and type the
 extra characters to make sure it never happens.
 
