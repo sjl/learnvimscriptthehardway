@@ -136,7 +136,7 @@ Try it out and make sure it still works.  If not, find any typos and fix them.
 Then run the following command, which uses `shellescape` to fix the search term:
 
     :::vim
-    :nnoremap <leader>g :execute "grep -R " . shellescape("<cWORD>") . " ."<cr>
+    :nnoremap <leader>g :execute "grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
 
 Try it out by running it on a normal word like "foo".  It will work properly.
 Now try it out on a word with a quote in it, like "that's".  It will not work!
@@ -227,6 +227,8 @@ Exercises
 Add the mapping we just created to your `~/.vimrc` file.
 
 Read `:help :grep`.
+
+Read `:help expand()`
 
 Read `:help cnext` and `:help cprevious`.  Try them out after using your new
 grep mapping.
