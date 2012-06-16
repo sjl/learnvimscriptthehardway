@@ -32,6 +32,9 @@ reasons:
   you exactly where you started.  Using `jj` in normal mode will move you to
   a different place in your file.
 
+If you write in a language where `jk` is a frequently used combination of
+letters (like Dutch) you'll probably want to pick a different mapping.
+
 Learning the Map
 ----------------
 
