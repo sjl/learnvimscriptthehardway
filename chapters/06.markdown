@@ -8,11 +8,11 @@ Every time we do something like `:nnoremap <space> dd` we've overwritten what
 `<space>` normally does.  What if we need that key later?
 
 There are a bunch of keys that you don't normally need in your day-to-day Vim
-usage.  `\` doesn't do anything.  `-`, `H`, `L`, and `<space>` do things that
-you almost never need.  Depending on how you work you may find others that you
-never use.
+usage.  `-`, `H`, `L`, `<space>`, `<cr>`, and `<bs>` do things that you almost
+never need (in normal mode, of course).  Depending on how you work you may find
+others that you never use.
 
-Those are safe to map, but that only gives us five keys to work with.  What
+Those are safe to map, but that only gives us six keys to work with.  What
 happened to Vim's legendary customizability?
 
 Mapping Key Sequences
