@@ -226,7 +226,7 @@ Exercises
 
 Add the mapping we just created to your `~/.vimrc` file.
 
-Read `:help :grep`.
+Read `:help :grep` if you didn't read it before.
 
 Read `:help cnext` and `:help cprevious`.  Try them out after using your new
 grep mapping.
