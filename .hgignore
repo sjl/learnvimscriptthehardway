@@ -8,3 +8,4 @@ syntax: glob
 .ropeproject
 tags
 build
+venv
