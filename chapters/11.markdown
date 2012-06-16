@@ -32,10 +32,15 @@ Vim deletes the current line.  Nothing surprising here either.
 
 Now for the twist: while still in file `bar` type `<leader>x`.
 
-Nothing happened!
+Instead of deleting the entire line, Vim just deleted a single character!
+What happened?
 
 The `<buffer>` in the second `nnoremap` command told Vim to only consider that
 mapping when we're in the same buffer as where we defined it.
+
+When you typed `<leader>x` in file `bar` Vim couldn't find a mapping that
+matched it, so it treated it as two commands: `<leader>` (which does nothing on
+its own) and `x` (the normal command to delete a single character.)
 
 Local Leader
 ------------
