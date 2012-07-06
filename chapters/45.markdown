@@ -17,8 +17,8 @@ into the file:
 
     let b:current_syntax = "potion"
 
-Close Vim, and then open your `factorial.pn` file.  Nothing will happen, but if
-you run `:messages` you'll see that the file was indeed loaded.
+Close Vim, and then open your `factorial.pn` file. When Vim opens the message
+above is echoed, which indeed tells you that the file has been loaded.
 
 **Note:**  Whenever I tell you to open the Potion file I want you to do it in
 a *new Vim window/instance* instead of in a split/tab.  Opening a new Vim window
