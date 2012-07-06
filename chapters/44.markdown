@@ -72,7 +72,7 @@ again:
     :set filetype?
 
 This time Vim displays `filetype=potion`.  When Vim started up it loaded the
-autocommand group inside `~/.vim/bundle/potion.vim`, and when it opened
+autocommand group inside `~/.vim/bundle/ftdetect/potion.vim`, and when it opened
 `factorial.pn` the autocommand fired, setting the `filetype` to `potion`.
 
 Now that we've taught Vim to recognize Potion files we can move on to actually
