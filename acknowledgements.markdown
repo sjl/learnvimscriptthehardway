@@ -8,3 +8,4 @@ correct typos:
 * [manojkumarm](https://github.com/manojkumarm)
 * [dmedvinsky](https://github.com/dmedvinsky)
 * [flatcap](https://github.com/flatcap)
+* [aperiodic](https://github.com/aperiodic)
