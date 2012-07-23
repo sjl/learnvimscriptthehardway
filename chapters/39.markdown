@@ -62,7 +62,7 @@ about and test.  Let's add a few more helper functions in this same style:
 
     function! Assoc(l, i, val)
         let new_list = deepcopy(a:l)
-        let newlist[a:i] = a:val
+        let new_list[a:i] = a:val
         return new_list
     endfunction
 
