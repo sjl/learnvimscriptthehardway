@@ -241,4 +241,4 @@ Read `:help copen`.
 Add a height to the `:copen` command in the mapping we created to make sure the
 quickfix window is opened to whatever height you prefer.
 
-Read `:help silent`.
+Read `:help :silent`.
