@@ -12,7 +12,7 @@ the screen and message log.  Execute is a very powerful tool because it lets you
 build commands out of arbitrary strings.
 
 Let's try a more useful example.  Prepare by opening a file in Vim, then using
-`:edit "foo.txt"` in the same window to open a new buffer.  Now run the
+`:edit foo.txt` in the same window to open a new buffer.  Now run the
 following command:
 
     :::vim
@@ -21,7 +21,7 @@ following command:
 Vim will open the first file in a vertical split to the right of the second
 file.  What happened here?
 
-First, Vim sees builds the command string by concatenating "rightbelow vsplit
+First, Vim builds the command string by concatenating "rightbelow vsplit
 " with the result of the `bufname("#")` call.
 
 We'll look at the function more later, but for now just trust that it returns

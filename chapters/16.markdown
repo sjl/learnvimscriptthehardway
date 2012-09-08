@@ -24,7 +24,7 @@ into a file:
     This is some text about topic two.  It has only one paragraph.
 
 The lines "underlined" with `=` characters are treated as heading by Markdown.
-Lets create some mappings that let us target headings with movements.  Run the
+Let's create some mappings that let us target headings with movements.  Run the
 following command:
 
     :::vim

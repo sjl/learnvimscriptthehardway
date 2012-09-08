@@ -59,7 +59,7 @@ scheme creators define colors for a common set of programming constructs so they
 don't need to know about individual languages.
 
 Potion has a bunch of other keywords that we haven't used in our toy program, so
-lets edit our syntax file to highlight those too:
+let's edit our syntax file to highlight those too:
 
     :::vim
     syntax keyword potionKeyword loop times to while

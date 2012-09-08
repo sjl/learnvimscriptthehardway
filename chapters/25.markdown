@@ -10,7 +10,7 @@ a 32 bit signed integer.  A Float is, obviously, a floating point number.
 Number Formats
 --------------
 
-You can specify Numbers in a few different ways.  Run the following command.
+You can specify Numbers in a few different ways.  Run the following command:
 
     :::vim
     :echom 100
@@ -62,8 +62,8 @@ Vim displays "5450.0".  A negative exponent can also be used.  Run this command:
     :::vim
     :echo 15.45e-2
 
-Vim displays "0.1545".  The `+` or `-` before the power of ten is optional, if
-it's omitted the it's assumed to be positive.  Run the following command:
+Vim displays "0.1545".  The `+` or `-` before the power of ten is optional. If
+it's omitted then it's assumed to be positive.  Run the following command:
 
     :::vim
     :echo 15.3e9
@@ -94,7 +94,7 @@ When dividing two Numbers, the remainder is dropped.  Run the following command:
     :::vim
     :echo 3 / 2
 
-Vim displays "1".  If you want Vim to perform float point division one of the
+Vim displays "1".  If you want Vim to perform floating point division one of the
 numbers needs to be a Float, which will cause the other one to be coerced to
 a Float as well.  Run this command:
 

@@ -11,18 +11,18 @@ to map keys in insert and other modes in the next chapter.
 Type a few lines of text into a file, then run:
 
     :::vim
-    :map \ x
+    :map - x
 
-Put your cursor somewhere in the text and press `\`.  Notice how Vim deleted the
+Put your cursor somewhere in the text and press `-`.  Notice how Vim deleted the
 character under the cursor, just like if you had pressed `x`.
 
 We already have a key for "delete that character under the cursor", so let's
 change that mapping to something slightly more useful.  Run this command:
 
     :::vim
-    :map \ dd
+    :map - dd
 
-Now put your cursor on a line somewhere and press `\` again.  This time Vim
+Now put your cursor on a line somewhere and press `-` again.  This time Vim
 deletes the entire line, because that's what `dd` does.
 
 Special Characters

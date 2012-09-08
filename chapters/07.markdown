@@ -19,7 +19,7 @@ text))).
 Editing Mapping
 ---------------
 
-Lets add a mapping that will open our `~/.vimrc` file in a split so we can edit
+Let's add a mapping that will open our `~/.vimrc` file in a split so we can edit
 it and get back to coding.  Run this command:
 
     :::vim

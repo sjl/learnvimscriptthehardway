@@ -20,7 +20,7 @@ Now try pressing only `j` and waiting for a bit.  If you don't press `k` quickly
 after the `j`, Vim decides that you don't want to activate the mapping and
 instead runs the normal `j` functionality (moving down a line).
 
-This mapping will make it painful to move around our file, so lets remove it.
+This mapping will make it painful to move around our file, so let's remove it.
 Run the following command:
 
     :::vim
@@ -76,8 +76,8 @@ Create a mapping similar to the one we just looked at, but for single quotes
 instead of double quotes.
 
 Try using `vnoremap` to add a mapping that will wrap whatever text you have
-*visually selected* in quotes.  You'll probably need the `gv` command for this,
-so read up on it with `:help gv`.
+*visually selected* in quotes.  You'll probably need the ```<`` and ```>``
+commands for this, so read up on them with ``:help `<``.
 
 Map `H` in normal mode to go to the beginning of the current line.  Since `h`
 moves left you can think of `H` as a "stronger" `h`.

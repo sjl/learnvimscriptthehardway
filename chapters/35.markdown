@@ -133,9 +133,9 @@ Now run this command:
     :echo join(foo, '---')
     :echo join([1, 2, 3], '')
 
-Vim displays "a b" and "a---b".  `join` will join the items in the given list
-together into a string, separated by the given separator string (or a space if
-none is given), coercing each item to a string if necessary/possible.
+Vim displays "a b", "a---b", and "123".  `join` will join the items in the given
+list together into a string, separated by the given separator string (or a space
+if none is given), coercing each item to a string if necessary/possible.
 
 Run the following commands:
 

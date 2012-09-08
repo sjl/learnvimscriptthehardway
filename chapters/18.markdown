@@ -43,8 +43,8 @@ your `~/.vimrc` file:
 
     :::vim
     augroup filetype_vim
-        au!
-        au FileType vim setlocal foldmethod=marker
+        autocmd!
+        autocmd FileType vim setlocal foldmethod=marker
     augroup END
 
 This will tell Vim to use the `marker` method of folding for any Vimscript

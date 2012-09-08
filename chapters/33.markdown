@@ -22,8 +22,9 @@ but let's create a separate file just for this operator instead.  It's meaty
 enough to warrant a file of its own.
 
 First, find your Vim `plugin` directory.  On Linux or OS X this will be at
-`~/.vim/plugin`.  If you're on Windows it will be at TODO.  If this directory
-doesn't exist, create it.
+`~/.vim/plugin`.  If you're on Windows it will be inside the `vimfiles`
+directory in your home directory. (Use the command: `:echo $HOME` in Vim if
+you're not sure where this is). If this directory doesn't exist, create it.
 
 Inside `plugin/` create a file named `grep-operator.vim`.  This is where you'll
 place the code for this new operator.  When you're editing the file you can run
