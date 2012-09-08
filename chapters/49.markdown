@@ -245,7 +245,7 @@ Operator".
 If the current line has some non-whitespace characters it won't match and we'll
 just return `'0'` as before.
 
-If the current line *does* match the regex (i.e. is it's empty or just
+If the current line *does* match the regex (i.e. if it's empty or just
 whitespace) we return the string `'-1'`.
 
 Earlier I said that a line's foldlevel can be zero or a positive integer, so
