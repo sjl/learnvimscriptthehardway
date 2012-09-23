@@ -112,7 +112,7 @@ Install [Pathogen][] if you haven't already done so.
 
 Create a Mercurial or Git repository for your plugin, called `potion`.  You can
 put it anywhere you like and symlink it into `~/.vim/bundle/potion/` or just put
-it directory in `~/.vim/bundle/potion/`.
+it directly in `~/.vim/bundle/potion/`.
 
 Create `README` and `LICENSE` files in the repository and commit them.
 

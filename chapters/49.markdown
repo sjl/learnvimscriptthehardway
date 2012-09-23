@@ -514,7 +514,7 @@ Now our example looks like this:
         d   1
     e       0
 
-You could, of course, combine these two cases with `&&`, but I prefer to keep
+You could, of course, combine these two cases with `||`, but I prefer to keep
 them separate to make it more explicit.  You might feel differently.  It's
 a style issue.
 
@@ -658,7 +658,7 @@ own level:
         i string print                       1
         '! is: ' print                       1
         factorial (i) string print           1
-        "\n" print.                          1
+        "\n" print.
 
 The same thing happens when the next line's indentation is *less* than the
 current line's: 

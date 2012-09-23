@@ -1,7 +1,7 @@
 Editing Your Vimrc
 ==================
 
-Before we move on to learning more Vimscript lets find a way to make it easier
+Before we move on to learning more Vimscript let's find a way to make it easier
 to add new mappings to our `~/.vimrc` file.
 
 When you're coding away furiously at a problem and realize a new mapping would

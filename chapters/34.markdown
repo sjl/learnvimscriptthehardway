@@ -18,7 +18,7 @@ this:
 
     :::vim
     nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
-    vnoremap <leader>g :<C-U>call GrepOperator(visualmode())<cr>
+    vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
 
     function! GrepOperator(type)
         let saved_unnamed_register = @@
@@ -60,7 +60,7 @@ code.  Edit the file to look like this:
 
     :::vim
     nnoremap <leader>g :set operatorfunc=<SID>GrepOperator<cr>g@
-    vnoremap <leader>g :<C-U>call <SID>GrepOperator(visualmode())<cr>
+    vnoremap <leader>g :<c-u>call <SID>GrepOperator(visualmode())<cr>
 
     function! s:GrepOperator(type)
         let saved_unnamed_register = @@

@@ -76,7 +76,7 @@ Create a mapping similar to the one we just looked at, but for single quotes
 instead of double quotes.
 
 Try using `vnoremap` to add a mapping that will wrap whatever text you have
-*visually selected* in quotes.  You'll probably need the ```<`` and ```>``
+*visually selected* in quotes.  You'll probably need the `` `<`` and `` `>``
 commands for this, so read up on them with ``:help `<``.
 
 Map `H` in normal mode to go to the beginning of the current line.  Since `h`
