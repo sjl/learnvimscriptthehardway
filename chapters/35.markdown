@@ -76,12 +76,14 @@ following command:
     :::vim
     :echo "abcd"[0:2]
 
-Vim displays "abc". It does not allow you to use negative indices with strings though:
+Vim displays "abc". However, you can't use negative bare indices with strings.
+You *can* use negative indices when slicing strings though!  Run the following
+command:
 
     :::vim
-    :echo "abcd"[-1] "abcd"[-1:]
+    :echo "abcd"[-1] . "abcd"[-2:]
 
-will echo " d".
+Vim displays "cd" (using a negative index silently resulted in an empty string).
 
 Concatenation
 -------------
