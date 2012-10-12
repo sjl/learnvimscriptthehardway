@@ -1,0 +1,12 @@
+syntax: literal
+\.DS_Store
+\.ropeproject
+tags
+build
+venv
+
+syntax: regex
+.*\.pyc
+.*\.swp
+.*\.swo
+.*\.un~
