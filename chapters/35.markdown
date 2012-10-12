@@ -76,7 +76,12 @@ following command:
     :::vim
     :echo "abcd"[0:2]
 
-Vim displays "abc".
+Vim displays "abc". It does not allow you to use negative indices with strings though:
+
+    :::vim
+    :echo "abcd"[-1] "abcd"[-1:]
+
+will echo " d".
 
 Concatenation
 -------------
