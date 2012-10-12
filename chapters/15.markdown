@@ -158,9 +158,5 @@ parentheses".
 
 Create similar mappings for in/around next/last for curly brackets.
 
-Create a "inside next email address" operator-pending mapping so you can say
-"change inside next email address".  `in@` is a good candidate for the keys to
-map. You'll probably want to use `/...some regex...<cr>` for this.
-
 Read `:help omap-info` and see if you can puzzle out what the `<c-u>` in the
 examples is for.
