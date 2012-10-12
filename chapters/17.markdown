@@ -60,7 +60,7 @@ the information is displayed.  Run the following command:
     :::vim
     :set statusline=%4l
 
-The line number in the status line will now be proceeded by enough spaces to
+The line number in the status line will now be preceded by enough spaces to
 make it at least four characters wide (for example: "  12").  This can be useful
 to prevent the text in the status line from shifting around distractingly.
 
