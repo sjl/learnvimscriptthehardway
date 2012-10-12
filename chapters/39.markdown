@@ -99,8 +99,8 @@ Vim will display `[1, 2, 3]` as expected.  Notice that the variable we used
 started with a capital letter.  If a Vimscript variable refers to a function it
 must start with a capital letter.
 
-Functions can be stored in lists just like any other kind of variable.  Run the
-following commands:
+Functions can be stored in lists and dictionaries  just like any other kind of variables.
+Run the following commands:
 
     :::vim
     :let funcs = [function("Append"), function("Pop")]
@@ -109,6 +109,17 @@ following commands:
 Vim displays `['a', 'c']`.  The `funcs` variable does *not* need to start with
 a capital letter because it's storing a list, not a function.  The contents of
 the list don't matter at all.
+
+There is a reason why you should not ever be using the first way of storing
+functions:
+
+    :::vim
+    :function Myfunc()
+    endfunction
+    :let Myfunc = function("Append")
+
+results in an error (variable name conflicts with existing function). Storing 
+functions inside a list or dictionary never results in an error.
 
 Higher-Order Functions
 ----------------------
