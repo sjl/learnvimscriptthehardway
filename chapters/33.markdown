@@ -255,8 +255,8 @@ Exercises
 
 Read `:help visualmode()`.
 
-Read `:help c_ctrl-u`.
+Read `:help c_CTRL-U`.
 
-Read `:help operatorfunc`.
+Read `:help 'operatorfunc'`.
 
-Read `:help map-operator`.
+Read `:help :map-operator`.
