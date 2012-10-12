@@ -1,10 +1,10 @@
-[Learn Vimscript the Hard Way][book] is a short book for users of the Vim editor
+[Learn Vimscript the Hard Way][book] is a book for users of the [Vim][] editor
 who want to learn how to customize Vim.
 
 Before reading this book you should be comfortable using Vim and know what terms
 like "buffer", "window" and "insert mode" mean.
 
-LVSTHW is divided into three sections:
+LVSTHW is divided roughly into three sections:
 
 * The first covers basic Vim commands that you can use in your `~/.vimrc` file
   to customize Vim quickly and easily.
@@ -28,6 +28,7 @@ to send a pull request, but I'm retaining the copyright on the book for now, so
 if you're not comfortable with that I understand.
 
 [book]: /
+[Vim]: http://www.vim.org/
 [hg]: http://bitbucket.org/sjl/learnvimscriptthehardway/
 [git]: http://github.com/sjl/learnvimscriptthehardway/
 [license]: /license.html
