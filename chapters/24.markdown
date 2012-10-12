@@ -81,7 +81,7 @@ commands:
     :  echo a:000
     :endfunction
 
-    :call Varg("a", "b", "c")
+    :call Varg2("a", "b", "c")
 
 We can see that Vim puts "a" into the named argument `a:foo`, and the rest are
 put into the list of varargs.
