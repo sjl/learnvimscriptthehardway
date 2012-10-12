@@ -58,8 +58,8 @@ Now add lines before and after that autocommand group so that it looks like this
     :::vim
     " Vimscript file settings ---------------------- {{{
     augroup filetype_vim
-        au!
-        au FileType vim setlocal foldmethod=marker
+        autocmd!
+        autocmd FileType vim setlocal foldmethod=marker
     augroup END
     " }}}
 
