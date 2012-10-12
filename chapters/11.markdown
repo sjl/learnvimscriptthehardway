@@ -92,6 +92,9 @@ You now have line numbers in `foo` but not in `bar`.
 Not all options can be used with `setlocal`.  To see if you can set a particular
 option locally, read its `:help`.
 
+We've glossed over a bit of detail about how local options *actually* work.  In
+the exercises you'll learn more about the gory details.
+
 Shadowing
 ---------
 
@@ -112,6 +115,8 @@ because it's not shadowed by the first in this buffer.
 
 Exercises
 ---------
+
+Read `:help local-options`.
 
 Read `:help setlocal`.
 
