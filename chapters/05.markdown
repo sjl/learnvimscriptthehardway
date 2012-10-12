@@ -20,7 +20,12 @@ now I need to run `dd`", and so it deletes the current line.
 
 When you map keys with these commands Vim will take *other* mappings into
 account.  This may sound like a good thing at first but in reality it's pure,
-unadulterated evil.  Let's talk about why.
+unadulterated evil.  Let's talk about why, but first remove those mappings by
+running the following commands:
+
+    :::vim
+    :nunmap -
+    :nunmap \
 
 Recursion
 ---------
@@ -56,7 +61,11 @@ This mapping is actually *recursive*!  When you press `dd`, Vim says:
         * `dd` is mapped, so perform the mapping.
             * ...
 
-This mapping can never finish running!
+This mapping can never finish running!  Go ahead and remove it with the
+following command:
+
+    :::vim
+    :nunmap dd
 
 Side Effects
 ------------
@@ -111,3 +120,5 @@ Exercises
 
 Convert all the mappings you added to your `~/.vimrc` file in the previous
 chapters to their nonrecursive counterparts.
+
+Read `:help unmap`.
