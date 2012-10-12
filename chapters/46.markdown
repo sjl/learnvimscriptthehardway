@@ -66,15 +66,15 @@ Another part of Potion we need regexes to highlight is operators.  Add the
 following to your syntax file:
 
     :::vim
-    syntax match potionOperator "\v\*\="
-    syntax match potionOperator "\v/\="
-    syntax match potionOperator "\v\+\="
-    syntax match potionOperator "\v-\="
     syntax match potionOperator "\v\*"
     syntax match potionOperator "\v/"
     syntax match potionOperator "\v\+"
     syntax match potionOperator "\v-"
     syntax match potionOperator "\v\?"
+    syntax match potionOperator "\v\*\="
+    syntax match potionOperator "\v/\="
+    syntax match potionOperator "\v\+\="
+    syntax match potionOperator "\v-\="
 
     highlight link potionOperator Operator
 
@@ -102,8 +102,8 @@ differently.  Use your judgement.
 I also never defined `=` as an operator.  We'll do that in a second, but
 I wanted to avoid it for now so I could teach you a lesson.
 
-Because I used separate regexes for `-` and `-=` I had to define `-` *after*
-`-=`!
+Because I used separate regexes for `-` and `-=` I had to define `-=` *after*
+`-`!
 
 If I did it in the opposite order and used `-=` in a Potion file, Vim would
 match `-` (and highlight it, of course) and only `=` would remain for matching.
@@ -112,7 +112,8 @@ pieces of the file that can't be matched later.
 
 This is an oversimplification, but I don't want to get bogged down in the
 details just yet.  For now, your rule of thumb should be to match larger groups
-first and smaller groups later.
+after smaller groups later because groups defined *later* have priority over
+groups defined *earlier*.
 
 Let's go ahead and add `=` as an operator, now that we've had our lesson:
 
@@ -126,6 +127,8 @@ Exercises
 ---------
 
 Read `:help syn-match`.
+
+Read `:help syn-priority`.
 
 We didn't make `:` an operator in our example.  Read the Potion docs and make
 a conscious decision about whether to make `:` an operator.  If you decide to do
