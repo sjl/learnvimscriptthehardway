@@ -2,7 +2,8 @@ Execute
 =======
 
 The `execute` command is used to evaluate a string as if it were a Vimscript
-command.  Run the following command:
+command.  We saw it in an earlier chapter, but now we're going to take another
+look at it because it's used extremely often.  Run the following command:
 
     :::vim
     :execute "echom 'Hello, world!'"

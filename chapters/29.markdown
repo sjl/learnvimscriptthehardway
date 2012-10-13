@@ -5,7 +5,8 @@ So far we've covered some of the most useful Vimscript commands, but what about
 all the stuff you do on a daily basis in normal mode?  Can we somehow use all
 the knowledge we have from editing text in our scripting?
 
-The answer is: "of course".  Run the following command:
+The answer is: "of course".  We've seen the `normal` command before, and now
+it's time to revisit it in a bit more detail.  Run the following command:
 
     :::vim
     :normal G
