@@ -1,11 +1,14 @@
 * remaining chapters
 ** TODO run and view output
+*** Working with external commands
 ** TODO autoload
 ** TODO documentation
+*** What to document
+*** help format
 ** TODO distributing
 ** TODO Where to go from here
 *** Omnicomplete
-*** makeprg, errorfmt
+*** makeprg, errorfmt, compilers
 *** Color schemes
 *** Read the fucking documentation
 *** Read the source of some popular plugins
