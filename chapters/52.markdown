@@ -1,0 +1,344 @@
+External Commands
+=================
+
+Vim follows the UNIX philosophy of "do one thing well".  Instead of trying to
+cram all the functionality you could ever want inside the editor itself, the
+right way to use Vim is to delegate to external commands when appropriate.
+
+Let's add some interaction with the Potion compiler to our plugin to get our
+feet wet with external commands in Vim.
+
+Compiling
+---------
+
+First we'll add a command to compile and run the current Potion file.  There are
+a number of ways to do this, but we'll simply use an external command for now.
+
+Create a `potion/ftplugin/potion/running.vim` file in your plugin's repo.  This
+is where we'll create the mappings for compiling and running Potion files.
+
+    :::vim
+    if !exists("g:potion_command")
+        let g:potion_command = "potion"
+    endif
+
+    function! PotionCompileAndRunFile()
+        silent !clear
+        execute "!" . g:potion_command . " " . bufname("%")
+    endfunction
+
+    nnoremap <buffer> <localleader>r :call PotionCompileAndRunFile()<cr>
+
+The first chunk stores the command used to execute Potion in a global variable,
+if that variable isn't already set.  We've seen this kind of check before.
+
+This will allow users to override it if `potion` isn't in their `$PATH` by
+putting a line like `set g:potion_command = "/Users/sjl/src/potion/potion"` in
+their `~/.vimrc` file.
+
+The last line adds a buffer-local mapping that calls a function we've defined
+above.  Remember that because this file is in the `ftdetect/potion` directory it
+will be run every time a file's `filetype` is set to `potion`.
+
+The real functionality is in the `PotionCompileAndRunFile()` function.  Go ahead
+and save this file, open up `factorial.pn` and press `<localleader>r` to run the
+mapping and see what happens.
+
+If `potion` is in your `$PATH`, the file should be run and you should see its
+output in your terminal (or at the bottom of the window if you're using a GUI
+Vim).  If you get an error about the `potion` command not being found, you'll
+need to set `g:potion_command` in your `~/.vimrc` file as mentioned above.
+
+Let's take a look at how `PotionCompileAndRunFile()` function works.
+
+!
+--------
+
+The `:!` command in Vim runs external commands and displays their output on the
+screen.  Try it out by running the following command:
+
+    :::vim
+    :!ls
+
+Vim should show you the output of the `ls` command, as well as a "Press ENTER or
+type command to continue" prompt.
+
+Vim doesn't pass any input to the command when run this way.  Confirm this by
+running:
+
+    :::vim
+    :!cat
+
+Type a few lines and you'll see that the `cat` command spits them back out, just
+as it normally would if you ran `cat` outside of Vim.  Use Ctrl-D to finish.
+
+To run an external command without the "Press ENTER or type command to continue"
+prompt, use `:silent !`.  Run the following command:
+
+    :::vim
+    :silent !echo Hello, world.
+
+If you run this in a GUI Vim like MacVim or gVim, you won't see the "Hello,
+world." output of the command.
+
+If you run it in a terminal Vim, your results may vary depending on your
+configuration.  You may need to run `:redraw!` to fix your screen after running
+a bare `:silent !`.
+
+Note that this command is `:silent !` and not `:silent!` (see the space?)!
+Those are two different commands, and we want the former!  Isn't Vimscript
+great?
+
+Let's look back at the `PotionCompileAndRun()` function:
+
+    :::vim
+    function! PotionCompileAndRunFile()
+        silent !clear
+        execute "!" . g:potion_command . " " . bufname("%")
+    endfunction
+
+First we run a `silent !clear` command, which should clear the screen without
+a "Press ENTER..." prompt.  This will make sure we only see the output of this
+run, which is helpful when you're running the same commands over and over.
+
+The next line uses our old friend `execute` to build a command dynamically.  The
+command it builds will look something like this:
+
+    :::text
+    !potion factorial.pn
+
+Notice that there's no `silent` here, so the user will see the output of the
+command and will have to press enter to go back to Vim.  This is what we want
+for this particular mapping, so we're all set.
+
+Displaying Bytecode
+-------------------
+
+The Potion compiler has an option that will let you view the bytecode it
+generates as it compiles.  This can be handy if you're trying to debug your
+program at a very low level.  Try it out by running the following command at
+a shell prompt:
+
+    :::text
+    potion -c -V factorial.pn
+
+You should see a lot of output that looks like this:
+
+    :::text
+    -- parsed --
+    code ...
+    -- compiled --
+    ; function definition: 0x109d6e9c8 ; 108 bytes
+    ; () 3 registers
+    .local factorial ; 0
+    .local print_line ; 1
+    .local print_factorial ; 2
+    ...
+    [ 2] move     1 0
+    [ 3] loadk    0 0   ; string
+    [ 4] bind     0 1
+    [ 5] loadpn   2 0   ; nil
+    [ 6] call     0 2
+    ...
+
+Let's add a mapping that will let the user view the bytecode generated for the
+current Potion file in a Vim split so they can easily navigate and examine it.
+
+First, add the following line to the bottom of `ftplugin/potion/running.vim`:
+
+    :::vim
+    nnoremap <buffer> <localleader>b :call PotionShowBytecode()<cr>
+
+Nothing special there -- it's just a simple mapping.  Now let's sketch out the
+function that will do the work:
+
+    :::vim
+    function! PotionShowBytecode()
+        " Get the bytecode.
+
+        " Open a new split and set it up.
+
+        " Insert the bytecode.
+
+    endfunction
+
+Now that we've got a little skeleton set up, let's talk about how to make it
+happen.
+
+system()
+--------
+
+There are a number of ways we could implement this, so I'll choose one that will
+come in handy later for you.
+
+Run the following command:
+
+    :::vim
+    :echom system("ls")
+
+You should see the output of the `ls` command at the bottom of your screen.  If
+you run `:messages` you'll see it there too.  The `system()` Vim function takes
+a command string as a parameter and returns the output of that command as
+a String.
+
+You can pass a second string as an argument to `system()`.  Run the following
+command:
+
+    :::vim
+    :echom system("wc -c", "abcdefg")
+
+Vim will display "7" (with some padding).  If you pass a second argument like
+this, Vim will write it to a temporary file and pipe it into the command on
+standard input.  For our purposes we won't need this, but it's good to know.
+
+Back to our function.  Edit `PotionShowBytecode()` to fill out the first part of
+the skeleton like this:
+
+    :::vim
+    function! PotionShowBytecode()
+        " Get the bytecode.
+        let bytecode = system(g:potion_command . " -c -V " . bufname("%"))
+        echom bytecode
+
+        " Open a new split and set it up.
+
+        " Insert the bytecode.
+
+    endfunction
+
+Go ahead and try it out by saving the file, running `:set ft=potion` in
+`factorial.pn` to reload it, and using the `<localleader>b` mapping.  Vim should
+display the bytecode at the bottom of the screen.  Once you can see it's working
+you can remove the `echom` line.
+
+Scratch Splits
+--------------
+
+Next we're going to open up a new split window for the user to show the results.
+This will let the user view and navigate the bytecode with all the power of Vim,
+instead of just reading it once from the screen.
+
+To do this we're going to create a "scratch" split: a split containing a buffer
+that's never going to be saved and will be overwritten each time we run the
+mapping.  Change the `PotionShowBytecode()` function to look like this:
+
+    :::vim
+    function! PotionShowBytecode()
+        " Get the bytecode.
+        let bytecode = system(g:potion_command . " -c -V " . bufname("%"))
+
+        " Open a new split and set it up.
+        vsplit __Potion_Bytecode__
+        normal! ggdG
+        setlocal filetype=potionbytecode
+        setlocal buftype=nofile
+
+        " Insert the bytecode.
+
+    endfunction
+
+These new command should be pretty easy to follow.
+
+`vsplit` creates a new vertical split for a buffer named `__Potion_Bytecode__`.
+We surround the name with underscores to make it clearer to the user that this
+isn't a normal file -- it's a buffer just to hold the output.
+
+Next we delete everything in this buffer with `normal! ggdG`.  The first time
+the mapping is run this won't do anything, but subsequent times we'll be reusing
+the `__Potion_Bytecode__` buffer, so this clears it.
+
+Next we prepare the buffer by setting two local settings.  First we set its
+filetype to `potionbytecode`, just to make it clear what it's holding.  We also
+change the `buftype` setting to `nofile`, which tells Vim that this buffer isn't
+related to a file on disk and so it should never try to write it.
+
+All that's left is to dump the bytecode that we saved into the `bytecode`
+variable into this buffer.  Finish off the function by making it look like this:
+
+    :::vim
+    function! PotionShowBytecode()
+        " Get the bytecode.
+        let bytecode = system(g:potion_command . " -c -V " . bufname("%") . " 2>&1")
+
+        " Open a new split and set it up.
+        vsplit __Potion_Bytecode__
+        normal! ggdG
+        setlocal filetype=potionbytecode
+        setlocal buftype=nofile
+
+        " Insert the bytecode.
+        call append(0, split(bytecode, '\v\n'))
+    endfunction
+
+The `append()` Vim function take two arguments: a line number to append after,
+and a list of Strings to append as lines.  For example, try running the
+following command:
+
+    :::vim
+    :call append(3, ["foo", "bar"])
+
+This will append two lines, `foo` and `bar`, below line 3 in your current
+buffer.  In this case we're appending below line 0, which means "at the top of
+the file".
+
+We need a list of Strings to append, but we just have a single string with
+newline characters embedded in it from when we used `system()`.  We use Vim's
+`split()` function to split that giant hunk of text into a list of Strings.
+`split()` takes a String to split and a regular expression to find the split
+points.  It's pretty simple.
+
+Now that the function is complete, go ahead and try out the mapping.  When you
+run `<localleader>b` in the `factorial.pn` buffer Vim will open a new buffer
+containing the Potion bytecode.  Play around with it by changing the source,
+saving the file, and running the mapping again to see the bytecode change.
+
+Exercises
+---------
+
+Read `:help bufname`.
+
+Read `:help buftype`.
+
+Read `:help append()`.
+
+Read `:help split()`.
+
+Read `:help :!`.
+
+Read `:help :read` and `:help :read!` (we didn't cover these commands, but
+they're extremely useful).
+
+Read `:help system()`.
+
+Read `:help design-not`.
+
+Currently our mappings require that the user save the file themselves before
+running the mapping in order for their changes to take effect.  Undo is cheap
+these days, so edit the functions we wrote to save the current file for them.
+
+What happens when you run the bytecode mapping on a Potion file with a syntax
+error?  Why does that happen?
+
+Change the `PotionShowBytecode()` function to detect when the Potion compiler
+returns an error, and show an error message to the user.
+
+Extra Credit
+------------
+
+Each time you run the bytecode mapping a new vertical split will be created,
+even if the user hasn't closed the previous one.  If the user doesn't bother
+closing them they could end up with many extra windows stacked up.
+
+Change `PotionShowBytecode()` to detect with a window is already open for the
+`__Potion_Bytecode__` buffer, and when that's the case switch to it instead of
+creating a new split.
+
+You'll probably want to read `:help bufwinnr()` for this one.
+
+More Extra Credit
+-----------------
+
+Remember how we set the `filetype` of the temporary buffer to `potionbytecode`?
+Create a `syntax/potionbytecode.vim` file and define syntax highlighting for
+Potion bytecode buffers to make them easier to read.
+
