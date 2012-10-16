@@ -1,0 +1,11 @@
+Documentation
+=============
+
+Writing Documentation
+---------------------
+
+What to Document
+----------------
+
+Exercises
+---------
