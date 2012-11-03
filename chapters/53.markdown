@@ -1,11 +1,260 @@
 Autoloading
 ===========
 
+We've written a fair amount of functionality for our Potion plugin, and that's
+all we're going to do in this book.  Before we finish we'll talk about a few
+more important ways to polish it up and really make it shine.
+
+First on the list is making out plugin more efficient with autoloading.
+
 How Autoload Works
 ------------------
+
+Currently when a user loads our plugin (by opening a Potion file) *all* of its
+functionality is loaded.  Our plugin is still small so this probably isn't a big
+deal, but for larger plugins loading all of their code can take a noticeable
+amount of time.
+
+Vim's solution to this is something called "autoload".  Autoload lets you delay
+loading code until it's actually needed.  You'll take a slight performance hit
+overall, but if your users don't always use every single bit of code in your
+plugin autoloading can be a huge speedup.
+
+Here's how it works.  Look at the following command:
+
+    :::vim
+    :call somefile#Hello()
+
+When you run this command, Vim will behave a bit differently than a normal
+function call.
+
+If this function has already been loaded, Vim will simply call it normally.
+
+Otherwise Vim will look for a file called `autoload/somefile.vim` in your
+`~/.vim` directory (and any Pathogen bundles).
+
+If this file exists, Vim will load/source the file.  It will then try to call
+the function normally.
+
+Inside this file, the function should be defined like this:
+
+    :::vim
+    function somefile#Hello()
+        " ...
+    endfunction
+
+You can use multiple `#` characters in the function name to represent
+subdirectories.  For example:
+
+    :::vim
+    :call myplugin#somefile#Hello()
+
+This will look for the autoloaded file at `autoload/myplugin/somefile.vim`.  The
+function inside it needs to be defined with the full autoload path:
+
+    :::vim
+    function myplugin#somefile#Hello()
+        " ...
+    endfunction
+
+Experimenting
+-------------
+
+To get a feel for how this works, let's give it a try.  Create
+a `~/.vim/autoload/example.vim` file and add the following to it:
+
+    :::vim
+    echom "Loading..."
+
+    function! example#Hello()
+        echom "Hello, world!"
+    endfunction
+
+    echom "Done loading."
+
+Save the file and run `:call example#Hello()`.  Vim will output the following:
+
+    :::text
+    Loading...
+    Done loading.
+    Hello, world!
+
+This little demonstration proves a few things:
+
+1. Vim really does load the `example.vim` file on the fly.  It didn't even exist
+   when we opened Vim, so it couldn't have been loaded on startup!
+2. When Vim finds the file it needs to autoload, it loads the entire file before
+   actually calling the function.
+
+**Without closing Vim**, change the definition of the function to look like
+this:
+
+    :::vim
+    echom "Loading..."
+
+    function! example#Hello()
+        echom "Hello AGAIN, world!"
+    endfunction
+
+    echom "Done loading."
+
+Save the file and **without closing Vim** run `:call example#Hello()`.  Vim will
+simply output:
+
+    :::text
+    Hello, world!
+
+Vim already has a definition for `example#Hello`, so it doesn't need to reload
+the file, which means:
+
+1. The code outside the function wasn't run again.
+2. It didn't pick up the changes to the function.
+
+Now run `:call example#BadFunction()`.  You'll see the loading messages again,
+as well as an error about a nonexistent function.  But now try running `:call
+example#Hello()` again.  This time you'll see the updated message!
+
+By now you should have a pretty clear grip on what happens when Vim encounters
+a call to a function with an autoload-style name:
+
+1. It checks to see if it has a function by that name defined already.  If so,
+   just call it.
+2. Otherwise, find the appropriate file (based on the name) and source it.
+3. Then attempt to call the function.  If it works, great. If it fails, just
+   print an error.
+
+If that's not completely solid in your mind yet, go back and work through this
+demonstration again and try to see where each rule takes effect.
 
 What to Autoload
 ----------------
 
+Autoloading isn't free.  There's some (small) overhead involved with setting it
+up, not to mention the ugly function names you need to sprinkle through your
+code.
+
+With that said, if you're creating a plugin that won't be used *every* time
+a user opens a Vim session it's probably a good idea to move as much
+functionality into autoloaded files as possible.  This will reduce the impact
+your plugin has on your users' startup times, which is important as people
+install more and more Vim plugins.
+
+So what kind of things can be safely autoloaded?  The answer is basically
+anything that's not directly called by your users.  Mappings and custom commands
+can't be autoloaded (because they wouldn't be available for the users to call),
+but many other things can be.
+
+Let's look at our Potion plugin and see what we can autoload.
+
+Adding Autoloading to the Potion Plugin
+---------------------------------------
+
+We'll start with the compile and run functionality.  Remember that our
+`ftplugin/potion/running.vim` file looked like this at the end of the previous
+chapter:
+
+    :::vim
+    if !exists("g:potion_command")
+        let g:potion_command = "/Users/sjl/src/potion/potion"
+    endif
+
+    function! PotionCompileAndRunFile()
+        silent !clear
+        execute "!" . g:potion_command . " " . bufname("%")
+    endfunction
+
+    function! PotionShowBytecode()
+        " Get the bytecode.
+        let bytecode = system(g:potion_command . " -c -V " . bufname("%"))
+
+        " Open a new split and set it up.
+        vsplit __Potion_Bytecode__
+        normal! ggdG
+        setlocal filetype=potionbytecode
+        setlocal buftype=nofile
+
+        " Insert the bytecode.
+        call append(0, split(bytecode, '\v\n'))
+    endfunction
+
+    nnoremap <buffer> <localleader>r :call PotionCompileAndRunFile()<cr>
+    nnoremap <buffer> <localleader>b :call PotionShowBytecode()<cr>
+
+This file is already only called when a Potion file is loaded, so it doesn't add
+to the overhead of Vim's startup in general.  But there may be some users who
+simply don't need this functionality, so if we can autoload some of it we'll
+save them a few milliseconds every time they open a Potion file.
+
+Yes, in this case the savings won't be huge.  But I'm sure you can imagine
+a plugin with many thousands of lines of functions where the time required to
+load them would be more significant.
+
+Let's get started.  Create an `autoload/potion/running.vim` file in your plugin
+repo.  Then move the two functions into it and adjust their names, so they look
+like this:
+
+    :::vim
+    echom "Autoloading..."
+
+    function! potion#running#PotionCompileAndRunFile()
+        silent !clear
+        execute "!" . g:potion_command . " " . bufname("%")
+    endfunction
+
+    function! potion#running#PotionShowBytecode()
+        " Get the bytecode.
+        let bytecode = system(g:potion_command . " -c -V " . bufname("%"))
+
+        " Open a new split and set it up.
+        vsplit __Potion_Bytecode__
+        normal! ggdG
+        setlocal filetype=potionbytecode
+        setlocal buftype=nofile
+
+        " Insert the bytecode.
+        call append(0, split(bytecode, '\v\n'))
+    endfunction
+
+Notice how the `potion#running` portion of the function names matches the
+directory and file name where they live.  Now change the
+`ftplugin/potion/running.vim` file to look like this:
+
+    :::vim
+    if !exists("g:potion_command")
+        let g:potion_command = "/Users/sjl/src/potion/potion"
+    endif
+
+    nnoremap <buffer> <localleader>rr
+                \ :call potion#running#PotionCompileAndRunFile()<cr>
+
+    nnoremap <buffer> <localleader>b
+                \ :call potion#running#PotionShowBytecode()<cr>
+
+Save the files, close Vim, and open up your `factorial.pn` file.  Try using the
+mappings to make sure they still work properly.
+
+Make sure that you see the diagnostic "Autoloading..." message only the first
+time you run one of the mappings (you may need to use `:messages` to see it).
+Once you confirm that autoloading is working properly you can remove that
+message.
+
+As you can see, we've left the `nnoremap` calls that map the keys.  We can't
+autoload these because the user would have no way to initiate the autoloading if
+we did!
+
+This is a common pattern you'll see in Vim plugins: most of their functionality
+will be held in autoloaded functions, with just `nnoremap` and `command`
+commands in the files that Vim loads every time.  Keep it in mind whenever
+you're writing a non-trivial Vim plugin.
+
 Exercises
 ---------
+
+Read `:help autoload`.
+
+Experiment a bit and find out how autoloading variables behaves.
+
+Suppose you wanted to programatically force a reload of an autoload file Vim has
+already loaded, without bothering the user.  How might you do this?  You may
+want to read `:help silent!`.  Please don't ever do this in real life.
+

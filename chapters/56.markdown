@@ -1,6 +1,12 @@
 What Now?
 =========
 
+runtimepath
+-----------
+
+The Command Command
+-------------------
+
 Omnicomplete
 ------------
 

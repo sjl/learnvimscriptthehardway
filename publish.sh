@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 set -e
-python ../bookmarkdown/bookmarkdown/bookmarkdown build
+./build.sh
 rsync --delete -az build/html/ sl:/var/www/vimscript/
