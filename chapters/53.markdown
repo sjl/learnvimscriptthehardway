@@ -5,7 +5,7 @@ We've written a fair amount of functionality for our Potion plugin, and that's
 all we're going to do in this book.  Before we finish we'll talk about a few
 more important ways to polish it up and really make it shine.
 
-First on the list is making out plugin more efficient with autoloading.
+First on the list is making our plugin more efficient with autoloading.
 
 How Autoload Works
 ------------------
