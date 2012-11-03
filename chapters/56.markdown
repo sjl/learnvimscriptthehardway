@@ -1,14 +1,47 @@
 What Now?
 =========
 
-runtimepath
------------
+If you've read up to this point and completed all the examples and exercises
+you now have a pretty solid grasp of the basics of Vimscript.  Don't worry
+though, there's still *plenty* left to learn!
+
+Here are a few ideas of topics to look into if you're hungry for more.
 
 The Command Command
 -------------------
 
+Many plugins allow the user to interact with them through key mappings and
+function calls, but some prefer to create Ex commands instead.  For example, the
+[Fugitive][] plugin creates commands like `:Gbrowse` and `:Gdiff` and leaves it up
+to the user to decide how to call them.
+
+Commands like this are created with the `:command` command.  Read `:help
+user-commands` to learn how to make your own.  You should know enough Vimscript
+by now that reading Vim's documentation is sufficient for learning about new
+commands.
+
+[Fugitive]: https://github.com/tpope/vim-fugitive
+
+runtimepath
+-----------
+
+In this book I've kind of glossed over how Vim decides which files to load by
+saying "just use Pathogen".  Now that you know a decent amount of Vimscript you
+can read `:help runtimepath` and check out [Pathogen's source
+code][pathogen-src] to find out what's *really* happening under the hood.
+
+[pathogen-src]: https://github.com/tpope/vim-pathogen/blob/master/autoload/pathogen.vim
+
 Omnicomplete
 ------------
+
+Vim offers a number of different ways to complete text (read `:help
+ins-completion` for an overview).  Most are fairly simple, but the most powerful
+of them is "omnicomplete" which lets you call a custom Vimscript function to
+determine completions in just about any way you could possibly think of.
+
+When you're ready to dive into the rabbit hole of omnicompletion you can start
+with `:help omnifunc` and `:help coml-omni` and follow the trail from there.
 
 Compiler Support
 ----------------
@@ -21,3 +54,5 @@ Vim's Documentation
 
 Exercises
 ---------
+
+Go write a Vim plugin for something you've always wanted!

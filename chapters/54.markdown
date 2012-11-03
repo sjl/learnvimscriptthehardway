@@ -1,11 +1,299 @@
 Documentation
 =============
 
-Writing Documentation
----------------------
+Our Potion plugin has a bunch of useful functionality in it, but it won't be
+really useful to anyone unless we document it so they know what it can do!
+
+Vim's own documentation is superb.  It's not overly wordy, but it's extremely
+thorough.  It's also inspired many plugin authors to document their own plugins
+very well, which has resulted in a wonderful culture of strong documentation in
+the Vimscript community.
+
+How Documentation Works
+-----------------------
+
+When you read a `:help` topic in Vim you've surely noticed that some things are
+highlighted differently than others.  Let's take a look at how this works.
+
+Open up any help topic (such as `:help help`) and run `:set filetype?`.  Vim
+will display `filetype=help`.  Now run `:set filetype=text`, and you'll see that
+the highlighting goes away.  `:set filetype=help` again and it will come back.
+
+It turns out that Vim help files are simply syntax-highlighted text files like
+any other file format!  This means you can write your own and get the same
+highlighting.
+
+Create a file called `doc/potion.txt` in your plugin repo.  Vim/Pathogen looks
+for files inside `doc` folders when indexing help topics, so this is where we'll
+write the help for our plugin.
+
+Open this file in Vim and run `:set filetype=help` so you can see the syntax
+highlighting as you type.
+
+Help Header
+-----------
+
+The format of help files is a matter of personal taste.  With that said, I'll
+talk about one way to structure them that seems to be popular with the modern
+Vimscript community.
+
+The first line of the file should contain the filename of the help file,
+followed by a one-line description of what the plugin does.  Add the following
+as the first line of your `potion.txt` file:
+
+    :::text
+    *potion.txt* functionality for the potion programming language
+
+Surrounding a word with asterisks in a help file creates a "tag" that can be
+jumped to.  Run `:Helptags` to tell Pathogen to rebuild the index of help tags,
+and then open a new Vim window and run `:help potion.txt`.  Vim will open your
+help document like any other one.
+
+Next you should put the title of your plugin along with a longer description.
+Some authors (including me) like to have a bit of fun with this and use some
+ASCII-art to spice things up.  Add a nice title section to the `potion.txt`
+file:
+
+    :::text
+    *potion.txt* functionality for the potion programming language
+
+                          ___      _   _              ~
+                         / _ \___ | |_(_) ___  _ __   ~
+                        / /_)/ _ \| __| |/ _ \| '_ \  ~
+                       / ___/ (_) | |_| | (_) | | | | ~
+                       \/    \___/ \__|_|\___/|_| |_| ~
+
+              Functionality for the Potion programming language.
+            Includes syntax highlighting, code folding, and more!
+
+I got those fun letters by running the `figlet -f ogre "Potion"` command.
+[Figlet][] is a great little program for generating ASCII-art text.  The `~`
+characters at the end of the lines ensure that Vim doesn't try to highlight or
+hide individual characters inside the art.
+
+[Figlet]: http://www.figlet.org/
 
 What to Document
 ----------------
 
+Next usually comes a table of contents.  First, though, let's decide what we
+actually want to document.
+
+When writing documentation for a new plugin I usually start with the following
+list of sections and work from there:
+
+* Introduction
+* Usage
+* Mappings
+* Configuration
+* License
+* Bugs
+* Contributing
+* Changelog
+* Credits
+
+If the plugin is large and requires an "overview" I'll write an introductory
+section that summarizes how things work.  Otherwise I'll skip that and just move
+on.
+
+A "usage" section should explain in, general, how the user will actually *use*
+your plugin.  If they'll interact with it through mappings, tell them that.  If
+there aren't too many mappings you can simply list them here, otherwise you may
+want to create a separate "mappings" section that lists them all.
+
+The "configuration" section should list each and every user-modifiable variable,
+along with its effects and its default value.
+
+The "license" section should specify what license the plugin's code is under, as
+well as a URL where the user can find the full text of that license.  Don't
+include the full text in the actual help file -- most users know what the common
+licenses mean and it just clutters things up.
+
+The "bugs" section should be short and sweet.  List any major bugs that you're
+aware of but haven't gotten around to fixing, and tell the user how they can
+report new bugs they find to you.
+
+If you want your users to be able to contribute bug fixes and features for the
+plugin back to you, they'll need to know how to do it.  Should they send a pull
+request on GitHub?  On Bitbucket?  Send a patch in an email?  Any/all of the
+above?  Include a "contributing" section makes it clear how you prefer to
+receive code.
+
+A changelog is a wonderful thing to include so that when users update your
+plugin from version X to version Y they can immediately see what changed.  Also,
+I highlight recommend you pick a sane versioning scheme like [Semantic
+Versioning][] for your plugin and stick to it.  Your users will thank you.
+
+Finally, I like to include a "credits" section to mention my own name, list
+other plugins that this one was inspired by, thank contributors, and so on.
+
+This is usually a good starting point.  For more unique plugins you may feel the
+need to deviate from this list, and that's completely fine.  There are no hard
+and fast rules except the following:
+
+* Be thorough.
+* Don't be too wordy.
+* Take the user on a journey from having no idea what your plugin is to being an
+  expert user of it.
+
+[Semantic Versioning]: http://semver.org/
+
+Table of Contents
+-----------------
+
+Now that we have an idea of what sections we'll include, add the following to
+the `potion.txt` file:
+
+    :::text
+    ==============================================================================
+    CONTENTS                                                      *PotionContents*
+
+        1. Usage ................ |PotionUsage|
+        2. Mappings ............. |PotionMappings|
+        3. License .............. |PotionLicense|
+        4. Bugs ................. |PotionBugs|
+        5. Contributing ......... |PotionContributing|
+        6. Changelog ............ |PotionChangelog|
+        7. Credits .............. |PotionCredits|
+
+There are a couple things to note here.  First, the line of `=` characters will
+be syntax highlighted.  You can use these lines to visually divide up sections
+of your help document.  You can also use lines of `-` characters for
+subsections, if you want.
+
+The `*PotionContents*` will create another tag, so a user can type `:help
+PotionContents` to go directly to the table of contents.
+
+Each of the words surrounded by `|` characters creates a link to a tag.  Users
+can place their cursor on the word in the help file and press `<c-]>` to jump to
+the tag, just as if they had typed `:help TheTag`.  They can also click them
+with their mouse.
+
+Vim will hide these `*` and `|` characters and syntax highlight them, so the
+result will be a nice, pretty table of contents people can use to get to what
+they're looking for.
+
+Sections
+--------
+
+You can create section headers like this:
+
+    :::text
+    ==============================================================================
+    Section 1: Usage                                                 *PotionUsage*
+
+    This plugin with automatically provide syntax highlighting for Potion files
+    (files ending in .pn).
+
+    It also...
+
+Make sure to create the correct tags with the `*` characters so that all the
+links in your table of contents work properly.
+
+Go ahead and create headers for each section in the table of contents.
+
+Examples
+--------
+
+I could try to go over all the syntax of help files and how to use it, but it's
+really a matter of taste.  So instead I'll give you a list of several Vim
+plugins with extensive documentation.
+
+For each one, copy the raw source of the documentation into a Vim buffer and set
+its filetype to `help` to see how it renders.  Switch back to `text` when you
+want to see how an effect was created.
+
+You may find it useful to use your Vimscript skills create a key mapping to
+toggle the `help` and `text` filetypes for the current buffer.
+
+* [Clam][], my own plugin for working with shell commands.  It's a pretty short
+  example that hits most of the sections I talked about.
+* The [NERD tree][], a file navigation plugin by Scrooloose.  Note the general
+  structure, as well as how he summarizes the mappings in an easy-to-read list
+  before explaining every one in detail.
+* [Surround][], a plugin for handling "surrounding" characters by Tim Pope.
+  Note the lack of a table of contents, the different style of section
+  headers, and the table column headers.  Figure out how these things were done,
+  and decide if you like them.  It's a matter of taste.
+* [Splice][], my own plugin for resolving three-way merge conflicts in version
+  control systems.  Note how the lists of mappings are formatted, and how I used
+  ASCII-art diagrams to explain layouts.  Sometimes a picture really is worth
+  a thousand words.
+
+Remember that all of the vanilla Vim documentation can also be used as an
+example too.  That should give you plenty to study and learn from.
+
+[Clam]: https://github.com/sjl/clam.vim/blob/master/doc/clam.txt
+[Surround]: https://github.com/tpope/vim-surround/blob/master/doc/surround.txt
+[NERD tree]: https://github.com/scrooloose/nerdtree/blob/master/doc/NERD_tree.txt
+[Splice]: https://github.com/sjl/splice.vim/blob/master/doc/splice.txt
+
+Write!
+------
+
+Now that you've see how some other plugins structured and wrote their
+documentation, fill in the sections for your Potion plugin.
+
+If you're not used to writing technical documentation this might be a challenge.
+Learning to write certainly isn't simple, but like any other skill it definitely
+requires practice, so just go to it!  It doesn't need to be perfect and you can
+always improve it later.
+
+Don't be afraid to write something you're not completely sure about and then
+throw it away and rewrite it later.  Often just getting *something* in the
+buffer will get your mind in the mood to write.  It'll still be in version
+control if you ever want it back any way.
+
+A good way to start is to imagine you've got a friend who also uses Vim sitting
+next to you.  They've never used your plugin before but are intrigued, and your
+goal is to turn them into an expert user of it.  Thinking about explaining
+things to an actual human being will help keep you grounded and avoid getting
+too deeply technical before you've established a good overview of how things
+work.
+
+If you're still stuck and feel like you're not up to the challenge of writing
+the documentation for a full plugin, try doing something smaller.  Pick
+a mapping in your `~/.vimrc` file and document it fully in a comment.  Explain
+what it's for, how to use it, and how it works.  For example, this is in my own
+`~/.vimrc` file:
+
+    :::vim
+    " "Uppercase word" mapping.
+    "
+    " This mapping allows you to press <c-u> in insert mode to convert the current
+    " word to uppercase.  It's handy when you're writing names of constants and
+    " don't want to use Capslock.
+    "
+    " To use it you type the name of the constant in lowercase.  While your
+    " cursor is at the end of the word, press <c-u> to uppercase it, and then
+    " continue happily on your way:
+    "
+    "                            cursor
+    "                            v
+    "     max_connections_allowed|
+    "     <c-u>
+    "     MAX_CONNECTIONS_ALLOWED|
+    "                            ^
+    "                            cursor
+    "
+    " It works by exiting out of insert mode, recording the current cursor location
+    " in the z mark, using gUiw to uppercase inside the current word, moving back to
+    " the z mark, and entering insert mode again.
+    "
+    " Note that this will overwrite the contents of the z mark.  I never use it, but
+    " if you do you'll probably want to use another mark.
+    inoremap <C-u> <esc>mzgUiw`za
+
+It's much shorter than the documentation for a full plugin, but it's a good
+exercise that will help you practice writing.  It's also very helpful for people
+reading your `~/.vimrc` if you put it up on Bitbucket or GitHub.
+
 Exercises
 ---------
+
+Write the documentation for each section of the Potion plugin.
+
+Read `:help help-writing` for help about writing help.
+
+Read `:help :left`, `:help :right`, and `:help :center` to learn about three
+useful commands for getting your ASCII-art perfect.
