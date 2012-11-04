@@ -7,6 +7,24 @@ though, there's still *plenty* left to learn!
 
 Here are a few ideas of topics to look into if you're hungry for more.
 
+Color Schemes
+-------------
+
+In this book we added syntax highlighting for Potion files.  The other side of
+the coin is the creation of custom color schemes that define what color to
+display each syntax element.
+
+Color schemes in Vim are fairly straightforward, if a bit repetitive, to make.
+Read `:help highlight` to learn the basics.  You may want to take a look at some
+of the built-in color schemes to see how they structure their files.
+
+If you're up for a challenge, take a look at the source of my own [Bad Wolf][]
+color scheme to see how I've used Vimscript to make the definition and
+maintenance much easier for myself.  Pay attention to the "palette" dictionary
+and the `HL` function that dynamically builds the `highlight` commands.
+
+[Bad Wolf]: https://github.com/sjl/badwolf/blob/master/colors/badwolf.vim
+
 The Command Command
 -------------------
 
@@ -46,13 +64,58 @@ with `:help omnifunc` and `:help coml-omni` and follow the trail from there.
 Compiler Support
 ----------------
 
-Color Schemes
--------------
+In our Potion plugin we created some mappings to compile and run our Potion
+files.  Vim offers much deeper support for interacting with compilers, including
+parsing compile errors and providing a nice list that lets you jump to the line
+of each error.
+
+If you're interested in this you can dive in by reading through `:help
+quickfix.txt` in its entirety.  However, I will warn you now that `errorformat`
+is *not* for the faint of heart.
+
+Other Languages
+---------------
+
+This book has focused on Vimscript, but Vim also offers interfaces in several
+other languages, like Python, Ruby, and Lua.  This means you can script Vim in
+a different language if you don't like Vimscript.
+
+It's still good to know Vimscript for editing your `~/.vimrc`, and for
+understanding the API Vim presents in each language.  But using an alternate
+language can be a great way to escape from the cruftiness of Vimscript,
+especially for large plugins.
+
+If you want to learn more about scripting Vim in a particular language, check
+out the help documents for it:
+
+* `:help Python`
+* `:help Ruby`
+* `:help Lua`
+* `:help perl-using`
+* `:help MzScheme`
 
 Vim's Documentation
 -------------------
 
+As a final parting note, here's a list of Vim help topics that are especially
+useful, informative, interesting, or just plain fun (in no particular order):
+
+* `:help various-motions`
+* `:help sign-support`
+* `:help virtualedit`
+* `:help map-alt-keys`
+* `:help error-messages`
+* `:help development`
+* `:help tips`
+* `:help 24.8`
+* `:help 24.9`
+* `:help usr_12.txt`
+* `:help usr_26.txt`
+* `:help usr_32.txt`
+* `:help usr_42.txt`
+
 Exercises
 ---------
 
-Go write a Vim plugin for something you've always wanted!
+Go write a Vim plugin for something you've always wanted and share it with the
+world!
