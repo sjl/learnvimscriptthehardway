@@ -59,7 +59,7 @@ a quick overview that summarizes a few things:
 
 This should go in your README file (which will be displayed on the landing page
 of Bitbucket and GitHub repos), and you can use it as the description for the
-plugin's entry on vim.org.
+plugin's entry on Vim.org.
 
 Including some screenshots is almost always a great idea.  Being a text-only
 editor doesn't mean Vim doesn't have a user interface.
