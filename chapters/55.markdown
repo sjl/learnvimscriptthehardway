@@ -1,11 +1,94 @@
 Distribution
 ============
 
-Vim.org
+By now you have the Vimscript skills to make Vim plugins many other people might
+find useful.  This chapter will go over getting your plugins online and making
+them easily available, as well as how to get the word out about them to
+potential users.
+
+Hosting
 -------
 
-GitHub and BitBucket
---------------------
+The first thing you'll need to do is get your plugin online so other people can
+download it.  The canonical place for Vim plugins to live is [the scripts
+section of the Vim website][vimorg].
+
+You'll need a free account on the website.  Once you've got one you can click
+the "Add Script" link and fill out the form.  It should be pretty self
+explanatory.
+
+A recent trend in the past few years has been to distribute plugins by hosting
+their repositories in a public place like Bitbucket or GitHub.  The rise in
+popularity of this method can probably be attributed to two factors.  First,
+Pathogen has made it trivial to keep each installed plugin's code in its own
+separate location. The rise of distributed version control systems like
+Mercurial and Git and public hosting sites like Bitbucket and GitHub has also
+probably had an impact.
+
+Providing repositories is handy for people who keep their dotfiles in
+a version-controlled repository of their own.  Mercurial users can use
+Mercurial's "subrepositories" to keep track of plugin versions, and Git users
+can use submodules (though only for other Git repos, unlike Mercurial's
+subrepos).
+
+Having a full repository for each of your installed plugins also makes it easier
+to debug when something goes wrong with them.  You can use blame, bisection, and
+any of the other tools your VCS provides available to figure out what's going
+on.  It's also easier to contribute fixes back if you already have the
+repository on your machine.
+
+Hopefully I've convinced you that you should also make your plugin's repository
+available publicly.  It doesn't really matter which service you use, as long as
+the repository is available *somewhere*.
+
+[vimorg]: http://www.vim.org/scripts/
+
+Documentation
+-------------
+
+You've already documented your plugin thoroughly in Vim's internal help format,
+but your job isn't quite over yet.  You're still going to want to come up with
+a quick overview that summarizes a few things:
+
+1. What is your plugin all about?
+2. Why would the user want to use it?
+3. Why is it better than competing plugins (if any)?
+4. What's the license?
+5. A link to a pretty version of the full documentation, rendered by the
+   [vim-doc][] website.
+
+This should go in your README file (which will be displayed on the landing page
+of Bitbucket and GitHub repos), and you can use it as the description for the
+plugin's entry on vim.org.
+
+Including some screenshots is almost always a great idea.  Being a text-only
+editor doesn't mean Vim doesn't have a user interface.
+
+[vim-doc]: http://vim-doc.heroku.com/
+
+Publicity
+---------
+
+Once you've got your plugin settled into all its various homes on the web: tell
+the world about it!  You could share it with your followers on Twitter, post it
+to the [/r/vim][rvim] section of Reddit, write a blog entry about it on your own
+personal website, and announce it on the [Vim mailing list][vimml] for starters.
+
+Whenever you release a creation of yours into the wild you're going to get some
+praise and some criticism.  Don't let negative words get to you too much.
+Listen to what they say, but keep a thick skin and don't get too emotional when
+someone points out flaws (valid or otherwise) in your work.  No one is perfect,
+and this is the Internet, so you'll need to be able to take some heat and shrug
+it off if you want to stay happy and motivated.
+
+[rvim]: http://reddit.com/r/vim/
+[vimml]: http://www.vim.org/maillist.php
 
 Exercises
 ---------
+
+* Create an account on Vim.org if you don't already have one.
+
+* Look at the README files for some of your favorite plugins to see how they're
+  structured and what kind of information they include.
+
