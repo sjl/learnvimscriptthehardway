@@ -87,8 +87,8 @@ it off if you want to stay happy and motivated.
 Exercises
 ---------
 
-* Create an account on Vim.org if you don't already have one.
+Create an account on Vim.org if you don't already have one.
 
-* Look at the README files for some of your favorite plugins to see how they're
-  structured and what kind of information they include.
+Look at the README files for some of your favorite plugins to see how they're
+structured and what kind of information they include.
 
