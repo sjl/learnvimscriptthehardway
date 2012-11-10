@@ -13,14 +13,14 @@ any other mapping you ever create.  Run the following command:
 Now enter insert mode and type `jk`.  Vim will act as if you pressed the escape
 key and return you to normal mode.
 
-There are a number of ways to exit insert mode in Vim:
+There are a number of ways to exit insert mode in Vim by default:
 
-* The escape key
+* `<esc>`
 * `<c-c>`
 * `<c-[>`
 
 Each of those requires you to stretch your fingers uncomfortably.  Using `jk` is
-great, because the keys are right under two of your strongest fingers and you
+great because the keys are right under two of your strongest fingers and you
 don't have to perform a chord.
 
 Some people prefer using `jj` instead of `jk`, but I prefer `jk` for two
@@ -39,8 +39,8 @@ Learning the Map
 ----------------
 
 Now that you've got a great new mapping, how can you learn to use it?  Chances
-are you've already got the escape key in your muscle memory, so in the heat of
-coding you'll hit it without even thinking.
+are you've already got the escape key in your muscle memory, so when you're
+editing you'll hit it without even thinking.
 
 The trick to relearning a mapping is to *force* yourself to use it by
 *disabling* the old key(s).  Run the following command:
@@ -53,11 +53,10 @@ perform `<nop>` (no operation) instead.
 
 Now you *have* to use your `jk` mapping to exit insert mode.  At first you'll
 forget, type escape and start trying to do something in normal mode and you'll
-wind up with stray characters in your text.
-
-It will be frustrating, but if you stick with it you'll be surprised at how fast
-your mind and fingers absorb the new mapping.  Within an hour or two you won't
-be accidentally hitting escape any more.
+wind up with stray characters in your text.  It will be frustrating, but if you
+stick with it you'll be surprised at how fast your mind and fingers absorb the
+new mapping.  Within an hour or two you won't be accidentally hitting escape any
+more.
 
 This idea applies to any new mapping you create to replace an old one, and even
 to life in general.  When you want to change a habit, make it harder or

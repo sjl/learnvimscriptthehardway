@@ -1,7 +1,7 @@
 Editing Your Vimrc
 ==================
 
-Before we move on to learning more Vimscript let's find a way to make it easier
+Before we move on to learning more Vimscript, let's find a way to make it easier
 to add new mappings to our `~/.vimrc` file.
 
 When you're coding away furiously at a problem and realize a new mapping would
@@ -19,8 +19,8 @@ text))).
 Editing Mapping
 ---------------
 
-Let's add a mapping that will open our `~/.vimrc` file in a split so we can edit
-it and get back to coding.  Run this command:
+Let's add a mapping that will open your `~/.vimrc` file in a split so you can
+quickly edit it and get back to coding.  Run this command:
 
     :::vim
     :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -31,8 +31,7 @@ I like to think of this command as "**e**dit my **v**imrc file".
 worry about that for right now, just trust me that that variable works.
 
 `:vsplit` opens a new vertical split.  If you'd prefer a horizontal split you
-can replace it with `:split`, but in this age of widescreen monitors I don't
-know why you would.
+can replace it with `:split`.
 
 Take a minute and think through that command in your mind.  The goal is: "open
 my `~/.vimrc` file in a new split".  Why does it work?  Why is every single
@@ -61,9 +60,9 @@ came out, you:
 
 That process probably takes a minute.  What if you could improve that?
 
-Let's say you invest $50 and buy an [Eye-Fi](http://www.eye.fi/) memory card.
-The Eye-Fi is a memory card for your camera that has a built-in wifi card, so as
-soon as you snap a photo it gets transferred to your computer.
+Let's say you invest $50 and buy an [Eye-Fi](http://www.eye.fi/).  The Eye-Fi is
+a memory card for your camera that has a built-in wifi card, so as soon as you
+snap a photo it gets transferred to your computer.
 
 I know, we're definitely living in the future.  Isn't it awesome?
 
@@ -78,12 +77,11 @@ and a half hours of time for this investment to be worthwhile.  If you're saving
 50 seconds per photo, you need to take about 109 photos for project to pay for
 itself.
 
-109 photos is *nothing*.  It's a drop in the ocean.  A blip that doesn't even
-register on the radar.  You'd blow past that number in a day's practice without
-even noticing.  Hell, you'd take more photos than that in two hours!
+109 photos is *nothing*.  You'd blow past that number in a day's practice
+without even noticing!
 
 The same goes for our new mapping.  It saves us only a few seconds each time we
-use it, but it takes far, *far* less than an hour and a half to set up.
+use it, but it pays for itself if we use it often enough.
 
 Sourcing Mapping
 ----------------
@@ -103,7 +101,7 @@ I like to think of this command as "**s**ource my **v**imrc file".
 The `source` command tells Vim to take the contents of the given file and
 execute it as Vimscript.
 
-Now we can easily add new mappings during the heat of coding.  We:
+Now you can easily add new mappings during the heat of coding:
 
 * Use `<leader>ev` to open the file.
 * Add the mapping.

@@ -57,7 +57,7 @@ considered "keyword characters":
 
 If you want to read the *full* description of this option's format you can check
 out `:help isfname`, but I'll warn you that you'd better have a beer at the
-ready if you don't want to start sobbing while reading.
+ready if you don't want to start crying while reading.
 
 For our purposes you can simply remember that abbreviations will be expanded
 when you type anything that's not a letter, number, or underscore.
@@ -76,7 +76,7 @@ Feel free to replace my name and email address with your own, then enter insert
 mode and try them out.
 
 These abbreviations take large chunks of text that you type often and compress
-them down to a few characters.  Over time, this can save you a lot of time, as
+them down to a few characters.  Over time, this can save you a lot of typing, as
 well as wear and tear on your fingers.
 
 Why Not Use Mappings?
@@ -102,7 +102,7 @@ typing this text:
 
 You'll notice that Vim has expanded the `ssig` in Larry's name!  Mappings don't
 take into account what characters come before or after the map -- they only look
-at the specific sequence that you map.
+at the specific sequence that you mapped to.
 
 Remove the mapping and replace it with an abbreviation by running the following
 commands:
@@ -114,7 +114,7 @@ commands:
 Now try out the abbreviation again.
 
 This time Vim will pay attention to the characters before and after `ssig` and
-only expand it when we want it to.
+only expand it when we want.
 
 Exercises
 ---------

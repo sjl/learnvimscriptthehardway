@@ -2,14 +2,14 @@ Buffer-Local Options and Mappings
 =================================
 
 Now we're going to take a few minutes to revisit three things we've already
-talked about: mappings, abbreviations and options, but with a twist: we're going
-to set each of them in a single buffer at a time.
+talked about: mappings, abbreviations, and options, but with a twist: we're
+going to set each of them in a single buffer at a time.
 
 The true power of this idea will become apparent in the next chapter, but we
 need to lay the groundwork for it now.
 
 For this chapter you'll need to open two files in Vim, each in its own split.
-We'll call them `foo` and `bar`, but you can name them whatever you like.  Put
+I'll call them `foo` and `bar`, but you can name them whatever you like.  Put
 some text into each of them.
 
 Mappings
@@ -36,7 +36,7 @@ Instead of deleting the entire line, Vim just deleted a single character!
 What happened?
 
 The `<buffer>` in the second `nnoremap` command told Vim to only consider that
-mapping when we're in the same buffer as where we defined it.
+mapping when we're in the buffer where we defined it.
 
 When you typed `<leader>x` in file `bar` Vim couldn't find a mapping that
 matched it, so it treated it as two commands: `<leader>` (which does nothing on
@@ -49,7 +49,7 @@ In our example we used `<leader>x` for our buffer-local mapping, but this is bad
 form.  In general, when you create a mapping that only applies to specific
 buffers you should use `<localleader>` instead of `<leader>`.
 
-Using two separate "leader" keys provides a sort of "namespacing" that will help
+Using two separate leader keys provides a sort of "namespacing" that will help
 you keep all your various mappings straight in your head.
 
 It's even more important when you're writing a plugin for other people to use.
@@ -92,8 +92,8 @@ You now have line numbers in `foo` but not in `bar`.
 Not all options can be used with `setlocal`.  To see if you can set a particular
 option locally, read its `:help`.
 
-We've glossed over a bit of detail about how local options *actually* work.  In
-the exercises you'll learn more about the gory details.
+I've glossed over a bit of detail about how local options *actually* work for
+now.  In the exercises you'll learn more about the gory details.
 
 Shadowing
 ---------

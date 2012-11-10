@@ -2,8 +2,8 @@ More Mappings
 =============
 
 I know we've talked a lot about mappings so far, but we're going to practice
-them again now.  Mappings are one of the easiest, fastest ways to make your Vim
-editing more productive, so it's good to focus on them quite a bit.
+them again now.  Mappings are one of the easiest and fastest ways to make your
+Vim editing more productive, so it's good to focus on them quite a bit.
 
 One concept that has showed up in several examples but that we haven't
 explicitly talked about is mapping a sequence of multiple keys.
@@ -20,8 +20,8 @@ Now try pressing only `j` and waiting for a bit.  If you don't press `k` quickly
 after the `j`, Vim decides that you don't want to activate the mapping and
 instead runs the normal `j` functionality (moving down a line).
 
-This mapping will make it painful to move around our file, so let's remove it.
-Run the following command:
+This mapping will make it painful to move around, so let's remove it.  Run the
+following command:
 
     :::vim
     :nunmap jk
@@ -44,7 +44,7 @@ will surround the word in double quotes!
 How does this work?  Let's split it apart into pieces and think of what each one
 does:
 
-    :::vim
+    :::text
     viw<esc>a"<esc>hbi"<esc>lel
 
 * `viw`: visually select the current word
@@ -63,8 +63,8 @@ does:
 * `l`: move right, which puts our cursor over the ending quote
 
 Remember: because we used `nnoremap` instead of `nmap` it doesn't matter if
-we've mapped any of the keys in this sequence to something else.  Vim will use
-the default functionality for everything in the sequence.
+you've mapped any of the keys in this sequence to something else.  Vim will use
+the default functionality for all of them.
 
 Hopefully you can see how much potential Vim's mappings have, as well as how
 unreadable they can become.
@@ -86,7 +86,7 @@ Map `L` in normal mode to go to the end of the current line. Since `l`
 moves right you can think of `L` as a "stronger" `l`.
 
 Find out what commands you just overwrote by reading `:help H` and `:help L`.
-Decide whether you care about them (you probably won't).
+Decide whether you care about them.
 
 Add all of these mappings to your `~/.vimrc` file, making sure to use your "edit
-`~/.vimrc`" and "source `~/.vimrc`" mappings to do so.
+my `~/.vimrc`" and "source my `~/.vimrc`" mappings to do so.
