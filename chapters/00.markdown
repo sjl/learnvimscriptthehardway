@@ -3,30 +3,33 @@ Prerequisites
 
 To use this book you should have the latest version of Vim installed, which is
 version 7.3 at the time of this writing.  New versions of Vim are almost always
-backwards-compatible, so everything in this book should work just fine with
-anything after 7.3 too.
+backwards-compatible, so everything in this book should work fine with anything
+after 7.3 too.
 
-You should be comfortable editing files in Vim.
+Nothing in this book is specific to console Vim or GUI Vims like gVim or MacVim.
+You can use whichever you prefer.
 
-You should know basic Vim terminology like "buffer", "window", "normal mode",
-"insert mode" and "text object".
+You should be comfortable editing files in Vim.  You should know basic Vim
+terminology like "buffer", "window", "normal mode", "insert mode" and "text
+object".
 
-If you're not at that point yet go through the `vimtutor` program, use Vim
-exclusively for a month or two, and come back when you've got Vim burned into
-your fingers.
+If you're not at that point yet you should go through the `vimtutor` program,
+use Vim exclusively for a month or two, and come back when you've got Vim burned
+into your fingers.
 
-You should have some programming experience.  If you've never programmed before
-check out [Learn Python the Hard Way](http://learnpythonthehardway.org/) first
-and come back to this book when you're done.
+You'll also need to have some programming experience.  If you've never
+programmed before check out [Learn Python the Hard
+Way](http://learnpythonthehardway.org/) first and come back to this book when
+you're done.
 
 Creating a Vimrc File
 ---------------------
 
-If you already know what a vimrc file is and have one, go on to the next
+If you already know what a `~/.vimrc` file is and have one, go on to the next
 chapter.
 
-A vimrc file is a file you create that contains some Vimscript code.  Vim will
-automatically run the code inside this file every time you open Vim.
+A `~/.vimrc` file is a file you create that contains some Vimscript code.  Vim
+will automatically run the code inside this file every time you open Vim.
 
 On Linux and Mac OS X this file is located in your home directory and named
 `.vimrc`.

@@ -6,22 +6,29 @@ Vim has many options you can set to change how it behaves.
 There are two main kinds of options: boolean options (either "on" or "off") and
 options that take a value.
 
+Boolean Options
+---------------
+
 Run the following command:
 
     :::vim
     :set number
 
-Line numbers should appear in Vim.  Now run this:
+Line numbers should appear on the left side of the window if they weren't there
+already.  Now run this:
 
     :::vim
     :set nonumber
 
-The line numbers should disappear.  `number` is a boolean option -- it can be
-off or on.  You turn it "on" by running `:set number` and "off" with `:set
+The line numbers should disappear.  `number` is a boolean option: it can be off
+or on.  You turn it "on" by running `:set number` and "off" with `:set
 nonumber`.
 
-Toggling Options
-----------------
+All boolean options work this way.  `:set <name>` turns the option on and `:set
+no<name>` turns it off.
+
+Toggling Boolean Options
+------------------------
 
 You can also "toggle" boolean options to set them to the *opposite* of whatever
 they are now.  Run this:
@@ -49,8 +56,8 @@ commands and watch what happens after each:
     :set nonumber
     :set number?
 
-Notice how the first `:set number?` command displayed `number` while the second
-displayed `nonumber`.
+Notice how the first `:set number?` command displayed "number" while the second
+displayed "nonumber".
 
 Options with Values
 -------------------
@@ -65,7 +72,8 @@ commands and watch what happens after each:
     :set numberwidth?
 
 The `numberwidth` option changes how wide the column containing line numbers
-will be.
+will be.  You can change non-boolean options with `:set <name>=<value>`, and
+check them the usual way (`:set <name>?`).
 
 Try checking what a few other common options are set to:
 
@@ -77,16 +85,20 @@ Try checking what a few other common options are set to:
 Setting Multiple Options at Once
 --------------------------------
 
-Finally, you can specify more than one option in the same `:set` command.  Try
-running this:
+Finally, you can specify more than one option in the same `:set` command to save
+on some typing.  Try running this:
 
     :::vim
+    :set numberwidth=2
+    :set nonumber
     :set number numberwidth=6
+
+Notice how both options were set and took effect in the last command.
 
 Exercises
 ---------
 
-Read `:help 'number'` (note the quotes).
+Read `:help 'number'` (notice the quotes).
 
 Read `:help relativenumber`.
 
@@ -98,4 +110,4 @@ Read `:help shiftround`.
 
 Read `:help matchtime`.
 
-Add a few lines to your vimrc file to set these options however you like.
+Add a few lines to your `~/.vimrc` file to set these options however you like.
