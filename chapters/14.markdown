@@ -6,10 +6,10 @@ A few chapters ago we learned about autocommands.  Run the following command:
     :::vim
     :autocmd BufWrite * :echom "Writing buffer!"
 
-Now write your current buffer with `:write` and run `:messages` to view the
+Now write the current buffer with `:write` and run `:messages` to view the
 message log.  You should see the "Writing buffer!" message in the list.
 
-Now write your current buffer again and run `:messages` to view the message log.
+Now write the current buffer again and run `:messages` to view the message log.
 You should see the "Writing buffer!" message in the list twice.
 
 Now run the exact same autocommand again:
@@ -17,7 +17,7 @@ Now run the exact same autocommand again:
     :::vim
     :autocmd BufWrite * :echom "Writing buffer!"
 
-Write your current buffer one more time and run `:messages`.  You will see the
+Write the current buffer one more time and run `:messages`.  You will see the
 "Writing buffer!" message in the list *four* times.  What happened?
 
 When you create an autocommand like this Vim has no way of knowing if you want
@@ -40,8 +40,8 @@ To simulate this, try running the following command:
     :::vim
     :autocmd BufWrite * :sleep 200m
 
-Now write the file.  You may or may not notice a slight sluggishness in Vim's
-writing time.  Now run the command three more times:
+Now write the current buffer.  You may or may not notice a slight sluggishness
+in Vim's writing time.  Now run the command three more times:
 
     :::vim
     :autocmd BufWrite * :sleep 200m
@@ -91,7 +91,7 @@ Clearing Groups
 What happened when you wrote the file?  Was it what you expected?
 
 If you thought Vim would "replace" the group, you can see that you guessed
-wrong.  Don't worry, most people think the same thing at first.
+wrong.  Don't worry, most people think the same thing at first (I know I did).
 
 When you use `augroup` multiple times Vim will *combine* the groups each time.
 

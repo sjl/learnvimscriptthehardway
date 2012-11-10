@@ -12,13 +12,14 @@ movement would take you.
 Some examples of operators are `d`, `y`, and `c`.  For example:
 
     :::text
-           Operator
-           vvvvvv
-    dw   " Delete to next word
-    ci(  " Change inside parens
-    yt,  " Yank   until comma
-                  ^^^^^^^^^^^
-                  Movement
+    Keys   Operator   Movement
+    ----   --------   -------------
+    dw     Delete     to next word
+    ci(    Change     inside parens
+    yt,    Yank       until comma
+
+Movement Mappings
+-----------------
 
 Vim lets you create new movements that work with all existing commands.  Run the
 following command:
@@ -28,7 +29,7 @@ following command:
 
 Now type the following text into a buffer:
 
-    :::python
+    :::text
     return person.get_pets(type="cat", fluffy_only=True)
 
 Put your cursor on the word "cat" and type `dp`.  What happened?  Vim deleted
@@ -43,7 +44,7 @@ parentheses".
 We can use this new mapping immediately with all operators.  Type the same text
 as before into the buffer (or simply undo the change):
 
-    :::python
+    :::text
     return person.get_pets(type="cat", fluffy_only=True)
 
 Put your cursor on the word "cat" and type `cp`.  What happened?  Vim deleted

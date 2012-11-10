@@ -29,8 +29,8 @@ make ourselves a little "snippet" system.
 Run the following commands:
 
     :::vim
-    :autocmd FileType javascript :iabbrev <buffer> iff if ( ) {}<left><left><left><left><left>
     :autocmd FileType python     :iabbrev <buffer> iff if:<left>
+    :autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
 
 Open a Javascript file and try out the `iff` abbreviation.  Then open a Python
 file and try it there too.  Vim will perform the appropriate abbreviation

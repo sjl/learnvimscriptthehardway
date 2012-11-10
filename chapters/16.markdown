@@ -23,7 +23,7 @@ into a file:
 
     This is some text about topic two.  It has only one paragraph.
 
-The lines "underlined" with `=` characters are treated as heading by Markdown.
+The lines "underlined" with `=` characters are treated as headings by Markdown.
 Let's create some mappings that let us target headings with movements.  Run the
 following command:
 
@@ -68,7 +68,8 @@ about that later.
 Execute
 -------
 
-The `execute` takes a string and performs it as a command.  Run this:
+The `execute` takes a Vimscript string (which we'll cover in more detail later)
+and performs it as a command.  Run this:
 
     :::vim
     :execute "write"
@@ -148,7 +149,7 @@ Results
 -------
 
 That was a lot of work, but now we've looked at each part of the mapping.  To
-recap it in a nutshell:
+recap:
 
 * We created a operator-pending mapping for "inside this section's heading".
 * We used `execute` and `normal!` to run the normal commands we needed to select
@@ -176,9 +177,9 @@ What's different about this mapping?  Let's look at them side by side:
 The only difference from the previous mapping is the very end, where we select
 the text to operate on:
 
-    :::vim
-    kvg_
-    g_vk0
+    :::text
+    inside heading: kvg_
+    around heading: g_vk0
 
 The rest of the mapping is the same, so we still start on the first character of
 the line of equal signs.  From there:

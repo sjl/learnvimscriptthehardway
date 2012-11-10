@@ -7,10 +7,9 @@ autocommands.
 Autocommands are a way to tell Vim to run certain commands whenever certain
 events happen.  Let's dive right into an example.
 
-First, open a new file with `:edit foo` and close it right away with `:quit`.
-Look on your hard drive and you'll notice that the file is not there.  This is
-because Vim doesn't actually *create* the file until you save it for the first
-time.
+Open a new file with `:edit foo` and close it right away with `:quit`.  Look on
+your hard drive and you'll notice that the file is not there.  This is because
+Vim doesn't actually *create* the file until you save it for the first time.
 
 Let's change it so that Vim creates files as soon as you edit them.  Run the
 following command:
@@ -45,13 +44,13 @@ offers *many* events to watch.  Some of them include:
 
 * Starting to edit a file that doesn't already exist.
 * Reading a file, whether it exists or not.
-* Switching a buffer's `filetype`.
+* Switching a buffer's `filetype` setting.
 * Not pressing a key on your keyboard for a certain amount of time.
 * Entering insert mode.
 * Exiting insert mode.
 
-This is just a tiny sample of the available events -- there are many more you
-can use to do lots of interesting things.
+This is just a tiny sample of the available events.  There are many more you can
+use to do lots of interesting things.
 
 The next part of the command is a "pattern" that lets you be more specific about
 when you want the command to fire.  Start up a new Vim instance and run the
@@ -80,7 +79,7 @@ Let's define another autocommand, this time using a different event.  Run the
 following command:
 
     :::vim
-    :autocmd BufWrite *.html :normal gg=G
+    :autocmd BufWritePre *.html :normal gg=G
 
 We're getting a bit ahead of ourselves here because we're going to talk about
 `normal` later in the book, but for now you'll need to bear with me because it's
@@ -103,7 +102,8 @@ For now I want you to trust me that running `:normal gg=G` will tell Vim to
 reindent the current file.  Don't worry about how that works just yet.
 
 What we *do* want to pay attention to is the autocommand.  The event type is
-`BufWrite`, which means the event will be checked whenever you write *any* file.
+`BufWritePre`, which means the event will be checked just before you write *any*
+file.
 
 We used a pattern of `*.html` to ensure that this command will only fire when
 we're working on files that end in `.html`.  This lets us target our
@@ -117,7 +117,7 @@ You can create a single autocommand bound to *multiple* events by separating the
 events with a comma.  Run this command:
 
     :::vim
-    :autocmd BufWrite,BufRead *.html :normal gg=G
+    :autocmd BufWritePre,BufRead *.html :normal gg=G
 
 This is almost like our last command, except it will also reindent the code
 whenever we *read* an HTML file as well as when we write it.  This could be
@@ -167,12 +167,12 @@ Exercises
 ---------
 
 Skim `:help autocmd-events` to see a list of all the events you can bind
-autocommands to.  You don't need to memorize each one right now, but just try
-to get a feel for the kinds of things you can do.
+autocommands to.  You don't need to memorize each one right now; just try to get
+a feel for the kinds of things you can do.
 
 Create a few `FileType` autocommands that use `setlocal` to set options for your
 favorite filetypes just the way you like them.  Some options you might like to
-change on a per-filetype basis are `wrap`, `list`, and `number`.
+change on a per-filetype basis are `wrap`, `list`, `spell`, and `number`.
 
 Create a few more "comment this line" autocommands for filetypes you work with
 often.
