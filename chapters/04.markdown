@@ -2,11 +2,11 @@ Modal Mapping
 =============
 
 In the last chapter we talked about how to map keys in Vim.  We used the `map`
-command which made our keys work in normal mode.  If you played around a bit
-before moving on to this chapter, you may have noticed that our mappings also
+command which made the keys work in normal mode.  If you played around a bit
+before moving on to this chapter, you may have noticed that the mappings also
 took effect in visual mode.
 
-We can be more specific about when we want our mappings to work by using `nmap`,
+You can be more specific about when you want mappings to apply by using `nmap`,
 `vmap`, and `imap`.  These tell Vim to only use the mapping in normal, visual,
 or insert mode respectively.
 
@@ -39,10 +39,10 @@ Muscle Memory
 At first the idea of mapping the same key to do different things depending on
 which mode you're in may sound like a terrible idea.  Why would you want to
 have to stop and think which mode you're in before pressing the key?  Wouldn't
-that negate any time you saved from the mapping itself?
+that negate any time you save from the mapping itself?
 
 In practice it turns out that this isn't really a problem.  Once you start using
-Vim a lot you won't be thinking about the individual keys you're typing any
+Vim often you won't be thinking about the individual keys you're typing any
 more.  You'll think: "delete a line" and not "press `dd`".  Your fingers and
 brain will learn your mappings and the keys themselves will become subconscious.
 
@@ -56,15 +56,14 @@ to insert mode.  Run this command:
     :imap <c-d> dd
 
 You might think that this would let you press `Ctrl+d` whenever you're in insert
-mode to delete the current line.  This would be nice, because now you don't need
-to go back into normal mode to cut out lines!
+mode to delete the current line.  This would be handy because you wouldn't need
+to go back into normal mode to cut out lines.
 
 Go ahead and try it.  It won't work -- instead it will just put two `d`s in your
 file!  That's pretty useless.
 
 The problem is that Vim is doing exactly what we told it to.  We said: "when
 I press `<c-d>` I want you to do what pressing `d` and `d` would normally do".
-
 Well, normally when you're in insert mode and press the `d` key twice, you get
 two `d`s in a row!
 
@@ -77,7 +76,7 @@ command to change the mapping:
 The `<esc>` is our way of telling Vim to press the Escape key, which will take
 us out of insert mode.
 
-Now try the mapping.  It works!  But notice how you're now back in normal mode.
+Now try the mapping.  It works, but notice how you're now back in normal mode.
 This makes sense, because we told Vim that `<c-d>` should exit insert mode and
 delete a line, but we never told it to go back into insert mode.
 
@@ -86,8 +85,7 @@ Run one more command to fix the mapping once and for all:
     :::vim
     :imap <c-d> <esc>ddi
 
-The `i` at the end reenters insert mode for us, and our mapping is finally
-complete.
+The `i` at the end enters insert mode, and our mapping is finally complete.
 
 Exercises
 ---------

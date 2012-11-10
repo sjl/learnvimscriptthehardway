@@ -29,9 +29,9 @@ Try them out by typing `-d` and `-c` (quickly) in normal mode.  The first
 creates a custom mapping to delete a line, while the second "clears" a line and
 puts you into insert mode.
 
-This means we can pick a key that we don't care about (like `-`) as a "prefix"
-key and create mappings on top of it.  It means we have to type an extra key to
-activate our mappings, but one extra keystroke can easily be absorbed into
+This means you can pick a key that you don't care about (like `-`) as a "prefix"
+key and create mappings on top of it.  It means you'll have to type an extra key
+to activate the mappings, but one extra keystroke can easily be absorbed into
 muscle memory.
 
 If you think this might be a good idea, you're right, and it turns out that Vim
@@ -59,17 +59,18 @@ Now try it out by pressing your leader key and then `d`.  Vim will delete the
 current line.
 
 Why bother with setting `<leader>` at all, though?  Why not just include your
-"prefix" key directly in your mapping commands?
+"prefix" key directly in your mapping commands?  There are three good reasons.
 
-First, you may decide you need the normal function of your leader later on down
-the road.  Defining it in one place makes it easy to change later.
+First of all, you may decide you need the normal function of your leader later
+on down the road.  Defining it in one place makes it easy to change later.
 
 Second, when someone else is looking at your `~/.vimrc` file they'll immediately
 know what you mean when you say `<leader>`, and they can simply copy your
-mapping into their own `~/.vimrc` if they like it.
+mapping into their own `~/.vimrc` if they like it even if they use a different
+leader.
 
-Finally, many Vim plugins map things on top of your `<leader>`, so if you've
-already got it set up they will just work.
+Finally, many Vim plugins create mappings that start with `<leader>`.  If you've
+already got it set up they'll work properly and will feel familiar.
 
 Local Leader
 ------------
@@ -89,6 +90,8 @@ character in strings.  You'll learn more about this later.
 
 Now you can use `<localleader>` in mappings and it will work just like
 `<leader>` does, except for resolving to a different key.
+
+Feel free to change this key to something else if you don't like backslash.
 
 Exercises
 ---------

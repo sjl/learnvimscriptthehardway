@@ -1,12 +1,11 @@
 Strict Mapping
 ==============
 
-Hold on, things are about to get a little wild.
+Get ready, because things are about to get a little wild.
 
 So far we've used `map`, `nmap`, `vmap`, and `imap` to create key mappings that
-will save time.  These work, but they have a downside.
-
-Run the following commands:
+will save time.  These work, but they have a downside.  Run the following
+commands:
 
     :::vim
     :nmap - dd
@@ -19,9 +18,9 @@ But we've already mapped `-` to do something else!  Vim sees that and says "oh,
 now I need to run `dd`", and so it deletes the current line.
 
 When you map keys with these commands Vim will take *other* mappings into
-account.  This may sound like a good thing at first but in reality it's pure,
-unadulterated evil.  Let's talk about why, but first remove those mappings by
-running the following commands:
+account.  This may sound like a good thing at first but in reality it's pure
+evil.  Let's talk about why, but first remove those mappings by running the
+following commands:
 
     :::vim
     :nunmap -
@@ -35,7 +34,7 @@ Run this command:
     :::vim
     :nmap dd O<esc>jddk
 
-You might think that this would change `dd` to:
+At first glance it might look like this would map `dd` to:
 
 * Open a new line above this one.
 * Exit insert mode.
@@ -43,7 +42,7 @@ You might think that this would change `dd` to:
 * Delete the current line.
 * Move up to the blank line just created.
 
-In effect, this should "clear the current line".  Try it.
+Effectively this should "clear the current line".  Try it.
 
 Vim will seem to freeze when you press `dd`.  If you press `<c-c>` you'll get
 Vim back, but there will be a ton of empty lines in your file!  What happened?
@@ -58,11 +57,10 @@ This mapping is actually *recursive*!  When you press `dd`, Vim says:
         * Open a line.
         * Exit insert mode.
         * Move down a line.
-        * `dd` is mapped, so perform the mapping.
-            * ...
+        * `dd` is mapped, so perform the mapping, and so on.
 
-This mapping can never finish running!  Go ahead and remove it with the
-following command:
+This mapping can never finish running!  Go ahead and remove this terrible thing
+with the following command:
 
     :::vim
     :nunmap dd
@@ -70,14 +68,13 @@ following command:
 Side Effects
 ------------
 
-Not only do the `*map` commands we've learned so far run the danger of
-recursing, but because they take other mappings into account they can change
-when we install various plugins.
+One downside of the `*map` commands is the danger of recursing.  Another is that
+their behavior can change if you install a plugin that maps keys they depend on.
 
 When you install a new Vim plugin there's a good chance that you won't use and
-memorize every mapping it uses.  Even if you *do*, you'd have to go back and
-look through your `~/.vimrc` file to make sure none of your custom mappings use
-something that the plugin has mapped, and vice versa.
+memorize every mapping it uses.  Even if you do, you'd have to go back and look
+through your `~/.vimrc` file to make sure none of your custom mappings use a key
+that the plugin has mapped.
 
 This would make installing plugins tedious and error-prone.  There must be
 a better way.
@@ -101,15 +98,12 @@ character.
 Each of the `*map` commands has a `*noremap` counterpart that ignores other
 mappings: `noremap`, `nnoremap`, `vnoremap`, and `inoremap`.
 
-When to Use
------------
-
 When should you use these nonrecursive variants instead of their normal
-counterparts?  The answer is: always.
+counterparts?
 
 **Always.**
 
-**No, seriously, ALWAYS.**
+**No, seriously, *always*.**
 
 Using a bare `*map` is just *asking* for pain down the road when you install
 a plugin or add a new custom mapping.  Save yourself the trouble and type the
