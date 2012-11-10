@@ -1,8 +1,9 @@
 [Learn Vimscript the Hard Way][book] is a book for users of the [Vim][] editor
 who want to learn how to customize Vim.
 
-Before reading this book you should be comfortable using Vim and know what terms
-like "buffer", "window" and "insert mode" mean.
+It is *not* a guide to *using* Vim.  Before reading this book you should be
+comfortable editing text in Vim and know what terms like "buffer", "window" and
+"insert mode" mean.
 
 The book is divided roughly into three sections:
 
@@ -24,12 +25,12 @@ it.
 
 The source code to the book is available [on BitBucket][hg] and [on
 GitHub][git].  If you find any mistakes or feel you could improve it feel free
-to send a pull request, but I'm retaining the copyright on the book for now, so
-if you're not comfortable with that I understand.
+to send a pull request, but I'm retaining the copyright on the book, so if
+you're not comfortable with that I understand.
 
-[book]: /
+[book]: http://learnvimscriptthehardway.stevelosh.com/
 [Vim]: http://www.vim.org/
 [hg]: http://bitbucket.org/sjl/learnvimscriptthehardway/
 [git]: http://github.com/sjl/learnvimscriptthehardway/
-[license]: /license.html
+[license]: http://learnvimscriptthehardway.stevelosh.com/license.html
 [leanpub]: http://leanpub.com/learnvimscriptthehardway
