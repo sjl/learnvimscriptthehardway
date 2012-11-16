@@ -58,11 +58,11 @@ Additional characters can be used in some of the various `%` codes to change how
 the information is displayed.  Run the following command:
 
     :::vim
-    :set statusline=%4l
+    :set statusline=[%4l]
 
-The line number in the status line will now be preceded by enough spaces to
-make it at least four characters wide (for example: "  12").  This can be useful
-to prevent the text in the status line from shifting around distractingly.
+The line number in the status line will now be preceded by enough spaces to make
+it at least four characters wide (for example: `[  12]`).  This can be useful to
+prevent the text in the status line from shifting around distractingly.
 
 By default the padding spaces are added on the left side of the value.  Run this
 command:
@@ -129,8 +129,10 @@ Everything except the `%` and the item is optional.
 Splitting
 ---------
 
-We'll come back to status lines later in the book, but there's one more simple
-code that can be very useful immediately.  Run the following commands:
+We're not going to cover status lines in too much detail here (Vim's own
+documentation on them is very extensive if you want to learn more), but there's
+one more simple code that can be very useful immediately.  Run the following
+commands:
 
     :::vim
     :set statusline=%f         " Path to the file
@@ -155,5 +157,5 @@ Be sure to use the `+=` form of `set` to split the definition across multiple
 lines, and add a comment on each line to document what each piece does.
 
 Try using autocommands and `setlocal` to define different status lines for
-different filetypes.  Make sure to wrap the autocommands in groups as always to
-prevent duplication.
+different filetypes.  Make sure to wrap the autocommands in groups to prevent
+duplication (as always).
