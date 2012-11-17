@@ -5,15 +5,15 @@ So far Vimscript's variables may seem familiar if you come from a dynamic
 language like Python or Ruby.  For the most part variables act like you would
 expect, but Vim adds a certain twist to variables: scoping.
 
-Open two buffers in separate splits, then go into one of then and run the
-following commands:
+Open two different files in separate splits, then go into one of them and run
+the following commands:
 
     :::vim
     :let b:hello = "world"
     :echo b:hello
 
 As expected, Vim displays "world".  Now switch to the other buffer and run the
-echo command again:
+`echo` command again:
 
     :::vim
     :echo b:hello
@@ -34,5 +34,4 @@ Exercises
 Skim over the list of scopes in `:help internal-variables`.  Don't worry if you
 don't know what some of them mean, just take a look and keep them in the back of
 your mind.
-
 

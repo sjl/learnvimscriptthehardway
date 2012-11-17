@@ -3,13 +3,12 @@ Variables
 
 Up to this point we've covered single commands.  For the next third of the book
 we're going to look at Vimscript as a *programming language*.  This won't be as
-instantly gratifying as the rest of what we've learned, but it will lay the
-groundwork for the last part, which walks through creating a full-fledged Vim
-plugin from scratch.
+instantly gratifying as the rest of what you've learned, but it will lay the
+groundwork for the last part of the book, which walks through creating
+a full-fledged Vim plugin from scratch.
 
-The first thing we need to talk about are variables.
-
-Run the following commands:
+Let's get started.  The first thing we need to talk about are variables.  Run
+the following commands:
 
     :::vim
     :let foo = "bar"
@@ -22,9 +21,10 @@ a string: "bar".  Now run these commands:
     :let foo = 42
     :echo foo
 
-Vim will display "42", because we've reassigned `foo` to the integer "42".  From
-this it may seem that Vimscript is dynamically typed.  That's not the case, but
-we'll talk more about that later.
+Vim will display "42", because we've reassigned `foo` to the integer "42".
+
+From these short examples it may seem like Vimscript is dynamically typed.
+That's not the case, but we'll talk more about that later.
 
 Options as Variables
 --------------------
@@ -53,8 +53,9 @@ Vim displays "0".  Now try these commands:
     :echo &wrap
 
 This time Vim displays "1".  This is a very strong hint that Vim treats the
-integer "0" as "false" and the integer "1" as "true".  It's reasonable to assume
-that Vim treats *any* non-zero integer as "truthy", and this is indeed the case.
+integer `0` as "false" and the integer `1` as "true".  It would be reasonable to
+assume that Vim treats *any* non-zero integer as "truthy", and this is indeed
+the case.
 
 We can also *set* options as variables using the `let` command.  Run the
 following commands:
@@ -127,14 +128,14 @@ Perform a search in your file with `/someword`, then run the following command:
     :echo @/
 
 Vim will echo the search pattern you just used.  This lets you programmatically
-read and modify the current search pattern, which can be very useful at times.
+read *and modify* the current search pattern, which can be very useful at times.
 
 Exercises
 ---------
 
-Go through your `~/.vimrc` file and change some of the `set` and
-`setlocal` commands to their `let` forms.  Remember that boolean options still
-need to be set to something.
+Go through your `~/.vimrc` file and change some of the `set` and `setlocal`
+commands to their `let` forms.  Remember that boolean options still need to be
+set to something.
 
 Try setting a boolean option like `wrap` to something other than zero or one.
 What happens when you set it to a different number?  What happens if you set it
