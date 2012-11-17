@@ -40,7 +40,7 @@ Run these commands:
     :endif
 
 Vim echoes "two".  There's still nothing surprising, so what was I going on
-about at the beginning?
+about at the beginning of the chapter?
 
 Case Sensitivity
 ----------------
@@ -116,13 +116,13 @@ or insensitive comparisons.  Using the normal forms is *wrong* and it *will*
 break at some point.  Save yourself the trouble and type the extra character.
 
 When you're comparing integers this distinction obviously doesn't matter.
-Still, I feel that it's better to use the case-sensitive comparisons everywhere,
-even where they're not needed, than to forget them in a place that they *are*
-needed.
+Still, I feel that it's better to use the case-sensitive comparisons everywhere
+(even where they're not strictly needed), than to forget them in a place that
+they *are* needed.
 
 Using `==#` and `==?` with integers will work just fine, and if you change them
 to strings in the future it will work correctly.  If you'd rather use `==` for
-integers that's fine, but you need to remember to change the comparison if
+integers that's fine, just remember that you'll need to change the comparison if
 you change them to strings in the future.
 
 Exercises

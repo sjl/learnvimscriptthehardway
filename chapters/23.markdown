@@ -83,7 +83,7 @@ Run the following command:
 
 This will display two lines: "Meow!" and "0".  The first obviously comes from
 the `echom` inside of `Meow`.  The second shows us that if a Vimscript function
-doesn't return a value, it implicitly return `0`.  Let's use this to our
+doesn't return a value, it implicitly returns `0`.  Let's use this to our
 advantage.  Run the following commands:
 
     :::vim
@@ -142,7 +142,7 @@ can you pass to a function?  Is this surprising?
 Read the first paragraph of `:help E124` and find out what characters you're
 allowed to use in function names.  Are underscores okay?  Dashes?  Accented
 characters?  Unicode characters?  If it's not clear from the documentation just
-try them out.
+try them out and see.
 
 Read `:help return`.  What's the "short form" of that command (which I told you
 to never use)?  Is it what you expected?  If not, why not?
