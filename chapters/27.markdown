@@ -29,7 +29,7 @@ Run the following command (note that it's an `echo` and not an `echom`):
     :::vim
     :echo split("one two three")
 
-Vim displays "['one', 'two', 'three']".  The `split` function splits a String
+Vim displays `['one', 'two', 'three']`.  The `split` function splits a String
 into a List.  We'll talk about Lists shortly, but for now don't worry too much
 about them.
 
@@ -39,7 +39,7 @@ Run the following command:
     :::vim
     :echo split("one,two,three", ",")
 
-Vim will once again display "['one', 'two', 'three']", because the second
+Vim will once again display `['one', 'two', 'three']`, because the second
 argument to `split` tells it to split the string on the comma character instead
 of on whitespace.
 
@@ -86,6 +86,13 @@ scripts.
 
 Exercises
 ---------
+
+Run `:echo split('1   2')` and `:echo split('1,,,2', ',')`.  Do they behave the
+same?
+
+Read `:help split()`.
+
+Read `:help join()`.
 
 Read `:help functions` and skim the list of built-in functions for ones that
 mention the word "String".  Use the `/` command to make it easier (remember,

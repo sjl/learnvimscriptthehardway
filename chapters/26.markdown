@@ -105,8 +105,8 @@ replaced with a newline.  Now try running this command:
     :::vim
     :echom "foo\nbar"
 
-Vim will display something like "foo^@bar".  When you use `echom` with a String
-instead of `echo` Vim will echo the exact characters of the string, which
+Vim will display something like "foo^@bar".  When you use `echom` instead of
+`echo` with a String Vim will echo the *exact* characters of the string, which
 sometimes means that it will show a different representation than plain old
 `echo`.  `^@` is Vim's way of saying "newline character".
 
@@ -121,13 +121,13 @@ sequences.  Run the following command:
 
 Vim displays `\n\\`.  Using single quotes tells Vim that you want the string
 *exactly* as-is, with no escape sequences.  The one exception is that two single
-quotes in a row will produce a single single quote.  Try this command:
+quotes in a row will produce one single quote.  Try this command:
 
     :::vim
     :echom 'That''s enough.'
 
-Vim will display "That's enough."  Two single quotes is the *only* sequence that
-has special meaning in a literal string.
+Vim will display `That's enough.`.  Two single quotes is the *only* sequence
+that has special meaning in a literal string.
 
 We'll revisit literal strings when they become most useful, later in the book
 (when we dive into regular expressions).

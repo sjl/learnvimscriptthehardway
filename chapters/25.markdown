@@ -5,7 +5,7 @@ Now it's time to start taking a closer look at the different types of variables
 you can use.  First we'll go over Vim's numeric types.
 
 Vimscript has two types of numeric variables: Numbers and Floats.  A Number is
-a 32 bit signed integer.  A Float is, obviously, a floating point number.
+a 32 bit signed integer.  A Float is a floating point number.
 
 Number Formats
 --------------
@@ -49,7 +49,7 @@ Floats can also be specified in multiple ways.  Run the following command:
     :echo 100.1
 
 Notice that we're using `echo` here and not `echom` like we usually to.  We'll
-talk why in a moment.
+talk about why in a moment.
 
 Vim displays "100.1" as expected.  You can also use exponential notation.  Run
 this command:

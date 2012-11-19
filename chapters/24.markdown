@@ -54,9 +54,9 @@ Javascript and Python.  Run the following commands:
 This function shows us several things, so let's look at each one individually.
 
 The `...` in the function definition tells Vim that this function can take any
-number of arguments.  This is like a `*args` argument in Python functions.
+number of arguments.  This is like a `*args` argument in a Python function.
 
-The first line of the function echoes the message `a:0` and displays `2`.  When
+The first line of the function echoes the message `a:0` and displays "2".  When
 you define a function that takes a variable number of arguments in Vim, `a:0`
 will be set to the number of extra arguments you were given.  In this case we
 passed two arguments to `Varg` so Vim displayed "2".

@@ -2,8 +2,13 @@ Execute
 =======
 
 The `execute` command is used to evaluate a string as if it were a Vimscript
-command.  We saw it in an earlier chapter, but now we're going to take another
-look at it because it's used extremely often.  Run the following command:
+command.  We saw it in an earlier chapter, but now that we know a bit more about
+Vimscript Strings we're going to take another look.
+
+Basic Execution
+---------------
+
+Run the following command:
 
     :::vim
     :execute "echom 'Hello, world!'"
@@ -22,31 +27,29 @@ following command:
 Vim will open the first file in a vertical split to the right of the second
 file.  What happened here?
 
-First, Vim builds the command string by concatenating "rightbelow vsplit
-" with the result of the `bufname("#")` call.
+First, Vim builds the command string by concatenating `"rightbelow vsplit "`
+with the result of the `bufname("#")` call.
 
 We'll look at the function more later, but for now just trust that it returns
 the path of the previous buffer.  You can play with it using `echom` if you want
 to see for yourself.
 
-Once `bufname` is evaluated Vim has a string that looks something like
-"rightbelow vsplit bar.txt".  The `execute` command evaluates this as
-a Vimscript command which opens the split with the file.
+Once `bufname` is evaluated Vim the string `"rightbelow vsplit bar.txt"`.  The
+`execute` command evaluates this as a Vimscript command which opens the split
+with the file.
 
 Is Execute Dangerous?
 ---------------------
 
 In most programming languages the use of such an "eval" construct to evaluate
-strings as program code is frowned upon, to put it lightly.  Vimscript's
-`execute` command doesn't bear the same stigma for two reasons.
+strings as program code is frowned upon (to put it lightly).  Vimscript's
+`execute` command doesn't have the same stigma for two reasons.
 
 First, most Vimscript code only ever takes input from a single person: the user.
 If the user wants to input a tricky string that will cause an `execute` command
-to do something bad, well, it's their computer!
-
-Contrast this with other languages, where programs constantly take input from
-untrusted users.  Vim is a unique environment where the normal security concerns
-simply aren't common.
+to do something bad, well, it's their computer!  Contrast this with other
+languages, where programs constantly take input from untrusted users.  Vim is
+a unique environment where the normal security concerns simply aren't common.
 
 The second reason is that because Vimscript has sometimes arcane and tricky
 syntax, `execute` is often the easiest, most straightforward way to get
