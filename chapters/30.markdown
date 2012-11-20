@@ -2,7 +2,7 @@ Execute Normal!
 ===============
 
 Now that we've seen `execute` and `normal!` we can talk about a common Vimscript
-idiom.  Run the following command:
+idiom in more detail.  Run the following command:
 
     :::vim
     :execute "normal! gg/foo\<cr>dd"
@@ -24,8 +24,8 @@ the following command:
 What does this do?  Let's break it apart:
 
 * `:execute "normal! ..."`: run the sequence of commands as if they were entered
-  in normal mode, ignoring all mappings, and replacing escape sequences with
-  their results.
+  in normal mode, ignoring all mappings, and replacing string escape sequences
+  with their results.
 * `mq`: store the current location in mark "q".
 * `A`: move to the end of the current line and enter insert mode after the last
   character.

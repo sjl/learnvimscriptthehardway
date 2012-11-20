@@ -49,9 +49,9 @@ Luckily Vim has a `normal!` command that does exactly this.  Run this command:
 
 This time Vim moves to the bottom of the file even though `G` has been mapped.
 
-When writing Vim scripts you should **always** use `normal!`, **never** plain
-old `normal`.  You can't trust what keys your users will have mapped in their
-`~/.vimrc` files.
+When writing Vim scripts you should **always** use `normal!`, and **never** use
+plain old `normal`.  You can't trust what keys your users will have mapped in
+their `~/.vimrc` files.
 
 Special Characters
 ------------------
@@ -67,10 +67,9 @@ you'll see that it doesn't work.  The problem is that `normal!` doesn't parse
 special character sequences like `<cr>`.
 
 In this case Vim thinks you wanted to search for the character sequence "f, o,
-o, left angle bracket, c, r, right angle bracket", and thinks that you never
-even pressed return to perform the search!
-
-We'll talk about how to get around this in the next chapter.
+o, left angle bracket, c, r, right angle bracket", and doesn't realize that you
+even pressed return to perform the search!  We'll talk about how to get around
+this in the next chapter.
 
 Exercises
 ---------

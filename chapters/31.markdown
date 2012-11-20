@@ -7,7 +7,7 @@ expressions, but as usual there are some quirks.
 
 Type the following text into a buffer:
 
-    :::python
+    :::text
     max = 10
 
     print "Starting"
@@ -17,11 +17,13 @@ Type the following text into a buffer:
 
     print "Done"
 
-This is the text we'll use to experiment with Vimscript's regex support.
+This is the text we'll use to experiment with Vimscript's regex support.  It
+happens to be Python code, but don't worry if you don't know Python.  It's just
+an example.
 
 I'm going to assume that you know the basics of regular expressions.  If you
-don't you should definitely stop reading this book and start reading [Learn
-Regex the Hard Way][regex] by Zed Shaw.  Come back when you're done with that.
+don't you should stop reading this book and start reading [Learn Regex the Hard
+Way][regex] by Zed Shaw.  Come back when you're done with that.
 
 [regex]: http://regex.learncodethehardway.org/
 
@@ -180,7 +182,7 @@ Exercises
 Read `:help magic` carefully.
 
 Read `:help pattern-overview` to see the kinds of things Vim regexes support.
-Stop after the character classes.
+Stop reading after the character classes.
 
 Read `:help match`.  Try running the `:match Error /\v.../` command a few times
 by hand.
