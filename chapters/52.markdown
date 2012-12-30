@@ -33,7 +33,7 @@ The first chunk stores the command used to execute Potion in a global variable,
 if that variable isn't already set.  We've seen this kind of check before.
 
 This will allow users to override it if `potion` isn't in their `$PATH` by
-putting a line like `set g:potion_command = "/Users/sjl/src/potion/potion"` in
+putting a line like `let g:potion_command = "/Users/sjl/src/potion/potion"` in
 their `~/.vimrc` file.
 
 The last line adds a buffer-local mapping that calls a function we've defined
@@ -270,7 +270,7 @@ variable into this buffer.  Finish off the function by making it look like this:
         call append(0, split(bytecode, '\v\n'))
     endfunction
 
-The `append()` Vim function take two arguments: a line number to append after,
+The `append()` Vim function takes two arguments: a line number to append after,
 and a list of Strings to append as lines.  For example, try running the
 following command:
 
