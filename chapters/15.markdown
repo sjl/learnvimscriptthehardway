@@ -65,7 +65,7 @@ Now type the following text into a buffer:
 
         return foo
 
-Put you cursor on the `i` in the second line and press `db`.  What happened?
+Put your cursor on the `i` in the second line and press `db`.  What happened?
 Vim deleted the entire body of the function, all the way up until the "return",
 which our mapping used Vim's normal search to find.
 
