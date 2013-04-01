@@ -42,7 +42,7 @@ visually select the word.
 You can also map modifier keys like Ctrl and Alt.  Run this:
 
     :::vim
-    :map <c-d> dd
+    :map <C-d> dd
 
 Now pressing `Ctrl+d` on your keyboard will run `dd`.
 
