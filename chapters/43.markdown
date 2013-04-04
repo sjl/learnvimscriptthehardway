@@ -7,7 +7,7 @@ you want to use plugins other people have written.
 
 In the past, when you wanted to use a plugin someone else wrote you would
 download the files and place them, one-by-one, into the appropriate directories.
-You could also use zip or tar to do the placing for you.
+You could also use `zip` or `tar` to do the placing for you.
 
 There are a few significant problems with this approach:
 

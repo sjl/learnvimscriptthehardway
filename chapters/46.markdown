@@ -44,7 +44,7 @@ The first line is something new.  We use `syntax match` which tells Vim to match
 *regexes* instead of literal keywords.
 
 Notice that the regular expression we're using starts with `\v` which tells Vim
-to use "very magic" mode.  Reread the chapter on Basic Regular Expressions if
+to use "very magic" mode.  Reread the chapter on basic regular expressions if
 you're not sure what that means.
 
 In this particular case the "very magic" mode isn't necessary.  But in the
