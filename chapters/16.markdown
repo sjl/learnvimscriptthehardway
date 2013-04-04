@@ -32,7 +32,7 @@ following command:
 
 This mapping is pretty complicated, so put your cursor in one of the paragraphs
 (not the headings) and type `cih`.  Vim will delete the heading of whatever
-section you're in and put you in insert mode.
+section you're in and put you in insert mode ("change inside heading").
 
 It uses some things we've never seen before, so let's look at each piece
 individually.  The first part of the mapping, `:onoremap ih` is just the mapping
@@ -68,13 +68,13 @@ about that later.
 Execute
 -------
 
-The `execute` takes a Vimscript string (which we'll cover in more detail later)
-and performs it as a command.  Run this:
+The `execute` command takes a Vimscript string (which we'll cover in more detail
+later) and performs it as a command.  Run this:
 
     :::vim
     :execute "write"
 
-Vim will write your file, just as if you had typed `:write`.  Now run this
+Vim will write your file, just as if you had typed `:write<cr>`.  Now run this
 command:
 
     :::vim
@@ -165,7 +165,7 @@ Let's look at one more mapping before we move on.  Run the following command:
 
 Try it by putting your cursor in a section's text and typing `cah`.  This time
 Vim will delete not only the heading's text but also the line of equal signs
-that denotes a heading.  You can think of this movement as "around this
+that denotes a heading.  You can think of this movement as "*around* this
 section's heading".
 
 What's different about this mapping?  Let's look at them side by side:
@@ -213,3 +213,4 @@ Read `:help expr-quote` to see the escape sequences you can use in strings.
 Create a "inside next email address" operator-pending mapping so you can say
 "change inside next email address".  `in@` is a good candidate for the keys to
 map. You'll probably want to use `/...some regex...<cr>` for this.
+

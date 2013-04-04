@@ -65,8 +65,8 @@ Now type the following text into a buffer:
 
         return foo
 
-Put you cursor on the `i` in the second line and press `db`.  What happened?
-Vim deleted the entire body of the function, all the way up until the "return",
+Put your cursor on the `i` in the second line and press `db`.  What happened?
+Vim deleted the entire body of the function, all the way up until the `return`,
 which our mapping used Vim's normal search to find.
 
 When you're trying to think about how to define a new operator-pending movement,
@@ -98,7 +98,7 @@ into the buffer:
     :::python
     print foo(bar)
 
-Put your cursor somewhere in the word "print" and type `cin(`.  Vim will delete
+Put your cursor somewhere in the word `print` and type `cin(`.  Vim will delete
 the contents of the parentheses and place you in insert mode between them.
 
 You can think of this mapping as meaning "inside next parentheses", and it will
@@ -114,16 +114,16 @@ word, but it would shadow the "paragraph" movement).  Run the following command:
 Try it out on some text of your own to make sure it works.
 
 So how do these mappings work?  First, the `<c-u>` is something special that you
-can ignore for now -- just know that it needs to be there to make the mappings
-work in all cases.  If we remove that we're left with:
+can ignore for now -- just trust me that it needs to be there to make the
+mappings work in all cases.  If we remove that we're left with:
 
     :::vim
     :normal! F)vi(<cr>
 
 `:normal!` is something we'll talk about in a later chapter, but for now it's
-enough to know that it's a command that can be used to simulate pressing keys in
-normal mode.  For example, running `:normal! dddd` will delete two lines, just
-like pressing `dddd`.  The `<cr>` at the end of the mapping is what executes the
+enough to know that it is a command used to simulate pressing keys in normal
+mode.  For example, running `:normal! dddd` will delete two lines, just like
+pressing `dddd`.  The `<cr>` at the end of the mapping is what executes the
 `:normal!` command.
 
 So now we know that the mapping is essentially just running the last block of

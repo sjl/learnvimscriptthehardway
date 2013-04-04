@@ -7,10 +7,10 @@ A few chapters ago we learned about autocommands.  Run the following command:
     :autocmd BufWrite * :echom "Writing buffer!"
 
 Now write the current buffer with `:write` and run `:messages` to view the
-message log.  You should see the "Writing buffer!" message in the list.
+message log.  You should see the `Writing buffer!` message in the list.
 
 Now write the current buffer again and run `:messages` to view the message log.
-You should see the "Writing buffer!" message in the list twice.
+You should see the `Writing buffer!` message in the list twice.
 
 Now run the exact same autocommand again:
 
@@ -18,7 +18,7 @@ Now run the exact same autocommand again:
     :autocmd BufWrite * :echom "Writing buffer!"
 
 Write the current buffer one more time and run `:messages`.  You will see the
-"Writing buffer!" message in the list *four* times.  What happened?
+`Writing buffer!` message in the list *four* times.  What happened?
 
 When you create an autocommand like this Vim has no way of knowing if you want
 it to replace an existing one.  In our case, Vim created two *separate*
@@ -73,7 +73,7 @@ the following commands:
 The indentation in the middle two lines is insignificant.  You don't have to
 type it if you don't want to.
 
-Write a buffer and check `:messages`.  You should see both "Foo" and "Bar".  Now
+Write a buffer and check `:messages`.  You should see both `Foo` and `Bar`.  Now
 run the following commands:
 
     :::vim
@@ -90,7 +90,7 @@ Clearing Groups
 
 What happened when you wrote the file?  Was it what you expected?
 
-If you thought Vim would "replace" the group, you can see that you guessed
+If you thought Vim would replace the group, you can see that you guessed
 wrong.  Don't worry, most people think the same thing at first (I know I did).
 
 When you use `augroup` multiple times Vim will *combine* the groups each time.
@@ -105,7 +105,7 @@ following commands:
     :augroup END
 
 Now try writing your file and checking `:messages`.  This time Vim only echoed
-"Cats" when you wrote the file.
+`Cats` when you wrote the file.
 
 Using Autocommands in Your Vimrc
 --------------------------------
@@ -136,3 +136,4 @@ sense to you.
 Try to figure out what the mapping in the last example does.
 
 Read `:help autocmd-groups`.
+

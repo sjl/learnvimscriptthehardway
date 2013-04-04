@@ -14,7 +14,7 @@ status line.  Now run this command:
     :::vim
     :set statusline=%f\ -\ FileType:\ %y
 
-Now you'll see something like "foo.markdown - FileType: [markdown]" in the
+Now you'll see something like `foo.markdown - FileType: [markdown]` in the
 status line.
 
 If you're familiar with C's `printf` or Python's string interpolation the format
@@ -49,7 +49,7 @@ Run the following commands:
     :set statusline+=%L   " Total lines
 
 Now the status line contains only the current line number and number of lines in
-the file, and looks something like "12/223".
+the file, and looks something like `12/223`.
 
 Width and Padding
 -----------------
@@ -94,7 +94,7 @@ spaces.  Run the following command:
     :::vim
     :set statusline=%04l
 
-Now your status line will read "0012" when on line twelve.
+Now your status line will read `0012` when on line twelve.
 
 Finally, you can also set the maximum width of a code's output.  Run this
 command:

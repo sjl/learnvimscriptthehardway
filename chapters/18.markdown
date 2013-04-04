@@ -13,7 +13,7 @@ Commenting
 ----------
 
 Vimscript is extremely powerful, but has grown organically over the years into
-a twisty maze ready to ensnare the unwary programmers who enter it.
+a twisty maze ready to ensnare unwary programmers who enter it.
 
 Options and commands are often terse and hard to read, and working around
 compatibility issues can increase the complexity of your code.  Writing a plugin
@@ -21,7 +21,7 @@ and allowing for user customization introduces another entire layer above that!
 
 Be defensive when writing anything that takes more than a few lines of
 Vimscript.  Add a comment explaining what it does, and if there is a relevant
-help topic mention it in that comment!
+help topic, mention it in the comment!
 
 This not only benefits you when you try to maintain it months or years later,
 but also helps other people understand it if you share your `~/.vimrc` file on
@@ -52,11 +52,12 @@ This will tell Vim to use the `marker` method of folding for any Vimscript
 files.
 
 Go ahead and run `:setlocal foldmethod=marker` in the window with your
-`~/.vimrc` now.  Sourcing the file won't work, because Vim has already set the
-FileType for this file and the autocommand only fires when that happens.  In the
-future you won't need to do it manually.
+`~/.vimrc` file now.  Sourcing the file won't work, because Vim has already set
+the FileType for this file and the autocommand only fires when that happens.  In
+the future you won't need to do it manually.
 
-Now add lines before and after that autocommand group so that it looks like this:
+Now add lines before and after that autocommand group so that it looks like
+this:
 
     :::vim
     " Vimscript file settings ---------------------- {{{
