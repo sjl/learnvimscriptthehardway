@@ -45,7 +45,7 @@ Now that we've got that out of the way, run the following commands:
     :    echom "ONE"
     :endif
 
-Vim will display "ONE", because the integer `1` is "truthy".  Now try these
+Vim will display `ONE`, because the integer `1` is "truthy".  Now try these
 commands:
 
     :::vim
@@ -53,7 +53,7 @@ commands:
     :    echom "ZERO"
     :endif
 
-Vim will *not* display "ZERO" because the integer `0` is "falsy".  Let's see how
+Vim will *not* display `ZERO` because the integer `0` is "falsy".  Let's see how
 strings behave.  Run these commands:
 
     :::vim
@@ -80,8 +80,8 @@ To try to wrap our heads around what's going on, run the following three command
     :echom "10hello" + 10
     :echom "hello10" + 10
 
-The first command causes Vim to echo "10", the second command echoes "20", and
-the third echoes "10" again!
+The first command causes Vim to echo `10`, the second command echoes `20`, and
+the third echoes `10` again!
 
 After observing all of these commands we can draw a few informed conclusions
 about Vimscript:
@@ -109,7 +109,7 @@ commands:
     :    echom "finally!"
     :endif
 
-Vim echoes "finally!" because both of the previous conditions evaluate to zero,
+Vim echoes `finally!` because both of the previous conditions evaluate to zero,
 which is falsy.
 
 Exercises

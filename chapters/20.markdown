@@ -12,7 +12,7 @@ the following commands:
     :let b:hello = "world"
     :echo b:hello
 
-As expected, Vim displays "world".  Now switch to the other buffer and run the
+As expected, Vim displays `world`.  Now switch to the other buffer and run the
 `echo` command again:
 
     :::vim

@@ -14,7 +14,7 @@ Run the function:
     :::vim
     :call DisplayName("Your Name")
 
-Vim will display two lines: "Hello!  My name is:" and "Your Name".
+Vim will display two lines: `Hello!  My name is:` and `Your Name`.
 
 Notice the `a:` in the name of the variable that we passed to the `echom`
 command.  This represents a variable scope, which we talked about in an earlier
@@ -56,12 +56,12 @@ This function shows us several things, so let's look at each one individually.
 The `...` in the function definition tells Vim that this function can take any
 number of arguments.  This is like a `*args` argument in a Python function.
 
-The first line of the function echoes the message `a:0` and displays "2".  When
+The first line of the function echoes the message `a:0` and displays `2`.  When
 you define a function that takes a variable number of arguments in Vim, `a:0`
 will be set to the number of extra arguments you were given.  In this case we
-passed two arguments to `Varg` so Vim displayed "2".
+passed two arguments to `Varg` so Vim displayed `2`.
 
-The second line echoes `a:1` which displays "a".  You can use `a:1`, `a:2`, etc
+The second line echoes `a:1` which displays `a`.  You can use `a:1`, `a:2`, etc
 to refer to each extra argument your function receives.  If we had used `a:2`
 Vim would have displayed "b".
 
@@ -83,7 +83,7 @@ commands:
 
     :call Varg2("a", "b", "c")
 
-We can see that Vim puts "a" into the named argument `a:foo`, and the rest are
+We can see that Vim puts `"a"` into the named argument `a:foo`, and the rest are
 put into the list of varargs.
 
 Assignment
@@ -111,7 +111,7 @@ these commands:
 
     :call AssignGood("test")
 
-This time the function works, and Vim displays "Yep".
+This time the function works, and Vim displays `Yep`.
 
 Exercises
 ---------

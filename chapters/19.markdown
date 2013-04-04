@@ -14,14 +14,14 @@ the following commands:
     :let foo = "bar"
     :echo foo
 
-Vim will display "bar".  `foo` is now a variable, and we've assigned it
-a string: "bar".  Now run these commands:
+Vim will display `bar`.  `foo` is now a variable, and we've assigned it
+a string: `"bar"`.  Now run these commands:
 
     :::vim
     :let foo = 42
     :echo foo
 
-Vim will display "42", because we've reassigned `foo` to the integer "42".
+Vim will display `42`, because we've reassigned `foo` to the integer `42`.
 
 From these short examples it may seem like Vimscript is dynamically typed.
 That's not the case, but we'll talk more about that later.
@@ -36,7 +36,7 @@ following commands:
     :set textwidth=80
     :echo &textwidth
 
-Vim will display "80".  Using an ampersand in front of a name tells Vim that
+Vim will display `80`.  Using an ampersand in front of a name tells Vim that
 you're referring to the option, not a variable that happens to have the same
 name.
 
@@ -46,13 +46,13 @@ Let's see how Vim works with boolean options.  Run the following commands:
     :set nowrap
     :echo &wrap
 
-Vim displays "0".  Now try these commands:
+Vim displays `0`.  Now try these commands:
 
     :::vim
     :set wrap
     :echo &wrap
 
-This time Vim displays "1".  This is a very strong hint that Vim treats the
+This time Vim displays `1`.  This is a very strong hint that Vim treats the
 integer `0` as "false" and the integer `1` as "true".  It would be reasonable to
 assume that Vim treats *any* non-zero integer as "truthy", and this is indeed
 the case.
@@ -64,7 +64,7 @@ following commands:
     :let &textwidth = 100
     :set textwidth?
 
-Vim will display "textwidth=100".
+Vim will display `textwidth=100`.
 
 Why would we want to do this when we could just use `set`? Run the following
 commands:
@@ -73,7 +73,7 @@ commands:
     :let &textwidth = &textwidth + 10
     :set textwidth?
 
-This time Vim displays "textwidth=110".  When you set an option using `set` you
+This time Vim displays `textwidth=110`.  When you set an option using `set` you
 can only set it to a single literal value.  When you use `let` and set it as
 a variable you can use the full power of Vimscript to determine the value.
 
@@ -105,14 +105,14 @@ You can also read and set *registers* as variables.  Run the following command:
 
 Now put your cursor somewhere in your text and type `"ap`.  This command tells
 Vim to "paste the contents of register `a` here".  We just set the contents of
-that register, so Vim pastes "hello!" into your text.
+that register, so Vim pastes `hello!` into your text.
 
 Registers can also be read.  Run the following command:
 
     :::vim
     :echo @a
 
-Vim will echo "hello!".
+Vim will echo `hello!`.
 
 Select a word in your file and yank it with `y`, then run this command:
 

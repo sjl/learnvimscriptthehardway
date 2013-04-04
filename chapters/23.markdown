@@ -31,7 +31,7 @@ This time Vim will happily define the function.  Let's try running it:
     :::vim
     :call Meow()
 
-Vim will display "Meow!" as expected.
+Vim will display `Meow!` as expected.
 
 Let's try returning a value.  Run the following commands:
 
@@ -46,7 +46,7 @@ Now try it out by running this command:
     :echom GetMeow()
 
 Vim will call the function and give the result to `echom`, which will display
-"Meow String!".
+`Meow String!`.
 
 Calling Functions
 -----------------
@@ -61,7 +61,7 @@ following commands:
     :call Meow()
     :call GetMeow()
 
-The first will display "Meow!" but the second doesn't display anything. The
+The first will display `Meow!` but the second doesn't display anything. The
 return value is thrown away when you use `call`, so this is only useful when the
 function has side effects.
 
@@ -81,7 +81,7 @@ Run the following command:
     :::vim
     :echom Meow()
 
-This will display two lines: "Meow!" and "0".  The first obviously comes from
+This will display two lines: `Meow!` and `0`.  The first obviously comes from
 the `echom` inside of `Meow`.  The second shows us that if a Vimscript function
 doesn't return a value, it implicitly returns `0`.  Let's use this to our
 advantage.  Run the following commands:

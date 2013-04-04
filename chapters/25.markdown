@@ -15,12 +15,12 @@ You can specify Numbers in a few different ways.  Run the following command:
     :::vim
     :echom 100
 
-No surprises here -- Vim displays "100".  Now run this command:
+No surprises here -- Vim displays `100`.  Now run this command:
 
     :::vim
     :echom 0xff
 
-This time Vim displays "255".  You can specify numbers in hex notation by
+This time Vim displays `255`.  You can specify numbers in hex notation by
 prefixing them with `0x` or `0X`.  Now run this command:
 
     :::vim
@@ -33,8 +33,8 @@ because it's easy to make mistakes.  Try the following commands:
     :echom 017
     :echom 019
 
-Vim will print "15" for the first command, because "17" in octal is equal to
-"15" in decimal.  For the second command Vim treats it as a decimal number, even
+Vim will print `15` for the first command, because `17` in octal is equal to
+`15` in decimal.  For the second command Vim treats it as a decimal number, even
 though it starts with a `0`, because it's not a valid octal number.
 
 Because Vim silently does the wrong thing in this case, I'd recommend avoiding
@@ -51,24 +51,24 @@ Floats can also be specified in multiple ways.  Run the following command:
 Notice that we're using `echo` here and not `echom` like we usually to.  We'll
 talk about why in a moment.
 
-Vim displays "100.1" as expected.  You can also use exponential notation.  Run
+Vim displays `100.1` as expected.  You can also use exponential notation.  Run
 this command:
 
     :::vim
     :echo 5.45e+3
 
-Vim displays "5450.0".  A negative exponent can also be used.  Run this command:
+Vim displays `5450.0`.  A negative exponent can also be used.  Run this command:
 
     :::vim
     :echo 15.45e-2
 
-Vim displays "0.1545".  The `+` or `-` before the power of ten is optional. If
+Vim displays `0.1545`.  The `+` or `-` before the power of ten is optional. If
 it's omitted then it's assumed to be positive.  Run the following command:
 
     :::vim
     :echo 15.3e9
 
-Vim will display "1.53e10", which is equivalent.  The decimal point and number
+Vim will display `1.53e10`, which is equivalent.  The decimal point and number
 after it are *not* optional.  Run the following command and see that it crashes:
 
     :::vim
@@ -84,7 +84,7 @@ the following command:
     :::vim
     :echo 2 * 2.0
 
-Vim displays "4.0".
+Vim displays `4.0`.
 
 Division
 --------
@@ -94,14 +94,14 @@ When dividing two Numbers, the remainder is dropped.  Run the following command:
     :::vim
     :echo 3 / 2
 
-Vim displays "1".  If you want Vim to perform floating point division one of the
+Vim displays `1`.  If you want Vim to perform floating point division one of the
 numbers needs to be a Float, which will cause the other one to be coerced to
 a Float as well.  Run this command:
 
     :::vim
     :echo 3 / 2.0
 
-Vim displays "1.5".  The "3" is coerced to a Float, and then normal floating
+Vim displays `1.5`.  The `3` is coerced to a Float, and then normal floating
 point division is performed.
 
 Exercises

@@ -12,7 +12,7 @@ Run the following commands:
     :    echom "foo"
     :endif
 
-Vim will, of course, display "foo".  Now run these commands:
+Vim will, of course, display `foo`.  Now run these commands:
 
     :::vim
     :if 10 > 2001
@@ -29,7 +29,7 @@ everything works as expected.  Run these commands:
     :    echom "second"
     :endif
 
-Vim displays "second".  Nothing surprising here.  Let's try comparing strings.
+Vim displays `second`.  Nothing surprising here.  Let's try comparing strings.
 Run these commands:
 
     :::vim
@@ -39,7 +39,7 @@ Run these commands:
     :    echom "two"
     :endif
 
-Vim echoes "two".  There's still nothing surprising, so what was I going on
+Vim echoes `two`.  There's still nothing surprising, so what was I going on
 about at the beginning of the chapter?
 
 Case Sensitivity
@@ -97,7 +97,7 @@ Run the following commands:
     :    echom "second"
     :endif
 
-Vim displays "first" because `==?` is the "case-insensitive no matter what the
+Vim displays `first` because `==?` is the "case-insensitive no matter what the
 user has set" comparison operator.  Now run the following commands:
 
     :::vim
@@ -108,7 +108,7 @@ user has set" comparison operator.  Now run the following commands:
     :    echom "two"
     :endif
 
-Vim displays "two" because `==#` is the "case-sensitive no matter what the user
+Vim displays `two` because `==#` is the "case-sensitive no matter what the user
 has set" comparison operator.
 
 The moral of this story is that you should *always* use explicit case sensitive
