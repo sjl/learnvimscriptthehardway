@@ -49,14 +49,14 @@ The trick to relearning a mapping is to *force* yourself to use it by
     :inoremap <esc> <nop>
 
 This effectively disables the escape key in insert mode by telling Vim to
-perform `<nop>` (no operation) instead.
+perform `<nop>` (no operation) instead.  Now you *have* to use your `jk` mapping
+to exit insert mode.
 
-Now you *have* to use your `jk` mapping to exit insert mode.  At first you'll
-forget, type escape and start trying to do something in normal mode and you'll
-wind up with stray characters in your text.  It will be frustrating, but if you
-stick with it you'll be surprised at how fast your mind and fingers absorb the
-new mapping.  Within an hour or two you won't be accidentally hitting escape any
-more.
+At first you'll forget, type escape and start trying to do something in normal
+mode and you'll wind up with stray characters in your text.  It will be
+frustrating, but if you stick with it you'll be surprised at how fast your mind
+and fingers absorb the new mapping.  Within an hour or two you won't be
+accidentally hitting escape any more.
 
 This idea applies to any new mapping you create to replace an old one, and even
 to life in general.  When you want to change a habit, make it harder or
@@ -80,3 +80,4 @@ mode, map them to `<nop>` to make yourself stop.
 If you still use the arrow keys in insert mode, map them to `<nop>` there too.
 The right way to use Vim is to get out of insert mode as soon as you can and use
 normal mode to move around.
+

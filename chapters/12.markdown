@@ -121,7 +121,7 @@ events with a comma.  Run this command:
 
 This is almost like our last command, except it will also reindent the code
 whenever we *read* an HTML file as well as when we write it.  This could be
-useful if you have coworkers that don't indent their HTML well.
+useful if you have coworkers that don't indent their HTML nicely.
 
 A common idiom in Vim scripting is to pair the `BufRead` and `BufNewFile` events
 together to run a command whenever you open a certain kind of file, regardless
@@ -142,8 +142,8 @@ Let's set up a few useful mappings for a variety of file types.  Run the
 following commands:
 
     :::vim
-    :autocmd FileType javascript nnoremap <buffer> <localleader>c I//
-    :autocmd FileType python     nnoremap <buffer> <localleader>c I#
+    :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
+    :autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
 
 Open a Javascript file (a file that ends in `.js`), pick a line and type
 `<localleader>c`.  This will comment out the line.
@@ -160,15 +160,12 @@ This reduces the load on our minds when we're coding.  Instead of having to
 think about moving to the beginning of the line and adding a comment character
 we can simply think "comment this line".
 
-You may have noticed that this mapping leaves us in insert mode.  Unfortunately
-we can't fix that just yet, but we'll get to it later in the book!
-
 Exercises
 ---------
 
 Skim `:help autocmd-events` to see a list of all the events you can bind
-autocommands to.  You don't need to memorize each one right now; just try to get
-a feel for the kinds of things you can do.
+autocommands to.  You don't need to memorize each one right now.  Just try to
+get a feel for the kinds of things you can do.
 
 Create a few `FileType` autocommands that use `setlocal` to set options for your
 favorite filetypes just the way you like them.  Some options you might like to

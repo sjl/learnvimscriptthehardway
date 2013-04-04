@@ -3,7 +3,7 @@ More Mappings
 
 I know we've talked a lot about mappings so far, but we're going to practice
 them again now.  Mappings are one of the easiest and fastest ways to make your
-Vim editing more productive, so it's good to focus on them quite a bit.
+Vim editing more productive so it's good to focus on them quite a bit.
 
 One concept that has showed up in several examples but that we haven't
 explicitly talked about is mapping a sequence of multiple keys.
@@ -90,3 +90,4 @@ Decide whether you care about them.
 
 Add all of these mappings to your `~/.vimrc` file, making sure to use your "edit
 my `~/.vimrc`" and "source my `~/.vimrc`" mappings to do so.
+

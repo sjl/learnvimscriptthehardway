@@ -2,6 +2,8 @@ Output should be enclosed in backticks.  So:
 
     If you type `:echom "Hello!"` Vim will output `Hello`.
 
+Filenames should also be in backticks.
+
 Key mappings should be lowercase.
 
     nnoremap <esc> ...
