@@ -7,7 +7,7 @@ haven't seen before, as well as how some of the things we've studied fit
 together in practice.
 
 As you work through this case study make sure to look up anything unfamiliar
-with `:help`.  If you coast through without fully understanding everything you
+with `:help`.  If you coast through without fully understanding everything, you
 won't learn much.
 
 Grep
@@ -18,24 +18,24 @@ If you've never used `:grep` you should take a minute to read `:help :grep` and
 quickfix window before.
 
 In a nutshell: `:grep ...` will run an external grep program with any arguments
-you give, parse the result, and fill the quickfix list for easy use inside of
-Vim.
+you give, parse the result, and fill the quickfix list so you can jump to
+results inside Vim.
 
-Our example is going to make it easier to invoke by adding a "grep operator"
-that you can use with any of Vim's built-in (or custom!) motions to select the
-text you want to search for.
+Our example is going to make `:grep` easier to invoke by adding a "grep
+operator" you can use with any of Vim's built-in (or custom!) motions to select
+the text you want to search for.
 
 Usage
 -----
 
 The first thing you should think about when creating any non-trivial piece of
 Vimscript is: "how will this functionality be used?".  Try to come up with
-a smooth, easy, intuitive way for you and your code's users to invoke it.
+a smooth, easy, intuitive way to invoke it.
 
 In this case I'll do that step for you:
 
 * We're going to create a "grep operator" and bind it to `<leader>g`. 
-* It will act like any other Vim operator and take a motion, like `w` or `i{`. 
+* It will act like any other Vim operator and take a motion (like `w` or `i{`). 
 * It will perform the search immediately and open the quickfix window to show
   the results.
 * It will *not* jump to the first result, because that can be jarring if the
@@ -51,14 +51,14 @@ Some examples of how you might end up using it:
   the word after it, then grep for the selected text.
 
 There are many, *many* other ways to use this.  It may seem like it will take
-a lot of coding, but actually all we need to do is implement the operator
-functionality -- Vim will handle the rest.
+a lot of coding, but actually all we need to do is implement the "operator"
+functionality and Vim will handle the rest.
 
 A Preliminary Sketch
 --------------------
 
 One thing that's sometimes helpful when writing tricky bits of Vimscript is to
-simplify your goal and implement that to get an idea of the "shape" your final
+simplify your goal and implement *that* to get an idea of the "shape" your final
 solution will take.
 
 Let's simplify our goal to: "create a mapping to search for the word under the
@@ -81,7 +81,7 @@ The Search Term
 ---------------
 
 First we need to search for the word under the cursor, not the string
-"something".  Run the following command:
+`something`.  Run the following command:
 
     :::vim
     :nnoremap <leader>g :grep -R <cword> .<cr>
@@ -100,7 +100,7 @@ grep for "foo-bar" instead of just part of the word.
 
 There's still a problem with our search term: if there are any special shell
 characters in it Vim will happily pass them along to the external grep command,
-which will explode (or, worse, do something terrible).
+which will explode (or worse: do something terrible).
 
 Go ahead and try this to make sure it breaks.  Type `foo;ls` into a file and run
 the mapping while your cursor is over it.  The grep command will fail, and Vim
@@ -118,8 +118,8 @@ more robust now.
 Escaping Shell Command Arguments
 --------------------------------
 
-However there's still one more problem with the search term.  Try the mapping on
-the word "that's".  It won't work, because the single quote inside the word
+There's still one more problem with the search term.  Try the mapping on the
+word "that's".  It won't work, because the single quote inside the word
 interferes with the quotes in the grep command!
 
 To get around this we can use Vim's `shellescape` function.  Read `:help
@@ -139,8 +139,8 @@ Then run the following command, which uses `shellescape` to fix the search term:
     :nnoremap <leader>g :execute "grep -R " . shellescape("<cWORD>") . " ."<cr>
 
 Try it out by running it on a normal word like "foo".  It will work properly.
-Now try it out on a word with a quote in it, like "that's".  It will not work!
-What happened?
+Now try it out on a word with a quote in it, like "that's".  It still doesn't
+work!  What happened?
 
 The problem is that Vim performed the `shellescape()` call *before* it expanded
 out special strings like `<cWORD>` in the command line.  So Vim shell-escaped
@@ -153,13 +153,13 @@ You can see this by running the following command:
     :echom shellescape("<cWORD>")
 
 Vim will output `'<cWORD>'`.  Note that those quotes are actually part of the
-string -- Vim has prepared it for use as a shell command argument.
+string.  Vim has prepared it for use as a shell command argument.
 
 To fix this we'll use the `expand()` function to force the expansion of
 `<cWORD>` into the actual string *before* it gets passed to `shellescape`.
 
 Let's break this apart and see how it works, in steps.  Put your cursor over
-a word with q quote, like "that's", and run the following command:
+a word with a quote, like "that's", and run the following command:
 
     :::vim
     :echom expand("<cWORD>")
@@ -170,10 +170,10 @@ under the cursor as a Vim string.  Now let's add `shellescape` back in:
     :::vim
     :echom shellescape(expand("<cWORD>"))
 
-This time Vim outputs `'that'\''s'`.  If this looks a little funny, you haven't
-had the pleasure of wrapping your brain around shell-quoting in all its insane
-glory.  For now, don't worry about it.  Just trust the Vim has taken the string
-from `expand` and escaped it properly.
+This time Vim outputs `'that'\''s'`.  If this looks a little funny, you probably
+haven't had the pleasure of wrapping your brain around shell-quoting in all its
+insane glory.  For now, don't worry about it.  Just trust the Vim has taken the
+string from `expand` and escaped it properly.
 
 Now that we know how to get a fully-escaped version of the word under the
 cursor, it's time to concatenate it into our mapping!  Run the following
@@ -182,7 +182,7 @@ command:
     :::vim
     :nnoremap <leader>g :execute "grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
 
-Try it out.  Our mapping won't break if the word we're searching for happens to
+Try it out.  This mapping won't break if the word we're searching for happens to
 contain strange characters.
 
 The process of starting with a trivial bit of Vimscript and transforming it
@@ -228,6 +228,8 @@ Add the mapping we just created to your `~/.vimrc` file.
 
 Read `:help :grep` if you didn't read it before.
 
+Read `:help cword`.
+
 Read `:help cnext` and `:help cprevious`.  Try them out after using your new
 grep mapping.
 
@@ -242,3 +244,4 @@ Add a height to the `:copen` command in the mapping we created to make sure the
 quickfix window is opened to whatever height you prefer.
 
 Read `:help silent`.
+
