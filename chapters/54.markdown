@@ -51,7 +51,7 @@ help document like any other one.
 
 Next you should put the title of your plugin along with a longer description.
 Some authors (including me) like to have a bit of fun with this and use some
-ASCII-art to spice things up.  Add a nice title section to the `potion.txt`
+ASCII art to spice things up.  Add a nice title section to the `potion.txt`
 file:
 
     :::text
@@ -67,7 +67,7 @@ file:
             Includes syntax highlighting, code folding, and more!
 
 I got those fun letters by running the `figlet -f ogre "Potion"` command.
-[Figlet][] is a great little program for generating ASCII-art text.  The `~`
+[Figlet][] is a great little program for generating ASCII art text.  The `~`
 characters at the end of the lines ensure that Vim doesn't try to highlight or
 hide individual characters inside the art.
 
@@ -260,13 +260,13 @@ what it's for, how to use it, and how it works.  For example, this is in my own
     :::vim
     " "Uppercase word" mapping.
     "
-    " This mapping allows you to press <c-u> in insert mode to convert the current
-    " word to uppercase.  It's handy when you're writing names of constants and
-    " don't want to use Capslock.
+    " This mapping allows you to press <c-u> in insert mode to convert the
+    " current word to uppercase.  It's handy when you're writing names of
+    " constants and don't want to use Capslock.
     "
-    " To use it you type the name of the constant in lowercase.  While your
-    " cursor is at the end of the word, press <c-u> to uppercase it, and then
-    " continue happily on your way:
+    " To use it you type the name of the constant in lowercase.  While
+    " your cursor is at the end of the word, press <c-u> to uppercase it,
+    " and then continue happily on your way:
     "
     "                            cursor
     "                            v
@@ -276,12 +276,12 @@ what it's for, how to use it, and how it works.  For example, this is in my own
     "                            ^
     "                            cursor
     "
-    " It works by exiting out of insert mode, recording the current cursor location
-    " in the z mark, using gUiw to uppercase inside the current word, moving back to
-    " the z mark, and entering insert mode again.
+    " It works by exiting out of insert mode, recording the current cursor
+    " location in the z mark, using gUiw to uppercase inside the current
+    " word, moving back to the z mark, and entering insert mode again.
     "
-    " Note that this will overwrite the contents of the z mark.  I never use it, but
-    " if you do you'll probably want to use another mark.
+    " Note that this will overwrite the contents of the z mark.  I never
+    " use it, but if you do you'll probably want to use another mark.
     inoremap <C-u> <esc>mzgUiw`za
 
 It's much shorter than the documentation for a full plugin, but it's a good
@@ -296,4 +296,5 @@ Write the documentation for each section of the Potion plugin.
 Read `:help help-writing` for help about writing help.
 
 Read `:help :left`, `:help :right`, and `:help :center` to learn about three
-useful commands for getting your ASCII-art perfect.
+useful commands for getting your ASCII art perfect.
+

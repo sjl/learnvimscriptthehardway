@@ -51,11 +51,11 @@ need to set `g:potion_command` in your `~/.vimrc` file as mentioned above.
 
 Let's take a look at how `PotionCompileAndRunFile()` function works.
 
-!
---------
+Bang!
+-----
 
-The `:!` command in Vim runs external commands and displays their output on the
-screen.  Try it out by running the following command:
+The `:!` command (pronounced "bang") in Vim runs external commands and displays
+their output on the screen.  Try it out by running the following command:
 
     :::vim
     :!ls
@@ -72,14 +72,14 @@ running:
 Type a few lines and you'll see that the `cat` command spits them back out, just
 as it normally would if you ran `cat` outside of Vim.  Use Ctrl-D to finish.
 
-To run an external command without the "Press ENTER or type command to continue"
+To run an external command without the `Press ENTER or type command to continue`
 prompt, use `:silent !`.  Run the following command:
 
     :::vim
     :silent !echo Hello, world.
 
-If you run this in a GUI Vim like MacVim or gVim, you won't see the "Hello,
-world." output of the command.
+If you run this in a GUI Vim like MacVim or gVim, you won't see the `Hello,
+world.` output of the command.
 
 If you run it in a terminal Vim, your results may vary depending on your
 configuration.  You may need to run `:redraw!` to fix your screen after running
@@ -98,7 +98,7 @@ Let's look back at the `PotionCompileAndRun()` function:
     endfunction
 
 First we run a `silent !clear` command, which should clear the screen without
-a "Press ENTER..." prompt.  This will make sure we only see the output of this
+a `Press ENTER...` prompt.  This will make sure we only see the output of this
 run, which is helpful when you're running the same commands over and over.
 
 The next line uses our old friend `execute` to build a command dynamically.  The
@@ -187,7 +187,7 @@ command:
     :::vim
     :echom system("wc -c", "abcdefg")
 
-Vim will display "7" (with some padding).  If you pass a second argument like
+Vim will display `7` (with some padding).  If you pass a second argument like
 this, Vim will write it to a temporary file and pipe it into the command on
 standard input.  For our purposes we won't need this, but it's good to know.
 
@@ -241,7 +241,8 @@ These new command should be pretty easy to follow.
 
 `vsplit` creates a new vertical split for a buffer named `__Potion_Bytecode__`.
 We surround the name with underscores to make it clearer to the user that this
-isn't a normal file -- it's a buffer just to hold the output.
+isn't a normal file (it's a buffer just to hold the output).  The underscores
+aren't special, they're just a convention.
 
 Next we delete everything in this buffer with `normal! ggdG`.  The first time
 the mapping is run this won't do anything, but subsequent times we'll be reusing

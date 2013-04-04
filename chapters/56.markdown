@@ -71,7 +71,7 @@ of each error.
 
 If you're interested in this you can dive in by reading through `:help
 quickfix.txt` in its entirety.  However, I will warn you now that `errorformat`
-is *not* for the faint of heart.
+is *not* for the faint of heart!
 
 Other Languages
 ---------------

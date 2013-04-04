@@ -233,7 +233,7 @@ directory and file name where they live.  Now change the
 Save the files, close Vim, and open up your `factorial.pn` file.  Try using the
 mappings to make sure they still work properly.
 
-Make sure that you see the diagnostic "Autoloading..." message only the first
+Make sure that you see the diagnostic `Autoloading...` message only the first
 time you run one of the mappings (you may need to use `:messages` to see it).
 Once you confirm that autoloading is working properly you can remove that
 message.
