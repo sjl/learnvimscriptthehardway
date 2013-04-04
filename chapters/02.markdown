@@ -56,8 +56,8 @@ commands and watch what happens after each:
     :set nonumber
     :set number?
 
-Notice how the first `:set number?` command displayed "number" while the second
-displayed "nonumber".
+Notice how the first `:set number?` command displayed `number` while the second
+displayed `nonumber`.
 
 Options with Values
 -------------------

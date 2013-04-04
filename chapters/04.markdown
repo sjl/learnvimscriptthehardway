@@ -77,7 +77,7 @@ The `<esc>` is our way of telling Vim to press the Escape key, which will take
 us out of insert mode.
 
 Now try the mapping.  It works, but notice how you're now back in normal mode.
-This makes sense, because we told Vim that `<c-d>` should exit insert mode and
+This makes sense because we told Vim that `<c-d>` should exit insert mode and
 delete a line, but we never told it to go back into insert mode.
 
 Run one more command to fix the mapping once and for all:
@@ -93,14 +93,15 @@ Exercises
 Set up a mapping so that you can press `<c-u>` to convert the current word to
 uppercase when you're in insert mode.  Remember that `U` in visual mode will
 uppercase the selection.  I find this mapping extremely useful when I'm writing
-out the name of a long constant -- I type out the constant in lower case and
-then uppercase it.
+out the name of a long constant like `MAX_CONNECTIONS_ALLOWED`.  I type out the
+constant in lower case and then uppercase it with the mapping instead of holding
+shift the entire time.
 
 Add that mapping to your `~/.vimrc` file.
 
 Set up a mapping so that you can uppercase the current word with `<c-u>` when in
 *normal* mode.  This will be slightly different than the previous mapping
-because you don't need to enter normal mode and you should end up back in normal
-mode instead of in insert mode.
+because you don't need to enter normal mode.  You should end up back in normal
+mode at the end instead of in insert mode as well.
 
-Add that mapping to your `~/.vimrc` file as well.
+Add that mapping to your `~/.vimrc` file.

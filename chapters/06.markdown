@@ -40,8 +40,8 @@ already has mechanisms for this "prefix" key!
 Leader
 ------
 
-Vim calls this "prefix" key "leader".  You can set your leader key to whatever
-you like.  Run this command:
+Vim calls this "prefix" key the "leader".  You can set your leader key to
+whatever you like.  Run this command:
 
     :::vim
     :let mapleader = "-"
@@ -65,17 +65,17 @@ First of all, you may decide you need the normal function of your leader later
 on down the road.  Defining it in one place makes it easy to change later.
 
 Second, when someone else is looking at your `~/.vimrc` file they'll immediately
-know what you mean when you say `<leader>`, and they can simply copy your
-mapping into their own `~/.vimrc` if they like it even if they use a different
-leader.
+know what you mean when you say `<leader>`.  They can simply copy your mapping
+into their own `~/.vimrc` if they like it even if they use a different leader.
 
 Finally, many Vim plugins create mappings that start with `<leader>`.  If you've
-already got it set up they'll work properly and will feel familiar.
+already got it set up they'll work properly and will feel familiar right out of
+the box.
 
 Local Leader
 ------------
 
-Vim has a second "leader" key called "localleader".  This is meant to be
+Vim has a second "leader" key called "local leader".  This is meant to be
 a prefix for mappings that only take effect for certain types of files, like
 Python files or HTML files.
 
@@ -86,10 +86,10 @@ book, but you can go ahead and set your "localleader" now:
     :let maplocalleader = "\\"
 
 Notice that we have to use `\\` and not just `\` because `\` is the escape
-character in strings.  You'll learn more about this later.
+character in Vimscript strings.  You'll learn more about this later.
 
 Now you can use `<localleader>` in mappings and it will work just like
-`<leader>` does, except for resolving to a different key.
+`<leader>` does (except for resolving to a different key, of course).
 
 Feel free to change this key to something else if you don't like backslash.
 

@@ -55,8 +55,8 @@ one of the places where Vim comments don't work.  Try running this command:
     :::vim
     :map <space> viw " Select word
 
-If you try pressing `<space>` now, something horrible will almost certainly
-happen.  Why?
+If you try pressing space now, something horrible will almost certainly happen.
+Why?
 
 When you press the space bar now, Vim thinks you want it to do what
 `viw<space>"<space>Select<space>word` would do.  Obviously this isn't what we

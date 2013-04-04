@@ -4,17 +4,18 @@ Editing Your Vimrc
 Before we move on to learning more Vimscript, let's find a way to make it easier
 to add new mappings to our `~/.vimrc` file.
 
-When you're coding away furiously at a problem and realize a new mapping would
-make your life easier, you should add it to your `~/.vimrc` file right then and
-there to make sure you don't forget, but you *don't* want to lose your
+Sometimes you're coding away furiously at a problem and realize a new mapping
+would make your editing easier.  You should add it to your `~/.vimrc` file right
+then and there to make sure you don't forget, but you *don't* want to lose your
 concentration.
 
-The idea is that you want to make it easier to make it easier to edit text.
+The idea of this chapter is that you want to make it easier to make it easier to
+edit text.
 
 That's not a typo.  Read it again.
 
-The idea is that you want to (make it easier to (make it easier to (edit
-text))).
+The idea of this chapter is that you want to (make it easier to (make it easier
+to (edit text))).
 
 Editing Mapping
 ---------------
@@ -28,7 +29,7 @@ quickly edit it and get back to coding.  Run this command:
 I like to think of this command as "**e**dit my **v**imrc file".
 
 `$MYVIMRC` is a special Vim variable that points to your `~/.vimrc` file.  Don't
-worry about that for right now, just trust me that that variable works.
+worry about that for right now, just trust me that it works.
 
 `:vsplit` opens a new vertical split.  If you'd prefer a horizontal split you
 can replace it with `:split`.
@@ -43,45 +44,6 @@ take less than half a second to type.
 
 When you're in the middle of coding and come up with a new mapping that would
 save you time it's now trivial to add it to your `~/.vimrc` file.
-
-Meta Efficiency
----------------
-
-This is important because part of becoming more efficient is making it *easier*
-for yourself to become more efficient!
-
-Think of it this way: suppose you're trying to become a better digital
-photographer.  When you're practicing taking photos and want to see how they
-came out, you:
-
-* Take a photo.
-* Upload it to your computer.
-* Open it and see how it looks.
-
-That process probably takes a minute.  What if you could improve that?
-
-Let's say you invest $50 and buy an [Eye-Fi](http://www.eye.fi/).  The Eye-Fi is
-a memory card for your camera that has a built-in wifi card, so as soon as you
-snap a photo it gets transferred to your computer.
-
-I know, we're definitely living in the future.  Isn't it awesome?
-
-Now you spend an hour and write a little script to automatically open the photos
-that get transferred to your computer by the Eye-Fi.
-
-You've spent $50 and one hour, but now instead of taking a full minute to check
-your work, it takes ten seconds.
-
-Assuming you charge $100 per hour for freelance work, you've got to make up one
-and a half hours of time for this investment to be worthwhile.  If you're saving
-50 seconds per photo, you need to take about 109 photos for project to pay for
-itself.
-
-109 photos is *nothing*.  You'd blow past that number in a day's practice
-without even noticing!
-
-The same goes for our new mapping.  It saves us only a few seconds each time we
-use it, but it pays for itself if we use it often enough.
 
 Sourcing Mapping
 ----------------
@@ -105,12 +67,12 @@ Now you can easily add new mappings during the heat of coding:
 
 * Use `<leader>ev` to open the file.
 * Add the mapping.
-* Use `ZZ` to write the file and close the split, bringing us back to where we
-  were.
+* Use `:wq<cr>` (or `ZZ`) to write the file and close the split, bringing you
+  back to where you were.
 * Use `<leader>sv` to source the file and make our changes take effect.
 
 That's eight keystrokes plus whatever it takes to define the mapping.  It's very
-little overhead, which reduces the chance that we break our concentration.
+little overhead, which reduces the chance of breaking focus.
 
 Exercises
 ---------
@@ -121,3 +83,4 @@ Add mappings to "edit my `~/.vimrc`" and "source my `~/.vimrc`" to your
 Try them out a few times, adding dummy mappings each time.
 
 Read `:help myvimrc`.
+

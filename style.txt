@@ -1,0 +1,11 @@
+Output should be enclosed in backticks.  So:
+
+    If you type `:echom "Hello!"` Vim will output `Hello`.
+
+Key mappings should be lowercase.
+
+    nnoremap <esc> ...
+
+Keep code within 70 or so cols.
+
+Prefix code blocks with :::vim or :::text.

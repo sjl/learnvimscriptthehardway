@@ -12,7 +12,7 @@ Try out `echo` by running the following command:
     :::vim
     :echo "Hello, world!"
 
-You should see "Hello, world!" appear at the bottom of the window.
+You should see `Hello, world!` appear at the bottom of the window.
 
 Persistent Echoing
 ------------------
@@ -22,15 +22,15 @@ Now try out `echom` by running the following command.
     :::vim
     :echom "Hello again, world!"
 
-You should see "Hello again, world!" appear at the bottom of the window.
+You should see `Hello again, world!` appear at the bottom of the window.
 
 To see the difference between these two commands, run the following:
 
     :::vim
     :messages
 
-You should see a list of messages.  "Hello, world!" will *not* be in this list,
-but "Hello again, world!" *will* be in it.
+You should see a list of messages.  `Hello, world!` will *not* be in this list,
+but `Hello again, world!` *will* be in it.
 
 When you're writing more complicated Vimscript later in this book you may find
 yourself wanting to "print some output" to help you debug problems.  Plain old
@@ -41,9 +41,9 @@ view it later.
 Comments
 --------
 
-Before moving, let's look at how to add comments.  When you write Vimscript code
-(in your `~/.vimrc` file or any other one) you can add comments with the `"`
-character, like this:
+Before moving on, let's look at how to add comments.  When you write Vimscript
+code (in your `~/.vimrc` file or any other one) you can add comments with the
+`"` character, like this:
 
     :::vim
     " Make space more useful

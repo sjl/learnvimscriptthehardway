@@ -16,7 +16,7 @@ Now enter insert mode and type:
     :::text
     One adn two.
 
-As soon as you hit space after typing the "adn" Vim will replace it with "and".
+As soon as you hit space after typing the `adn` Vim will replace it with `and`.
 
 Correcting typos like this is a great use for abbreviations.  Run these
 commands:
@@ -57,7 +57,7 @@ considered "keyword characters":
 
 If you want to read the *full* description of this option's format you can check
 out `:help isfname`, but I'll warn you that you'd better have a beer at the
-ready if you don't want to start crying while reading.
+ready for this one.
 
 For our purposes you can simply remember that abbreviations will be expanded
 when you type anything that's not a letter, number, or underscore.
@@ -70,7 +70,7 @@ more that can help in day-to-day text editing.  Run the following commands:
 
     :::vim
     :iabbrev @@    steve@stevelosh.com
-    :iabbrev ccopy Copyright 2011 Steve Losh, all rights reserved.
+    :iabbrev ccopy Copyright 2013 Steve Losh, all rights reserved.
 
 Feel free to replace my name and email address with your own, then enter insert
 mode and try them out.

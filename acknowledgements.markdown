@@ -15,3 +15,4 @@ pointed out typos, raised issues, and otherwise contributed:
 * [manojkumarm](https://github.com/manojkumarm)
 * [dmedvinsky](https://github.com/dmedvinsky)
 * [flatcap](https://github.com/flatcap)
+
