@@ -12,13 +12,13 @@ The first function we'll look at is `strlen`.  Run the following command:
     :::vim
     :echom strlen("foo")
 
-Vim displays "3", which is the length of the string "foo".  Now try the
+Vim displays `3`, which is the length of the string `"foo"`.  Now try the
 following command:
 
     :::vim
     :echom len("foo")
 
-Vim once again displays "3".  When used with Strings `len` and `strlen` have
+Vim once again displays `3`.  When used with Strings `len` and `strlen` have
 identical effects.  We'll come back to `len` later in the book.
 
 Splitting
@@ -52,14 +52,14 @@ command:
     :::vim
     :echo join(["foo", "bar"], "...")
 
-Vim will display "foo...bar".  Don't worry about the list syntax for now.
+Vim will display `foo...bar`.  Don't worry about the list syntax for now.
 
 `split` and `join` can be paired to great effect.  Run the following command:
 
     :::vim
     :echo join(split("foo bar"), ";")
 
-Vim displays "foo;bar".  First we split the string "foo bar" into a list, then
+Vim displays `foo;bar`.  First we split the string `"foo bar"` into a list, then
 we joined that list together using a semicolon as the separator.
 
 Lower and Upper Case
@@ -72,7 +72,7 @@ commands:
     :echom tolower("Foo")
     :echom toupper("Foo")
 
-Vim displays "foo" and "FOO".  This should be pretty easy to understand.
+Vim displays `foo` and `FOO`.  This should be pretty easy to understand.
 
 In many languages (like Python) a common idiom is to force strings to lowercase
 before comparing them to perform a case-insensitive comparison.  In Vimscript

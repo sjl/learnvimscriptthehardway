@@ -62,7 +62,7 @@ Try the following command:
     :::vim
     :normal! /foo<cr>
 
-At first glance it may seem like this should perform a search for "foo", but
+At first glance it may seem like this should perform a search for `foo`, but
 you'll see that it doesn't work.  The problem is that `normal!` doesn't parse
 special character sequences like `<cr>`.
 
