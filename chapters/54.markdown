@@ -145,8 +145,8 @@ Now that we have an idea of what sections we'll include, add the following to
 the `potion.txt` file:
 
     :::text
-    ==============================================================================
-    CONTENTS                                                      *PotionContents*
+    ====================================================================
+    CONTENTS                                            *PotionContents*
 
         1. Usage ................ |PotionUsage|
         2. Mappings ............. |PotionMappings|
@@ -179,11 +179,11 @@ Sections
 You can create section headers like this:
 
     :::text
-    ==============================================================================
-    Section 1: Usage                                                 *PotionUsage*
+    ====================================================================
+    Section 1: Usage                                       *PotionUsage*
 
-    This plugin with automatically provide syntax highlighting for Potion files
-    (files ending in .pn).
+    This plugin with automatically provide syntax highlighting for
+    Potion files (files ending in .pn).
 
     It also...
 

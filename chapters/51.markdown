@@ -96,11 +96,22 @@ Change the `sections.vim` file to contain this:
     function! s:NextSection(type, backwards)
     endfunction
 
-    noremap <script> <buffer> <silent> ]] :call <SID>NextSection(1, 0)<cr>
-    noremap <script> <buffer> <silent> [[ :call <SID>NextSection(1, 1)<cr>
+    noremap <script> <buffer> <silent> ]]
+            \ :call <SID>NextSection(1, 0)<cr>
 
-    noremap <script> <buffer> <silent> ][ :call <SID>NextSection(2, 0)<cr>
-    noremap <script> <buffer> <silent> [] :call <SID>NextSection(2, 1)<cr>
+    noremap <script> <buffer> <silent> [[
+            \ :call <SID>NextSection(1, 1)<cr>
+
+    noremap <script> <buffer> <silent> ][
+            \ :call <SID>NextSection(2, 0)<cr>
+
+    noremap <script> <buffer> <silent> []
+            \ :call <SID>NextSection(2, 1)<cr>
+
+I used Vimscript's long line continuation feature here because the lines were
+getting a bit long for my taste.  Notice how the backslash to escape long lines
+comes at the *beginning* of the second line.  Read `:help line-continuation` for
+more information.
 
 Notice that we're using `<SID>` and a script-local function to avoid polluting
 the global namespace with our helper function.
@@ -319,21 +330,33 @@ Now we need to update the existing mappings to pass `0` in for the new `visual`
 argument:
 
     :::vim
-    noremap  <script> <buffer> <silent> ]] :call <SID>NextSection(1, 0, 0)<cr>
-    noremap  <script> <buffer> <silent> [[ :call <SID>NextSection(1, 1, 0)<cr>
+    noremap <script> <buffer> <silent> ]]
+            \ :call <SID>NextSection(1, 0, 0)<cr>
 
-    noremap  <script> <buffer> <silent> ][ :call <SID>NextSection(2, 0, 0)<cr>
-    noremap  <script> <buffer> <silent> [] :call <SID>NextSection(2, 1, 0)<cr>
+    noremap <script> <buffer> <silent> [[
+            \ :call <SID>NextSection(1, 1, 0)<cr>
+
+    noremap <script> <buffer> <silent> ][
+            \ :call <SID>NextSection(2, 0, 0)<cr>
+
+    noremap <script> <buffer> <silent> []
+            \ :call <SID>NextSection(2, 1, 0)<cr>
 
 Nothing too complex there.  Now let's add the visual mode mappings as the final
 piece of the puzzle:
 
     :::vim
-    vnoremap <script> <buffer> <silent> ]] :<c-u>call <SID>NextSection(1, 0, 1)<cr>
-    vnoremap <script> <buffer> <silent> [[ :<c-u>call <SID>NextSection(1, 1, 1)<cr>
+    vnoremap <script> <buffer> <silent> ]]
+            \ :<c-u>call <SID>NextSection(1, 0, 1)<cr>
 
-    vnoremap <script> <buffer> <silent> ][ :<c-u>call <SID>NextSection(2, 0, 1)<cr>
-    vnoremap <script> <buffer> <silent> [] :<c-u>call <SID>NextSection(2, 1, 1)<cr>
+    vnoremap <script> <buffer> <silent> [[
+            \ :<c-u>call <SID>NextSection(1, 1, 1)<cr>
+
+    vnoremap <script> <buffer> <silent> ][
+            \ :<c-u>call <SID>NextSection(2, 0, 1)<cr>
+
+    vnoremap <script> <buffer> <silent> []
+            \ :<c-u>call <SID>NextSection(2, 1, 1)<cr>
 
 These mappings all pass `1` for the `visual` argument to tell Vim to reselect
 the last selection before performing the movement.  They also use the `<c-u>`

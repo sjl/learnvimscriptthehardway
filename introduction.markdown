@@ -18,6 +18,17 @@ The book is [copyright][license] 2013 by Steve Losh, all rights reserved.  You
 can redistribute it as long as you don't make any changes and don't charge for
 it.
 
+The book will always be free to read online.
+
+You can buy an ebook (PDF, epub, mobi) version for $8 on Leanpub at:
+<http://leanpub.org/learnvimscriptthehardway>
+
+You can buy a paperback copy for $20 on Lulu at:
+<http://bit.ly/lvsthw-paperback>
+
+You can buy a hardcover copy for $40 on Lulu at:
+<http://bit.ly/lvsthw-hardcover>
+
 The source code to the book is available [on BitBucket][hg] and [on
 GitHub][git].  If you find any mistakes or feel you could improve it feel free
 to send a pull request, but I'm retaining the copyright on the book, so if
@@ -29,3 +40,4 @@ you're not comfortable with that I understand.
 [git]: http://github.com/sjl/learnvimscriptthehardway/
 [license]: http://learnvimscriptthehardway.stevelosh.com/license.html
 [leanpub]: http://leanpub.com/learnvimscriptthehardway
+[lulu]: http://lulu.com/learnvimscriptthehardway

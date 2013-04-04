@@ -180,7 +180,7 @@ cursor, it's time to concatenate it into our mapping!  Run the following
 command:
 
     :::vim
-    :nnoremap <leader>g :execute "grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
+    :nnoremap <leader>g :exe "grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
 
 Try it out.  This mapping won't break if the word we're searching for happens to
 contain strange characters.
