@@ -20,14 +20,15 @@ it.
 
 The book will always be free to read online.
 
-You can buy an ebook (PDF, epub, mobi) version for $8 on Leanpub at:
-<http://leanpub.org/learnvimscriptthehardway>
+You can buy an [ebook (PDF, epub, mobi) version][leanpub] for $8 on Leanpub.
 
-You can buy a paperback copy for $20 on Lulu at:
-<http://bit.ly/lvsthw-paperback>
+You can buy a [paperback copy][paper] for $20 on Lulu.
 
-You can buy a hardcover copy for $40 on Lulu at:
-<http://bit.ly/lvsthw-hardcover>
+You can buy a [hardcover copy][hard] for $40 on Lulu.
+
+[leanpub]: http://leanpub.org/learnvimscriptthehardway
+[paper]: http://bit.ly/lvsthw-paperback
+[hard]: http://bit.ly/lvsthw-hardcover
 
 The source code to the book is available [on BitBucket][hg] and [on
 GitHub][git].  If you find any mistakes or feel you could improve it feel free
@@ -39,5 +40,3 @@ you're not comfortable with that I understand.
 [hg]: http://bitbucket.org/sjl/learnvimscriptthehardway/
 [git]: http://github.com/sjl/learnvimscriptthehardway/
 [license]: http://learnvimscriptthehardway.stevelosh.com/license.html
-[leanpub]: http://leanpub.com/learnvimscriptthehardway
-[lulu]: http://lulu.com/learnvimscriptthehardway
