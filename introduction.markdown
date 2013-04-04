@@ -14,12 +14,7 @@ The book is divided roughly into three sections:
 * The third walks through the creation of a sample plugin intended for
   distribution to other Vim users.
 
-Currently Learn Vimscript the Hard Way is a work in progress.  Once it's
-finished you'll be able to buy ebook and possibly hard copy versions.  If you
-want to get on the mailing list to know when it's officially completed you can
-sign up at [Learn Vimscript the Hard Way on Leanpub][leanpub].
-
-The book is [copyright][license] 2012 by Steve Losh, all rights reserved.  You
+The book is [copyright][license] 2013 by Steve Losh, all rights reserved.  You
 can redistribute it as long as you don't make any changes and don't charge for
 it.
 
