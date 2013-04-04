@@ -138,7 +138,7 @@ functions.  They work as expected -- look them up.
 Exercises
 ---------
 
-Read `:help Dictionary`.  All of it.  Notice the capital "D".
+Read `:help Dictionary`.  All of it.  Notice the capital `D`.
 
 Read `:help get()`.
 

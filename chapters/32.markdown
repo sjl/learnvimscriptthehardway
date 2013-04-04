@@ -95,8 +95,8 @@ You can use `<cWORD>` to get a WORD instead of a word.  Run this command:
     :::vim
     :nnoremap <leader>g :grep -R <cWORD> .<cr>
 
-Now try the mapping when your cursor is over something like "foo-bar".  Vim will
-grep for "foo-bar" instead of just part of the word.
+Now try the mapping when your cursor is over something like `foo-bar`.  Vim will
+grep for `foo-bar` instead of just part of the word.
 
 There's still a problem with our search term: if there are any special shell
 characters in it Vim will happily pass them along to the external grep command,
@@ -119,7 +119,7 @@ Escaping Shell Command Arguments
 --------------------------------
 
 There's still one more problem with the search term.  Try the mapping on the
-word "that's".  It won't work, because the single quote inside the word
+word `that's`.  It won't work, because the single quote inside the word
 interferes with the quotes in the grep command!
 
 To get around this we can use Vim's `shellescape` function.  Read `:help
@@ -138,8 +138,8 @@ Then run the following command, which uses `shellescape` to fix the search term:
     :::vim
     :nnoremap <leader>g :execute "grep -R " . shellescape("<cWORD>") . " ."<cr>
 
-Try it out by running it on a normal word like "foo".  It will work properly.
-Now try it out on a word with a quote in it, like "that's".  It still doesn't
+Try it out by running it on a normal word like `foo`.  It will work properly.
+Now try it out on a word with a quote in it, like `that's`.  It still doesn't
 work!  What happened?
 
 The problem is that Vim performed the `shellescape()` call *before* it expanded
@@ -159,7 +159,7 @@ To fix this we'll use the `expand()` function to force the expansion of
 `<cWORD>` into the actual string *before* it gets passed to `shellescape`.
 
 Let's break this apart and see how it works, in steps.  Put your cursor over
-a word with a quote, like "that's", and run the following command:
+a word with a quote, like `that's`, and run the following command:
 
     :::vim
     :echom expand("<cWORD>")

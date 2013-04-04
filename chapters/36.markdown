@@ -25,7 +25,7 @@ following commands:
 
     :echom c
 
-Vim displays "10", which is the result of adding together each element in the
+Vim displays `10`, which is the result of adding together each element in the
 list.  Vimscript `for` loops iterate over lists (or dictionaries, which we'll
 cover later).
 
@@ -48,7 +48,7 @@ Vim also supports the classic `while` loop.  Run the following commands:
 
     :echom total
 
-Once again Vim displays "10".  This loop should be familiar to just about anyone
+Once again Vim displays `10`.  This loop should be familiar to just about anyone
 who's programmed before, so we won't spend any time on it.  You won't use it
 very often.  Keep it in the back of your mind for the rare occasions that you
 want it.

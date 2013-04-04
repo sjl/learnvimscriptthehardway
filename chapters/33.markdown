@@ -48,7 +48,7 @@ a mapping.  Start by adding the following code to `grep-operator.vim`:
     endfunction
 
 Write the file and source it with `:source %`.  Try it out by pressing
-`<leader>giw` to say "grep inside word".  Vim will echo "Test" *after* accepting
+`<leader>giw` to say "grep inside word".  Vim will echo `Test` *after* accepting
 the `iw` motion, which means we've laid out the skeleton.
 
 The function is simple and nothing we haven't seen before, but that mapping is
@@ -69,7 +69,7 @@ from visual mode as well.  Add another mapping below the first:
     vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
 
 Write and source the file.  Now visually select something and press `<leader>g`.
-Nothing happens, but Vim does echo "Test", so our function is getting called.
+Nothing happens, but Vim does echo `Test`, so our function is getting called.
 
 We've seen the `<c-u>` in this mapping before but never explained what it did.
 Try visually selecting some text and pressing `:`.  Vim will open a command line
@@ -86,7 +86,7 @@ The `call GrepOperator()` is simply a function call like we've seen before, but
 the `visualmode()` we're passing as an argument is new.  This function is
 a built-in Vim function that returns a one-character string representing the
 last type of visual mode used: `"v"` for characterwise, `"V"` for
-linewise, and a `ctrl-v` character for blockwise.
+linewise, and a `Ctrl-v` character for blockwise.
 
 Motion Types
 ------------

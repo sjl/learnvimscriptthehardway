@@ -5,7 +5,6 @@ Our shiny new "grep operator" is working great, but part of writing Vimscript is
 being considerate and making your users' lives easier.  We can do two more
 things to make our operator play nicely in the Vim ecosystem.
 
-
 Saving Registers
 ----------------
 
@@ -51,7 +50,7 @@ users.
 Namespacing
 -----------
 
-Our script created a function named "GrepOperator" in the global namespace.
+Our script created a function named `GrepOperator` in the global namespace.
 This probably isn't a big deal, but when you're writing Vimscript it's far
 better to be safe than sorry.
 
