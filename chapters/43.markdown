@@ -92,7 +92,7 @@ Our plugin's repository will wind up looking like this:
     potion/
         README
         LICENSE
-        docs/
+        doc/
             potion.txt
         ftdetect/
             potion.vim
