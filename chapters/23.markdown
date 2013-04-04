@@ -136,7 +136,7 @@ so the `if` we manually typed in executes *its* body.
 Exercises
 ---------
 
-Read `:help call`.  Ignore anything about "ranges" for now.  How many arguments
+Read `:help :call`.  Ignore anything about "ranges" for now.  How many arguments
 can you pass to a function?  Is this surprising?
 
 Read the first paragraph of `:help E124` and find out what characters you're
