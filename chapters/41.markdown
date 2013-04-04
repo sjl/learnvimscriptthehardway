@@ -3,7 +3,7 @@ Creating a Full Plugin
 
 We've covered a lot of ground in the last forty or so chapters.  In the final
 part of the book we're going to walk through creating a Vim plugin for
-a language from scratch.
+a programming language from scratch.
 
 This is not for the faint of heart.  It's going to take a lot of effort.
 
@@ -11,7 +11,7 @@ If you want to stop now, that's completely fine!  You've already learned enough
 to make serious enhancements to your own `~/.vimrc` file and to fix bugs you
 find in other people's plugins.
 
-There's no shame in saying "that's enough for me -- I don't want to spend hours
+There's no shame in saying "that's enough for me, I don't want to spend hours
 of my life creating plugins I won't use very often".  Be practical.  If you
 can't think of a full plugin you want to make, stop now and come back when you
 do.
@@ -30,19 +30,19 @@ Potion is a toy language created by \_why the lucky stiff before his
 disappearance.  It's an extremely small language which makes it ideal for our
 purposes.
 
-Potion feels a lot like [Io][], with some ideas from Ruby, Lua and other
+Potion feels a lot like [Io][], with some ideas from Ruby, Lua, and other
 languages mixed in.  If you've never tried Io it may seem weird.  I strongly
 recommend playing with Potion for at least an hour or two.  You won't use it in
 real life, but it might change the way you think and expose you to new ideas.
 
 The current implementation of Potion has a lot of rough edges.  For example: if
-you mess up the syntax it usually segfaults.  Try not to get too hung up on this
--- I'll provide you with lots of sample code that works so you can focus mostly
-on the Vimscript and not Potion.
+you mess up the syntax it usually segfaults.  Try not to get too hung up on
+this.  I'll provide you with lots of sample code that works so you can focus
+mostly on the Vimscript and not Potion.
 
-The goal is not to learn Potion (though I think doing so *will* make you
-a better programmer).  The goal is to use Potion as a small example so we can
-touch on a lot of different aspects of writing Vim plugins.
+The goal is not to learn Potion (though that can be fun too).  The goal is to
+use Potion as a small example so we can touch on a lot of different aspects of
+writing full Vim plugins.
 
 Exercises
 ---------

@@ -117,7 +117,7 @@ Let's create a few of the most commonly-used higher-order functions.  If you're
 not familiar with that term, higher-order functions are functions that take
 *other* functions and do something with them.
 
-We'll begin with the trusty "map" function.  Add this to your file:
+We'll begin with the trusty `map` function.  Add this to your file:
 
     :::vim
     function! Mapped(fn, l)
@@ -132,8 +132,8 @@ Source and write the file, and try it out by running the following commands:
     :let mylist = [[1, 2], [3, 4]]
     :echo Mapped(function("Reversed"), mylist)
 
-Vim displays `[[2, 1], [4, 3]]`, which is the results of applying `Reversed()`
-to every element in the list.
+Vim displays `[[2, 1], [4, 3]]`, which is the result of applying `Reversed()` to
+every element in the list.
 
 How does `Mapped()` work?  Once again we create a fresh list with `deepcopy()`,
 do something to it, and return the modified copy -- nothing new there.  The
@@ -143,8 +143,8 @@ tricky part is the middle.
 a function") and a list.  We use the built-in `map()` function to perform the
 actual work.  Read `:help map()` now to see how it works.
 
-Now we'll create a few other common higher-order functions.  Add the following to
-your file:
+Now we'll create a few other common higher-order functions.  Add the following
+to your file:
 
     :::vim
     function! Filtered(fn, l)
@@ -210,10 +210,7 @@ To contrast, my Firefox instance with five tabs open is currently using 1.22
 *gigabytes* of RAM.
 
 You'll need to use your own judgement about when this style of programming
-creates unacceptably bad performance.  I'd *strongly* encourage you to at least
-give it a fair try though.  Using immutable data structures and higher order
-functions can greatly simplify your code and eliminate lots of state-related
-bugs.
+creates unacceptably bad performance.
 
 Exercises
 ---------
