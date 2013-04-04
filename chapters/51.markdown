@@ -6,7 +6,7 @@ in a way that makes sense for Potion files.
 
 First we need to decide what "section" should mean for a Potion file.  There are
 two pairs of section movement commands, so we can come up with two "schemes" and
-our users can choose the one they prefer.
+our users can use the one they prefer.
 
 Let's use the following two schemes to define where Potion sections start:
 
@@ -194,7 +194,7 @@ happens before reading on.
 
 The answer is that we searched using `/` (or `?`) and by default Vim places your
 cursor at the beginning of matches.  For example, when you run `/foo` your
-cursor will be placed on the "f" in "foo".
+cursor will be placed on the `f` in `foo`.
 
 To tell Vim to put the cursor at the end of the match instead of the beginning,
 we can use a search flag.  Try searching in your Potion file like so:
@@ -202,7 +202,7 @@ we can use a search flag.  Try searching in your Potion file like so:
     :::vim
     /factorial/e
 
-Vim will find the word "factorial" and move you to it.  Press `n` a few times to
+Vim will find the word `factorial` and move you to it.  Press `n` a few times to
 move through the matches.  The `e` flag tells Vim to put the cursor at the end
 of matches instead of the beginning.  Try it in the other direction too:
 
@@ -308,7 +308,7 @@ Visually select some text in any buffer and then run the following command:
     :::vim
     :echom "hello"
 
-Vim will display "hello" but the visual selection will also be cleared!
+Vim will display `hello` but the visual selection will also be cleared!
 
 When running an ex mode command with `:` the visual selection is always cleared.
 The `gv` command reselects the previous visual selection, so this will "undo"
