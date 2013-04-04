@@ -224,7 +224,7 @@ directory and file name where they live.  Now change the
         let g:potion_command = "/Users/sjl/src/potion/potion"
     endif
 
-    nnoremap <buffer> <localleader>rr
+    nnoremap <buffer> <localleader>r
                 \ :call potion#running#PotionCompileAndRunFile()<cr>
 
     nnoremap <buffer> <localleader>b
