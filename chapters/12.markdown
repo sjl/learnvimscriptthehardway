@@ -110,6 +110,13 @@ we're working on files that end in `.html`.  This lets us target our
 autocommands at specific files, which is a very powerful idea that we'll
 continue to explore later on.
 
+Another Example
+---------------
+In the interest of making it easier to make it easier to edit text, we can define an Autocommand to source .vimrc after it's saved:
+
+    :::vim
+    :autocmd BufWritePost .vimrc source $MYVIMRC
+
 Multiple Events
 ---------------
 
