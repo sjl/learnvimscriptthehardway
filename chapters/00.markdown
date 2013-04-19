@@ -1,43 +1,35 @@
-Prerequisites
-=============
+预备知识
+========
 
-To use this book you should have the latest version of Vim installed, which is
-version 7.3 at the time of this writing.  New versions of Vim are almost always
-backwards-compatible, so everything in this book should work fine with anything
-after 7.3 too.
+阅读本书之前，请确保您的机器已经安装了最新版的Vim，本书写作时Vim的最新版本是7.3。
+新版本的Vim会向后兼容，所以本书中的内容在7.3之后的版本中应该同样有效。
 
-Nothing in this book is specific to console Vim or GUI Vims like gVim or MacVim.
-You can use whichever you prefer.
+本书中的内容通用，你可以任意选择console Vim或者是gVim、MacVim之类的GUI作为你的终端。
 
-You should be comfortable editing files in Vim.  You should know basic Vim
-terminology like "buffer", "window", "normal mode", "insert mode" and "text
-object".
+你最好习惯用Vim编辑文件。至少应该知道Vim的基本术语，如"buffer"、"window"、
+"normal mode"、"insert mode"、"text mode"。
 
-If you're not at that point yet you should go through the `vimtutor` program,
-use Vim exclusively for a month or two, and come back when you've got Vim burned
-into your fingers.
+如果你当前不符合上述的条件，建议你阅读命令`vimtutor`的内容、使用Vim一两个月，当你
+熟练使用Vim后再阅读本书。
 
-You'll also need to have some programming experience.  If you've never
-programmed before check out [Learn Python the Hard
-Way](http://learnpythonthehardway.org/) first and come back to this book when
-you're done.
+你需要有一些编程经验。如果没有，建议先阅读《[笨方法学习Python
+](http://learnpythonthehardway.org/)》，读完之后再阅读本书。
+> **译者注:**原文提到的《笨方法学习Python》是英文的，有问题的读者可以选择阅读
+> [gastlygem](https://bitbucket.org/gastlygem/lpthw)翻译的中文版《[笨方法学习Python
+> ](https://learn-python-the-hard-way-zh_cn-translation.readthedocs.org/en/1.0/intro_zh.html)》
 
-Creating a Vimrc File
----------------------
+创建Vimrc文件
+-------------
 
-If you already know what a `~/.vimrc` file is and have one, go on to the next
-chapter.
+如果你已经清楚`~/.vimrc`的作用并已经有了这个文件，直接跳到下一章继续吧。
 
-A `~/.vimrc` file is a file you create that contains some Vimscript code.  Vim
-will automatically run the code inside this file every time you open Vim.
+`~/.vimrc`文件包含了Vimscript代码，每次启动Vim时，Vim都会自动执行其中的代码。
 
-On Linux and Mac OS X this file is located in your home directory and named
-`.vimrc`.
+在Linux和Mac OS X中，这个文件位于你的home文件夹，并已`.vimrc`命名。
 
-On Windows this file is located in your home folder and named `_vimrc`.
+在Windows中，这个文件位于你的home文件夹，并已`_vimrc`命名。
 
-To easily find the location and name of the file on *any* operating system, run
-`:echo $MYVIMRC` in Vim.  The path will be displayed at the bottom of the
-screen.
+在*任意*系统中，在Vim中执行`:echo $MYVIMRC`命令可以快速得知这个文件的位置和名称。
+文件的路径会在屏幕的底部显示。
 
-Create this file if it doesn't already exist.
+如果你的home文件夹没有这个文件，请自行创建一个。
