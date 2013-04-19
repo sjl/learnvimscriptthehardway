@@ -1,4 +1,4 @@
-title = 'Learn Vimscript the Hard Way'
+title = u'笨方法学Vimscript'
 author = 'Steve Losh'
 author_url = 'http://stevelosh.com'
 
