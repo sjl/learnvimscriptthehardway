@@ -1,15 +1,13 @@
-Acknowledgements
-================
+鸣谢
+====
 
-First I'd like to thank [Zed Shaw][] for writing [Learn Python the Hard Way][]
-and making it freely available.  This book's format and writing style is
-directly inspired by it.
+首先，我要感谢[Zed Shaw][]帮助我写作[笨方法学习Vimscript][]并使之免费。
+本书的写作格式及写作风格即受其激发。
 
 [Zed Shaw]: http://zedshaw.com/
-[Learn Python the Hard Way]: http://learnpythonthehardway.org/
+[笨方法学习Vimscript]: http://learnpythonthehardway.org/
 
-I'd also like to thank the following GitHub and Bitbucket users who sent pull
-requests, pointed out typos, raised issues, and otherwise contributed:
+同时感谢下列来自Github或Bitbucket的用户：
 
 * [aperiodic](https://github.com/aperiodic)
 * [billturner](https://github.com/billturner)
@@ -43,4 +41,4 @@ requests, pointed out typos, raised issues, and otherwise contributed:
 * [tapichu](https://github.com/tapichu)
 * [ZyX-I](https://github.com/ZyX-I)
 
-I apologize to anyone I've forgotten.
+还有来自更多人的帮助，就不在此一一列举。
