@@ -1,4 +1,4 @@
-[笨方法学习Vimscript][book]面向那些想学会如何自定义[Vim][]编辑器的用户。
+[笨方法学Vimscript][book]面向那些想学会如何自定义[Vim][]编辑器的用户。
 
 这*不是*一个Vim*使用*教程。阅读本书之前你应该适应用Vim编辑文本，并知道一些诸如
 "buffer", "window"以及"insert mode"这些术语的含义。
