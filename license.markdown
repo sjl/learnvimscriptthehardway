@@ -1,8 +1,7 @@
-License
-=======
+许可协议
+========
 
-This book is copyright (C) 2013 by Steve Losh, all rights reserved.
+本书版权归Steve Losh所有，非经同意，他人不得出版或作更改。
 
-You are free to distribute this book to anyone you want, so long as you do not
-charge anything for it, and it is not altered. You must give away the book in
-its entirety, or not at all.
+你可以在没有做任何改动且不从中牟利的前提下随意分享本书。
+本书的内容只可完整地分享，不可单取其中部分章节。
