@@ -1,11 +1,11 @@
 鸣谢
 ====
 
-首先，我要感谢[Zed Shaw][]帮助我写作[笨方法学习Vimscript][]并使之免费。
+首先，我要感谢[Zed Shaw][]帮助我写作[笨方法学Vimscript][]并使之免费。
 本书的写作格式及写作风格即受其激发。
 
 [Zed Shaw]: http://zedshaw.com/
-[笨方法学习Vimscript]: http://learnpythonthehardway.org/
+[笨方法学Vimscript]: http://learnpythonthehardway.org/
 
 同时感谢下列来自Github或Bitbucket的用户：
 
