@@ -1,39 +1,32 @@
-[Learn Vimscript the Hard Way][book] is a book for users of the [Vim][] editor
-who want to learn how to customize Vim.
+[笨方法学习Vimscript][book]面向那些想学会如何自定义[Vim][]编辑器的用户。
 
-It is *not* a guide to *using* Vim.  Before reading this book you should be
-comfortable editing text in Vim and know what terms like "buffer", "window" and
-"insert mode" mean.
+这*不是*一个Vim*使用*教程。阅读本书之前你应该适应用Vim编辑文本，并知道一些诸如
+"buffer", "window"以及"insert mode"这些术语的含义。
 
-The book is divided roughly into three sections:
+本书大致分为三个部分：
 
-* The first covers basic Vim commands that you can use in your `~/.vimrc` file
-  to customize Vim quickly and easily.
-* The second looks more deeply at Vimscript as a programming language, covering
-  things like variables, comparisons, and functions.
-* The third walks through the creation of a sample plugin intended for
-  distribution to other Vim users.
+* 第一部分讲述了一些Vim的基本命令，通过这些命令修改你的`~/.vimrc`可以快速、
+  方便地定制你的Vim环境。
+* 第二部分将Vimscript作为一门编程语言做深入了解，包括变量、比较还有函数。
+* 第三部分实例创建一个插件。
 
-The book is [copyright][license] 2013 by Steve Losh, all rights reserved.  You
-can redistribute it as long as you don't make any changes and don't charge for
-it.
+本书[版权][license]2013 归Steve Losh所有，非经同意，他人不得出版或作更改。
+你可以在没有做任何改动且不从中牟利的前提下分享本书。
 
-The book will always be free to read online.
+本书将一直免费在线阅读。
 
-You can buy an [ebook (PDF, epub, mobi) version][leanpub] for $8 on Leanpub.
+你可以用8$购买一本[电子版(PDF, epub, mobi)][leanpub]。
 
-You can buy a [paperback copy][paper] for $20 on Lulu.
+你可以用20$购买一本[纸质版][paper]。
 
-You can buy a [hardcover copy][hard] for $40 on Lulu.
+你可以用40$购买一本[精装版][hard]。
 
 [leanpub]: http://leanpub.org/learnvimscriptthehardway
 [paper]: http://bit.ly/lvsthw-paperback
 [hard]: http://bit.ly/lvsthw-hardcover
 
-The source code to the book is available [on BitBucket][hg] and [on
-GitHub][git].  If you find any mistakes or feel you could improve it feel free
-to send a pull request, but I'm retaining the copyright on the book, so if
-you're not comfortable with that I understand.
+可从[BitBucket][hg]和[GitHub][git]获取本书的源码。如果你发下任何错误或感觉某处
+可以改善，可以随意提交问题，但是我保留本书的版权，所以，如果你感觉不爽我也能够理解。
 
 [book]: http://learnvimscriptthehardway.stevelosh.com/
 [Vim]: http://www.vim.org/
