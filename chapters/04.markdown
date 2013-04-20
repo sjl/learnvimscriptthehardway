@@ -1,107 +1,87 @@
-Modal Mapping
-=============
+模式映射
+========
 
-In the last chapter we talked about how to map keys in Vim.  We used the `map`
-command which made the keys work in normal mode.  If you played around a bit
-before moving on to this chapter, you may have noticed that the mappings also
-took effect in visual mode.
+上一章中我们谈论了如何在Vim中映射按键。我们使用的命令`map`在normal模式下工作。
+如果阅读本章之前你自己已经折腾了，可能会注意到这个映射在visual模式一样工作。
 
-You can be more specific about when you want mappings to apply by using `nmap`,
-`vmap`, and `imap`.  These tell Vim to only use the mapping in normal, visual,
-or insert mode respectively.
+你可以使用`nmap`、`vmap`和`imap`命令分别指定映射仅在normal、visual、insert模式有效。
 
-Run this command:
+执行如下命令：
 
     :::vim
     :nmap \ dd
 
-Now put your cursor in your text file, make sure you're in normal mode, and
-press `\`.  Vim will delete the current line.
+在normal模式下，按下`\`。Vim会删除当前行。
 
-Now enter visual mode and try pressing `\`.  Nothing will happen, because we
-told Vim to only use that mapping in normal mode (and `\` doesn't do anything by
-default).
+现在进入Visual模式，再次按下`\`。什么都不会发生，因为我们告诉了Vim这个映射仅在normal
+模式下工作（同时`\`的默认行为是什么都不做）。
 
-Run this command:
+运行如下命令：
 
     :::vim
     :vmap \ U
 
-Enter visual mode and select some text, then press `\`.  Vim will convert the
-text to uppercase!
+进入visual模式并选中一些文字，按下`\`。Vim将把选中文本转换成大写格式。
 
-Try the `\` key a few times in normal and visual modes and notice that it now
-does something completely different depending on which mode you're in.
+分别在normal模式和visual模式测试`\`按键，注意不同模式下的效应。
 
-Muscle Memory
--------------
+增强记忆
+--------
 
-At first the idea of mapping the same key to do different things depending on
-which mode you're in may sound like a terrible idea.  Why would you want to
-have to stop and think which mode you're in before pressing the key?  Wouldn't
-that negate any time you save from the mapping itself?
+起初，将同样的按键根据当前模式的不同映射到不同的功能听起来很可怕。为什么每次按下
+那个键之前都有停下想想我们现在是在什么模式？那样是不是更浪费时间？
 
-In practice it turns out that this isn't really a problem.  Once you start using
-Vim often you won't be thinking about the individual keys you're typing any
-more.  You'll think: "delete a line" and not "press `dd`".  Your fingers and
-brain will learn your mappings and the keys themselves will become subconscious.
+实践中我们发现那真不是个问题。一旦你经常使用Vim，你就不会在意你按下的键了。
+你会想“删除一行”，而不是“按`dd·”。你的手指和大脑都会记住你的映射，潜意识中你就会
+按下那些映射按键。
 
-Insert Mode
------------
+insert模式
+----------
 
-Now that we've covered how to map keys in normal and visual mode, let's move on
-to insert mode.  Run this command:
+现在我们已经知道如何在normal模式和visual模式下映射按键。现在我们谈谈insert模式下的
+映射方法。运行如下命令：
 
     :::vim
     :imap <c-d> dd
 
-You might think that this would let you press `Ctrl+d` whenever you're in insert
-mode to delete the current line.  This would be handy because you wouldn't need
-to go back into normal mode to cut out lines.
+你可能猜想这个命令的作用是在insert模式下通过按键`Ctrl+d`删除整行。这个映射很实用，
+因为你不必每次都要为了删除某些行而切回到normal模式。
 
-Go ahead and try it.  It won't work -- instead it will just put two `d`s in your
-file!  That's pretty useless.
+好的我们试一下。它并不如我们想象那般工作，而仅仅是在文件中添加了两个`d`字符！
+它压根就没用。
 
-The problem is that Vim is doing exactly what we told it to.  We said: "when
-I press `<c-d>` I want you to do what pressing `d` and `d` would normally do".
-Well, normally when you're in insert mode and press the `d` key twice, you get
-two `d`s in a row!
+问题就在于Vim只按我们说的做。这个例子中，我们说：“当我按下`<c-d>`时，相当于我
+按了两次`d`”。而当你在insert模式下，按下两次`d`的作用就是输入两个字符`d`。
 
-To make this mapping do what we intended we need to be very explicit.  Run this
-command to change the mapping:
+要想让这个映射按我们的期望执行，我们需要更加明确的指令。修改映射并运行如下命令：
 
     :::vim
     :imap <c-d> <esc>dd
 
-The `<esc>` is our way of telling Vim to press the Escape key, which will take
-us out of insert mode.
+`<esc>`告诉Vim按下ESC按键，即退出insert模式。
 
-Now try the mapping.  It works, but notice how you're now back in normal mode.
-This makes sense because we told Vim that `<c-d>` should exit insert mode and
-delete a line, but we never told it to go back into insert mode.
+现在再试试这个映射。它能够正常工作，但是注意你是如何回到normal模式的。这是因为我们
+告诉Vim`<c-d>`要退出insert模式并删除一行，但是我们没有告诉它再回到insert模式。
 
-Run one more command to fix the mapping once and for all:
+运行如下命令，修复映射问题：
 
     :::vim
     :imap <c-d> <esc>ddi
 
-The `i` at the end enters insert mode, and our mapping is finally complete.
+结尾的`i`告诉Vim进入insert模式，至此我们的映射才最终完成。
 
-Exercises
----------
+练习
+----
 
-Set up a mapping so that you can press `<c-u>` to convert the current word to
-uppercase when you're in insert mode.  Remember that `U` in visual mode will
-uppercase the selection.  I find this mapping extremely useful when I'm writing
-out the name of a long constant like `MAX_CONNECTIONS_ALLOWED`.  I type out the
-constant in lower case and then uppercase it with the mapping instead of holding
-shift the entire time.
+设置一个映射，当你在insert模式时，可以通过按下`<c-u>`将当前光标所在的单词转换成
+大写格式。每次我写一个类似`MAX_CONNECTIONS_ALLOWED`这样很长的常量时都能感觉到这个
+映射的实用性。因为这样我就可以以小写的格式敲写常量，然后用这个映射将其转成大写，
+不必一直需要按着shift键。
 
-Add that mapping to your `~/.vimrc` file.
+将那个映射添加上到你的`~/.vimrc`文件中。
 
-Set up a mapping so that you can uppercase the current word with `<c-u>` when in
-*normal* mode.  This will be slightly different than the previous mapping
-because you don't need to enter normal mode.  You should end up back in normal
-mode at the end instead of in insert mode as well.
+设置一个映射，当你在 *normal* 模式时，可以通过按下`<c-u>`将当前光标所在的单词转换成
+大写格式。这个映射和上面那个有点区别，因为你必须要进入normal模式，也不需要结束时
+切到insert模式。
 
-Add that mapping to your `~/.vimrc` file.
+将那个映射添加上到你的`~/.vimrc`文件中。
