@@ -1,118 +1,106 @@
-Strict Mapping
-==============
+精确映射
+========
 
-Get ready, because things are about to get a little wild.
+准备好，下面的内容会比较难以理解。
 
-So far we've used `map`, `nmap`, `vmap`, and `imap` to create key mappings that
-will save time.  These work, but they have a downside.  Run the following
-commands:
+目前为止，我们已经使用`map`、`nmap`、`vmap`以及`imap`创建了实用的按键映射。
+他们很方便，但是有个缺点。运行下面的命令：
 
     :::vim
     :nmap - dd
     :nmap \ -
 
-Now try pressing `\` (in normal mode).  What happens?
+试试按下`\`（在normal模式）。有什么现象？
 
-When you press `\` Vim sees the mapping and says "I should run `-` instead".
-But we've already mapped `-` to do something else!  Vim sees that and says "oh,
-now I need to run `dd`", and so it deletes the current line.
+当你按下`\`时，Vim会解释其为`-`。但是我们又映射了`-`！Vim会继续解析`-`为`dd`，
+即它会删除整行。
 
-When you map keys with these commands Vim will take *other* mappings into
-account.  This may sound like a good thing at first but in reality it's pure
-evil.  Let's talk about why, but first remove those mappings by running the
-following commands:
+你使用那些命令创建的映射可能会被Vim解释成 *其它* 的映射。乍一听这像是一个优点，
+但实际上这很变态。解释原因之前，我们先用如下命令删除那些映射：
 
     :::vim
     :nunmap -
     :nunmap \
 
-Recursion
----------
+递归
+----
 
-Run this command:
+运行命令：
 
     :::vim
     :nmap dd O<esc>jddk
 
-At first glance it might look like this would map `dd` to:
+上面的命令看上去像是要映射`dd`为：
 
-* Open a new line above this one.
-* Exit insert mode.
-* Move back down.
-* Delete the current line.
-* Move up to the blank line just created.
+* 在当前行之前添加新行
+* 退出insert模式
+* 向下移动一行
+* 删除当前行
+* 向上移动到新加的行
 
-Effectively this should "clear the current line".  Try it.
+貌似这个映射的作用是“清除当前行”。但你可以试试。
 
-Vim will seem to freeze when you press `dd`.  If you press `<c-c>` you'll get
-Vim back, but there will be a ton of empty lines in your file!  What happened?
+当你按下`dd`后，Vim就不动了。按下`<c-c>`才可以继续，但是你的文件中会多出许多
+空行！想想发生了什么？
 
 This mapping is actually *recursive*!  When you press `dd`, Vim says:
+这个映射实际上是 *递归* 的！当你按下`dd`后，Vim解释为：
 
-* `dd` is mapped, so perform the mapping.
-    * Open a line.
-    * Exit insert mode.
-    * Move down a line.
-    * `dd` is mapped, so perform the mapping.
-        * Open a line.
-        * Exit insert mode.
-        * Move down a line.
-        * `dd` is mapped, so perform the mapping, and so on.
+* `dd`存在映射，执行映射的内容。
+    * 新建一行。
+    * 退出insert模式。
+    * 向下移动一行。
+    * `dd`存在映射，执行映射的内容。
+        * 新建一行。
+        * 退出insert模式。
+        * 向下移动一行。
+        * `dd`存在映射，执行映射的内容。然后一直这样。
 
-This mapping can never finish running!  Go ahead and remove this terrible thing
-with the following command:
+这个映射永远不会结束！删除这个可怕的映射再继续：
 
     :::vim
     :nunmap dd
 
-Side Effects
-------------
+负面影响
+--------
 
-One downside of the `*map` commands is the danger of recursing.  Another is that
-their behavior can change if you install a plugin that maps keys they depend on.
+`*map`系列命令的一个缺点就是存在递归的危险。另外一个是如果你安装一个插件，插件
+映射了同一个按键为不同的行为，两者冲突，有一个映射就无效了。
 
-When you install a new Vim plugin there's a good chance that you won't use and
-memorize every mapping it creates.  Even if you do, you'd have to go back and
-look through your `~/.vimrc` file to make sure none of your custom mappings use
-a key that the plugin has mapped.
+当安装一个新的插件时，可能你不会使用或记住每一个其创建的映射。即使你记住了，你还得
+回看下你的`~/.vimrc`文件以确保你自定义的映射与插件创建的没有冲突。
 
-This would make installing plugins tedious and error-prone.  There must be
-a better way.
+这导致插件安装变得乏味，易于出错。肯定有个解决办法。
 
-Nonrecursive Mapping
---------------------
+非递归映射
+----------
 
-Vim offers another set of mapping commands that will *not* take mappings into
-account when they perform their actions.  Run these commands:
+Vim提供另一组映射命令，这些命令创建的映射在运行时 *不会* 进行递归。运行命令：
 
     :::vim
     :nmap x dd
     :nnoremap \ x
 
-Now press `\` and see what happens.
+按下`\`看看有什么现象。
 
-When you press `\` Vim ignores the `x` mapping and does whatever it would do for
-`x` by default.  Instead of deleting the current line, it deletes the current
-character.
+当你按下`\`时，Vim忽略了`x`的映射，仅按照`x`的默认操作执行。即删除当前光标下的字符
+而不是删除整行。
 
-Each of the `*map` commands has a `*noremap` counterpart that ignores other
-mappings: `noremap`, `nnoremap`, `vnoremap`, and `inoremap`.
+每一个`*map`系列的命令都有个对应的`*noremap`命令，包括：`noremap`/`nnoremap`、
+`vnoremap`和`inoremap`。这些命令将不递归解释映射的内容。
 
-When should you use these nonrecursive variants instead of their normal
-counterparts?
+该何时使用这些非递归的映射命令呢？
 
-**Always.**
+答案是： **任何时候** 。
 
-**No, seriously, *always*.**
+**是的，没开玩笑， *任何时候* 。**
 
-Using a bare `*map` is just *asking* for pain down the road when you install
-a plugin or add a new custom mapping.  Save yourself the trouble and type the
-extra characters to make sure it never happens.
+在安装插件或添加新的自定义映射时使用`*map`系列命令纯属是给自己 *找* 麻烦。
+多敲几个字符以确保这个问题不会发生，救自己与火海。
 
-Exercises
----------
+练习
+----
 
-Convert all the mappings you added to your `~/.vimrc` file in the previous
-chapters to their nonrecursive counterparts.
+将之前章节中添加到`~/.vimrc`文件中的映射命令全部换成非递归版本。
 
-Read `:help unmap`.
+读帮助文档`:help unmap`。
