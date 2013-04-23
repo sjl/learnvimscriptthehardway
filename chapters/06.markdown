@@ -1,106 +1,91 @@
 Leaders
 =======
 
-We've learned how to map keys in a way that won't make us want to tear our hair
-out later, but you might have noticed one more problem.
+我们已经学了一种不会让我们发狂的键盘映射方法，但是你可以注意到另外一个问题。
 
-Every time we do something like `:nnoremap <space> dd` we've overwritten what
-`<space>` normally does.  What if we need that key later?
+每次我们像`:nnoremap <space> dd`这样映射一个按键都会覆盖掉`<space>`的原有功能。
+如果哪天我们想用`<space>`了，怎么办？
 
-There are a bunch of keys that you don't normally need in your day-to-day Vim
-usage.  `-`, `H`, `L`, `<space>`, `<cr>`, and `<bs>` do things that you almost
-never need (in normal mode, of course).  Depending on how you work you may find
-others that you never use.
+有些按键你平常使用并不需要用到。你几乎永远不会用到`-`、 `H`、`L`、`<space>`、`<cr>`
+和`<bs>`这些按键的功能（当然，是在normal模式下）。依据你的工作方式，可能还有其他你
+不会用到的按键。
 
-Those are safe to map, but that only gives us six keys to work with.  What
-happened to Vim's legendary customizability?
+这些按键都可以随意映射，但是只有这6个按键貌似不够吧。难道为Vim称道的可定制传说
+有问题？
 
-Mapping Key Sequences
----------------------
+映射按键序列
+------------
 
-Unlike Emacs, Vim makes it easy to map more than just single keys.  Run these
-commands:
+不像Emacs，Vim可以映射多个按键。运行下面命令：
 
     :::vim
     :nnoremap -d dd
     :nnoremap -c ddO
 
-Try them out by typing `-d` and `-c` (quickly) in normal mode.  The first
-creates a custom mapping to delete a line, while the second "clears" a line and
-puts you into insert mode.
+norma模式下快读敲入 `-d`或`-c`查看效果。第一个映射作用是删除一行，第二个是
+删除一行并进入insert模式。
 
-This means you can pick a key that you don't care about (like `-`) as a "prefix"
-key and create mappings on top of it.  It means you'll have to type an extra key
-to activate the mappings, but one extra keystroke can easily be absorbed into
-muscle memory.
+这就意味着你可以用一个你不常用的按键（如`-`）作为“前缀”，后接其它字符作为一个整体
+进行映射。你需要多敲一个按键以执行这些映射，多一个按键而已，很容易就记住了。
 
-If you think this might be a good idea, you're right, and it turns out that Vim
-already has mechanisms for this "prefix" key!
+如果你也认为这是个好方法，我可以告诉你，Vim已经支持这种机制。
 
 Leader
 ------
 
-Vim calls this "prefix" key the "leader".  You can set your leader key to
-whatever you like.  Run this command:
+我们称这个“前缀”为“leader”。你可以按你的喜好设置你的leader键。运行命令：
 
     :::vim
     :let mapleader = "-"
 
-You can replace `-` with any key you like.  I personally like `,` even though it
-shadows a useful function, because it's very easy to type.
+你可以替换`-`为你喜欢的按键。尽管会屏蔽一个有用的功能，但我个人使用的是`,`，因为这个键比较
+比较容易按到。
 
-When you're creating new mappings you can use `<leader>` to mean "whatever
-I have my leader key set to".  Run this command:
+当你创建新的映射时，你可以使用`<leader>`表示“我设置的leader按键”。运行命令：
 
     :::vim
     :nnoremap <leader>d dd
 
-Now try it out by pressing your leader key and then `d`.  Vim will delete the
-current line.
+现在试试按下你的leader按键和`d`。Vim会删除当前行。
 
-Why bother with setting `<leader>` at all, though?  Why not just include your
-"prefix" key directly in your mapping commands?  There are three good reasons.
+然而为何每次都要繁琐的设置`<leader>`？为什么创建映射时不直接敲入你的“前缀”按键？
+原因主要有三个。
 
-First of all, you may decide you need the normal function of your leader later
-on down the road.  Defining it in one place makes it easy to change later.
+首先，你某天可能会想要更换你的“leader”。在一个地方定义它使得更方便更换它。
 
-Second, when someone else is looking at your `~/.vimrc` file they'll immediately
-know what you mean when you say `<leader>`.  They can simply copy your mapping
-into their own `~/.vimrc` if they like it even if they use a different leader.
+第二，其他人看你的`~/.vimrc`文件时，一旦看到`<leader>`就能够立即知道你的用意。如果他们
+喜欢你的`~/.vimrc`配置，即使他们使用不同的leader也可以简单的复制你的映射配置。
 
-Finally, many Vim plugins create mappings that start with `<leader>`.  If you've
-already got it set up they'll work properly and will feel familiar right out of
-the box.
+最后，许多Vim插件都会创建以`<leader>`开头的映射。如果你已经设置了leader，你会更容易上手
+使用那些插件。
 
 Local Leader
 ------------
 
-Vim has a second "leader" key called "local leader".  This is meant to be
-a prefix for mappings that only take effect for certain types of files, like
-Python files or HTML files.
+Vim有另外一个“leader”成为“local leader“。这个leader用于那些只对某类文件
+（如Python文件、HTML文件）而设置的映射。
 
-We'll talk about how to make mappings for specific types of files later in the
-book, but you can go ahead and set your "localleader" now:
+本书将在后续章节讲述如何为特定类型的文件创建映射，但你可以现在创建一个“localleader”：
 
     :::vim
     :let maplocalleader = "\\"
 
-Notice that we have to use `\\` and not just `\` because `\` is the escape
-character in Vimscript strings.  You'll learn more about this later.
+注意我们使用`\\`而不是`\`，因为`\`在Vimscript中是转义字符。我们将在后续章节
+讲到这个。
 
-Now you can use `<localleader>` in mappings and it will work just like
-`<leader>` does (except for resolving to a different key, of course).
+现在你就可以在映射中使用`<localleader>`了，使用方法和`<leader>`一样（当然，
+你要使用另外一个前缀）。
 
-Feel free to change this key to something else if you don't like backslash.
+如果你不喜欢反斜线，请随意更改它。
 
-Exercises
----------
+练习
+----
 
-Read `:help mapleader`.
+阅读`:help mapleader`。
 
-Read `:help maplocalleader`.
+阅读`:help maplocalleader`。
 
-Set `mapleader` and `maplocalleader` in your `~/.vimrc` file.
+在你的`~/.vimrc`文件中设置`mapleader`和`maplocalleader`。
 
-Convert all the mappings you added to your `~/.vimrc` file in the previous
-chapters to be prefixed with `<leader>` so they don't shadow existing commands.
+增加`<leader>`前缀到之前章节中你添加到`~/.vimrc`文件中的映射命令，
+防止那些映射覆盖了默认的按键作用。
