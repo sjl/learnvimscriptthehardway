@@ -1,93 +1,78 @@
-More Mappings
-=============
+更多的Mappings
+==============
 
-I know we've talked a lot about mappings so far, but we're going to practice
-them again now.  Mappings are one of the easiest and fastest ways to make your
-Vim editing more productive so it's good to focus on them quite a bit.
+迄今为止我们已经说了很多mappings的内容，但现在我们要再次实践一下。mappings是
+使得Vim编辑更为高效的方便快捷途径之一，有必要多加用心。
 
-One concept that has showed up in several examples but that we haven't
-explicitly talked about is mapping a sequence of multiple keys.
+有个概念在多个例子中出现过，但是我们都没有明确解释，那就是多字符mappings的连续性。
 
-Run the following command:
+运行如下命令：
 
     :::vim
     :nnoremap jk dd
 
-Now make sure you're in normal mode and press `j` followed quickly by `k`.  Vim
-will delete the current line.
+确保你出于normal模式，快速输入`jk`。Vim会删除当前行。
 
-Now try pressing only `j` and waiting for a bit.  If you don't press `k` quickly
-after the `j`, Vim decides that you don't want to activate the mapping and
-instead runs the normal `j` functionality (moving down a line).
+现在试试先输入`j`，停顿一下。如果你输入`j`后没有快速输入`k`，Vim就会判定你不想
+生效那个映射，而是将`j`按默认操作运行（下移一行）。
 
-This mapping will make it painful to move around, so let's remove it.  Run the
-following command:
+这个映射会给光标移动操作带来麻烦，我们先删除它。运行下面的命令：
 
     :::vim
     :nunmap jk
 
-Now typing `jk` in normal mode will move down and then up a line as usual.
+现在normal模式下快速输入`jk`会像往常一样下移一行然后又上移一行。
 
-A More Complicated Mapping
---------------------------
+一个更为复杂的Mapping
+---------------------
 
-You've seen a bunch of simple mappings so far, so it's time to look at something
-with a bit more meat to it.  Run the following command:
+你已经见过很多简单的mappings了，是时候看看一些复杂的了。运行下面的命令：
 
     :::vim
     :nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
-Now *that's* an interesting mapping!  First, go ahead and try it out.  Enter
-normal mode, put your cursor over a word in your text and type `<leader>"`.  Vim
-will surround the word in double quotes!
+那是一个有趣的mappings！你自己可以先试试。进入normal模式，移动光标至一个单词，
+输入`<leader>"`。Vim将那个单词用双引号包围！
 
-How does this work?  Let's split it apart into pieces and think of what each one
-does:
+它是如何工作的呢？我们拆分这个映射并逐个解释：
 
     :::text
     viw<esc>a"<esc>hbi"<esc>lel
 
-* `viw`: visually select the current word
-* `<esc>`: exit visual mode, which leaves the cursor on the last character of
-  the word
-* `a`: enter insert mode *after* the current character
-* `"`: insert a `"` into the text, because we're in insert mode
-* `<esc>`: return to normal mode
-* `h`: move left one character
-* `b`: move back to the beginning of the word
-* `i`: enter insert mode *before* the current character
-* `"`: insert a `"` into the text again
-* `<esc>`: return to normal mode
-* `l`: move right, which puts our cursor on the first character of the word
-* `e`: move to the end of the word
-* `l`: move right, which puts our cursor over the ending quote
+* `viw`: 高亮选中单词
+* `<esc>`: 退出visual模式，此时光标会在单词的最后一个字符上
+* `a`: 移动光标至当前位置之 *后* 并进入insert模式
+* `"`: 插入一个`"`
+* `<esc>`: 返回到normal模式
+* `h`: 左移一个字符
+* `b`: 移动光标至单词头部
+* `i`: 移动光标至当前位置之 *前* 并进入insert模式
+* `"`: 插入一个`"`
+* `<esc>`: 返回到normal模式
+* `l`: 右移一个字符，光标置于单词的头部
+* `e`: 移动光标至单词尾部
+* `l`: 右移一个字符，置光标位置在第一个添加的引号上
 
-Remember: because we used `nnoremap` instead of `nmap` it doesn't matter if
-you've mapped any of the keys in this sequence to something else.  Vim will use
-the default functionality for all of them.
+记住：因为我们使用的是`nnoremap`而不是`nmap`，所以尽管你映射了字符序列中的字符
+也不会有影响。Vim会将其中的字符按默认功能执行。
 
-Hopefully you can see how much potential Vim's mappings have, as well as how
-unreadable they can become.
+希望你能看出Vim mappings的潜能及随之引发的阅读困难。
 
 Exercises
 ---------
 
-Create a mapping similar to the one we just looked at, but for single quotes
-instead of double quotes.
+像刚才一样创建一个mapping，用单引号而不是双引号。
 
-Try using `vnoremap` to add a mapping that will wrap whatever text you have
-*visually selected* in quotes.  You'll probably need the `` `< `` and `` `> ``
-commands for this, so read up on them with `` :help `< ``.
+试试用`vnoremap`添加一个mapping，使其能够用引号将你 *高亮选中* 的文本包裹。
+你可能会需要`` `< ``和`` `> ``命令，所以先执行`` :help `< ``看看帮助文档。
 
-Map `H` in normal mode to go to the beginning of the current line.  Since `h`
-moves left you can think of `H` as a "stronger" `h`.
+将normal模式下的`H`映射为移动到当前行的首部。`h`是左移，所以你可以认为`H`是
+“加强版”的`h`、
 
-Map `L` in normal mode to go to the end of the current line. Since `l`
-moves right you can think of `L` as a "stronger" `l`.
+将normal模式下的`L`映射为移动到当前行的尾部。`l`是右移，所以你可以认为`L`是
+“加强版”的`l`、
 
-Find out what commands you just overwrote by reading `:help H` and `:help L`.
-Decide whether you care about them.
+读取帮助文档`:help H`和`:help L`看看你覆盖了哪些命令。考虑考虑这会不会影响你。
 
-Add all of these mappings to your `~/.vimrc` file, making sure to use your "edit
-my `~/.vimrc`" and "source my `~/.vimrc`" mappings to do so.
-
+将这些mappings添加到你的`~/.vimrc`文件中，确保用你的“编辑`~/.vimrc`”和“重读`~/.vimrc`”
+映射操作~
