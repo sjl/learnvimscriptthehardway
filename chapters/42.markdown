@@ -21,7 +21,7 @@ Before we continue we need to talk about some vocabulary.
 
 I've been using the word "plugin" to mean "a big ol' hunk of Vimscript that does
 a bunch of related stuff".  Vim has a more specific meaning of "plugin", which
-is "a file in `~/.vim/plugins/`".
+is "a file in `~/.vim/plugin/`".
 
 Most of the time I'll be using the first definition.  I'll try to be clear when
 I mean the second.
