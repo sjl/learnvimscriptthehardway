@@ -1,92 +1,69 @@
-Autocommands
+自动命令
 ============
 
-Now we're going to look at a topic almost as important as mappings:
-autocommands.
+现在我们谈论一个跟映射一样重要的东西：自动命令。
 
-Autocommands are a way to tell Vim to run certain commands whenever certain
-events happen.  Let's dive right into an example.
+自动命令可以让Vim自动执行某些指定的命令，这些指定的命令会在某些事件发生的时候执行。我们先看一个例子。
 
-Open a new file with `:edit foo` and close it right away with `:quit`.  Look on
-your hard drive and you'll notice that the file is not there.  This is because
-Vim doesn't actually *create* the file until you save it for the first time.
+使用`:edit foo`打开一个新文件，然后立即使用`:quit`关闭。查看你的硬盘，你会发现这个文件并不存在。这是因为在你第一次保存这个文件之前，Vim*实际上*并没有真正创建它。
 
-Let's change it so that Vim creates files as soon as you edit them.  Run the
-following command:
+让我们对Vim做一些改变，使得Vim可以在你开始编辑文件的时候就创建它们。执行下面的命令：
 
     :::vim
     :autocmd BufNewFile * :write
 
-This is a lot to take in, but try it out and see that it works.  Run `:edit foo`
-again, close it with `:quit`, and look at your hard drive.  This time the file
-will be there (and empty, of course).
+这里面有很多需要进一步说明的，不过在此之前我建议你先感受下它是怎么工作的。执行`:edit foo`，使用`:quit`关闭，然后查看硬盘。这个时候文件会存在（当然文件内容为空）。
 
-You'll have to close Vim to remove the autocommand.  We'll talk about how to
-avoid this in a later chapter.
+你只有关闭Vim才能删除这个自动命令。我们会在后面的章节说明如果避免这种情况。
 
-Autocommand Structure
+自动命令结构
 ---------------------
 
-Let's take a closer look at the autocommand we just created:
+让我们来深入分析下我们刚才创建的自动命令：
 
     :::text
     :autocmd BufNewFile * :write
              ^          ^ ^
              |          | |
-             |          | The command to run.
+             |          | 要执行的命令
              |          |
-             |          A "pattern" to filter the event.
+             |          用于事件过滤的“模式（pattern）”
              |
-             The "event" to watch for.
+             要监听的“事件”
 
-The first piece of the command is the type of event we want to watch for.  Vim
-offers *many* events to watch.  Some of them include:
+这个命令的第一部分是我们想监听的事件的类型。Vim提供了*很多*可以监听的事件。这些事件包括：
 
-* Starting to edit a file that doesn't already exist.
-* Reading a file, whether it exists or not.
-* Switching a buffer's `filetype` setting.
-* Not pressing a key on your keyboard for a certain amount of time.
-* Entering insert mode.
-* Exiting insert mode.
+* 开始编辑一个当前并不存在的文件。
+* 读取一个文件，不管这个文件是否存在。
+* 改变一个缓冲区的`filetype`设置。
+* 在某段时间内不按下键盘上面的某个按键。
+* 进入插入模式。
+* 退出插入模式。
 
-This is just a tiny sample of the available events.  There are many more you can
-use to do lots of interesting things.
+上面只举出了可用事件里面的很小一部分。还有很多其他的事件，你可以利用这些事件来做一些有趣的事情。
 
-The next part of the command is a "pattern" that lets you be more specific about
-when you want the command to fire.  Start up a new Vim instance and run the
-following command:
+这个自动命令的下一部分是一个“模式”，这个模式可以进行一步限定你要执行的命令的执行范围。新开一个Vim实例，执行下面的命令：
 
     :::vim
     :autocmd BufNewFile *.txt :write
 
-This is almost the same as the last command, but this time it will only apply to
-files whose names end in `.txt`.
+这个跟之前的那个自动命令基本一样，不过这个自动命令只对后缀为`.txt`的文件有效，也就是说当你新建的文件为txt文件的时候，Vim会在文件创建的时候自动执行write命令将文件保存到硬盘上。
 
-Try it out by running `:edit bar`, then `:quit`, then `:edit bar.txt`, then
-`:quit`.  You'll see that Vim writes the `bar.txt` automatically, but *doesn't*
-write `bar` because it doesn't match the pattern.
+试试执行`:edit bar`，然后执行`:quit`，再执行`:edit bar.txt`，然后再执行`:quit`。你会发现Vim会自动创建`bar.txt`，但不会创建`bar`，因为它的后缀名不是txt，不跟模式匹配。
 
-The final part of the command is the command we want to run when the event
-fires.  This is pretty self-explanatory, except for one catch: you can't use
-special characters like `<cr>` in the command.  We'll talk about how to get
-around this limitation later in the book, but for now you'll just have to live
-with it.
+这个自动命令的最后一部分是事件发生时我们想执行的命令。这个部分很容易理解，跟我们执行其他命令一样，除了不能在这个命令中使用特殊的字符，例如`<cr>`。我们会在本书后面的章节中谈论如果突破这个限制，现在你只需要遵守它就可以。
 
-Another Example
+再来一个示例
 ---------------
 
-Let's define another autocommand, this time using a different event.  Run the
-following command:
+我们再定义一个自动命令，这次使用一个不同的事件。执行下面的命令：
 
     :::vim
     :autocmd BufWritePre *.html :normal gg=G
 
-We're getting a bit ahead of ourselves here because we're going to talk about
-`normal` later in the book, but for now you'll need to bear with me because it's
-tough to come up with useful examples at this point.
+这里用到了`normal`命令，我会在本书的后面的章节里面讲到它，这可能有点超前，不过我觉得这是一个很好的使用自动命令的示例，所以请大家先忍受一下。
 
-Create a new file called `foo.html`.  Edit it with Vim and enter the following
-text *exactly*, including the whitespace:
+创建一个名为`foo.html`的新文件。用Vim编辑它，并输入下面的文本，请保证输入的文本*完全一致*，包括空白符：
 
     :::html
     <html>
@@ -95,86 +72,60 @@ text *exactly*, including the whitespace:
                      </body>
                       </html>
 
-Now save this file with `:w`.  What happened?  Vim seems to have reindented the
-file for us before saving it!
+执行`:w`保存这个文件。看看会发生了什么？Vim似乎在文件保存之前重新进行了文本缩进处理。
 
-For now I want you to trust me that running `:normal gg=G` will tell Vim to
-reindent the current file.  Don't worry about how that works just yet.
+ok，请先相信我文本缩进处理是`:normal gg=G`干的，先别纠结于为什么`:normal gg=G`可以干这个。
 
-What we *do* want to pay attention to is the autocommand.  The event type is
-`BufWritePre`, which means the event will be checked just before you write *any*
-file.
+我们*应该*把注意力放在自动命令上。这个自动命令里面用到的事件是`BufWritePre`，这个事件会在你保存*任何*字符到文件之前触发。
 
-We used a pattern of `*.html` to ensure that this command will only fire when
-we're working on files that end in `.html`.  This lets us target our
-autocommands at specific files, which is a very powerful idea that we'll
-continue to explore later on.
 
-Multiple Events
+我们使用了`*.html`这个模式，这个模式会保证命令只会在编辑html文件的时候被执行。这就是自动命令强大的地方，因为它可以专门针对特定类型的文件来执行我们想要执行的命令。ok，让我们继续探索它吧。
+
+多个事件
 ---------------
 
-You can create a single autocommand bound to *multiple* events by separating the
-events with a comma.  Run this command:
+你可以创建一个绑定*多个*事件的自动命令，这些事件使用逗号分隔开。执行下面的命令：
 
     :::vim
     :autocmd BufWritePre,BufRead *.html :normal gg=G
 
-This is almost like our last command, except it will also reindent the code
-whenever we *read* an HTML file as well as when we write it.  This could be
-useful if you have coworkers that don't indent their HTML nicely.
+这个跟上面的自动命令基本一样，不同的是它会让Vim不仅在写html文件的时候进行缩进处理，读html文件的时候也会进行缩进处理。如果你有些同事不喜欢把HTML文件格式搞得漂亮点，那么这个命令会很有用。
 
-A common idiom in Vim scripting is to pair the `BufRead` and `BufNewFile` events
-together to run a command whenever you open a certain kind of file, regardless
-of whether it happens to exist already or not.  Run the following command:
+在Vim脚本编程中有一个不成文的规定，你应该同时使用`BufRead`和`BufNewFile`（译注：这里不是BufWritePre）这两个事件来运行命令，这样当你打开某个类型的文件，不论这个文件是否存在命令都会执行。执行下面的命令：
 
     :::vim
     :autocmd BufNewFile,BufRead *.html setlocal nowrap
 
-This will turn line wrapping off whenever you're working on an HTML file.
+上面的命令会使得无论你在什么时候编辑HTML文件自动换行都会被关闭。
 
-FileType Events
+FileType事件
 ---------------
 
-One of the most useful events is the `FileType` event.  This event is fired
-whenever Vim sets a buffer's `filetype`.
+最有用的事件是`FileType`事件。这个事件会在Vim设置一个缓冲区的`filetype`的时候触发。
 
-Let's set up a few useful mappings for a variety of file types.  Run the
-following commands:
+让我们针对不同文件类型设置一些有用的映射。运行命令：
 
     :::vim
     :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
     :autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
 
-Open a Javascript file (a file that ends in `.js`), pick a line and type
-`<localleader>c`.  This will comment out the line.
+打开一个Javascript文件（后缀为`.js`的文件）,将光标移动到某一行，敲击`<localleader>c`，光标所在的那一行会被注释掉。
 
-Now open a Python file (a file that ends in `.py`), pick a line and type
-`<localleader>c`.  This will comment out the line, but it will use Python's
-comment character!
+现在打开一个Python文件（后缀为`.py`的文件）,将光标移动到某一行，敲击`<localleader>c`，同样的那一行会被注释掉，不同的是此时所用的是Python的注释字符！
 
-Using autocommands alongside the buffer-local mappings we learned about in the
-last chapter we can create mappings that are specific to the type of file that
-we're editing.
+在自动命令中包含我们上一章中学到的本地缓冲区映射，我们可以创建一些映射，这些映射会根据我们正在编辑的文件的类型来进行不同的处理。
 
-This reduces the load on our minds when we're coding.  Instead of having to
-think about moving to the beginning of the line and adding a comment character
-we can simply think "comment this line".
+这可以为我们在编码的时候减轻很多思考的负担。如果要添加一个注释，我们可能想到的是必须将光标移动到行首，然后添加一个注释字符，而使用上面的映射，我们只需要简单的将其理解为“注释掉这一行”。
 
-Exercises
+练习
 ---------
 
-Skim `:help autocmd-events` to see a list of all the events you can bind
-autocommands to.  You don't need to memorize each one right now.  Just try to
-get a feel for the kinds of things you can do.
+浏览`:help autocmd-events`查看自动命令可以绑定的所有事件。你不需要现在就记住每一个事件。仅仅只需要了解下你可以使用这些事件做哪些事情。
 
-Create a few `FileType` autocommands that use `setlocal` to set options for your
-favorite filetypes just the way you like them.  Some options you might like to
-change on a per-filetype basis are `wrap`, `list`, `spell`, and `number`.
+创建一些`FileType`自动命令使用`setlocal`对你喜欢的文件类型做一些设置。你可以针对不同的文件类型设置`wrap`、`list`、 `spell`和`number`这些选项。
 
-Create a few more "comment this line" autocommands for filetypes you work with
-often.
+对一些你会经常处理的文件类型创建一些类似“注释掉这一行”的命令。
 
-Add all of these autocommands to your `~/.vimrc` file.  Use your shortcut
-mappings for editing and sourcing it quickly, of course!
+把所有这些自动命令写到你的`~/.vimrc`文件里面。记住使用前面章节中提到过的快速编辑和加载`~/.vimrc`文件的映射来做这个事情，这是必须的！
 
 
