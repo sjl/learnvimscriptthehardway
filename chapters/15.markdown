@@ -1,62 +1,50 @@
-Operator-Pending Mappings
+
+运算符操作映射（Operator-Pending Mappings）
 =========================
 
-In this chapter we're going to explore one more rabbit hole in Vim's mapping
-system: "operator-pending mappings".  Let's step back for a second and make sure
-we're clear on vocabulary.
+这一章我们将来探索Vim映射系统中另外一个神奇的部分：“Operator-Pending映射”。开始之前，我们先解释下这里面的几个词含义。
 
-An operator is a command that waits for you to enter a movement command, and
-then does something on the text between where you currently are and where the
-movement would take you.
+一个Operator（操作）就是一个命令，你可以在这个命令的后面输入一个Movement（移动）命令，然后Vim开始对文本执行前面的操作命令，这个操作命令会从你当前所在的位置开始执行，一直到这个移动命令会把你带到的位置结束。
 
-Some examples of operators are `d`, `y`, and `c`.  For example:
+常用到的Operator有`d`，`y`和`c`。例如：
 
     :::text
-    Keys   Operator   Movement
+    按键   操作       移动
     ----   --------   -------------
-    dw     Delete     to next word
-    ci(    Change     inside parens
-    yt,    Yank       until comma
+    dw     删除       到下一个单词
+    ci(    修改       在括号内
+    yt,    复制       到逗号
 
-Movement Mappings
+移动映射（Movement Mappings）
 -----------------
 
-Vim lets you create new movements that work with all existing commands.  Run the
-following command:
+Vim允许你创建任何新的movements，这些movements可以跟所有命令一起工作。执行下面的命令：
 
     :::vim
     :onoremap p i(
 
-Now type the following text into a buffer:
+在缓冲区中输入下面的文字：
 
     :::text
     return person.get_pets(type="cat", fluffy_only=True)
 
-Put your cursor on the word "cat" and type `dp`.  What happened?  Vim deleted
-all the text inside the parentheses.  You can think of this new movement as
-"parameters".
+把光标放到单词“cat”上，然后敲击`dp`。结果会发生什么？Vim会删除括号内的所有文字。你可以把这个新建的movements当作“参数”。
 
-The `onoremap` command tells Vim that when it's waiting for a movement to give
-to an operator and it sees `p`, it should treat it like `i(`.  When we ran `dp`
-it was like saying "delete parameters", which Vim translates to "delete inside
-parentheses".
+`onoremap`命令会告诉Vim当它在等待一个要附加在operator后面的movement的时候，如果这个movement是`p`的话，它会把它当作`i(`。所以当我们在运行`dp`的时候，就象是在对Vim说“delete parameters”，而Vim会把它理解为“在括号内删除”。
 
-We can use this new mapping immediately with all operators.  Type the same text
-as before into the buffer (or simply undo the change):
+我们现在可以立马对所有的operators使用这个新建的映射。再次在缓冲区中输入上面的文字（或者直接把之前修改恢复一下）。
 
     :::text
     return person.get_pets(type="cat", fluffy_only=True)
 
-Put your cursor on the word "cat" and type `cp`.  What happened?  Vim deleted
-all the text inside the parentheses, but this time it left you in insert mode
-because you used "change" instead of "delete".
+把光标放到单词“cat”上，然后敲击`cp`。这次又会发生什么？Vim会删除括号中的所有文字，不过这一次删除之后Vim会处于插入模式，这是因为你使用的是“change”，而不是“delete”。
 
-Let's try another example.  Run the following command:
+再看一个示例。执行下面的命令：
 
     :::vim
     :onoremap b /return<cr>
 
-Now type the following text into a buffer:
+现在把下面的文字输入到缓冲区：
 
     :::python
     def count(i):
@@ -65,99 +53,80 @@ Now type the following text into a buffer:
 
         return foo
 
-Put your cursor on the `i` in the second line and press `db`.  What happened?
-Vim deleted the entire body of the function, all the way up until the `return`,
-which our mapping used Vim's normal search to find.
+把光标放到第二行的`i`上，然后按下`db`。会发生生么？Vim把整个函数体中直到`return`上面的内容都删除了，`return`就是上面的映射使用Vim的通用查找得到的结果。
 
-When you're trying to think about how to define a new operator-pending movement,
-you can think of it like this:
+当你想搞清楚怎么定义一个新的operator-pending movement的时候，你可以从下面几个步骤来思考：
 
-1. Start at the cursor position.
-2. Enter visual mode (charwise).
-3. ... mapping keys go here ...
-4. All the text you want to include in the movement should now be selected.
+1. 在光标所在的位置开始。
+2. 进入可视模式(charwise)。
+3. ... 把映射的按键放到这里 ...
+4. 所有你想包含在movement中的文字都会被选中。
 
-It's your job to fill in step three with the appropriate keys.
+你所要做的工作就是在第三步中填上合适的按键。
 
-Changing the Start
+改变开始位置
 ------------------
 
-You may have already seen a problem in what we've learned so far.  If our
-movements always have to start at the current cursor position it limits what we
-can do.
+你可能已经从上面所学的东西中意识到一个了问题。如果我们定义的movements都是从光标所在的位置开始的话，那么这就会限制我们做一些我们想使用movement来做的事情。
 
-Vim isn't in the habit of limiting what you can do, so of course there's a way
-around this problem.  Run the following command:
+但是Vim并不会限制你去做你想做的事情，所以对于这个问题肯定有解决办法。执行下面的命令：
 
     :::vim
     :onoremap in( :<c-u>normal! f(vi(<cr>
 
-This might look frightening, but let's try it out.  Enter the following text
-into the buffer:
+这个命令看起来有些复杂，不过我们还是先试试它能干什么。将下面的文字输入缓冲区：
 
     :::python
     print foo(bar)
 
-Put your cursor somewhere in the word `print` and type `cin(`.  Vim will delete
-the contents of the parentheses and place you in insert mode between them.
+把光标放到单词`print`上面，然后敲击`cin(`。Vim会删除括号内的内容然后进入插入模式，并且光标会停留在括号的中间。
 
-You can think of this mapping as meaning "inside next parentheses", and it will
-perform the operator on the text inside the next set of parentheses on the
-current line.
+你可以将这个映射理解为“在下一个括号内(inside next parentheses)”。它会对当前行光标所在位置的下一个括号内的文本执行operator。
 
-Let's make a companion "inside last parentheses" ("previous" would be a better
-word, but it would shadow the "paragraph" movement).  Run the following command:
+我们再创建一个“在上一个括号内(inside last parentheses)”的movement进行对照。（在这里使用“前一个(previous)“可能更准确，但这会覆盖“段落(paragraph)”movement）
+
 
     :::vim
     :onoremap il( :<c-u>normal! F)vi(<cr>
 
-Try it out on some text of your own to make sure it works.
+先试试确保这个命令可以工作。
 
-So how do these mappings work?  First, the `<c-u>` is something special that you
-can ignore for now -- just trust me that it needs to be there to make the
-mappings work in all cases.  If we remove that we're left with:
+那么这些映射是怎么工作的呢？首先，`<c-u>`比较特殊，可以先不用管（你只需要相信我这个东西可以让这个映射在任何情况下都能正常工作）。如果我们删除它的话，这个映射会变成这个样子：
 
     :::vim
     :normal! F)vi(<cr>
 
-`:normal!` is something we'll talk about in a later chapter, but for now it's
-enough to know that it is a command used to simulate pressing keys in normal
-mode.  For example, running `:normal! dddd` will delete two lines, just like
-pressing `dddd`.  The `<cr>` at the end of the mapping is what executes the
-`:normal!` command.
+`:normal!`会在后面的章节谈到，现在你只需要知道它可以在常用模式下模拟按下按键。例如，运行
+`:normal! dddd`会删除两行，就像按下`dddd`。映射后面的`<cr>`是用来执行`:normal!`命令的。
 
-So now we know that the mapping is essentially just running the last block of
-keys:
+那么现在我们可以认为这个映射的关键是运行下面这些按键组成的命令：
 
     :::vim
     F)vi(
 
 This is fairly simple:
+这个命令很容易理解：
 
-* `F)`: Move backwards to the nearest `)` character.
-* `vi(`: Visually select inside the parentheses.
+* `F)`: 向后移动到最近的`)`字符。
+* `vi(`: 进入可视模式选择括号内的所有内容。
 
-We end up with the text we want to operate on visually selected, and Vim
-performs the operation on it as normal.
+这个movement结束在在可视模式下选择中我们想操作的文本，然后Vim会对选中的文本执行操作，就像通常情况一样。
 
-General Rules
+一般规则
 -------------
 
-A good way to keep the multiple ways of creating operator-pending mappings
-straight is the remember the following two rules:
+下面两条规则可以让你可以很直观的以多种方式创建operator-pending映射：
 
-* If your operator-pending mapping ends with some text visually selected, Vim
-  will operate on that text.
-* Otherwise, Vim will operate on the text between the original cursor position
-  and the new position.
+* 如果你的operator-pending映射以在可视模式下选中文本结束，Vim会操作这些文本。
+* 否则，Vim会操作从光标的原始位置到一个新位置之间的文本。
 
-Exercises
+练习
 ---------
 
-Create operator-pending mappings for "around next parentheses" and "around last
-parentheses".
+为"around next parentheses"和"around last
+parentheses"创建operator-pending映射
 
-Create similar mappings for in/around next/last for curly brackets.
+为打括号创建类似的in/around next/last的mappings。
 
-Read `:help omap-info` and see if you can puzzle out what the `<c-u>` in the
-examples is for.
+阅读`:help omap-info`，看看你可不可以搞清楚`<c-u>`是干啥的。
+
