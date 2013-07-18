@@ -1,5 +1,5 @@
 
-运算符操作映射（Operator-Pending Mappings）
+Operator-Pending映射
 =========================
 
 这一章我们将来探索Vim映射系统中另外一个神奇的部分：“Operator-Pending映射”。开始之前，我们先解释下这里面的几个词含义。
@@ -15,7 +15,7 @@
     ci(    修改       在括号内
     yt,    复制       到逗号
 
-移动映射（Movement Mappings）
+Movement映射
 -----------------
 
 Vim允许你创建任何新的movements，这些movements可以跟所有命令一起工作。执行下面的命令：
