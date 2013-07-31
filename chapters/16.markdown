@@ -1,14 +1,9 @@
-More Operator-Pending Mappings
+更多Operator-Pending映射 
 ==============================
 
-The idea of operators and movements is one of the most important concepts in Vim,
-and it's one of the biggest reasons Vim is so efficient.  We're going to
-practice defining new motions a bit more, because extending this powerful idea
-makes Vim even *more* powerful.
+Operators和movements所包含理念是Vim中的一个非常重要的概念，也是Vim之所以这么高效的最大原因所在。在这一章我们会在这一块做更多的实践，这会让Vim变得更强大。
 
-Let's say you're writing some text in Markdown.  If you haven't used Markdown
-before, don't worry, for our purposes here it's very simple.  Type the following
-into a file:
+假设你现在在往Markdown中写入一些文字。如果你没有用过Markdown，不要紧，对于我们现在要做的事情而言，它很简单。把下面的文字输入到一个文件中：
 
     :::markdown
     Topic One
@@ -23,23 +18,17 @@ into a file:
 
     This is some text about topic two.  It has only one paragraph.
 
-The lines "underlined" with `=` characters are treated as headings by Markdown.
-Let's create some mappings that let us target headings with movements.  Run the
-following command:
+使用`=`作为“下划线”的行会被Markdown当作标题。我们现在创建一些映射，这些映射可以让我们通过movements定位到标题。运行下面的命令：
 
     :::vim
     :onoremap ih :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
 
-This mapping is pretty complicated, so put your cursor in one of the paragraphs
-(not the headings) and type `cih`.  Vim will delete the heading of whatever
-section you're in and put you in insert mode ("change inside heading").
+这个映射有些复杂。现在把你的光标放到文本中的某个位置（不要放到标题上）,然后敲击`cih`。Vim会删除光标所在章节的标题，然后保持在插入模式，这可以称为"修改所在的标题(change inside heading)"。
 
-It uses some things we've never seen before, so let's look at each piece
-individually.  The first part of the mapping, `:onoremap ih` is just the mapping
-command that we've seen before, so we'll skip over that.  We'll keep ignoring
 the `<c-u>` for the moment as well.
+这里使用了一些我们之前从来没有见过的东西，所以我们有必要单独分析下每一部分的含义。这个映射的第一部分，`:onoremap ih`是映射命令，这个我们很熟悉了，无需多言。`<c-u>`上一章讲过，我们现在也不深究。
 
-Now we're looking at the remainder of the line:
+接着看看剩下的部分：
 
     :::vim
     :execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
@@ -47,170 +36,130 @@ Now we're looking at the remainder of the line:
 Normal
 ------
 
-The `:normal` command takes a set of characters and performs whatever action
-they would do if they were typed in normal mode.  We'll go into greater detail
-in a later chapter, but we've seen it a few times already so it's time to at
-least get a taste.  Run this command:
+`:normal`命令的后面会跟着一串字符，无论这些字符表示什么含义，`:normal`命令都会执行它们，就像是在常用模式下敲击这些字符一样。我们会在后面的章节中谈论关于`:normal`的更多细节，由于这个它已经出现多次，所以我觉得有必要现在做一个简单的说明，算是浅尝辄止吧。执行下面的命令：
 
     :::vim
     :normal gg
 
-Vim will move you to the top of the file.  Now run this command:
+Vim会将光标跳转到文件的顶部。现在执行下面的命令：
 
     :::vim
     :normal >>
 
-Vim will indent the current line.
+Vim将缩进当前行。
 
-For now, don't worry about the `!` after `normal` in our mapping.  We'll talk
-about that later.
+那`normal`后面的`!`是干啥的呢？先别管，以后再说。
 
 Execute
 -------
 
-The `execute` command takes a Vimscript string (which we'll cover in more detail
-later) and performs it as a command.  Run this:
+`execute`命令后面会跟着一个Vim脚本字符串（以后会深究它的细节），然后把这个字符串当作一个命令执行。执行下面的命令：
 
     :::vim
     :execute "write"
 
-Vim will write your file, just as if you had typed `:write<cr>`.  Now run this
-command:
+Vim会写文件，就像你已经输入了`:write<cr>`一样。现在执行下面的命令：
 
     :::vim
     :execute "normal! gg"
 
-Vim will run `:normal! gg`, which as we just saw will move you to the top of the
-file.  But why bother with this when we could just run the `normal!` command
-itself?
+Vim会执行`:normal! gg`，这个会将光标跳转到文件的顶部，跟之前一样。现在问题来了，我们为什么要搞得这么蛋疼，又是`execute`，又是`normal!`，直接执行`normal!`不就可以搞定么？
 
-Look at the following command and try to guess what it will do:
+看看下面的命令，猜猜它会干啥：
 
     :::vim
     :normal! gg/a<cr>
 
-It seems like it should:
+这个命令似乎会做下面的一些事情：
 
-* Move to the top of the file.
-* Start a search.
-* Fill in "a" as the target to search for.
-* Press return to perform the search.
+* 将光标跳转到文件的顶部。
+* 准备搜索。
+* 把“a”当作目标字符串进行搜索。
+* 按下return键执行搜索。
 
-Run it.  Vim will move to the top of the file and nothing else!
+你自己执行一下，Vim会将光标跳转到了文件顶部，然后。。没有然后了！
 
-The problem is that `normal!` doesn't recognize "special characters" like
-`<cr>`.  There are a number of ways around this, but the easiest to use and read
-is `execute`.
+之所以会这样是由于`normal!`的一个问题，这问题是`normal!`不能识别“特殊字符”，例如这里的`<cr>`。这个问题有很多办法可以搞定，最简单的就是使用`execute`，另外使用`execute`也会让脚本更易读。
 
-When `execute` looks at the string you tell it to run, it will substitute any
-special characters it finds *before* running it.  In this case, `\r` is an
-escape sequence that means "carriage return".  The double backslash is also an
-escape sequence that puts a literal backslash in the string.
+当`execute`碰到任何你想让它执行的字符串的时候。它会先替换这个字符串中的所有特殊字符。在这个示例中，`\r`是一个转义字符，它表示的是"回车符（carriage return）"。两个反斜线也是一个转义字符，它会将一个反斜线当作一般字符放到字符串中。
 
-If we perform this replacement in our mapping and look at the result we can see
-that the mapping is going to perform:
+如果我们按照上面的分析替换这个映射中的特殊字符，然后就可以搞清楚这个映射会怎么执行：
 
     :::text
     :normal! ?^==\+$<cr>:nohlsearch<cr>kvg_
                     ^^^^           ^^^^
                      ||             ||
-    These are ACTUAL carriage returns, NOT the four characters
-    "left angle bracket", "c", "r", and "right angle bracket".
+    这里的<cr>实际上是一个回车符，而不是由4个字符——“左尖括号”，“c“，”r“和“右尖括号”组成的字符串。
 
-So now `normal!` will execute these characters as if we had typed them in normal
-mode.  Let's split them apart at the returns to find out what they're doing:
+所以现在`normal!`会执行这些字符，如同我们是在常用模式下敲击了它们一样。我们以回车符对这些字符进行拆分，然后看看它们是怎么执行的： 
 
     :::vim
     ?^==\+$
     :nohlsearch
     kvg_
 
-The first piece, `?^==\+$` performs a search backwards for any line that
-consists of two or more equal signs and nothing else. This will leave our cursor
-on the first character of the line of equal signs.
+第一部分`?^==\+$`会向后搜索任何由两个或多个等号组成的行，这些行不会包含除等号外的任何其他字符。这个命令执行后会让光标停留在符合搜索条件的行的行首。
 
-We're searching backwards because when you say "change inside heading" while
-your cursor is in a section of text, you probably want to change the heading for
-*that* section, not the next one.
+之所以使用向后搜索，是因为当你想“修改所在的标题(change inside heading)”的时候，而当前光标是位于某一节的文本上，那么你最可能想做的是修改*这*一节的标题，而不是下一节的标题。
 
-The second piece is the `:nohlsearch` command.  This simply clears the search
-highlighting from the search we just performed so it's not distracting.
+第二部分是`:nohlsearch`命令。这个命令只是简单的清除之前的搜索结果的高亮显示，防止这些高亮显示分散我们的注意。
 
-The final piece is a sequence of three normal mode commands:
+最后一部分是三个常用模式下的命令的序列：
 
-* `k`: move up a line.  Since we were on the first character of the line of
-  equal signs, we're now on the first character of the heading text.
-* `v`: enter (characterwise) visual mode.
-* `g_`: move to the last non-blank character of the current line.  We use this
-  instead of `$` because `$` would highlight the newline character as well, and
-  this isn't what we want.
+* `k`：向上移动一行。第一部分已经将光标定位到了等号符号组成的行的第一个字符，所以执行这个命令后光标就会被定位到标题的第一个字符上。
+* `v`：进入可视模式(characterwise)。
+* `g_`：移动到当前行的最后一个非空字符上。这里没有使用`$`，是因为`$`会选中换行符号，这不是我们所想要的。
 
-Results
+结果
 -------
 
-That was a lot of work, but now we've looked at each part of the mapping.  To
-recap:
+这个映射做了很多工作，所以看起来有些复杂，不过我们已经搞清楚了这个映射中的每个部分。现在来概括一下：
 
-* We created a operator-pending mapping for "inside this section's heading".
-* We used `execute` and `normal!` to run the normal commands we needed to select
-  the heading, and allowing us to use special characters in those.
-* Our mapping searches for the line of equal signs which denotes a heading and
-  visually selects the heading text above that.
-* Vim handles the rest.
+* 我们为“所在章节的标题内（inside this section's heading）”创建了一个operator-pending的映射。
+* 我们使用了`execute`和`normal!`这两个命令来执行我们用于选择标题的常用命令，这让我们可以在这些命令中使用特殊字符。
+* 我们的映射会搜索由等号组成的行从而定位到一个标题，然后在常用模式下选中标题的文本。
+* Vim进行剩下的处理标题的工作。
 
-Let's look at one more mapping before we move on.  Run the following command:
+再来看一个映射。执行下面的命令：
 
     :::vim
     :onoremap ah :<c-u>execute "normal! ?^==\\+\r:nohlsearch\rg_vk0"<cr>
 
-Try it by putting your cursor in a section's text and typing `cah`.  This time
-Vim will delete not only the heading's text but also the line of equal signs
-that denotes a heading.  You can think of this movement as "*around* this
-section's heading".
+把光标放到某一节的文字上，然后敲击`cah`试试看。这一次Vim不仅会删除这一节的标题，而且还会删除跟这个标题相连的等号组成的行。你可以把这个movement当作是“*环绕*这一节的标题(*around* this section's heading)“。
 
-What's different about this mapping?  Let's look at them side by side:
+这个映射有什么不同呢？让我们对照之前的映射看一下：
 
     :::vim
     :onoremap ih :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
     :onoremap ah :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rg_vk0"<cr>
 
-The only difference from the previous mapping is the very end, where we select
-the text to operate on:
+唯一的不同是映射的后面用于选择文本的部分：
 
     :::text
     inside heading: kvg_
     around heading: g_vk0
 
-The rest of the mapping is the same, so we still start on the first character of
-the line of equal signs.  From there:
+其他的部分都是一模一样的，所以我们现在从将光标定位到等号组成的行的第一个字符的那个部分开始进行讲解：
 
-* `g_`: move to the last non-blank character in the line.
-* `v`: enter (characterwise) visual mode.
-* `k`: move up a line.  This puts us on the line containing the heading's text.
-* `0`: move to the first character of the line.
+* `g_`：移动到当前行（译注：等号组成的行）的最后一个非空字符。
+* `v`：进入可视模式(characterwise)。
+* `k`：向上移动一行。这会将光标移动到包含标题文字的行上。
+* `0`：移动到这一行（译注：标题行）的第一个字符。
 
-The result is that both the text and the equal signs end up visually selected,
-and Vim performs the operation on both.
+这一系列命令的执行结果就是在可视模式下同时选中标题的文字和等号组成的行，然后Vim会在这两行上执行相应的操作。
 
-Exercises
+练习
 ---------
 
-Markdown can also have headings delimited with lines of `-` characters.  Adjust
-the regex in these mappings to work for either type of heading.  You may want to
-check out `:help pattern-overview`.  Remember that the regex is inside of
-a string, so backslashes will need to be escaped.
+Markdown也可以用`-`字符来限定标题。调整上面的正则表达式使得这些映射可以工作在不同类型的标题上。你可能想查看`:help pattern-overview`。记住正则表达是在一个字符串中，所以反斜线需要进行转义。
 
-Add two autocommands to your `~/.vimrc` file that will create these mappings.
-Make sure to only map them in the appropriate buffers, and make sure to group
-them so they don't get duplicated each time you source the file.
+添加两个创建这些映射的自动命令到你的`~/.vimrc`文件中。确保只对合适的缓冲区使用这些映射，并且确保使用自动命令组来防止每次加载`~/.vimrc`的时候创建这些自动命令的副本。
 
-Read `:help normal`.
+阅读 `:help normal`。
 
-Read `:help execute`.
+阅读 `:help execute`。
 
-Read `:help expr-quote` to see the escape sequences you can use in strings.
+阅读 `:help expr-quote`了解你可以在字符串中使用的转义序列。
 
-Create a "inside next email address" operator-pending mapping so you can say
-"change inside next email address".  `in@` is a good candidate for the keys to
-map. You'll probably want to use `/...some regex...<cr>` for this.
+创建一个“在下一个邮件地址内(inside next email address)”的operator-pending映射，然后你就可以使用“修改在下一个邮件地址内(change inside next email address)”。将`in@`作为映射的按键是个不错的选择。你可能还需要将这个按键映射为`/...some regex...<cr>`。
 
