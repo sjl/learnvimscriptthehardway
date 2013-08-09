@@ -1,46 +1,29 @@
-Responsible Coding
+负责任的编码
 ==================
 
-So far we've covered a bunch of Vim commands that let you customize Vim quickly.
-All of them except for autocommand groups were single-line commands that you
-can add to your `~/.vimrc` file in seconds.
+到目前为止我们已经介绍了一堆Vim命令，这可以让你可以快速自定义Vim。除了自动命令组外其他的命令都是单行的命令，你可以不费吹灰之力就把它们添加到你的`~/.vimrc`文件中。
 
-In the next part of the book we're going to dive into Vimscript as a real
-programming language, but before we do that I want to talk a bit about how to
-stay sane while writing large amounts of Vimscript.
+这本书的下一部分我们会开始专注于Vim脚本编程，将其当作一个真正的编程语言对待，不过在此之前，我会先讲一些在编写大量的Vim脚本时需要注意的东西。
 
-Commenting
+注释
 ----------
 
-Vimscript is extremely powerful, but has grown organically over the years into
-a twisty maze ready to ensnare unwary programmers who enter it.
+Vim脚本非常强大，但对于那些想进入这个领域的程序员而言，在最近几年它似乎逐渐变得像一个弯弯曲曲的迷宫，让进入的人找不到归路。
 
-Options and commands are often terse and hard to read, and working around
-compatibility issues can increase the complexity of your code.  Writing a plugin
-and allowing for user customization introduces another entire layer above that!
+Vim的选项和命令经常会比较简短生硬，并且难于阅读，另外处理兼容性问题也会增加代码的复杂度。编写一个插件并且允许用户自定义又会让复杂度更进一级。
 
-Be defensive when writing anything that takes more than a few lines of
-Vimscript.  Add a comment explaining what it does, and if there is a relevant
-help topic, mention it in the comment!
+在编写大量Vim脚本时要保持防御意识。要养成习惯添加注释说明某段代码是干什么的，如果有一个相关的帮助主题（help topic），最好在注释中说明！
 
-This not only benefits you when you try to maintain it months or years later,
-but also helps other people understand it if you share your `~/.vimrc` file on
-Bitbucket or GitHub (which I highly recommend).
+这不仅会给你以后的维护带来方便，而且如果你将你的`~/.vimrc`文件分享到Bitbucket或者GitHub（强烈推荐你这么做），这些注释也会帮助其他的人理解你的脚本。
 
-Grouping
+分组
 --------
 
-Our mappings for editing and sourcing `~/.vimrc` have made it quick and easy to
-add new things to it on the fly.  Unfortunately this also makes it easy for it
-to grow out of control and become hard to navigate.
+之前创建的映射可以让我们在使用Vim的同时方便快捷地编辑和加载`~/.vimrc`。不幸的是这会导致`~/.vimrc`中的代码快速增长以至失去控制，并且变得难于阅读浏览。
 
-One way to combat this is to use Vim's code folding capabilities and group lines
-into sections.  If you've never used Vim's folding you should look into it as
-soon as you can.  Some people (myself included) find it indispensable in our day
-to day coding.
+我们用于对付这种情况的方法是使用Vim的代码折叠功能，将多行代码组织起来的作为一个部分然后对这部分的代码进行折叠。如果你从来没有用过Vim的折叠功能，那么你现在应该尽快去瞄一瞄。很多人（包括我自己）都认为在日常编码工作中代码折叠是不可或缺的。
 
-First we need to set up folding for Vimscript files.  Add the following lines to
-your `~/.vimrc` file:
+首先我们需要为Vim脚本文件设置折叠。在你的`~/.vimrc`文件中添加下面几行：
 
     :::vim
     augroup filetype_vim
@@ -48,16 +31,11 @@ your `~/.vimrc` file:
         autocmd FileType vim setlocal foldmethod=marker
     augroup END
 
-This will tell Vim to use the `marker` method of folding for any Vimscript
-files.
+这会告诉Vim对任何Vim脚本文件使用`marker`折叠方法。
 
-Go ahead and run `:setlocal foldmethod=marker` in the window with your
-`~/.vimrc` file now.  Sourcing the file won't work, because Vim has already set
-the FileType for this file and the autocommand only fires when that happens.  In
-the future you won't need to do it manually.
+现在在显示`~/.vimrc`文件的窗口中执行`:setlocal foldmethod=marker`。如果你不执行这个命令，你会发现加载`~/.vimrc`文件后没什么效果，这是因为Vim已经为这个文件设置了文件类型(FileType)，而自动命令只会在设置文件类型的时候执行。这让你以后不需要手动来做这个事情。
 
-Now add lines before and after that autocommand group so that it looks like
-this:
+现在在自动命令组开始和结束的地方添加两行，像下面这样：
 
     :::vim
     " Vimscript file settings ---------------------- {{{
@@ -67,65 +45,39 @@ this:
     augroup END
     " }}}
 
-Return to normal mode, put your cursor on any of those lines and type `za`.  Vim
-will fold the lines starting at the one containing `{{{` and ending at the one
-containing `}}}`.  Typing `za` again will unfold the lines.
+切换到常用模式，将光标放到这些文字中的任意一行，然后敲击`za`。Vim会折叠从包含`{{{`的行到包含`}}}`的行之间的所有行。再敲击`za`会展开所有这些行。
 
-You may think that adding explicit comments to source code that describe folding
-is ugly at first.  I thought the same way when I first saw it.  For most files
-I still think it's wrong.  Not everyone uses the same editor, so littering your
-code with folding comments is just noisy to anyone else looking at the code in
-something other than Vim.
+刚开始你可能会觉得为了代码折叠而对源代码进行注释会有些不合理，我刚开始也这么想。对于大多数文件我现在仍然觉得这种做法并并不合适。因为不是所有人都使用相同的编辑器，所以在代码中添加的折叠注释对于那些不用Vim的人而言就像是噪音。
 
-Vimscript files are special case, though.  It's highly unlikely that someone who
-doesn't use Vim will be reading your code, and it's especially important to
-group things explicitly and thoughtfully when writing Vimscript so you don't go
-crazy.
+不过Vim脚本文件比较特殊，因为一个不用Vim的人不太可能会读你的代码，并且最重要的是如果不对代码进行分组处理，写着写着你就不知道写到哪里了，严重点可能会经脉尽断，吐血而亡。
 
-Try these explicit folds out for a while.  You might grow to love them.
+先自己尝试尝试吧，说不定你会逐渐喜欢上它。
 
-Short Names
+简短的名称(Short Names)
 -----------
 
-Vim allows you to use abbreviated names for most commands and options.  For
-example, both of these commands do exactly the same thing:
+对于大多数命令和选项，Vim支持使用它们的缩写。例如，下面的两个命令做的事情完全一样：
 
     :::vim
     :setlocal wrap
     :setl wrap
 
-I'd like to *strongly* caution you against using these abbreviations in your
-`~/.vimrc` file and in plugins that you write.  Vimscript is terse and cryptic
-enough to begin with; shortening things further is only going to make it even
-harder to read.  Even if *you* know what a certain short command means, someone
-else reading your code might not.
+我*强烈*提醒你不要在你的`~/.vimrc`或者是你编写的插件中使用这些缩写。Vim脚本对于初学者而言本来就已经够晦涩难懂了；从长远来看使用缩写只会使得它更难于阅读。即使*你*知道某个缩写的意思，其他人未必读得懂。
 
-With that said, the abbreviated forms are *great* for running commands manually
-in the middle of coding.  No one will ever see them again after you press
-return, so there's no reason to press more keys than you have to.
+换句话说，缩写只在编码的过程中手动执行命令的时候会*很有用*。在你按了回车键以后，就没人会看到你输入什么了，这样你也没必要输入更多的字符。
 
-Exercises
+练习
 ---------
 
-Go through your entire `~/.vimrc` file and arrange the lines into related
-groups.  Some places to start might be: "Basic Settings", "FileType-specific
-settings", "Mappings", and "Status Line".  Add folding markers with headings to
-each section.
+检查你的`~/.vimrc`文件，将所有相关的行组织起来。你可以这么开头：“基本设置(Basic Settings)“，”文件类型相关设置(FileType-specific
+settings)”，“映射(Mappings)”，和“状态条(Status Line)”。然后在每个部分添加折叠标记和标题。
 
-Find out how to make Vim fold everything automatically the first time you open
-the file.  Look at `:help foldlevelstart` for a good place to start.
+想想怎么让Vim在第一次打开`~/.vimrc`文件的时候自动折叠所有设置了折叠注释的行。阅读`:help foldlevelstart`你会知道怎么搞。
 
-Go through your `~/.vimrc` file and change any abbreviated commands and options
-to their full names.
+检查你的`~/.vimrc`文件，把所有的命令和选项的缩写改成全称。
 
-Look through your `~/.vimrc` file and make sure you don't have any sensitive
-information inside.  Create a git or Mercurial repository, move the file into
-it, and symlink that file to `~/.vimrc`.
+检查你的`~/.vimrc`文件，确保里面没有什么敏感信息。然后创建一个git或者Mercurial仓库，再将`~/.vimrc`文件放到里面，然后将这个文件链接到`~/.vimrc`。
 
-Commit the repository you just made and put it on Bitbucket or GitHub so other
-people can see it and get ideas for their own.  Be sure to commit and push the
-repository fairly often so your changes are recorded.
+提交你刚才创建的仓库，并把它放到Bitbucket或者GitHub上，这样其他的人都可以看到和学习它。记住要经常提交和推送到仓库中，这样你所做的修改也会被记录下来。
 
-If you use Vim on more than one machine, clone down that repository and symlink
-the file there as well.  This will make it simple and easy to use the exact same
-Vim configuration on all machines you work with.
+如果你不只在一个机器上使用Vim，那你就可以克隆那个仓库，然后像之前一样将这个文件链接到`~/.vimrc`文件。这样你就可以在所有的机器上都使用同样的Vim配置了。
