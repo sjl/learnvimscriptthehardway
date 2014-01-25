@@ -102,6 +102,6 @@ Exercises
 在你的`~/.vimrc`文件中为经常拼写错误的单词增加abbreviations配置。一定要使用
 上一章中你创建的mappings来重新打开读取`~/.vimrc`文件。
 
-为你的俄国人邮箱地址、博客网址、签名添加abbreviations配置。
+为你的邮箱地址、博客网址、签名添加abbreviations配置。
 
 为你经常输入的文本添加abbreviations配置。
