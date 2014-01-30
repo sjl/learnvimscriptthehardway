@@ -1,104 +1,90 @@
-Conditionals
+条件语句
 ============
 
-Every programming language has a way to branch, and in Vimscript that method is
-the `if` statement.  The `if` statement is the core of branching in Vim.
-There's no `unless` statement like Ruby, so any decision making you do in your
-coding will be done with `if`s.
+每种编程语言都有产生分支流程的方法，在Vimscript中，这是用`if`语句实现的。
+`if`语句是Vimscript中产生分支的基本方法。这里没有类似Ruby中的`unless`语句，
+所以代码中所有的判断都需要用`if`实现。
 
-Before we talk about Vim's `if` statement we need to take a short detour to talk
-about syntax so we're all on the same page.
+在谈论Vim的`if`语句之前，我们需要花费额外的时间讲讲语法，这样可以在同一页里讲完它。
 
-Multiple-Line Statements
+多行语句
 ------------------------
 
-Sometimes you can't fit a piece of Vimscript on a single line of code.  We saw this
-when we talked about autocommand groups.  Here's a chunk of code we used before:
+有时你在一行里写不下所需的Vimscript。在讲到自动命令组时，我们已经遇到过这样的例子了。
+这里是我们之前写过的代码：
 
     :::vim
     :augroup testgroup
     :    autocmd BufWrite * :echom "Baz"
     :augroup END
 
-You can write this as three separate lines in a Vimscript file, which is ideal,
-but it gets tedious to write this way when running commands manually.  Instead
-you can separate each line with a pipe character (`|`).  Run the following
-command:
+在理想的情况下，你可以分开成三行来写。但在手工执行命令的时候，这样写就太冗长了。
+其实，你可以用管道符(`|`)来隔开每一行。执行下面的命令：
 
     :::vim
     :echom "foo" | echom "bar"
 
-Vim will treat that as two separate commands.  Use `:messages` to check the log
-if you didn't see both lines appear.
+Vim会把它当作两个独立的命令。如果你看不到两行输出，执行`:messages`查看消息日志。
 
-For the rest of this book if you want to manually run a command but don't want
-to bother typing in the newlines and colons, feel free to put it all on one line
-separated by pipes.
+在本书的剩余部分，当你想手工执行一个命令，却对输入新行和冒号感到心烦时，试试用管道隔开，
+在一行里写完。
 
-Basic If
+If的基本用法
 --------
 
-Now that we've got that out of the way, run the following commands:
+现在让我们回到正题上来，执行下面的命令：
 
     :::vim
     :if 1
     :    echom "ONE"
     :endif
 
-Vim will display `ONE`, because the integer `1` is "truthy".  Now try these
-commands:
+Vim将显示`ONE`，因为整数`1`是"truthy"。现在执行下面命令：
 
     :::vim
     :if 0
     :    echom "ZERO"
     :endif
 
-Vim will *not* display `ZERO` because the integer `0` is "falsy".  Let's see how
-strings behave.  Run these commands:
+Vim将*不*显示`ZERO`，因为整数`0`是"falsy"。让我们看看对字符串是怎么处理的。执行下面命令：
 
     :::vim
     :if "something"
     :    echom "INDEED"
     :endif
 
-The results may surprise you.  Vim does *not* necessarily treat a non-empty
-string as "truthy", so it will not display anything!
+结果可能让你吃惊。Vim*不会*把非空字符串当作"truthy"，所以什么也没有显示。
 
-Let's dive a bit further down the rabbit hole.  Run these commands:
+让我们打破沙锅问到底。执行下面的命令：
 
     :::vim
     :if "9024"
     :    echom "WHAT?!"
     :endif
 
-This time Vim *does* display the text!  What's going on here?
 
-To try to wrap our heads around what's going on, run the following three commands:
+这次Vim*会*显示了！为什么会这样？
+
+为了搞懂发生了什么，执行下面三个命令：
 
     :::vim
     :echom "hello" + 10
     :echom "10hello" + 10
     :echom "hello10" + 10
 
-The first command causes Vim to echo `10`, the second command echoes `20`, and
-the third echoes `10` again!
+第一个命令使得Vim输出`10`，第二个命令输出`20`，第三个则又一次输出`10`！
 
-After observing all of these commands we can draw a few informed conclusions
-about Vimscript:
+在探究了所有的命令后，对于Vimscript我们可以得出结论：
 
-* Vim will try to coerce variables (and literals) when necessary.  When `10 + 
-  "20foo"` is evaluated Vim will convert `"20foo"` to an integer (which
-  results in `20`) and then add it to `10`.
-* Strings that start with a number are coerced to that number, otherwise they're
-  coerced to `0`.
-* Vim will execute the body of an `if` statement when its condition evaluates to
-  a non-zero integer, *after* all coercion takes place.
+* 如有必要，Vim将强制转换变量(和字面量)的类型。在解析`10 + "20foo"`时，Vim将把
+  `"20foo"`转换成一个整数(`20`)然后加到`10`上去。
+* 以一个数字开头的字符串会被强制转换成数字，否则会转换成`0`
+* 在所有的强制转换完成*后*，当`if`的判断条件等于非零整数时，Vim会执行`if`语句体。
 
-Else and Elseif
+Else 和 Elseif
 ---------------
 
-Vim, like Python, supports both "else" and "else if" clauses.  Run the following
-commands:
+Vim，像Python一样，支持"else"和"else if"分句。执行下面的命令：
 
     :::vim
     :if 0
@@ -109,10 +95,9 @@ commands:
     :    echom "finally!"
     :endif
 
-Vim echoes `finally!` because both of the previous conditions evaluate to zero,
-which is falsy.
+Vim输出`finally!`，因为前面的判断条件都等于0，而0代表falsy。
 
-Exercises
+练习
 ---------
 
-Drink a beer to console yourself about Vim's coercion of strings to integers.
+来一杯啤酒，安抚自己因Vim中的字符串强制转换而受伤的心。
