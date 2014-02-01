@@ -1,142 +1,123 @@
-Strings
+字符串
 =======
 
-The next type of variable we'll look at is the String.  Since Vim is all about
-manipulating text you'll be using this one quite a bit.
+接下来我们讲字符串类型。鉴于Vim是用来编辑文本的，你将频繁地跟这一类型打交道。
 
-Run the following command:
+执行下面的代码：
 
     :::vim
     :echom "Hello"
 
-Vim will echo `Hello`.  So far, so good.
+Vim将输出`Hello`。目前为止，依然如此。
 
-Concatenation
+连接(Concatenation)
 -------------
 
-One of the most common things you'll want to do with strings is adding them
-together.  Run this command:
+在日常编程中你经常需要把字符串连接到一起。执行下面的命令：
 
     :::vim
     :echom "Hello, " + "world"
 
-What happened?  Vim displayed `0` for some reason!
+发生什么了？不知为何，Vim显示`0`！
 
-Here's the issue: Vim's `+` operator is *only* for Numbers.  When you pass
-a string to `+` Vim will try to coerce it to a Number before performing the
-addition.  Run the following command:
+这就是问题所在：Vim的`+`运算符*仅仅*适用于数值。当你把一个字符串作为`+`的参数时，
+Vim会在执行加法前尝试把它强制转换成一个Number。(译注：在21章的练习里你真的喝了啤酒没)
+执行下面的命令：
 
     :::vim
     :echom "3 mice" + "2 cats"
 
-This time Vim displays `5`, because the strings are coerced to the numbers `3`
-and `2` respectively.
+这次Vim显示`5`，因为字符串被相应地转换成`3`和`2`。
 
-When I said "Number" I really *meant* Number.  Vim will *not* coerce strings to
-Floats!  Try this command to see prove this:
+当提到"Number"时，我明确*指的是*Number类型。Vim不会强制转换字符串为Float类型！
+为求证我的话，试试下面的命令：
 
     :::vim
     :echom 10 + "10.10"
 
-Vim displays `20` because it dropped everything after the decimal point when
-coercing `10.10` to a Number.
+Vim显示`20`，因为在强制转换`10.10`成一个Number时，小数点后的内容都被丢弃了。
 
-To combine strings you need to use the concatenation operator.  Run the
-following command:
+你需要使用连结运算符来连接字符串。执行下面命令：
 
     :::vim
     :echom "Hello, " . "world"
 
-This time Vim displays `Hello, world`.  `.` is the "concatenate strings"
-operator in Vim, which lets you combine strings.  It doesn't add whitespace or
-anything else in between.
+这次Vim显示`Hello, world`。`.`是Vim中的"连接字符串"运算符，可以用来连接字符串。
+它不会在其间插入空格或别的什么东西。
 
-Coercion works both ways.  Kind of.  Try this command:
+Vim会在`.`两边进行强制转换。试试这个命令：
 
     :::vim
     :echom 10 . "foo"
 
-Vim will display `10foo`.  First it coerces `10` to a String, then it
-concatenates it with the string on the right hand side.  Things get a bit
-stickier when we're working with Floats, though.  Run this command:
+Vim将显示`10foo`。首先它把`10`强制转换成字符串，接着把它跟右边的字符串连接在一起。
+不过当涉及到Float类型时，情况有点糟糕。执行这个命令：
 
     :::vim
     :echom 10.1 . "foo"
 
-This time Vim throws an error, saying we're using a Float as a String.  Vim will
-happily let you use a String as a Float when performing addition, but *won't*
-let you use a Float as a String when concatenating.
+这次Vim抛出一个错误，声称我们把Float当作String了。Vim乐于让你在执行加法时把String当作Float，
+却*不爽*你在连接字符串时把Float当作String。
 
-The moral of this story is that Vim is a lot like Javascript: it allows you to
-play fast and loose with types sometimes, but it's a really bad idea to do so
-because it will come back to bite you at some point.
+故事的最后告诉我们一个道理：Vim酷似Javascript：它有时允许你逍遥自在地马虎对待类型差异，
+但切莫这样做：因为出来混，迟早都要还的。(because it will come back to bite you at some point)
 
-When writing Vimscript, make sure you know what the type of each of your
-variables is.  If you need to change that type you should use a function to
-explicitly change it, even if it's not strictly necessary at the moment.  Don't
-rely on Vim's coercion because at some point you *will* regret it.
+写Vimscript的时候，确信你清楚写下的每一个变量的类型。如果需要改变变量类型，你就得使用一个函数显式改变它，
+即使那不是必要的。不要依赖Vim的强制转换，毕竟世上*没有*后悔药。
 
-Special Characters
+特殊字符
 ------------------
 
-Like most programming languages, Vimscript lets you use escape sequences in
-strings to represent hard-to-type characters.  Run the following command:
+就像大多数编程语言，Vimscript允许你在字符串中使用转义字符串来表示"打不了"的字符。
+执行下面命令：
 
     :::vim
     :echom "foo \"bar\""
 
-The `\"` in the string is replaced with a double quote character, as you would
-probably expect.  Escape sequences work mostly as you would expect.  Run the
-following command:
+字符串中的`\"`将如你所愿地被替换成双引号。转义字符串在大多数情况下都会如你所愿。
+执行下面的命令：
 
     :::vim
     :echom "foo\\bar"
 
-Vim displays `foo\bar`, because `\\` is the escape sequence for a literal
-backslash, just like in most programming languages.  Now run the following
-command (note that it's an `echo` and *not* an `echom`):
+Vim显示`foo\bar`，因为`\\`是表示'\'的转义字符串，一如大多数编程语言。
+现在执行下面的命令(注意那是`echo`而*不是*`echom`)：
 
     :::vim
     :echo "foo\nbar"
 
-This time Vim will display two lines, `foo` and `bar`, because the `\n` is
-replaced with a newline.  Now try running this command:
+这次Vim将显示两行，`foo`和`bar`，因为`\n`会被替换为换行。现在试试下面的命令：
 
     :::vim
     :echom "foo\nbar"
 
-Vim will display something like `foo^@bar`.  When you use `echom` instead of
-`echo` with a String Vim will echo the *exact* characters of the string, which
-sometimes means that it will show a different representation than plain old
-`echo`.  `^@` is Vim's way of saying "newline character".
+Vim将显示类似`foo^@bar`的诡异信息。当你对字符串使用`echom`而不是`echo`时，
+Vim将输出字符串中*额外的*字符，这意味着有时`echom`的输出跟`echo`的会有所不同。
+`^@`在Vim里表示"换行符"。
 
-Literal Strings
+字符串字面量
 ---------------
 
-Vim also lets you use "literal strings" to avoid excessive use of escape
-sequences.  Run the following command:
+Vim也允许你使用"字符串字面量"(译注：如Python中的r"")来避免转义字符串的滥用。
+执行下面命令：
 
     :::vim
     :echom '\n\\'
 
-Vim displays `\n\\`.  Using single quotes tells Vim that you want the string
-*exactly* as-is, with no escape sequences.  The one exception is that two single
-quotes in a row will produce one single quote.  Try this command:
+Vim显示`\n\\`。使用单引号将告诉Vim，你希望字符串*所见即所得*，无视转义字符串。
+一个例外是一行中连续两个单引号将产生一个单引号。(译注：相当于某种转义)试试这个命令：
 
     :::vim
     :echom 'That''s enough.'
 
-Vim will display `That's enough.`.  Two single quotes is the *only* sequence
-that has special meaning in a literal string.
+Vim将显示`That's enough.`。两个单引号是字符串字面量里*唯一*的特殊序列。
 
-We'll revisit literal strings when they become most useful, later in the book
-(when we dive into regular expressions).
+在本书稍后的部分，我们将重新审视字符串字面量的更多内容。(那时我们会深陷于正则表达式)
 
-Truthiness
+真值(Truthiness)
 ----------
 
-You might be wondering how Vim treats strings when used in an `if` statement.
-Run the following command:
+你可能想知道Vim怎么对待用在`if`语句中的字符串。执行下面的命令：
 
     :::vim
     :if "foo"
@@ -145,16 +126,14 @@ Run the following command:
     :  echo "no"
     :endif
 
-Vim will display `no`.  If you're wondering why this happens you should reread
-the chapter on conditionals, because we talked about it there.
+Vim将显示`no`。如果你搞不懂为何如此，你应该重读关于条件语句的那一章(译注：第21章)，
+因为我们在那里已经讨论过了。
 
-Exercises
+练习
 ---------
 
-Read `:help expr-quote`.  Review the list of escape sequences you can use in
-a normal Vim string.  Find out how to insert a tab character.
+阅读`:help expr-quote`。查看在一般的Vim字符串中允许的转义字符串列表。找出如何插入一个tab字符。
 
-Try to figure out a way to insert a tab character into a string *without* using
-an escape sequence.  Read `:help i_CTRL-V` for a hint.
+尝试找出一种方法，*不*使用转义字符串来插入一个tab字符。提示：阅读`:help i_CTRL-V`。
 
-Read `:help literal-string`.
+阅读`:help literal-string`。
