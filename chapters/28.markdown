@@ -1,71 +1,57 @@
-Execute
+Execute命令
 =======
 
-The `execute` command is used to evaluate a string as if it were a Vimscript
-command.  We saw it in an earlier chapter, but now that we know a bit more about
-Vimscript Strings we're going to take another look.
+`execute`命令用来把一个字符串当作Vimscript命令执行。在前面的章节我们曾经跟它打过交道，
+不过随着对Vimscript中的字符串有更深入的了解，现在我们将再次认识它。
 
-Basic Execution
+`execute`基本用法
 ---------------
 
-Run the following command:
+执行下面的命令：
 
     :::vim
     :execute "echom 'Hello, world!'"
 
-Vim evaluates `echom 'Hello, world!'` as a command and dutifully echoes it to
-the screen and message log.  Execute is a very powerful tool because it lets you
-build commands out of arbitrary strings.
+Vim把`echom 'Hello, world!'`当作一个命令，而且尽职地在把它输出的同时将消息记录下来。
+Execute是一个非常强大的工具，因为它允许你用任意字符串来创造命令。
 
-Let's try a more useful example.  Prepare by opening a file in Vim, then using
-`:edit foo.txt` in the same window to open a new buffer.  Now run the
-following command:
+让我们试试一个更实用的例子。先在Vim里打开一个文件作为准备工作，接着使用`:edit foo.txt`在同一个窗口创建新的缓存区。
+现在执行下面的命令：
 
     :::vim
     :execute "rightbelow vsplit " . bufname("#")
 
-Vim will open the first file in a vertical split to the right of the second
-file.  What happened here?
+Vim将在第二个文件的右边打开第一个文件的竖直分割窗口(vertical split)。为什么会这样？
 
-First, Vim builds the command string by concatenating `"rightbelow vsplit "`
-with the result of the `bufname("#")` call.
+首先，Vim将`"rightbelow vsplit"`和`bufname('#')`调用的结果连接在一起，创建一个字符串作为命令。
 
-We'll look at the function more later, but for now just trust that it returns
-the path of the previous buffer.  You can play with it using `echom` if you want
-to see for yourself.
+我们过一段时间才会讲到相应的函数，现在姑且认为它返回前一个缓存区的路径名。
+你可以用`echom`来确认这一点。
 
-Once `bufname` is evaluated Vim the string `"rightbelow vsplit bar.txt"`.  The
-`execute` command evaluates this as a Vimscript command which opens the split
-with the file.
+待`bufname`执行完毕，Vim将结果连接成`"rightbelow vsplit bar.txt"`。
+`execute`命令将此作为Vimscript命令执行，在新的分割里打开该文件。
 
-Is Execute Dangerous?
+Execute危险吗？
 ---------------------
 
-In most programming languages the use of such an "eval" construct to evaluate
-strings as program code is frowned upon (to put it lightly).  Vimscript's
-`execute` command doesn't have the same stigma for two reasons.
+在大多数编程语言中使用诸如"eval"来构造可执行的字符串是会受到谴责的(如果不会是更严重的后果)。
+因为两个原因，Vimscript中的`execute`命令能免于操这份心。
 
-First, most Vimscript code only ever takes input from a single person: the user.
-If the user wants to input a tricky string that will cause an `execute` command
-to do something bad, well, it's their computer!  Contrast this with other
-languages, where programs constantly take input from untrusted users.  Vim is
-a unique environment where the normal security concerns simply aren't common.
+首先，大多数Vimscript代码仅仅接受唯一的来源——用户的输入。
+假设有用户想输入一个古怪的字符串来执行邪恶的命令，无所谓，反正这是他们自己的计算机！
+然而在其他语言里，程序通常得接受来自不可信的用户的输入。Vim是一个特殊的环境，
+在此无需担心一般的安全性问题。
 
-The second reason is that because Vimscript has sometimes arcane and tricky
-syntax, `execute` is often the easiest, most straightforward way to get
-something done.  In most other languages using an "eval" construct won't usually
-save you much typing, but in Vimscript it can collapse many lines into a single
-one.
+第二个原因是因为Vimscript有时候处理问题的方式过于晦涩难懂且稀奇古怪。
+这时`execute`会是完成任务的最简单，最直白的方法。
+在大多数其他语言中，使用"eval"不会省下你多少击键的生命，但在Vimscript里这样做可以化繁为简。
 
-Exercises
+练习
 ---------
 
-Skim `:help execute` to get an idea of some of the things you can and can't use
-`execute` for.  Don't dive too deeply yet -- we're going to revisit it very
-soon.
+浏览`:help execute`来明了哪些命令你可以用`execute`实现而哪些不可以。
+但当涉猎，因为我们很快将重新审视这个问题。
 
-Read `:help leftabove`, `:help rightbelow`, `:help :split`, and `:help :vsplit`
-(notice the extra colon in the last two topics).
+阅读`:help leftabove`，`:help rightbelow`，`:help :split`和`:help :vsplit`(注意最后两个条目中额外的分号)。
 
-Add a mapping to your `~/.vimrc` file that opens the previous buffer in a split
-of your choosing (vertical/horizontal, above/below/left/right).
+在你的`~/.vimrc`中加入能在选定的分割(竖直或水平，上/下/左/右方位)中打开前一个缓存区的映射。
