@@ -48,7 +48,7 @@ Floats can also be specified in multiple ways.  Run the following command:
     :::vim
     :echo 100.1
 
-Notice that we're using `echo` here and not `echom` like we usually to.  We'll
+Notice that we're using `echo` here and not `echom` like we usually do.  We'll
 talk about why in a moment.
 
 Vim displays `100.1` as expected.  You can also use exponential notation.  Run
