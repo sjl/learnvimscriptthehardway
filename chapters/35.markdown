@@ -1,150 +1,134 @@
-Lists
+列表
 =====
 
-We've worked a lot with variables so far, but we haven't talked about aggregates
-at all yet!  Vim has two main aggregate types, and we'll look at the first now:
-lists.
+目前为止我们已经很熟悉Vimscript里的变量类型了，但我们压根还没讲到集合(aggregates)呢！
+Vim有两种主要的集合类型，现在我们将讲到第一种：列表。
 
-Vimscript lists are ordered, heterogeneous collections of elements.  Run the
-following command:
+Vimscript列表是有序的，异质的元素集合。执行下面的命令：
 
     :::vim
     :echo ['foo', 3, 'bar']
 
-Vim displays the list.  Lists can of course be nested.  Run the following
-command:
+Vim输出这个列表。列表里当然可以嵌套列表。执行下面的命令：
 
     :::vim
     :echo ['foo', [3, 'bar']]
 
-Vim happily displays the list.
+Vim会愉快地输出这个列表。
 
-Indexing
+索引
 --------
 
-Vimscript lists are zero-indexed, and you can get at the elements in the usual
-way.  Run this command:
+Vimscript列表的索引从0开始，你可以用下标得到对应元素。执行这个命令：
 
     :::vim
     :echo [0, [1, 2]][1]
 
-Vim displays `[1, 2]`.  You can also index from the end of the list, much like
-Python.  Try this command:
+Vim显示`[1,2]`。你也可以从列表结尾进行索引，这很像Python。执行这个命令：
 
     :::vim
     :echo [0, [1, 2]][-2]
 
-Vim displays `0`.  The index `-1` refers to the last element in the list, `-2`
-is the second-to-last, and so on.
+Vim显示`0`。索引`-1`对应列表的最后一个元素，`-2`对应倒数第二个，以此类推。
 
-Slicing
+切割
 -------
 
-Vim lists can also be sliced.  This will *look* familiar to Python programmers,
-but it does *not* always act the same way!  Run this command:
+Vim列表也可被切割。这*看上去*会让Python程序员感到眼熟，但它*不*总是表现得跟Python中的一样！
+执行这个命令：
 
     :::vim
     :echo ['a', 'b', 'c', 'd', 'e'][0:2]
 
-Vim displays `['a', 'b', 'c']` (elements 0, 1 and 2).  You can safely exceed the
-upper bound as well.  Try this command:
+Vim显示`['a','b','c']`(第1,2,3个元素)。越过列表索引上界也是安全的。试试这个命令：
 
     :::vim
     :echo ['a', 'b', 'c', 'd', 'e'][0:100000]
 
-Vim simply displays the entire list.
+Vim仅仅显示整个列表。
 
-Slice indexes can be negative.  Try this command:
+可以用负数切割。试试这个命令：
 
     :::vim
     :echo ['a', 'b', 'c', 'd', 'e'][-2:-1]
 
-Vim displays `['d', 'e']` (elements -2 and -1).
+Vim显示`['d','e']`(元素-2和-1)。
 
-When slicing lists you can leave off the first index to mean "the beginning"
-and/or the last index to mean "the end".  Run the following commands:
+你可以忽略第一个索引以表示"开头"和/或最后一个索引以表示"结尾"。执行下面的命令：
 
     :::vim
     :echo ['a', 'b', 'c', 'd', 'e'][:1]
     :echo ['a', 'b', 'c', 'd', 'e'][3:]
 
-Vim displays `['a', 'b']` and `['d', 'e']`.
+Vim显示`['a','b']`和`['d','e']`。
 
-Like Python, Vimscript allows you to index and slice strings too.  Run the
-following command:
+像Python，Vimscript也允许你索引和切割字符串。执行下面命令：
 
     :::vim
     :echo "abcd"[0:2]
 
-Vim displays `abc`. However, you can't use negative bare indices with strings.
-You *can* use negative indices when slicing strings though!  Run the following
-command:
+Vim显示`abc`。可是，你不能使用负数来索引字符串。你却*可以*使用负数切割字符串！
+执行下面的命令：
 
     :::vim
     :echo "abcd"[-1] . "abcd"[-2:]
 
-Vim displays `cd` (using a negative index silently resulted in an empty string).
+Vim显示`cd`(使用负数索引会没有报错地得到一个空字符串)。
 
-Concatenation
+连接
 -------------
 
-You can combine Vim lists with `+`.  Try this command:
+你可以用`+`连接Vim列表。试试这个命令：
 
     :::vim
     :echo ['a', 'b'] + ['c']
 
-Vim, unsurprisingly, displays `['a', 'b', 'c']`.  There's not much else to say
-here -- Vimscript lists are surprisingly sane compared to the rest of the
-language.
+Vim，一点也不奇怪地，显示`['a','b','c']`。
+没什么好说的——在奇怪的Vimscript世界里，列表是如此地正常，以至于让人感到奇怪。
 
-List Functions
+列表函数
 --------------
 
-Vim has a number of built-in functions for working with lists.  Run these
-commands:
+Vim有着许许多多内置列表函数。执行这个命令：
 
     :::vim
     :let foo = ['a']
     :call add(foo, 'b')
     :echo foo
 
-Vim mutates the list `foo` in-place to append `'b'` and displays `['a', 'b']`.
-Now run this command:
+Vim就地在列表`foo`末尾加上`'b'`，并显示`['a','b']`。
 
     :::vim
     :echo len(foo)
 
-Vim displays `2`, the length of the list.  Try these commands:
+Vim显示`2`，即是列表的长度。试试下面的命令：
 
     :::vim
     :echo get(foo, 0, 'default')
     :echo get(foo, 100, 'default')
 
-Vim displays `a` and `default`.  The `get` function will get the item at the
-given index from the given list, or return the given default value if the index
-is out of range in the list.
+Vim显示`a`和`default`。`get`函数会返回给定索引对应的给定列表的项，如果索引超过列表范围，
+返回给定的默认值。
 
-Run this command:
+执行这个命令：
 
     :::vim
     :echo index(foo, 'b')
     :echo index(foo, 'nope')
 
-Vim displays `1` and `-1`.  The `index` function returns the first index of the
-given item in the given list, or `-1` if the item is not in the list.
+Vim显示`1`和`-1`。`index`函数返回给定项在给定列表的第一个索引，如果不在列表中则返回`-1`。
 
-Now run this command:
+现在执行这个命令：
 
     :::vim
     :echo join(foo)
     :echo join(foo, '---')
     :echo join([1, 2, 3], '')
 
-Vim displays `a b`, `a---b`, and `123`.  `join` will join the items in the given
-list together into a string, separated by the given separator string (or a space
-if none is given), coercing each item to a string if necessary/possible.
+Vim显示`a b`,`a---b`,和`123`。`join`先将给定列表的每一项强制转换成字符串，
+再以给定的分割字符串(或一个空格，如果没有给的话)作为分割，连接成一个字符串。
 
-Run the following commands:
+执行下面命令：
 
     :::vim
     :call reverse(foo)
@@ -152,26 +136,24 @@ Run the following commands:
     :call reverse(foo)
     :echo foo
 
-Vim displays `['b', 'a']` and then `['a', 'b']`.  `reverse` reverses the given
-list *in place*.
+Vim先显示`['b','a']`，接着是`['a','b']`。`reverse`*就地*转置给定的列表。
 
-Exercises
+练习
 ---------
 
-Read `:help List`.  All of it.  Notice the capital `L`.
+阅读`:help List`。看完它。注意大写`L`。
 
-Read `:help add()`.
+阅读`:help add()`.
 
-Read `:help len()`.
+阅读`:help len()`.
 
-Read `:help get()`.
+阅读`:help get()`.
 
-Read `:help index()`.
+阅读`:help index()`.
 
-Read `:help join()`.
+阅读`:help join()`.
 
-Read `:help reverse()`.
+阅读`:help reverse()`.
 
-Skim `:help functions` to find some other list-related functions I haven't
-mentioned yet.  Run `:match Keyword /\clist/` to case-insensitively highlight
-the word `list` to make it easier to find what you're looking for.
+浏览`:help functions`来查找我没有讲过的其他列表函数。
+执行`:match Keyword /\clist/`来以大小写不敏感的方式高亮单词`list`，以便于你的查找。
