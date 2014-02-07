@@ -1,33 +1,27 @@
-Functional Programming
+函数式编程
 ======================
 
-We're going to take a short break now to talk about a style of programming you
-may have heard of: [functional programming][].
+现在让我们小憩一下，聊一聊一种你可能听过的编程风格：[函数式编程][]。
 
-If you've programmed in languages like Python, Ruby or Javascript, or
-*especially* Lisp, Scheme, Clojure or Haskell, you're probably familiar with the
-idea of using functions as variables and using data structures with immutable
-state.  If you've never done this before you can safely skip this chapter, but
-I'd encourage you to try it anyway and broaden your horizons!
+如果你用过Python，Ruby或Javascript，*甚或*Lisp，Scheme，Clojure或Haskell，
+你应该会觉得把函数作为变量类型，用不可变的状态作为数据结构是平常的事。
+如果你没用过，你可以放心地跳过这一章了，但我还是鼓励你找机会去试试并拓宽自己的视野。
 
-Vimscript has all the pieces necessary to program in a kind-of-functional style,
-but it's a bit clunky.  We can create a few helpers that will make it less
-painful though.
+Vimscript具有使用函数式风格进行编程的潜力，不过会有点吃力。
+我们可以创建一些辅助函数来让这个过程少些痛苦。
 
-Go ahead and create a `functional.vim` file somewhere so you don't have to keep
-typing everything over and over.  This file will be our scratchpad for this
-chapter.
+继续前进并创建`functional.vim`文件，这样你就不用反复地重新击打每一行代码。
+这个文件将会成为这一章的草稿本。
 
-[functional programming]: https://secure.wikimedia.org/wikipedia/en/wiki/Functional_programming
+[函数式编程]: https://secure.wikimedia.org/wikipedia/en/wiki/Functional_programming
 
-Immutable Data Structures
+不可变的数据结构
 -------------------------
 
-Unfortunately Vim doesn't have any immutable collections like Clojure's vectors
-and maps built-in, but by creating some helper functions we can fake it to some
-degree.
+不幸的是，Vim没有类似于Clojure内置的vector和map那样的不可变集合，
+不过通过一些辅助函数，我们可以在一定程度上模拟出来。
 
-Add the following function to your file:
+在你的文件加上下面的函数:
 
     :::vim
     function! Sorted(l)
@@ -36,16 +30,14 @@ Add the following function to your file:
         return new_list
     endfunction
 
-Source and write the file, then run `:echo Sorted([3, 2, 4, 1])` to try it out.
-Vim echoes `[1, 2, 3, 4]`.
+保存并source文件，然后执行`:echo Sorted([3,2,4,1])`来试试看。
+Vim输出`[1,2,3,4]`。
 
-How is this different from simply calling the built-in `sort()` function?  The
-key is the first line: `let new_list = deepcopy(a:l)`.  Vim's `sort()` sorts the
-list *in place*, so we first create a full copy of the list and sort *that* so
-the original list won't be changed.
+这跟调用内置的`sort()`函数有什么区别呢？关键在于第一行：`let new_list = deepcopy(a:l)`。
+Vim的`sort()`*就地*重排列表，所以我们先创建一个列表的副本，并排序*副本*,
+这样原本的列表不会被改变。
 
-This prevents side effects and helps us write code that is easier to reason
-about and test.  Let's add a few more helper functions in this same style:
+这样就避免了副作用，并帮助我们写出更容易推断和测试的代码。让我们加入更多同样风格的辅助函数：
 
     :::vim
     function! Reversed(l)
@@ -72,52 +64,43 @@ about and test.  Let's add a few more helper functions in this same style:
         return new_list
     endfunction
 
-Each of these functions is exactly the same except for the middle line and the
-arguments they take.  Source and write the file and try them out on a few lists.
+除了中间的一行和它们接受的参数，每一个函数都是一样的。保存并source文件，在一些列表上试试它们。
 
-`Reversed()` takes a list and returns a new list with the elements reversed.
+`Reversed()`接受一个列表并返回一个新的倒置了元素的列表。
 
-`Append()` returns a new list with the given value appended to the end of the
-old one.
+`Append()`返回一个在原列表的基础上增加了给定值的新列表。
 
-`Assoc()` (short for "associate") returns a new list, with the element at the
-given index replaced by the new value.
+`Assoc()`("associate"的缩写)返回一个给定索引上的元素被替换成新值的新列表。
 
-`Pop()` returns a new list with the element at the given index removed.
+`Pop()`返回一个给定索引上的元素被移除的新列表。
 
-Functions as Variables
+作为变量的函数
 ----------------------
 
-Vimscript supports using variables to store functions, but the syntax is a bit
-obtuse.  Run the following commands:
+Vimscript支持使用变量储存函数，但是相关的语法有点愚钝。执行下面的命令：
 
     :::vim
     :let Myfunc = function("Append")
     :echo Myfunc([1, 2], 3)
 
-Vim will display `[1, 2, 3]` as expected.  Notice that the variable we used
-started with a capital letter.  If a Vimscript variable refers to a function it
-must start with a capital letter.
+Vim意料之中地显示`[1, 2, 3]`。注意我们使用的变量以大写字母开头。
+如果一个Vimscript变量要引用一个函数，它就要以大写字母开头。
 
-Functions can be stored in lists just like any other kind of variable.  Run the
-following commands:
+就像其他种类的变量，函数也可以储存在列表里。执行下面命令：
 
     :::vim
     :let funcs = [function("Append"), function("Pop")]
     :echo funcs[1](['a', 'b', 'c'], 1)
 
-Vim displays `['a', 'c']`.  The `funcs` variable does *not* need to start with
-a capital letter because it's storing a list, not a function.  The contents of
-the list don't matter at all.
+Vim显示`['a', 'c']`。`funcs`变量*不*需要以大写字母开头，因为它储存的是列表，而不是函数。
+列表的内容不会造成任何影响。
 
-Higher-Order Functions
+高阶函数
 ----------------------
 
-Let's create a few of the most commonly-used higher-order functions.  If you're
-not familiar with that term, higher-order functions are functions that take
-*other* functions and do something with them.
+让我们创建一些用途广泛的高阶函数。如果你需要解释，高阶函数就是接受*别的*函数并使用它们的函数。
 
-We'll begin with the trusty `map` function.  Add this to your file:
+我们将从`map`函数开始。在你的文件中添加这个：
 
     :::vim
     function! Mapped(fn, l)
@@ -126,25 +109,21 @@ We'll begin with the trusty `map` function.  Add this to your file:
         return new_list
     endfunction
 
-Source and write the file, and try it out by running the following commands:
+保存并source文件，执行下面命令试试看：
 
     :::vim
     :let mylist = [[1, 2], [3, 4]]
     :echo Mapped(function("Reversed"), mylist)
 
-Vim displays `[[2, 1], [4, 3]]`, which is the result of applying `Reversed()` to
-every element in the list.
+Vim显示`[[2, 1], [4, 3]]`，正好是对列表中的每一个元素应用了`Reversed()`的结果。
 
-How does `Mapped()` work?  Once again we create a fresh list with `deepcopy()`,
-do something to it, and return the modified copy -- nothing new there.  The
-tricky part is the middle.
+`Mapped()`是如何起作用的？我们又一次用`deepcopy()`创建新的列表，修修改改，返回修改后的副本
+—— 没什么是新的。有门道的是中间的部分。
 
-`Mapped()` takes two arguments: a funcref (Vim's term for "variable holding
-a function") and a list.  We use the built-in `map()` function to perform the
-actual work.  Read `:help map()` now to see how it works.
+`Mapped()`接受两个参数：一个funcref("储存一个函数的变量"在Vim里的说法)和一个列表。
+我们使用内置的`map()`函数实现真正的工作。现在就阅读`:help map()`来看它怎么工作的。
 
-Now we'll create a few other common higher-order functions.  Add the following
-to your file:
+现在我们将创建一些通用的高阶函数。把下面的代码加入到你的文件：
 
     :::vim
     function! Filtered(fn, l)
@@ -153,20 +132,19 @@ to your file:
         return new_list
     endfunction
 
-Try `Filtered()` out with the following commands:
+用下面的命令尝试`Filtered()`：
 
     :::vim
     :let mylist = [[1, 2], [], ['foo'], []]
     :echo Filtered(function('len'), mylist)
 
-Vim displays `[[1, 2], ['foo']]`.
+Vim显示`[[1, 2], ['foo']]`。
 
-`Filtered()` takes a predicate function and a list.  It returns a copy of the
-list that contains only the elements of the original where the result of calling
-the function on it is "truthy".  In this case we use the built-in `len()`
-function, so it filters out all the elements whose length is zero.
+`Filtered()`接受一个谓词函数和一个列表。它返回一个列表的副本，
+而这个列表只包括将自身作为谓词函数的输入参数并返回真值的元素。
+这里我们使用了内置的`len()`，让它过滤掉所有长度为0的元素。
 
-Finally we'll create the counterpart to `Filtered()`:
+最后我们创建了`Filtered()`的好基友(counterpart)：
 
     :::vim
     function! Removed(fn, l)
@@ -175,61 +153,53 @@ Finally we'll create the counterpart to `Filtered()`:
         return new_list
     endfunction
 
-Try it out just like we did with `Filtered()`:
+像使用`Filtered()`一样试一下：
 
     :::vim
     :let mylist = [[1, 2], [], ['foo'], []]
     :echo Removed(function('len'), mylist)
 
-Vim displays `[[], []]`.  `Removed()` is like `Filtered()` except it only keeps
-elements where the predicate function does *not* return something truthy.
+Vim显示`[[], []]`。`Removed()`就像`Filtered()`，不过它只保留谓词函数返回*非*真值的元素。
 
-The only difference in the code is the single `'!' . ` we added to the call
-command, which negates the result of the predicate.
+代码中的唯一不同在于调用命令前面的`'!' . `，它把谓词函数的结果取反。
 
-Performance
+效率
 -----------
 
-You might be thinking that copying lists all over the place is wasteful, since
-Vim has to constantly create new copies and garbage collect old ones.
+考虑到Vim不得不持续地创建新的副本并垃圾回收旧的对象，你可能会认为不停地制造副本是种浪费。
 
-If so: you're right!  Vim's lists don't support the same kind of structural
-sharing as Clojure's vectors, so all those copy operations can be expensive.
+是的，你是对的！Vim的列表不像Clojure的vector那样支持结构共享(structural sharing)，
+所以这里所有的复制操作是昂贵的。
 
-Sometimes this will matter.  If you're working with enormous lists, things can
-slow down.  In real life, though, you might be surprised at how little you'll
-actually notice the difference.
+有时这的确是个问题。如果你需要使用庞大的列表，程序就会因此变慢。
+在现实世界，你可能会吃惊地发现你几乎不会注意到其中的差别。
 
-Consider this: as I'm writing this chapter my Vim program is using about 80
-megabytes of memory (and I have a *lot* of plugins installed).  My laptop has
-8 *gigabytes* of memory in it.  Is the overhead of having a few copies of a list
-around really going to make a noticeable difference?  Of course that depends on
-the size of the list, but in most cases the answer will be "no".
+想想看吧：当我正写下本章时，Vim占用了80M内存(而且我可是装了*一堆*插件)。
+我的笔记本总共有*8G*内存。有一些列表的副本被创建出来，这会造成可被察觉的不同吗？
+当然这取决于列表的大小，但在大多数情况下答案将会是"No"。
 
-To contrast, my Firefox instance with five tabs open is currently using 1.22
-*gigabytes* of RAM.
+作为比较，我的Firefox打开了五个tab，现在正饕餮着*1.22G*内存。
 
-You'll need to use your own judgement about when this style of programming
-creates unacceptably bad performance.
+你将需要自己判断，什么时候这种编程风格会导致不可接受的低效率。
 
-Exercises
+练习
 ---------
 
-Read `:help sort()`.
+阅读`:help sort()`。
 
-Read `:help reverse()`.
+阅读`:help reverse()`。
 
-Read `:help copy()`.
+阅读`:help copy()`。
 
-Read `:help deepcopy()`.
+阅读`:help deepcopy()`。
 
-Read `:help map()` if you haven't already.
+阅读`:help map()`，如果你未曾读过。
 
-Read `:help function()`.
+阅读`:help function()`。
 
-Modify `Assoc()`, `Pop()`, `Mapped()`, `Filtered()` and `Removed()` to support
-dictionaries.  You'll probably need `:help type()` for this.
+修改`Assoc()`, `Pop()`, `Mapped()`, `Filtered()`和`Removed()`来支持字典类型。
+你可能需要阅读`:help type()`来帮助自己。
 
-Implement `Reduced()`.
+实现`Reduced()`。
 
-Pour yourself a glass of your favorite drink.  This chapter was intense!
+倒给自己一杯最喜欢的饮料。这一章真激烈(intense)！
