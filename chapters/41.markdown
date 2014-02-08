@@ -1,59 +1,45 @@
-Creating a Full Plugin
+创建一个完整的插件
 ======================
 
-We've covered a lot of ground in the last forty or so chapters.  In the final
-part of the book we're going to walk through creating a Vim plugin for
-a programming language from scratch.
+在前四十来章中，我们讲解了许多基础方面的内容。
+在本书的最后部分，我们将尝试从零开始为一门语言创造Vim插件。
 
-This is not for the faint of heart.  It's going to take a lot of effort.
+这不是个适合懦夫的游戏。这将需要你竭尽全力。
 
-If you want to stop now, that's completely fine!  You've already learned enough
-to make serious enhancements to your own `~/.vimrc` file and to fix bugs you
-find in other people's plugins.
+如果你现在就想退出，那确实也不坏！你已经学到了如何在`~/.vimrc`里改善你的生活，
+还有如果修复别人的插件里的bugs。
 
-There's no shame in saying "that's enough for me, I don't want to spend hours
-of my life creating plugins I won't use very often".  Be practical.  If you
-can't think of a full plugin you want to make, stop now and come back when you
-do.
+有"这就够了，我不想虚掷光阴于创造一个我将不会使用的插件"这种想法并不可耻。
+现实一点。如果你不想创造一个自己想用的插件，现在就可以离开，到你想要的时候再回来吧。
 
-If you *do* want to continue make sure you're ready to devote some time.  The
-rest of the book is going to be intense, and I'm going to assume you actually
-want to *learn*, not just coast through the chapters reading them on your couch.
+如果你*真的*想要继续，确保你可以挤出一些时间。本书剩余部分将会显得困难，
+而且我会假定你真的想*学点东西*，而不是仅仅慵懒地一章章翻过去。
 
 Potion
 ------
 
-The plugin we're going to make is going to add support for the [Potion][]
-programming language.
+我们创造的插件将为[Potion][]这门语言提供支持。
 
-Potion is a toy language created by \_why the lucky stiff before his
-disappearance.  It's an extremely small language which makes it ideal for our
-purposes.
+Potion是由`Why the lucky stiff`在隐于江湖之前(before his disappearance)创建的一门玩具语言。
+它非常的简单，所以我们就拿它一试身手。
 
-Potion feels a lot like [Io][], with some ideas from Ruby, Lua, and other
-languages mixed in.  If you've never tried Io it may seem weird.  I strongly
-recommend playing with Potion for at least an hour or two.  You won't use it in
-real life, but it might change the way you think and expose you to new ideas.
+Potion跟[Io][]很像，同时又借鉴了Ruby,Lua以及其他语言。如果你未曾玩过Io，它可能看上去略古怪。
+我强烈推荐你花上至少一两个小时的时间玩玩Potion。在现实生活中你不会用它，
+但是它可能会改变你思考的方式并带给你新的思想。
 
-The current implementation of Potion has a lot of rough edges.  For example: if
-you mess up the syntax it usually segfaults.  Try not to get too hung up on
-this.  I'll provide you with lots of sample code that works so you can focus
-mostly on the Vimscript and not Potion.
+Potion的当前实现相当地粗糙。举个例子：如果你犯了语法错误，它通常会还你段错误。
+不要太纠结于此。我会给你许多可用的代码示范，这样你就能更关注于Vimscript本身而非Potion。
 
-The goal is not to learn Potion (though that can be fun too).  The goal is to
-use Potion as a small example so we can touch on a lot of different aspects of
-writing full Vim plugins.
+我们的目标不是学习Potion(尽管那也挺有趣)。
+我们的目标是以Potion作为一个小例子来体验写一个完整的Vim插件的方方面面。
 
-Exercises
+练习
 ---------
 
-Download and install [Potion][].  You're on your own for this one.  It should be
-fairly simple.
+下载并安装[Potion][]。这个就要你自己动手了。它应该会比较简单的。
 
-Make sure you can get the first couple examples in the pamphlet working in the
-Potion interpreter and by putting them in a `.pn` file.  If it seems like the
-interpreter isn't working check out [this
-issue](https://github.com/fogus/potion/issues/12) for a possible cause.
+确保你可以在Potion解释器和以`.pn`文件的形式运行小册子里的第一个示例代码。
+如果解释器貌似不能工作，看[这个issue](https://github.com/fogus/potion/issues/12)来查找可能的原因。
 
 [Potion]: http://fogus.github.com/potion/index.html
 [Io]: http://iolanguage.com/
