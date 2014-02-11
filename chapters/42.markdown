@@ -1,132 +1,110 @@
-Plugin Layout in the Dark Ages
+旧社会下的插件配置方式
 ==============================
 
-The first thing we need to talk about is how to structure our plugin.  In the
-past this was a messy affair, but now there's a tool that makes the process of
-installing Vim plugins much, *much* saner.
+我们需要讲到的第一件事是如何配置我们的插件。在过去，这会是一次混乱的折腾，
+但现在我们有一个工具可以非常方便地安装Vim插件。
 
-We need to go over the basic layout first, then we'll talk about how to restore
-our sanity.
+我们需要先过一下基本的配置方式，然后我们会讲到如何省下麻烦。
 
-Basic Layout
+基本配置方式
 ------------
 
-Vanilla Vim supports splitting plugins into multiple files.  There are a number
-of different directories you can create under `~/.vim` that mean various things.
+Vim支持把插件分割成多个文件。你可以在`~/.vim`下创建许多不同种类的文件夹来放置不同的内容。
 
-We'll cover the most important directories now, but don't stress out too much
-about them.  We'll go over them one at a time as we create our Potion plugin.
+我们现在将讲述其中最为重要的几个文件夹，但不会在上面花费太多时间。
+当我们创造Potion插件时，我们会逐一认识它们的。
 
-Before we continue we need to talk about some vocabulary.
+在我们继续前进之前，需要先确定一些用词规范。
 
-I've been using the word "plugin" to mean "a big ol' hunk of Vimscript that does
-a bunch of related stuff".  Vim has a more specific meaning of "plugin", which
-is "a file in `~/.vim/plugins/`".
+我将用"插件"表示一大堆做一系列相关事情的Vimscript代码。
+在Vim里，"插件(plugin)"有一个更专业的定义，它表示"`~/.vim/plugins/`下的一个文件"。
 
-Most of the time I'll be using the first definition.  I'll try to be clear when
-I mean the second.
+在大多数时间里，我将使用第一个定义。如果指的是第二个定义，我会特意指明。
 
 ~/.vim/colors/
 --------------
 
-Files inside `~/.vim/colors/` are treated as color schemes.  For example: if you
-run `:color mycolors` Vim will look for a file at `~/.vim/colors/mycolors.vim`
-and run it.  That file should contain all the Vimscript commands necessary to
-generate your color scheme.
+Vim将会查找`~/.vim/colors/mycolors.vim`并执行它。
+这个文件应该包括生成你的配色方案所需的一切Vimscript命令。
 
-We're not going to cover color schemes in this book.  If you want to create your
-own you should copy an existing scheme and modify it.  Remember that `:help` is
-your friend.
+本书中，我们不会谈到配色方案。如果想创造属于自己的配色方案，你应该从一个现存的配色方案上改造出来。
+记住，`:help`将与你常在。
 
 ~/.vim/plugin/
 --------------
 
-Files inside `~/.vim/plugin/` will each be run once *every time* Vim starts.
-These files are meant to contain code that you always want loaded whenever you
-start Vim.
+`~/.vim/plugin/`下的文件将在*每次*Vim启动的时候执行。
+这里的文件包括那些无论何时，在启动Vim之后你就想加载的代码。
 
 ~/.vim/ftdetect/
 ----------------
 
-Any files in `~/.vim/ftdetect/` will *also* be run every time you start Vim.
+`~/.vim/ftdetect/`下的文件在每次你启动Vim的时候*也会*执行。
 
-`ftdetect` stands for "filetype detection".  The files in this directory should
-set up autocommands that detect and set the `filetype` of files, and *nothing
-else*.  This means they should never be more than one or two lines long.
+`ftdetect`是"filetype detection"的缩写。
+这里的文件*仅仅*负责启动检测和设置文件的`filetype`类型的自动命令。
+这意味着它们一般不会超过一两行。
 
 ~/.vim/ftplugin/
 ----------------
 
-Files in `~/.vim/ftplugin/` are different.
+`~/.vim/ftplugin/`下的文件则各不相同。
 
-The naming of these files matters!  When Vim sets a buffer's `filetype` to
-a value it then looks for a file in `~/.vim/ftplugin/` that matches.  For
-example: if you run `set filetype=derp` Vim will look for
-`~/.vim/ftplugin/derp.vim`.  If that file exists, it will run it.
+一切皆取决于它的名字!当Vim把一个buffer的`filetyye`设置成某个值时，
+它会去查找`~/.vim/ftplugin/`下对应的文件。
+比如：如果你执行`set filetype=derp`，Vim将查找`~/.vim/ftplugin/derp.vim`。
+一旦文件存在，Vim将执行它。
 
-Vim also supports directories inside `~/.vim/ftplugin/`.  To continue our
-example: `set filetype=derp` will also make Vim run any and all `*.vim` files
-inside `~/.vim/ftplugin/derp/`.  This lets you split up your plugin's `ftplugin`
-files into logical groups.
+Vim也支持在`~/.vim/ftplugin/`下放置文件夹。
+再以我们刚才的例子为例：`set filetype=derp`将告诉Vim去执行`~/.vim/ftplugin/derp/`下的全部`*.vim`文件。
+这使得你可以按代码逻辑分割在`ftplugin`下的文件。
 
-Because these files are run every time a buffer's `filetype` is set they *must*
-only set buffer-local options!  If they set options globally they would
-overwrite them for all open buffers!
+因为每次在一个buffer中执行`filetype`时都会执行这些文件，所以它们*只能*设置buffer-local选项！
+如果在它们中设置了全局选项，所有打开的buffers的设置都会遭到覆盖！
 
 ~/.vim/indent/
 --------------
 
-Files in `~/.vim/indent/` are a lot like `ftplugin` files.  They get loaded
-based on their names.
+`~/.vim/indent/`下的文件类似于`ftplugin`下的文件。加载时也是只加载名字对应的文件。
 
-`indent` files should set options related to indentation for their filetypes,
-and those options should be buffer-local.
+`indent`文件应该设置跟对应文件类型相关的缩进，而且这些设置应该是buffer-local的。
 
-Yes, you could simply put this code in the `ftplugin` files, but it's better to
-separate it out so other Vim users will understand what you're doing.  It's just
-a convention, but please be a considerate plugin author and follow it.
+是的，你当然可以把这些代码也一并放入`ftplugin`文件，
+但最好把它们独立出来，让其他Vim用户理解你的意图。这只是一种惯例，不过请尽量体贴用户并遵从它。
 
 ~/.vim/compiler/
 ----------------
 
-Files in `~/.vim/compiler/` work exactly like `indent` files.  They should set
-compiler-related options in the current buffer based on their names.
+`~/.vim/compiler`下的文件非常类似于`indent`文件。它们应该设置同类型名的当前buffer下的编译器相关选项。
 
-Don't worry about what "compiler-related options" means right now.  We'll cover
-that later.
+不要担心不懂什么是"编译器相关选项"。我们等会会解释。
 
 ~/.vim/after/
 -------------
 
-The `~/.vim/after/` directory is a bit of a hack.  Files in this directory will
-be loaded every time Vim starts, but *after* the files in `~/.vim/plugin/`.
+`~/.vim/after`文件夹有点神奇。这个文件夹下的文件会在每次Vim启动的时候加载，
+不过是在`~/.vim/plugin/`下的文件加载了*之后*。
 
-This allows you to override Vim's internal files.  In practice you'll rarely
-need this, so don't worry about it until you find yourself thinking "Vim itself
-sets option `x`, but I want something different".
+这允许你覆盖Vim的默认设置。实际上你将很少需要这么做，所以不用理它，
+除非你有"Vim设置了选项`x`，但我想要不同的设置"的主意。
 
 ~/.vim/autoload/
 ----------------
 
-The `~/.vim/autoload/` directory is an incredibly important hack.  It sounds
-a lot more complicated than it actually is.
+`~/.vim/autoload`文件夹就更加神奇了。事实上它的作用没有听起来那么复杂。
 
-In a nutshell: `autoload` is a way to delay the loading of your plugin's code
-until it's actually needed.  We'll cover this in more detail later when we
-refactor our plugin's code to take advantage of it.
+简明扼要地说：`autoload`是一种延迟插件代码到需要时才加载的方法。
+我们将在重构插件的时候详细讲解并展示它的用法。
 
 ~/.vim/doc/
 -----------
 
-Finally, the `~/.vim/doc/` directory is where you can add documentation for your
-plugin.  Vim has a huge focus on documentation (as evidenced by all the `:help`
-commands we've been running) so it's important to document your plugins.
+最后，`~/.vim/doc/`文件夹提供了一个你可以放置你的插件的文档的地方。
+Vim对文档的要求是多多益善(看看我们执行过的所有`:help`命令就知道)，所以为你的插件写文档是重要的。
 
-Exercises
+练习
 ---------
 
-Reread this chapter.  I'm not kidding.  Make sure you understand (in a very
-rough way) what each directory we've talked about does.
+重读本章。我没开玩笑。确保你(大体上)明白我们讲过的每一个文件夹。
 
-For extra credit, find some Vim plugins you use and look at how they structure
-their files.
+作为额外的加分，找一些你正在用的Vim插件看看它们如何组织代码文件。

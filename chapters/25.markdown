@@ -1,113 +1,99 @@
-Numbers
+数字
 =======
 
-Now it's time to start taking a closer look at the different types of variables
-you can use.  First we'll go over Vim's numeric types.
+现在是时候开始深入讨论你能用到的变量类型。首先从数值类型开始吧。
 
-Vimscript has two types of numeric variables: Numbers and Floats.  A Number is
-a 32 bit signed integer.  A Float is a floating point number.
+Vimscript有两种数值类型：Number和Float。一个Number是32位带符号整数。一个Float是浮点数。
 
-Number Formats
+数字(Number)形式
 --------------
 
-You can specify Numbers in a few different ways.  Run the following command:
+你可以通过一些不同的方式设置Number的格式。执行下面的命令：
 
     :::vim
     :echom 100
 
-No surprises here -- Vim displays `100`.  Now run this command:
+没什么好惊讶的 -- Vim显示`100`。现在执行下面的命令：
 
     :::vim
     :echom 0xff
 
-This time Vim displays `255`.  You can specify numbers in hex notation by
-prefixing them with `0x` or `0X`.  Now run this command:
+这次Vim显示`255`。你可以加`0x`或`0X`前缀来指定16进制的数字。现在执行下面的命令：
 
     :::vim
     :echom 010
 
-You can also use octal by starting a number with a `0`.  Be careful with this,
-because it's easy to make mistakes.  Try the following commands:
+你也可以加`0`前缀来使用八进制。不过由于容易混淆，用的时候要保持头脑清醒。尝试执行下面的命令：
 
     :::vim
     :echom 017
     :echom 019
 
-Vim will print `15` for the first command, because `17` in octal is equal to
-`15` in decimal.  For the second command Vim treats it as a decimal number, even
-though it starts with a `0`, because it's not a valid octal number.
+第一个命令中，Vim将打印出`15`，因为`17`在八进制中等于十进制的`15`。
+在第二个命令中，Vim把数字的进制当作十进制，即使它以`0`开头，因为它不可能是一个八进制数字。
 
-Because Vim silently does the wrong thing in this case, I'd recommend avoiding
-the use of octal numbers when possible.
+因为Vim会一声不吭地处理掉这样的错误，我建议尽量避免使用八进制数字。
 
-Float Formats
+浮点数(Float)格式
 -------------
 
-Floats can also be specified in multiple ways.  Run the following command:
+Float也可以用许多方式进行定制。执行下面的命令：
 
     :::vim
     :echo 100.1
 
-Notice that we're using `echo` here and not `echom` like we usually to.  We'll
-talk about why in a moment.
+注意这里我们使用了`echo`而不是更常用的`echom`。待会我会解释为什么这样做(译注：当然你现在可以试试看)。
 
-Vim displays `100.1` as expected.  You can also use exponential notation.  Run
-this command:
+Vim如愿输出了`100.1`。你也可以指定指数形式。执行下面命令：
 
     :::vim
     :echo 5.45e+3
 
-Vim displays `5450.0`.  A negative exponent can also be used.  Run this command:
+Vim输出`5450.0`。也可以用负的指数。执行下面命令：
 
     :::vim
     :echo 15.45e-2
 
-Vim displays `0.1545`.  The `+` or `-` before the power of ten is optional. If
-it's omitted then it's assumed to be positive.  Run the following command:
+Vim输出`0.1545`。在10的幂前面的`+`或`-`是可选的。如果没有，就默认为正数。执行下面的命令：
 
     :::vim
     :echo 15.3e9
 
-Vim will display `1.53e10`, which is equivalent.  The decimal point and number
-after it are *not* optional.  Run the following command and see that it crashes:
+Vim将输出等价的`1.53e10`。小数点和小数点后面的数字是*必须要有*的。执行下面命令并看它为何出错：
 
     :::vim
     :echo 5e10
 
-Coercion
+强制转换
 --------
 
-When you combine a Number and a Float through arithmetic, comparison, or any
-other operation Vim will cast the Number to a Float, resulting in a Float.  Run
-the following command:
+当你在运算，比较或其他操作中混合使用Number和Float类型，Vim将把Number转换成Float，
+以Float格式作为结果。执行下面命令：
 
     :::vim
     :echo 2 * 2.0
 
-Vim displays `4.0`.
+Vim输出`4.0`。
 
-Division
+除法
 --------
 
-When dividing two Numbers, the remainder is dropped.  Run the following command:
+在两个Number之间的除法中，余数会被丢弃。执行下面命令：
 
     :::vim
     :echo 3 / 2
 
-Vim displays `1`.  If you want Vim to perform floating point division one of the
-numbers needs to be a Float, which will cause the other one to be coerced to
-a Float as well.  Run this command:
+Vim输出`1`。如果你希望Vim使用浮点数除法，至少有一个数字必须是Float，
+这样剩下的数字也会被转换成浮点数。执行下面命令：
 
     :::vim
     :echo 3 / 2.0
 
-Vim displays `1.5`.  The `3` is coerced to a Float, and then normal floating
-point division is performed.
+Vim输出`1.5`。`3`被强制转换成一个浮点数，然后运行了普通的浮点数除法。
 
-Exercises
+练习
 ---------
 
-Read `:help Float`.  When might floating point number not work in Vimscript?
+阅读`:help Float`。什么情况下在Vimscript中不能用浮点数？
 
-Read `:help floating-point-precision`.  What might this mean if you're writing
-a Vim plugin that deals with floating point numbers?
+阅读`:help floating-point-precision`。这意味着你在写一个处理浮点数的Vim插件时需要注意什么？

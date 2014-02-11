@@ -1,107 +1,90 @@
-Normal
+Normal命令
 ======
 
-So far we've covered some of the most useful Vimscript commands, but what about
-all the stuff you do on a daily basis in normal mode?  Can we somehow use all
-the knowledge we have from editing text in our scripting?
+目前为止我们已经介绍了几个最为常用的Vimscript命令，但都跟日常中在normal模式下处理文本的方式无关。
+有没有一种办法能把我们的脚本跟日常的文本编辑命令结合起来呢？
 
-The answer is: "of course".  We've seen the `normal` command before, and now
-it's time to revisit it in a bit more detail.  Run the following command:
+答案显然是肯定的。之前我们已经见过`normal`命令，是时候更详细地介绍它了。
+执行下面的命令：
 
     :::vim
     :normal G
 
-Vim will move your cursor to the last line in the current file, just like
-pressing `G` in normal mode would.  Now run the following command:
+Vim将把你的光标移到当前文件的最后一行，就像是在normal模式里按下`G`。现在执行下面命令：
 
     :::vim
     :normal ggdd
 
-Vim will move to the first line in the file (`gg`) and then delete it (`dd`).
+Vim将移动到文件的第一行(`gg`)并删除它(`dd`)。
 
-The `normal` command simply takes a sequence of keys and pretends they were
-typed in normal mode.  Seems simple enough.
+`normal`命令简单地接受一串键值并当作是在normal模式下输入的。就是那么简单！
 
-Avoiding Mappings
+避免映射
 -----------------
 
-Run the following command to map the `G` key to something else:
+执行下面的命令来映射`G`键到别的东西：
 
     :::vim
     :nnoremap G dd
 
-Now pressing `G` in normal mode will delete a line.  Try this command:
+现在在normal模式按下`G`将删除一整行。试试这个命令：
 
     :::vim
     :normal G
 
-Vim will delete the current line.  The `normal` command will take into account
-any mappings that exist.
+Vim将删除当前行。`normal`命令将顾及当前的所有映射。
 
-This means that we need something like the `nnoremap` version of `nmap` for
-`normal`, otherwise we'll never be able to use it since we can't know what keys
-our users have mapped.
+这意味着我们需要给`normal`提供类似于`nnoremap`之于`nmap`的版本，
+否则我们没法使用它——考虑到我们猜测不了用户的映射方式。
 
-Luckily Vim has a `normal!` command that does exactly this.  Run this command:
+幸好Vim真的有这样的命令叫`normal!`。执行这个命令：
 
     :::vim
     :normal! G
 
-This time Vim moves to the bottom of the file even though `G` has been mapped.
+这次Vim将移动光标到文件底部，即使`G`已经被映射了。
 
-When writing Vim scripts you should **always** use `normal!`, and **never** use
-plain old `normal`.  You can't trust what keys your users will have mapped in
-their `~/.vimrc` files.
+在写Vim脚本时，你应该*总是*使用`normal!`，*永不*使用`normal`。不要信任用户在`~/.vimrc`中的映射。
 
-Special Characters
+特殊字符
 ------------------
 
-If you play around with `normal!` long enough you'll probably notice a problem.
-Try the following command:
+如果你使用`normal!`一段时间了，就很可能注意到一个问题。试试下面的命令：
 
     :::vim
     :normal! /foo<cr>
 
-At first glance it may seem like this should perform a search for `foo`, but
-you'll see that it doesn't work.  The problem is that `normal!` doesn't parse
-special character sequences like `<cr>`.
+第一眼看上去它应该会开始搜索`foo`，但你将看到它不会正常工作。
+问题在于`normal!`不会解析像`<cr>`那样的特殊字符序列。
 
-In this case Vim thinks you wanted to search for the character sequence "f, o,
-o, left angle bracket, c, r, right angle bracket", and doesn't realize that you
-even pressed return to perform the search!  We'll talk about how to get around
-this in the next chapter.
+于是，Vim认为你想要搜索字符串序列"foo<cr>"，没有意识到你甚至按下了回车来进行搜索！
+(译注：原文为you even pressed return to perform the search! 按后文的意思应该是没有按下return,待问作者)
+我们将在下一章讨论如何应对这个问题。
 
-Exercises
+练习
 ---------
 
-Read `:help normal`.  The end of it will hint at the topic of the next chapter.
+阅读`:help normal`。在最后部分，你将获得关于下一章主题的提示。
 
-Extra Credit
+附加题
 ------------
 
-If you're not feeling up for a challenge, skip this section.  If you are, good
-luck!
+如果你还没准备好面对挑战，跳过这一节。如果你够胆，祝你好运！
 
-Recall what `:help normal` said about undo.  Try to make a mapping that will
-delete two lines but let you undo each deletion separately.  `nnoremap <leader>d
-dddd` is a good place to start.
+重温`:help normal`关于undo的部分。尝试设计一个删除两行却能单独撤销每次删除的映射。
+建议从`nnoremap <leader>d dddd`开始吧。
 
-You won't actually need `normal!` for this (`nnoremap` will suffice), but it
-illustrates a good point: sometimes reading about one Vim command can spark an
-interest in something unrelated.
+这次你并不真的需要`normal!`(`nnoremap`就够了)，
+但是它揭示了一点：有时阅读一个Vim命令的文档可以激发关于别的内容的奇思妙想。
 
-If you've never used the `helpgrep` command you'll probably need it now.  Read
-`:help helpgrep`.  Pay attention to the parts about how to navigate between the
-matches.
+如果你未尝使用过`helpgrep`命令，那就是时候用上它了。阅读`:help helpgrep`。
+留心关于怎样在匹配内容中浏览的部分。
 
-Don't worry about patterns yet, we're going to cover them soon.  For now it's
-enough to know that you can use something like `foo.*bar` to find lines
-containing that regex in the documentation.
+暂时先别纠结模式(patterns)，我们很快就要谈到它们。
+现在只需了解你可以用类似`foo.*bar`来查找文档中包括该正则模式的行。
 
-Unfortunately `helpgrep` can be frustrating at times because you need to know
-what words to search for before you can find them!  I'll cut you some slack and
-tell you that in this case you're looking for a way to break Vim's undo sequence
-manually, so that the two deletes in your mapping can be undone separately.
+不幸的是，`helpgrep`会不时给你带来挫折感，因为为了找到某些词，你需要懂得去搜索某些词。
+我会帮你省下些无用功，这次你得查找到一种手工修改Vim的撤销序列的方法，
+这样你映射的两个删除才能独立地撤销。
 
-In the future, be pragmatic.  Sometimes Google is quicker and easier when you
-don't know exactly what you're after.
+在以后你要灵活变通(pragmatic)。有时在你迷惘徘徊的时候，Google一下，你就知道。

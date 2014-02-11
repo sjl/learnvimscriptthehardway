@@ -25,9 +25,9 @@
 
 `~/.vimrc`文件包含了Vimscript代码，每次启动Vim时，Vim都会自动执行其中的代码。
 
-在Linux和Mac OS X中，这个文件位于你的home文件夹，并已`.vimrc`命名。
+在Linux和Mac OS X中，这个文件位于你的home文件夹，并以`.vimrc`命名。
 
-在Windows中，这个文件位于你的home文件夹，并已`_vimrc`命名。
+在Windows中，这个文件位于你的home文件夹，并以`_vimrc`命名。
 
 在*任意*系统中，在Vim中执行`:echo $MYVIMRC`命令可以快速得知这个文件的位置和名称。
 文件的路径会在屏幕的底部显示。

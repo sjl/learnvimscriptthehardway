@@ -1,26 +1,24 @@
-Comparisons
+比较
 ===========
 
-We've gone over conditionals, but `if` statements aren't very useful if we can't
-compare things.  Of course Vim lets us compare values, but it's not as
-straightforward as it may seem.
+我们已经学习了条件语句，但如果我们不能进行比较，`if`语句并不怎么有用。
+当然Vim允许我们比较值的大小，只是不会像看上去那么一目了然。
 
-Run the following commands:
+执行下面的命令：
 
     :::vim
     :if 10 > 1
     :    echom "foo"
     :endif
 
-Vim will, of course, display `foo`.  Now run these commands:
+显然，Vim会显示`foo`。现在执行下面的命令：
 
     :::vim
     :if 10 > 2001
     :    echom "bar"
     :endif
 
-Vim displays nothing, because `10` is not greater than `2001`.  So far
-everything works as expected.  Run these commands:
+Vim什么都不显示，因为`10`不比`2001`大。目前为止，一切正常。运行下面命令：
 
     :::vim
     :if 10 == 11
@@ -29,8 +27,7 @@ everything works as expected.  Run these commands:
     :    echom "second"
     :endif
 
-Vim displays `second`.  Nothing surprising here.  Let's try comparing strings.
-Run these commands:
+Vim显示`second`。没什么好惊讶的。让我们试试比较字符串。执行下面命令：
 
     :::vim
     :if "foo" == "bar"
@@ -39,13 +36,12 @@ Run these commands:
     :    echom "two"
     :endif
 
-Vim echoes `two`.  There's still nothing surprising, so what was I going on
-about at the beginning of the chapter?
+Vim输出`two`。还是没什么好惊讶的，所以我开头说的(译注：Vim的比较不像看上去那么直白)到底是指什么呢？
 
-Case Sensitivity
+大小写敏感
 ----------------
 
-Run the following commands:
+执行下面的命令：
 
     :::vim
     :set noignorecase
@@ -55,8 +51,8 @@ Run the following commands:
     :    echom "vim is case sensitive"
     :endif
 
-Vim evaluates the `elseif`, so apparently Vimscript is case sensitive.  Good to
-know, but nothing earth-shattering.  Now run these commands:
+Vim执行`elseif`分句,所以显然Vimscript是大小写敏感的。有道理，但没什么好震惊的。
+现在执行下面命令：
 
     :::vim
     :set ignorecase
@@ -66,28 +62,24 @@ know, but nothing earth-shattering.  Now run these commands:
     :    echom "this must be the one"
     :endif
 
-**Whoa**.  Stop right there.  Yes, you saw that right.
+**啊！** 就在这里停下来。是的，你所见属实。
 
-**The behavior of `==` depends on a user's settings.**
+**`==`的行为取决于用户的设置。**
 
-I promise I'm not messing with you.  Try it again and see.  I'm not kidding,
-I can't make this stuff up.
+我发誓我没忽悠你。你再试试看看。我没开玩笑，这不是我干的。
 
-Code Defensively
+防御性编程
 ----------------
 
-What does this mean?  It means that you can *never* trust the `==` comparison
-when writing a plugin for other people to use.  A bare `==` should *never*
-appear in your plugins' code.
+这意味着什么？意味着在为别人开发插件时，你*不能*信任`==`。
+一个不加包装的`==`*不能*出现在你的插件代码里。
 
-This idea is the same as the "`nmap` versus `nnoremap`" one.  *Never* trust your
-users' settings.  Vim is old, vast, and complicated.  When writing a plugin you
-*have* to assume that users will have every variation of every setting.
+这个建议就像是"`nmap` VS `nnoremap`"一样。*永远不要*猜测你的用户的配置。
+Vim既古老，又博大艰深。在写插件时，你*不得不*假定用户们的配置五花八门，千变万化。
 
-So how can you get around this ridiculousness?  It turns out that Vim has *two
-extra sets* of comparison operators to deal with this.
+所以怎样才能适应这荒谬的现实？好在Vim有额外两种比较操作符来处理这个问题。
 
-Run the following commands:
+执行下面的命令：
 
     :::vim
     :set noignorecase
@@ -97,8 +89,7 @@ Run the following commands:
     :    echom "second"
     :endif
 
-Vim displays `first` because `==?` is the "case-insensitive no matter what the
-user has set" comparison operator.  Now run the following commands:
+Vim显示`first`因为`==?`是"无论你怎么设都大小写*不敏感*"比较操作符。现在执行下面的命令：
 
     :::vim
     :set ignorecase
@@ -108,29 +99,22 @@ user has set" comparison operator.  Now run the following commands:
     :    echom "two"
     :endif
 
-Vim displays `two` because `==#` is the "case-sensitive no matter what the user
-has set" comparison operator.
+Vim显示`two`因为`==#`是"无论你怎么设都大小写*敏感*"比较操作符。
 
-The moral of this story is that you should *always* use explicit case sensitive
-or insensitive comparisons.  Using the normal forms is *wrong* and it *will*
-break at some point.  Save yourself the trouble and type the extra character.
+故事的最后告诉我们一个道理：你应该*总是*用显式的大小写敏感或不敏感比较。
+使用常规的形式是*错的*并且它*终究*会出错。打多一下就能拯救你自己于焦头烂额中。
 
-When you're comparing integers this distinction obviously doesn't matter.
-Still, I feel that it's better to use the case-sensitive comparisons everywhere
-(even where they're not strictly needed), than to forget them in a place that
-they *are* needed.
+当你比较整数时，这点小不同不会有什么影响。
+不过，我还是建议每一次都使用大小写敏感的比较(即使不一定需要这么做)，好过该用的时候*忘记*用了。
 
-Using `==#` and `==?` with integers will work just fine, and if you change them
-to strings in the future it will work correctly.  If you'd rather use `==` for
-integers that's fine, just remember that you'll need to change the comparison if
-you change them to strings in the future.
+在比较整数时使用`==#`或`==?`都可以，而且将来一旦你改成字符串间的比较，它还会正确工作。
+如果你真想用`==`比较整数也不是不行，不过要铭记，一旦被改成字符串间的比较,你需要修改比较操作符。
 
-Exercises
+练习
 ---------
 
-Play around with `:set ignorecase` and `:set noignorecase` and see how various
-comparisons act.
+尝试`:set ignorecase`和`:set noignorecase`，看看在不同状态下比较的表现。
 
-Read `:help ignorecase` to see why someone might set that option.
+阅读`:help ignorecase`来看看为什么有的人设置了这个选项。
 
-Read `:help expr4` to see all the available comparison operators.
+阅读`:help expr4`看看所有允许的比较操作符。

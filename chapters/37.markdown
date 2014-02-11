@@ -1,65 +1,57 @@
-Dictionaries
+字典
 ============
 
-The last type of Vimscript variable we'll talk about is the dictionary.
-Vimscript dictionaries are similar to Python's dicts, Ruby's hashes, and
-Javascript's objects.
+我们讲到的最后一种Vimscript类型将是字典。
+Vimscript字典类似于Python中的dict，Ruby中的hash，和Javascript中的object。
 
-Dictionaries are created using curly brackets.  Values are heterogeneous, but
-*keys are always coerced to strings*.  You didn't think things were going to be
-*completely* sane, did you?
+字典用花括号创建。值是异质的，但*键会被强制转换成字符串*。就是这么简单，你没想到吧？
 
-Run this command:
+执行这个命令：
 
     :::vim
     :echo {'a': 1, 100: 'foo'}
 
-Vim displays `{'a': 1, '100': 'foo'}`, which shows that Vimscript does indeed
-coerce keys to strings while leaving values alone.
+Vim显示`{'a':1,'100':'foo'}`，这说明Vimscript的确把键强制转换为字符串，同时保留值不变。
 
-Vimscript avoids the stupidity of the Javascript standard and lets you use
-a comma after the last element in a dictionary.  Run the following command:
+Vimscript避免了Javascript标准的蠢笨之处，允许你在字典的最后一个元素后留下一个逗号。
+(译注：在Javascript的标准中，最后一个元素后面不能留下一个逗号。
+但在Firefox里，留下那个逗号是允许的，不过这是Firefox的问题。)
+执行下面的命令：
 
     :::vim
     :echo {'a': 1, 100: 'foo',}
 
-Once again Vim displays `{'a': 1, '100': 'foo'}`.  You should *always* use the
-trailing comma in your dictionaries, *especially* when they're defined on
-multiple lines, because it will make adding new entries less error-prone.
+Vim再次显示`{'a':1,'100':'foo'}`(译注：结尾小逗号不见了)。你应该*总是*在字典里留下一个多余的逗号，
+*尤其*是当字典的定义跨越多行的时候，这样增加新项的时候将不容易犯错。
 
-Indexing
+索引
 --------
 
-To look up a key in a dictionary you use the same syntax as most languages.  Run
-this command:
+查找字典中的一个值的语法跟大多数语言是一样的。执行这个命令：
 
     :::vim
     :echo {'a': 1, 100: 'foo',}['a']
 
-Vim displays `1`.  Try it with a non-string index:
+Vim显示`1`。试试使用不是字符串的索引：
 
     :::vim
     :echo {'a': 1, 100: 'foo',}[100]
 
-Vim coerces the index to a string before performing the lookup, which makes
-sense since keys can only ever be strings.
+Vim会在查找之前把索引强制转换成字符串，因为键只能是字符串，这么做是合理的。
 
-Vimscript also supports the Javascript-style "dot" lookup when the key is
-a string consisting only of letters, digits and/or underscores.  Try the
-following commands:
+当键仅由字母，数字和/或下划线组成时，Vimscript也支持Javascript风格的"点"查找。
+试试下面的命令：
 
     :::vim
     :echo {'a': 1, 100: 'foo',}.a
     :echo {'a': 1, 100: 'foo',}.100
 
-Vim displays the correct element in both cases.  How you choose to index your
-dictionaries is a matter of taste and style.
+两种情况下，Vim都显示了正确的元素。使用哪种索引字典的方式取决于你自己的偏好。
 
-Assigning and Adding
+赋值和添加
 --------------------
 
-Adding entries to dictionaries is done by simply assigning them like variables.
-Run this command:
+像对待变量一样赋值给字典中的项，就可以在字典中轻松地添加新的项。
 
     :::vim
     :let foo = {'a': 1}
@@ -67,14 +59,12 @@ Run this command:
     :let foo.b = 200
     :echo foo
 
-Vim displays `{'a': 100, 'b': 200}`, which shows that assigning and adding
-entries both work the same way.
+Vim显示`{'a': 100, 'b': 200}`。赋值和添加一个新项的方式是一样的。
 
-Removing Entries
+移除项
 ----------------
 
-There are two ways to remove entries from a dictionary.  Run the following
-commands:
+有两种方法可以移除字典中的项。执行下面的命令：
 
     :::vim
     :let test = remove(foo, 'a')
@@ -82,70 +72,60 @@ commands:
     :echo foo
     :echo test
 
-Vim displays `{}` and `100`.  The `remove` function will remove the entry with
-the given key from the given dictionary and return the removed value.  The
-`unlet` command also removes dictionary entries, but you can't use the value.
+Vim显示`{}`和`100`。`remove`函数将移除给定字典的给定键对应的项，并返回被移除的值。
+`unlet`命令也能移除字典中的项，只是不返回值。
 
-You cannot remove nonexistent entries from a dictionary.  Try running this
-command:
+你不能移除字典中不存在的项。试试执行这个命令：
 
     :::vim
     :unlet foo["asdf"]
 
-Vim throws an error.
+Vim抛出一个错误。
 
-The choice of `remove` or `unlet` is mostly a matter of personal taste.  If
-pressed I'd recommend using `remove` everywhere because it's more flexible than
-`unlet`.  `remove` can do anything `unlet` can do but the reverse isn't true, so
-you can always be consistent if you use `remove`.
+选择`remove`还是`unlet`很大程度上取决于个人偏好。如果非要我说，我推荐使用`remove`，
+因为它比`unlet`更灵活。`remove`可以做任何`unlet`能做的事，反过来不成立。
+所以选择`remove`可以一招鲜，吃遍天。
 
-Dictionary Functions
+字典函数
 --------------------
 
-Like lists, Vim has a number of built-in functions for working with
-dictionaries.  Run the following command:
+就像列表，Vim有许许多多内置的字典函数。执行下面的命令：
 
     :::vim
     :echom get({'a': 100}, 'a', 'default')
     :echom get({'a': 100}, 'b', 'default')
 
-Vim displays `100` and `default`, just like the `get` function for lists.
+Vim显示`100`和`default`，如同列表版本的`get`函数.
 
-You can also check if a given key is present in a given dictionary.  Run this
-commands:
+你也可以检查给定字典里是否有给定的键。执行这个命令：
 
     :::vim
     :echom has_key({'a': 100}, 'a')
     :echom has_key({'a': 100}, 'b')
 
-Vim displays `1` and `0`.  Remember that Vimscript treats `0` as falsy and any
-other number as truthy.
+Vim显示`1`和`0`。不要忘了，Vimscript把`0`当作假而其他数字则是真。
 
-You can pull the key-value pairs out of a dictionary with `items`.  Run this
-command:
+你可以用`items`从一个字典中获取对应的键值对，执行这个命令：
 
     :::vim
     :echo items({'a': 100, 'b': 200})
 
-Vim will display a nested list that looks something like `[['a', 100], ['b',
-200]]`.  As far as I can tell Vimscript dictionaries are *not* guaranteed to be
-ordered, so don't expect that the items you get out of an `items` call will be
-in a specific order!
+Vim将显示`[['a',100],['b',200]]`这样的嵌套列表。到目前为止，Vimscript字典*不一定*是有序的，
+所以不要指望`items`的返回结果是有序的！
 
-You can get just the keys or just the values with the `keys` and `values`
-functions.  They work as expected -- look them up.
+你可以用`keys`返回字典的所有的键和`values`返回所有的值。它们的作用一如其名——你可以查一下。
 
-Exercises
+练习
 ---------
 
-Read `:help Dictionary`.  All of it.  Notice the capital `D`.
+阅读`:help Dictionary`。看完它。注意大写`D`。
 
-Read `:help get()`.
+阅读`:help get()`.
 
-Read `:help has_key()`.
+阅读`:help has_key()`.
 
-Read `:help items()`.
+阅读`:help items()`.
 
-Read `:help keys()`.
+阅读`:help keys()`.
 
-Read `:help values()`.
+阅读`:help values()`.

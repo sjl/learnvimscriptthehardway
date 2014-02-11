@@ -1,85 +1,75 @@
-Paths
+路径
 =====
 
-Vim is a text editor, and text editors (usually) work with text files.  Text
-files live on filesystems, and to specify files we use paths.  Vimscript has
-a few built-in utilities that can be extremely helpful when you need to work
-with paths.
+Vim是一个文本编辑器，而文本编辑器(经常)处理文本文件。文本文件储存在文件系统中，
+而我们使用路径来描述文件。Vimscript有一些内置的方法会在你需要处理路径时帮上大忙。
 
-Absolute Paths
+绝对路径
 --------------
 
-Sometimes it's handy to be able to get the absolute path of a certain file for
-use with external scripts.  Run the following commands:
+有时外部脚本也需要获取特定文件的绝对路径名。执行下面的命令：
 
     :::vim
     :echom expand('%')
     :echom expand('%:p')
     :echom fnamemodify('foo.txt', ':p')
 
-The first command displays the relative path of whatever file you're currently
-editing.  `%` means "the current file".  Vim supports a bunch of other strings
-you can use with `expand()` as well.
+第一个命令显示我们正在编辑的文件的相对路径。`%`表示"当前文件"。
+Vim也支持其他一些字符串作为`expand()`的参数。
 
-The second command displays the full, absolute path of that file.  The `:p` in
-the string tells Vim that you want the absolute path.  There are a ton of other
-modifiers you can use.
+第二个命令显示当前文件的完整的绝对路径名。字符串中的`:p`告诉Vim你需要绝对路径。
+这里也有许多别的修饰符可以用到。
 
-The third command displays an absolute path to the file `foo.txt` in the current
-directory, regardless of whether that file actually exists.  `fnamemodify()` is
-a Vim function that's more flexible than `expand()` in that you can specify any
-file name, not just one of `expand()`'s special strings.
+第三个命令显示了当前文件夹下的文件`foo.txt`的绝对路径，无论文件是否存在。(译注：试一下看看文件不存在的情况？)
+`fnamemodify()`是一个比`expand()`灵活多了的Vim函数，
+你可以指定任意文件名作为`fnamemodify()`的参数，而不仅仅是`expand()`所需要的那种特殊字符串。
 
-Listing Files
+列出文件
 -------------
 
-You might also want to get a listing of files in a specific directory.  Run the
-following command:
+你可能想要得到一个特定文件夹下的文件列表。执行下面的命令：
 
     :::vim
     :echo globpath('.', '*')
 
-Vim will display all of the files and directories in the current directory.  The
-`globpath()` function returns a string, with each name separated by a newline.
-To get a list you'll need to `split()` it yourself.  Run this command:
+Vim将输出当前目录下所有的文件和文件夹。`globpath()`函数返回一个字符串，
+其中每一项都用换行符隔开。为了得到一个列表，你需要自己去`split()`。执行这个命令：
 
     :::vim
     :echo split(globpath('.', '*'), '\n')
 
-This time Vim displays a Vimscript list containing each path.  If you've got
-newlines in your filenames you're on your own, sorry.
+这次Vim显示一个包括各个文件路径的Vimscript列表。
+如果你的文件名里包括了换行符，那就只能由你自己想办法了。
 
-`globpath()`'s wildcards work mostly as you would expect.  Run the following
-command:
+`globpath()`的通配符(wildcards)的工作方式就像你所想的一样。执行下面的命令：
 
     :::vim
     :echo split(globpath('.', '*.txt'), '\n')
 
-Vim displays a list of all `.txt` files in the current directory.
+Vim显示一个当前文件夹下的所有`.txt`文件组成的列表。
 
-You can recursively list files with `**`.  Run this command:
+你可以用`**`递归地列出文件。执行这个命令：
 
     :::vim
     :echo split(globpath('.', '**'), '\n')
 
-Vim will list all files and directories under the current directory.
+Vim将列出当前文件夹下的所有文件及文件夹。
 
-`globpath()` is *extremely* powerful.  You'll learn more when you complete this
-chapter's exercises.
+`globpath()`*非常地*强大。在你完成本章练习后，你将学到更多内容。
 
-Exercises
+练习
 ---------
 
-Read `:help expand()`.
+阅读`:help expand()`.
 
-Read `:help fnamemodify()`.
+阅读`:help fnamemodify()`.
 
-Read `:help filename-modifiers`.
+阅读`:help filename-modifiers`.
 
-Read `:help simplify()`.
+阅读`:help simplify()`.
 
-Read `:help resolve()`.
+阅读`:help resolve()`.
 
-Read `:help globpath()`.
+阅读`:help globpath()`.
 
-Read `:help wildcards`.
+阅读`:help wildcards`.

@@ -1,7 +1,7 @@
-Function Arguments
+函数参数
 ==================
 
-Vimscript functions can, of course, take arguments.  Run the following commands:
+毫无疑问，Vimscript函数可以接受参数。执行下面的命令：
 
     :::vim
     :function DisplayName(name)
@@ -9,19 +9,16 @@ Vimscript functions can, of course, take arguments.  Run the following commands:
     :  echom a:name
     :endfunction
 
-Run the function:
+执行下面的函数：
 
     :::vim
     :call DisplayName("Your Name")
 
-Vim will display two lines: `Hello!  My name is:` and `Your Name`.
+Vim将显示两行：`Hello!  My name is:` 和 `Your Name`。
 
-Notice the `a:` in the name of the variable that we passed to the `echom`
-command.  This represents a variable scope, which we talked about in an earlier
-chapter.
+注意我们传递给`echom`命令的参数前面的`a:`。这表示一个变量的作用域，在前几章(译注：第20章)我们曾讲过。
 
-Let's remove this scope prefix and see how Vim reacts.  Run the following
-commands:
+让我们试一下不带作用域前缀会怎么样。执行下面的命令：
 
     :::vim
     :function UnscopedDisplayName(name)
@@ -30,17 +27,14 @@ commands:
     :endfunction
     :call UnscopedDisplayName("Your Name")
 
-This time Vim complains that it can't find the variable `name`.
+这次Vim抱怨说它找不到变量`name`。
 
-When you write a Vimscript function that takes arguments you *always* need to
-prefix those arguments with `a:` when you use them to tell Vim that they're in
-the argument scope.
+在写需要参数的Vimscript函数的时候，你*总需要*给参数加上前缀`a:`，来告诉Vim去参数作用域查找。
 
-Varargs
+可变参数
 -------
 
-Vimscript functions can optionally take variable-length argument lists like
-Javascript and Python.  Run the following commands:
+Vimscript函数可以设计为接受不定数目的参数，就像Javascript和Python中的一样。执行下面命令：
 
     :::vim
     :function Varg(...)
@@ -51,27 +45,21 @@ Javascript and Python.  Run the following commands:
 
     :call Varg("a", "b")
 
-This function shows us several things, so let's look at each one individually.
+这个函数向我们展示了许多东西，让我们来逐一审视。
 
-The `...` in the function definition tells Vim that this function can take any
-number of arguments.  This is like a `*args` argument in a Python function.
+函数定义中的`...`说明这个函数可以接受任意数目的参数。就像Python函数中的`*args`
 
-The first line of the function echoes the message `a:0` and displays `2`.  When
-you define a function that takes a variable number of arguments in Vim, `a:0`
-will be set to the number of extra arguments you were given.  In this case we
-passed two arguments to `Varg` so Vim displayed `2`.
+函数中的第一行为输出消息`a:0`，结果显示`2`。当你在Vim中定义了一个接受可变参数的函数，
+`a:0`将被设置为你额外给的参数数量(译注：注意是额外的参数数量)。
+刚才我们传递了两个参数给`Varg`，所以Vim显示`2`。(译注：2 - 0 ==# 2)
 
-The second line echoes `a:1` which displays `a`.  You can use `a:1`, `a:2`, etc
-to refer to each extra argument your function receives.  If we had used `a:2`
-Vim would have displayed "b".
+第二行为输出`a:1`，结果显示`a`。你可以使用`a:1`,`a:2`等等来引用你的函数接受的每一个额外参数。
+如果我们用的是`a:2`，Vim就会显示"b"
 
-The third line is a bit trickier.  When a function has varargs, `a:000` will be
-set to a list containing all the extra arguments that were passed.  We haven't
-looked at lists quite yet, so don't worry about this too much.  You can't use
-`echom` with a list, which is why we used `echo` instead for that line.
+第三行有些费解。当一个函数可以接受可变参数，`a:000`将被设置为一个包括所有传递过来的额外参数的列表(list)。
+我们还没有讲过列表，所以不要太纠结于此。你不能对列表使用`echom`，因而在这里用`echo`代替。
 
-You can use varargs together with regular arguments too.  Run the following
-commands:
+你也可以将可变参数和普通参数一起用。执行下面的命令：
 
     :::vim
     :function Varg2(foo, ...)
@@ -83,13 +71,12 @@ commands:
 
     :call Varg2("a", "b", "c")
 
-We can see that Vim puts `"a"` into the named argument `a:foo`, and the rest are
-put into the list of varargs.
+我们可以看到Vim将`"a"`作为具名参数(named argument)`a:foo`的值，将余下的塞进可变参数列表中。
 
-Assignment
+赋值
 ----------
 
-Try running the following commands:
+试试执行下面的命令：
 
     :::vim
     :function Assign(foo)
@@ -99,8 +86,7 @@ Try running the following commands:
 
     :call Assign("test")
 
-Vim will throw an error, because you can't reassign argument variables.  Now run
-these commands:
+Vim将抛出一个错误，因为你不能对参数变量重新赋值。现在执行下面的命令：
 
     :::vim
     :function AssignGood(foo)
@@ -111,11 +97,11 @@ these commands:
 
     :call AssignGood("test")
 
-This time the function works, and Vim displays `Yep`.
+这次就可以了，Vim显示`Yep`。
 
-Exercises
+练习
 ---------
 
-Read the first two paragraphs of `:help function-argument`.
+阅读`:help function-argument`的前两段。
 
-Read `:help local-variables`.
+阅读`:help local-variables`。

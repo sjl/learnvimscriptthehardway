@@ -1,11 +1,10 @@
-Basic Regular Expressions
+基本的正则表达式
 =========================
 
-Vim is a text editor, which means that a great deal of your Vimscript code will
-be dedicated to working with text.  Vim has powerful support for regular
-expressions, but as usual there are some quirks.
+Vim是一个文本编辑器，这意味着大量的Vimscript代码将专注于处理文本。
+Vim对正则表达式有着强大的支持，尽管一如既往地也有着一些坑。
 
-Type the following text into a buffer:
+把下面的文本打到buffer中：
 
     :::text
     max = 10
@@ -17,191 +16,154 @@ Type the following text into a buffer:
 
     print "Done"
 
-This is the text we'll use to experiment with Vimscript's regex support.  It
-happens to be Python code, but don't worry if you don't know Python.  It's just
-an example.
+这个就是我们将用来测试Vimscript的正则支持的文本。它恰好是Python代码，但不要担心你看不懂Python。
+它只是一个例子。
 
-I'm going to assume that you know the basics of regular expressions.  If you
-don't you should stop reading this book and start reading [Learn Regex the Hard
-Way][regex] by Zed Shaw.  Come back when you're done with that.
+我会假定你懂得基本的正则表达式。如果你不懂，
+你应该暂停阅读本书并开始阅读Zed Shaw的[Learn Regex the Hard Way][regex]。
+(译注：暂无中文版，也可选择别的书，或者just Google it)
+在你看完后再继续。
 
 [regex]: http://regex.learncodethehardway.org/
 
-Highlighting
+高亮
 ------------
 
-Before we start we need to turn on search highlighting so we can see what we're
-doing.  Run the following command:
+在开始之前，先花点时间讲讲搜索高亮，这样我们可以让匹配的内容更明显。
 
     :::vim
     :set hlsearch incsearch
 
-`hlsearch` tells Vim to highlight all matches in a file when you perform
-a search, and `incsearch` tells Vim to highlight the *next* match while you're
-still typing out your search pattern.
+`hlsearch`让Vim高亮文件中所有匹配项，`incsearch`则令Vim在你正打着搜索内容时就高亮下一个匹配项
 
-Searching
+搜索
 ---------
 
-Put your cursor at the top of the file and run the following command:
+移动你的光标到文件顶部并执行下面命令：
 
     :::vim
     /print
 
-As you type in each letter, Vim will start highlighting them in the first line.
-When you press return to execute the search *all* the instances of `print` will
-be highlighted and your cursor will be moved to the next match.
+当你逐字母敲打时，Vim开始在第一行高亮它们。当你按下回车来进行搜索时，高亮*所有*的`print`，
+同时移动你的光标到下一处匹配。
 
-Now try running the following command:
+现在尝试执行下面的命令：
 
     :::vim
     :execute "normal! gg/print\<cr>"
 
-This will go to the top of the file and perform a search for `print`, putting us
-at the first match.  It does this using `:execute "normal! ..."` which we saw in
-the previous chapter.
+这将移动到文件顶部并开始搜索`print`，带我们到第一处匹配。
+用的是我们前一章看过的`:execute "normal! ..."`语法。
 
-To get to the second match in the file you can just add more commands onto the
-end of the string.  Run this command:
+要到达文件中的第二处匹配，你仅需在命令的结尾加一点别的。执行这个命令：
 
     :::vim
     :execute "normal! gg/print\<cr>n"
 
-Vim will put the cursor on the second `print` in the buffer (and all the matches
-will be highlighted).
+Vim将移动光标到buffer中的第二个`print`(同时高亮所有匹配)。
 
-Let's try going in the opposite direction.  Run this command:
+让我们尝试从反方向开始。执行这个命令：
 
     :::vim
     :execute "normal! G?print\<cr>"
 
-This time we move to the bottom of the file with `G` and use `?` to search
-backward instead of forward.
+这次我们用`G`移动到文件结尾并用`?`来反向搜索。
 
-All of these searching commands should be familiar -- we're mostly going over
-them to get you used to the `:execute "normal! ..."` idiom, because it will let
-you do anything you know how to do in vanilla Vim in your Vimscript code.
+所有的搜索命令应该已经烂熟于心 —— 我们在让你习惯`:execute "normal! ..."`惯用法时已经反复练习过，
+因为它让你在Vimscript代码中能够做日常在Vim里做的事。
 
-Magic
+魔力(Magic)
 -----
 
-The `/` and `?` commands actually take regular expressions, not just literal
-characters.  Run the following command:
+`/`和`?`命令能接受正则表达式，而不仅仅是普通字符。执行下面命令：
 
     :::vim
     :execute "normal! gg/for .+ in .+:\<cr>"
 
-Vim complains that the pattern is not found!  I told you that Vim supports
-regular expressions in searches, so what's going on?  Try the following command:
+Vim抱怨说找不到模式！我告诉过你Vim支持正则搜索，所以为何如此？试试下面命令：
 
     :::vim
     :execute "normal! gg/for .\\+ in .\\+:\<cr>"
 
-This time Vim highlights the "for" loop as we expected in the first place.  Take
-a minute and try to think about what exactly changed before moving on.  Remember
-that `execute` takes a String.
+这次Vim高亮"for"循环，如我们一开始所指望的。在继续阅读之前，花一分钟来想想为何如此。
+记住`execute`接受一个字符串。
 
-The answer is that there are two reasons we needed to write the command like we
-did:
+答案在此：我们需要这样写命令的原因有二：
 
-* First, `execute` takes a String, so the double backslashes we used turn into
-  single backslashes by the time they get to `normal!`.
-* Vim has *four* different "modes" of parsing regular expressions!  The default
-  mode requires a backslash before the `+` character to make it mean "1 or more
-  of the preceding character" instead of "a literal plus sign".
+* 首先，`execute`接受一个字符串，在调用`normal!`命令时，双反斜杠将转换成单反斜杠。
+* Vim有四种不同的解析正则表达式的"模式"！
+  默认模式下需要在`+`前加上一个反斜杠来让它表示"一或多个之前的字符"而不是"一个字面意义上的加号"。
 
-You can see this a bit easier by just running the search in Vim directly.  Type
-the following command and press return:
+直接在Vim里执行搜索，你很容易就注意到它们的不同，输入下面的命令并按下回车：
 
     :::vim
     /print .\+
 
-You can see the `\+` working its magic now.  The double backslashes were only
-used because we were passing the pattern as a String to `execute`.
+现在你可以看到`\+`的魔力了。双反斜杠仅仅在把模式作为字符串传递给`execute`时才需要。
 
-Literal Strings
+字面量字符串
 ---------------
 
-As we mentioned in the chapter on Strings, Vim allows you to use single quotes
-to define a "literal string" that passes through characters directly.  For
-example, the string `'a\nb'` is four characters long.
+正如我们在字符串那一章提到的，Vim允许你使用单引号来定义可以直接传递字符的字面量字符串。
+比如，字符串`'a\nb'`有四个字符长。
 
-Can we use literal strings to avoid having to type those double backslashes?
-Think about this for a minute or two before you move on, because the answer is
-a bit more complicated that you might think.
+我们可以使用字面量字符串来避免频繁敲打双重反斜杠吗？
+先思考这个问题一两分钟，毕竟答案恐怕比你所认为的要更复杂一些。
 
-Try running the following command (note the single quotes and single backslashes
-this time):
+试试执行下面的命令(注意这次的单引号和单反斜杠)：
 
     :::vim
     :execute 'normal! gg/for .\+ in .\+:\<cr>'
 
-Vim moves you to the top of the file but doesn't move you to the first match.
-Is this what you expected?
+Vim带你到文件的顶部却不再移动到第一个匹配的地方。你猜对了吗？
 
-The command doesn't work because we need the `\<cr>` in the pattern to be
-escaped into a real carriage return character, which tells the search command to
-actually run.  Because we're in a literal string, it's the equivalent of typing
-`/for .\+ in .\+:\<cr>` in vanilla Vim, which obviously isn't what we want.
+命令之所以不能工作，是因为我们需要模式中的`\<cr>`被转义成回车，来启动搜索。
+因为我们用的是字面量字符串，它并不等价于平常在Vim里键入`/for .\+ in .\+:\<cr>`，
+显然这是无法工作的。
 
-All hope is not lost, though!  Remember that Vim allows you to concatenate
-strings, so for larger commands we can use this to split apart the string into
-easier to read chunks.  Run the following command:
+别怕，方法还是比困难多！不要忘了Vim允许字符串连接，所以可以将命令分割成容易理解的一小段。
+执行下面的命令：
 
     :::vim
     :execute "normal! gg" . '/for .\+ in .\+:' . "\<cr>"
 
-This concatenates the three smaller strings before sending them to `execute`,
-and lets us use a literal string for the regex while using normal strings for
-everything else.
+这种方法可以在传递给`execute`之前把三小段字符串连接起来，
+而且我们可以为正则使用字面量字符串并为其他的使用一般的字符串。
 
-Very Magic
+更多的魔力(Very Magic)
 ----------
 
-You may be wondering about Vimscript's four different modes of regex parsing and
-how they're different from the regular expressions you're used to from languages
-like Python, Perl or Ruby.  You can read their documentation if you really want
-to, but if you want the sane, easy solution just read on.
+你可能会好奇Vimscript的四种不同的正则解析模式和它们跟Python，Perl或Ruby中的正则表达式有何不同。
+你可以阅读它们的文档，如果你乐意。不过如果你只想找到一种简单科学的解决办法，请继续读下去。
 
-Run the following command:
+执行下面的命令：
 
     :::vim
     :execute "normal! gg" . '/\vfor .+ in .+:' . "\<cr>"
 
-We've split the pattern out from the rest of the command into its own literal
-string again, and this time we started the pattern with `\v`.  This tells Vim to
-use its "very magic" regex parsing mode, which is pretty much the same as you're
-used to in any other programming language.
+我们又一次把正则表达式放在单独的字面量字符串里，而这次我们用`\v`来引导模式。
+这将告诉Vim使用它的"very magic"正则解析模式，而该模式就跟其他语言的非常相似。
 
-If you simply start all of your regular expressions with `\v` you'll never need
-to worry about Vimscript's three other crazy regex modes.
+如果你以`\v`开始你的所有正则表达式，你就不用再纠结Vimscript另外三种疯狂的正则模式了。
 
-Exercises
+练习
 ---------
 
-Read `:help magic` carefully.
+认真阅读`:help magic`。
 
-Read `:help pattern-overview` to see the kinds of things Vim regexes support.
-Stop reading after the character classes.
+阅读`:help pattern-overview`来看看Vim支持的正则类型。在看到character classes时停下来。
 
-Read `:help match`.  Try running the `:match Error /\v.../` command a few times
-by hand.
+阅读`:help match`。尝试手动执行几次`:match Error /\v.../`。
 
-Edit your `~/.vimrc` file to add a mapping that will use `match` to highlight
-trailing whitespace as an error.  A good key to use might be `<leader>w`.
+在你的`~/.vimrc`文件中加入使用`match`来高亮多余的空白为错误的映射。建议使用`<leader>w`。
 
-Add another mapping that will clear the match (perhaps `<leader>W`).
+加入另一个映射来清除匹配项(比如`<leader>W`)。
 
-Add a normal mode mapping that will automatically insert the `\v` for you
-whenever you begin a search.  If you're stuck remember that Vim's mappings are
-extremely simple and you just need to tell it which keys to press when you use
-the mapped key.
+加入一个normal模式下的会在进行搜索时自动插入`\v`的映射。
+如果你卡在这个练习上，不要忘了Vim的映射是非常简单的，你只需要告诉它把映射键转换成哪些键。
 
-Add the `hlsearch` and `incsearch` options to your `~/.vimrc` file, set however
-you prefer.
+在你的`~/.vimrc`文件中加入`hlsearch`和`incsearch`选项，随你所欲地设置它。
 
-Read `:help nohlsearch`.  Note that this is a *command* and *not* the "off mode"
-setting of `hlsearch`!
+阅读`:help nohlsearch`。注意这是一个*命令*并且*不是*`hlsearch`的"off mode"。
 
-Add a mapping to "stop highlighting items from the last search" to your
-`~/.vimrc` file.
+在你的`~/.vimrc`文件中加入消除最后一次搜索的匹配项的高亮的映射。

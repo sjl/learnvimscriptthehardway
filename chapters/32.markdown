@@ -1,247 +1,201 @@
-Case Study: Grep Operator, Part One
+实例研究：Grep 运算符(Operator)，第一部分
 ===================================
 
-In this chapter and the next we're going to walk through creating
-a fairly complicated piece of Vimscript.  We'll talk about several things we
-haven't seen before, as well as how some of the things we've studied fit
-together in practice.
+在本章和下一章中，我们将使用Vimscript来实现一个相当复杂的程序。我们将探讨一些闻所未闻的东西，
+也将在实战中把之前学过的东西联系起来。
 
-As you work through this case study make sure to look up anything unfamiliar
-with `:help`.  If you coast through without fully understanding everything, you
-won't learn much.
+在本实例研究中，遇到不熟悉的内容，你得用`:help`弄懂它。如果你只是走马观花，就将所获无多。
 
 Grep
 ----
 
-If you've never used `:grep` you should take a minute to read `:help :grep` and
-`:help :make` now.  Read `:help quickfix-window` if you've never used the
-quickfix window before.
+如果你未曾用过`:grep`，现在你应该花费一分钟读读`:help :grep`和`:help :make`。
+如果之前没用过quickfix window，阅读`:help quickfix-window`。
 
-In a nutshell: `:grep ...` will run an external grep program with any arguments
-you give, parse the result, and fill the quickfix list so you can jump to
-results inside Vim.
+简明扼要地说：`:grep ...`将用你给的参数来运行一个外部的grep程序，解析结果，填充quickfix列表，
+这样你就能在Vim里面跳转到对应结果。
 
-Our example is going to make `:grep` easier to invoke by adding a "grep
-operator" you can use with any of Vim's built-in (or custom!) motions to select
-the text you want to search for.
+我们将会添加一个"grep运算符"到任意Vim的内置(或自定义！)的动作中，来选择想要搜索的文本，
+让`:grep`更容易使用。
 
-Usage
+用法
 -----
 
-The first thing you should think about when creating any non-trivial piece of
-Vimscript is: "how will this functionality be used?".  Try to come up with
-a smooth, easy, intuitive way to invoke it.
+在写下每一个有意义的Vimscript程序的第一步，你需要思索一个问题：“它会被用户怎么使用呢？”。
+尝试构思出一种优雅，简易，符合直觉的调用方法。
 
-In this case I'll do that step for you:
+这次我会替你把这活干了：
 
-* We're going to create a "grep operator" and bind it to `<leader>g`. 
-* It will act like any other Vim operator and take a motion (like `w` or `i{`). 
-* It will perform the search immediately and open the quickfix window to show
-  the results.
-* It will *not* jump to the first result, because that can be jarring if the
-  first result isn't what you're expecting.
+* 我们将创造一个"grep运算符"并绑定到`<leader>g`。
+* 它将表现得同其他任意Vim运算符一样，还可以加入到组合键(比如`w`和`i{`)中。
+* 它将立刻开始搜索并打开quickfix窗口展示结果。
+* 它将*不会*跳到第一个结果，因为当第一个结果不是你想要的时候，这样做会困扰你。
 
-Some examples of how you might end up using it:
+一些你将怎么使用它的用例：
 
-* `<leader>giw`: Grep for the word under the cursor.
-* `<leader>giW`: Grep for the WORD under the cursor.
-* `<leader>gi'`: Grep for the contents of the single-quoted string you're
-  currently in.
-* `viwe<leader>g`: Visually select a word, extend the selection to the end of
-  the word after it, then grep for the selected text.
+* `<leader>giw`: Grep光标下的词(word)。
+* `<leader>giW`: Grep光标下的词的大写形式(WORD)。
+* `<leader>gi'`: Grep当前所在的单引号括住的词。
+* `viwe<leader>g`: 可视状态下选中一个词并拓展选择范围到下一词，然后Grep。
 
-There are many, *many* other ways to use this.  It may seem like it will take
-a lot of coding, but actually all we need to do is implement the "operator"
-functionality and Vim will handle the rest.
+有很多，*很多*其他的方法可以用它。看上去它好像需要写很多，很多代码，
+但事实上我们只需要实现"运算符"功能然后Vim就会完成剩下的工作。
 
-A Preliminary Sketch
+一个原型
 --------------------
 
-One thing that's sometimes helpful when writing tricky bits of Vimscript is to
-simplify your goal and implement *that* to get an idea of the "shape" your final
-solution will take.
+在埋头写下巨量(trickey bits)的Vimscript之前，有一个也许会帮上忙的方法是简化你的目标并实现*它*，
+来推测你最终解决方案可能的"外形"。
 
-Let's simplify our goal to: "create a mapping to search for the word under the
-cursor".  This is useful but should be easier, so we can get something running
-much faster.  We'll map this to `<leader>g` for now.
+让我们简化我们的目标为"创造一个映射来搜索光标下的词"。这有用而且应该更简单，所以我们能更快得到可运行的成果。
+目前我们将映射它到`<leader>g`。
 
-We'll start with a skeleton of the mapping and fill it in as we go.  Run this
-command:
+我们从一个映射骨架开始并逐渐填补它。执行这个命令：
 
     :::vim
     :nnoremap <leader>g :grep -R something .<cr>
 
-If you've read `:help grep` this should be pretty easy to understand.  We've
-looked at lots of mappings before, and there's nothing new here.
+如果你阅读过`:help grep`，你就能轻易理解这个命令。我们之前也看过许多映射，这里没有什么是新的。
 
-Obviously we're not done yet, so let's refine this mapping until it meets our
-simplified goal.
+显然我们还没做什么，所以让我们一步步打磨这个映射直到它符合我们的要求。
 
-The Search Term
+搜索部分
 ---------------
 
-First we need to search for the word under the cursor, not the string
-`something`.  Run the following command:
+首先我们需要搜索光标下的词，而不是`something`。执行下面的命令：
 
     :::vim
     :nnoremap <leader>g :grep -R <cword> .<cr>
 
-Now try it out.  `<cword>` is a special bit of text you can use in Vim's
-command-line mode, and Vim will replace it with "the word under the cursor"
-before running the command.
+现在试一下。`<cword>`是一个Vim的command-line模式的特殊变量，
+Vim会在执行命令之前把它替换为"光标下面的那个词"。
 
-You can use `<cWORD>` to get a WORD instead of a word.  Run this command:
+你可以使用`<cWORD>`来得到大写形式(WORD)。执行这个命令：
 
     :::vim
     :nnoremap <leader>g :grep -R <cWORD> .<cr>
 
-Now try the mapping when your cursor is over something like `foo-bar`.  Vim will
-grep for `foo-bar` instead of just part of the word.
+现在试试把光标放在诸如`foo-bar`的词上面。Vim将grep`foo-bar`而不是其中的一部分。
 
-There's still a problem with our search term: if there are any special shell
-characters in it Vim will happily pass them along to the external grep command,
-which will explode (or worse: do something terrible).
+我们的搜索部分还有一个问题：如果这里面有什么特殊的shell字符，Vim会毫不犹豫地传递给外部的grep命令。
+这样会导致程序崩溃(或更糟：铸成某些大错)。
 
-Go ahead and try this to make sure it breaks.  Type `foo;ls` into a file and run
-the mapping while your cursor is over it.  The grep command will fail, and Vim
-will actually run an `ls` command as well!  Clearly this could be bad if the
-word contained a command more dangerous than `ls`.
+让我们看看如何使它挂掉。输入`foo;ls`并把光标放上去执行映射。grep命令失败了，
+而Vim将执行`ls`命令！这肯定糟透了，如果词里包括比`ls`更危险的命令呢？
 
-To try to fix this we'll quote the argument in the grep call.  Run this command:
+为了解决这个问题，我们将调用参数用引号括起来。执行这个命令：
 
     :::vim
     :nnoremap <leader>g :grep -R '<cWORD>' .<cr>
 
-Most shells treat single-quoted text as (almost) literal, so our mapping is much
-more robust now.
+大多数shell把单引号括起来的内容当作(大体上)字面量，所以我们的映射现在更加健壮了。
 
-Escaping Shell Command Arguments
+转义Shell命令参数
 --------------------------------
 
-There's still one more problem with the search term.  Try the mapping on the
-word `that's`.  It won't work, because the single quote inside the word
-interferes with the quotes in the grep command!
+搜索部分还有一个问题。在`that's`上尝试这个映射。它不会工作，因为词里的单引号与grep命令的单引号发生了冲突！
 
-To get around this we can use Vim's `shellescape` function.  Read `:help
-escape()` and `:help shellescape()` to see how it works (it's pretty simple).
+为了解决问题，我们可以使用Vim的`shellescape`函数。
+阅读`:help escape()`和`:help shellescape()`来看它是怎样工作的(真的很简单)。
 
-Because `shellescape()` works on Vim strings, we'll need to dynamically build
-the command with `execute`.  First run the following command to transform the
-`:grep` mapping into `:execute "..."` form:
+因为`shellescape()`要求Vim字符串，我们需要用`execute`动态创建命令。
+首先执行下面命令来转换`:grep`映射到`:execute "..."`形式：
 
     :::vim
     :nnoremap <leader>g :execute "grep -R '<cWORD>' ."<cr>
 
-Try it out and make sure it still works.  If not, find any typos and fix them.
-Then run the following command, which uses `shellescape` to fix the search term:
+试一下并确信它可以工作。如果不行，找出拼写错误并改正。
+然后执行下面的使用了`shellescape`的命令。
 
     :::vim
     :nnoremap <leader>g :execute "grep -R " . shellescape("<cWORD>") . " ."<cr>
 
-Try it out by running it on a normal word like `foo`.  It will work properly.
-Now try it out on a word with a quote in it, like `that's`.  It still doesn't
-work!  What happened?
+在一般的词比如`foo`上执行这个命令试试。它可以工作。再到一个带单引号的词，比如`that's`，上试试看。
+它还是不行！为什么会这样？
 
-The problem is that Vim performed the `shellescape()` call *before* it expanded
-out special strings like `<cWORD>` in the command line.  So Vim shell-escaped
-the literal string `"<cWORD>"` (which did nothing but add single quotes to it)
-and then concatenated it with the strings of our `grep` command.
+问题在于Vim在拓展命令行中的特殊变量，比如`<cWORD>`，的*之前*，就已经执行了`shellescape()`。
+所以Vim shell-escaped了字面量字符串`"<cWORD>"`(什么都不做，除了给它添上一对单引号)并连接到我们的`grep`命令上。
 
-You can see this by running the following command:
+通过执行下面的命令，你可以亲眼目睹这一切。
 
     :::vim
     :echom shellescape("<cWORD>")
 
-Vim will output `'<cWORD>'`.  Note that those quotes are actually part of the
-string.  Vim has prepared it for use as a shell command argument.
+Vim将输出`'<cWORD>'`。注意引号也是输出字符串的一部分。Vim把它作为shell命令参数保护了起来。
 
-To fix this we'll use the `expand()` function to force the expansion of
-`<cWORD>` into the actual string *before* it gets passed to `shellescape`.
+为解决这个问题，我们将使用`expand()`函数来强制拓展`<cWORD>`为对应字符串，
+抢在它被传递给`shellescape`*之前*。
 
-Let's break this apart and see how it works, in steps.  Put your cursor over
-a word with a quote, like `that's`, and run the following command:
+让我们单独看看这一部分是怎么工作的。把你的光标移到带单引号的词(比如`that's`)上去，
+并执行下面命令：
 
     :::vim
     :echom expand("<cWORD>")
 
-Vim outputs `that's` because `expand("<cWORD>")` will return the current word
-under the cursor as a Vim string.  Now let's add `shellescape` back in:
+Vim输出`that's`，因为`expand("<cWORD>")`以Vim字符串的形式返回当前光标下的词。
+是时候加入`shellescape`的部分了：
 
     :::vim
     :echom shellescape(expand("<cWORD>"))
 
-This time Vim outputs `'that'\''s'`.  If this looks a little funny, you probably
-haven't had the pleasure of wrapping your brain around shell-quoting in all its
-insane glory.  For now, don't worry about it.  Just trust the Vim has taken the
-string from `expand` and escaped it properly.
+这次Vim输出`'that'\''s'`。
+如果觉得这看上去真可笑，你大概没有感受过看透了各种shell转义的疯狂形式后的淡定吧。
+目前，不用为此而纠结。就相信Vim接受了`expand`的输出并正确地转义了它。
 
-Now that we know how to get a fully-escaped version of the word under the
-cursor, it's time to concatenate it into our mapping!  Run the following
-command:
+目前我们已经得到了光标下的词的彻底转义版本。是时候连接它到我们的映射了！
+执行下面的命令：
 
     :::vim
     :nnoremap <leader>g :exe "grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
 
-Try it out.  This mapping won't break if the word we're searching for happens to
-contain strange characters.
+试一下。这个映射不再有问题，即使我们用它搜索带古怪符号的词。
 
-The process of starting with a trivial bit of Vimscript and transforming it
-little-by-little into something closer to your goal is one you'll find yourself
-using often.
+"从简单的Vimscript开始并一点点转变它直到达成你的目标"这样的工作方式将会被你一再取用。
 
-Cleanup
+整理整理
 -------
 
-There are still a couple of small things to take care of before our mapping is
-finished.  First, we said that we don't want to go to the first result
-automatically, and we can use `grep!` instead of plain `grep` to do that.  Run
-this command:
+在完成映射之前，还要处理一些小问题。首先，我们说过我们不想自动跳到第一个结果，
+所以要用`grep!`替换掉`grep`。执行下面的命令：
+
 
     :::vim
     :nnoremap <leader>g :execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>
 
-Try it out again and nothing will seem to happen.  Vim has filled the quickfix
-window with the results, but we haven't opened it yet.  Run the following
-command:
+再一次试试，发现什么都没发生。Vim用结果填充了quickfix窗口，我们却无法打开。
+执行下面的命令：
 
     :::vim
     :nnoremap <leader>g :execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
 
-Now try the mapping and you'll see that Vim automatically opens the quickfix
-window with the search results.  All we did was tack `:copen<cr>` onto the end
-of our mapping.
+现在试试这个映射，你将看到Vim自动打开了包含搜索结果的quickfix窗口。
+我们所做的仅仅是在映射的结尾续上`:copen<cr>`。
 
-As the finishing touch we'll remove all the grep output Vim displays while
-searching.  Run the following command:
+最后一点，在搜索的时候，我们要移除Vim所有的grep输出。执行下面的命令：
 
     :::vim
     :nnoremap <leader>g :silent execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
 
-We're done, so try it out and admire your hard work!  The `silent` command just
-runs the command that follows it while hiding any messages it would normally
-display.
+我们完成了，试一试并犒劳一下自己吧！`silent`命令仅仅是在运行一个命令的同时隐藏它的正常输出。
 
-Exercises
+练习
 ---------
 
-Add the mapping we just created to your `~/.vimrc` file.
+把我们刚刚做出来的映射加入到你的`~/.vimrc`文件。
 
-Read `:help :grep` if you didn't read it before.
+如果你未曾读过`:help :grep`，去读它。
 
-Read `:help cword`.
+阅读`:help cword`。
 
-Read `:help cnext` and `:help cprevious`.  Try them out after using your new
-grep mapping.
+阅读`:help cnext`和`help cprevious`。修改你的grep映射，试一下它们。
 
-Set up mappings for `:cnext` and `:cprevious` to make it easier to quickly run
-through matches.
+设置`:cnext`和`:cprevious`的映射，让在匹配内容间的移动更加方便。
 
-Read `:help expand`.
+阅读`:help expand`。
 
-Read `:help copen`.
+阅读`:help copen`。
 
-Add a height to the `:copen` command in the mapping we created to make sure the
-quickfix window is opened to whatever height you prefer.
+在我们创建的映射中加入height参数到`:copen`命令中，看看quickfix窗口能不能以指定的高度打开。
 
-Read `:help silent`.
+阅读`:help silent`。
 

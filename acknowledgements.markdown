@@ -5,7 +5,7 @@
 本书的写作格式及写作风格即受其激发。
 
 [Zed Shaw]: http://zedshaw.com/
-[笨方法学Vimscript]: http://learnpythonthehardway.org/
+[笨方法学Python]: http://learnpythonthehardway.org/
 
 同时感谢下列来自Github或Bitbucket的用户：
 
