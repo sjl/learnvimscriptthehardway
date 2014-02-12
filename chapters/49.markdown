@@ -1,11 +1,14 @@
 Advanced Folding
+高级折叠
 ================
 
 In the last chapter we used Vim's `indent` folding to add some quick and dirty
 folding to Potion files.
+在上一章里我们用Vim的`indent`折叠，在Potion文件中增加一些快捷而肮脏的折叠。
 
 Open `factorial.pn` and make sure all the folds are closed with `zM`.  The file
 should now look something like this:
+打开`factorial.pn`并用`zM`关闭所有的折叠。文件现在看起来就像这样：
 
     :::text
     factorial = (n):
@@ -15,6 +18,7 @@ should now look something like this:
     +--  4 lines: i string print
 
 Toggle the first fold and it will look like this:
+切换第一个折叠，它看上去会是这样：
 
     :::text
     factorial = (n):
@@ -29,6 +33,8 @@ Toggle the first fold and it will look like this:
 This is pretty nice, but I personally prefer to fold the first line of a block
 with its contents.  In this chapter we'll write some custom folding code, and
 when we're done our folds will look like this:
+这真不错，但我个人喜欢依照内容来折叠每个块的第一行。
+在本章中我们将写下一些自定义的折叠代码，并在最后实现这样的效果：
 
     :::text
     factorial = (n):
@@ -41,23 +47,32 @@ when we're done our folds will look like this:
 This is more compact and (to me) easier to read.  If you prefer the `indent`
 method that's okay, but do this chapter anyway just to get some practice writing
 Vim folding expressions.
+这将更为紧凑，而且(对我来说)更容易阅读。
+如果你更喜欢`indent`也不是不行，不过最好学习本章来对Vim中实现折叠的代码的更深入的了解。
 
 Folding Theory
+折叠原理
 --------------
 
 When writing custom folding code it helps to have an idea of how Vim "thinks" of
 folding.  Here are the rules in a nutshell:
+为了写好自定义的折叠，我们需要了解Vim对待("thinks")折叠的方式。简明扼要地讲解下规则：
 
 * Each line of code in a file has a "foldlevel".  This is always either zero or
   a positive integer.
+* 文件中的每行代码都有一个"foldlevel"。它不是为零就是一个正整数。
 * Lines with a foldlevel of zero are *never* included in any fold.
+* foldlevel为零的行*不会*被折叠。
 * Adjacent lines with the same foldlevel are folded together.
+* 有同等级的相邻行会被折叠到一起。
 * If a fold of level X is closed, any subsequent lines with a foldlevel greater
   than or equal to X are folded along with it until you reach a line with
   a level less than X.
+* 如果一个等级X的折叠被关闭了，任何在里面的、foldlevel不小于X的行都会一起被折叠，直到有一行的等级小于X。
 
 It's easiest to get a feel for this with an example.  Open a Vim window and
 paste the following text into it.
+通过一个例子，我们可以加深理解。打开一个Vim窗口然后粘贴下面的文本进去。
 
     :::text
     a
@@ -69,31 +84,38 @@ paste the following text into it.
     g
 
 Turn on `indent` folding by running the following command:
+执行下面的命令来设置`indent`折叠：
 
     :::vim
     :setlocal foldmethod=indent
 
 Play around with the folds for a minute to see how they behave.
+花上一分钟玩一下折叠，观察它是怎么工作的。
 
 Now run the following command to view the foldlevel of line 1:
+现在执行下面的命令来看看第一行的foldlevel:
 
     :::vim
     :echom foldlevel(1)
 
 Vim will display `0`.  Now let's find the foldlevel of line 2:
+Vim显示`0`。现在看看第二行的：
 
     :::vim
     :echom foldlevel(2)
 
 Vim will display `1`.  Let's try line 3:
+Vim显示`1`。试一下第三行：
 
     :::vim
     :echom foldlevel(3)
 
 Once again Vim displays `1`.  This means that lines 2 and 3 are part of a level
 1 fold.
+Vim再次显示`1`。这意味着第2,3行都属于一个等级1的折叠。
 
 Here are the foldlevels for each line:
+这是每一行的foldlevel:
 
     :::text
     a           0
@@ -107,19 +129,23 @@ Here are the foldlevels for each line:
 Reread the rules at the beginning of this section.  Open and close each fold in
 this file, look at the foldlevels, and make sure you understand why the folds
 behave as they do.
+重读这一部分开头的几条规则。打开或关闭每个折叠，观察foldlevel，并确保你理解了为什么会这样折叠。
 
 Once you're confident that you understand how every line's foldlevel works to
 create the folding structure, move on to the next section.
-
+一旦你已经自信地认为你理解了每行的foldlevel是怎么影响折叠结构的，继续看下一部分。
 
 First: Make a Plan
+首先：做一个规划
 ------------------
 
 Before we dive into writing code, let's try to sketch out some rough "rules" for
 our folding.
+在我们埋头敲键盘之前，先为我们的折叠功能规划出几条大概的规则。
 
 First, lines that are indented should be folded together.  We also want the
 *previous* line folded with them, so that something like this:
+首先，同等缩进的行应该要折叠到一块。我们也希望*上*一行也一并折叠，达到这样的效果：
 
     :::text
     hello = (name):
@@ -127,12 +153,14 @@ First, lines that are indented should be folded together.  We also want the
         name print.
 
 Will fold like this:
+将折叠成这样：
 
     :::text
     +--  3 lines: hello = (name):
 
 Blank lines should be at the same level as *later* lines, so blank lines at the
 end of a fold won't be included in it.  This means that this:
+空行应该算入*下*一行，因此折叠底部的空行不会包括进去。这意味着类似这样的内容：
 
     :::text
     hello = (name):
@@ -142,6 +170,7 @@ end of a fold won't be included in it.  This means that this:
     hello('Steve')
 
 Will fold like this:
+将折叠成这样：
 
     :::text
     +--  3 lines: hello = ():
@@ -149,6 +178,7 @@ Will fold like this:
     hello('Steve')
 
 And *not* like this:
+而不是这样：
 
     :::text
     +--  4 lines: hello = ():
@@ -156,35 +186,48 @@ And *not* like this:
 
 These rules are a matter of personal preference, but for now this is the way
 we're going to implement folding.
+这当然是属于个人取向的问题，但现在我们就这么定了。
 
 Getting Started
+开始
 ---------------
 
 Let's get started on our custom folding code by opening Vim with two splits.
 One should contain our `ftplugin/potion/folding.vim` file, and the other should
 contain our sample `factorial.pn`.
+现在开始写我们的自定义折叠代码吧。
+打开Vim，分出两个分割，一个是`ftplugin/potion/folding.vim`，另一个是示例代码`factorial.pn`。
 
 In the previous chapter we closed and reopened Vim to make our changes to
 `folding.vim` take effect, but it turns out there's an easier way to do that.
+在上一章我们关闭并重新打开Vim来使得`folding.vim`生效，但其实还有更简单的方法。
 
 Remember that any files inside `ftplugin/potion/` will be run whenever the
 `filetype` of a buffer is set to `potion`.  This means you can simply run `:set
 ft=potion` in the split containing `factorial.pn` and Vim will reload the
 folding code!
+不要忘记每当设置一个缓冲区的`filetype`为`potion`的时候，在`ftplugin/potion/`下的所有文件都会被执行。
+这意味着仅需在`factorial.pn`的分割下执行`:set ft=potion`，Vim将重新加载折叠代码！
 
 This is much faster than closing and reopening the file every time.  The only
 thing you need to remember is that you have to *save* `folding.vim` to disk,
 otherwise your unsaved changes won't be taken into account.
+这比每次都关闭并重新打开文件要快多了。
+唯一需要铭记的是，你得*保存*`folding.vim`到硬盘上，否则未保存的改变不会起作用。
 
 Expr Folding
+Expr折叠
 ------------
 
 We're going to use Vim's `expr` folding to give us unlimited flexibility in how
 our code is folded.
+为了获取折叠上的无限自由，我们将使用Vim的`expr`折叠。
 
 We can go ahead and remove the `foldignore` from `folding.vim` because it's only
 relevant when using `indent` folding.  We also want to tell Vim to use `expr`
 folding, so change the contents of `folding.vim` to look like this:
+我们可以继续并从`folding.vim`移除`foldignore`，因为它只在使用`indent`的时候生效。
+我们也打算让Vim使用`expr`折叠，所以把`folding.vim`改成这样：
 
     :::vim
     setlocal foldmethod=expr
@@ -195,24 +238,34 @@ folding, so change the contents of `folding.vim` to look like this:
     endfunction
 
 The first line simply tells Vim to use `expr` folding.
+第一行只是告诉Vim使用`expr`折叠。
 
 The second line defines the expression Vim should use to get the foldlevel of
 a line.  When Vim runs the expression it will set `v:lnum` to the line number of
 the line it wants to know about.  Our expression will call a custom function
 with this number as an argument.
+第二行定义了Vim用来计算每一行的foldlevel的表达式。
+当Vim执行某个表达式，它会设置`v:lnum`为它需要的对应行的行号。
+我们的表达式将把这个数字作为自定义函数的参数。
 
 Finally we define a dummy function that simply returns `'0'` for every line.
 Note that it's returning a String and not an Integer.  We'll see why shortly.
+最后我们定义一个对任意行均返回`0`的占位(dummy)函数。
+注意它返回的是一个字符串而不是一个整数。等会我们就知道为什么这么做。
 
 Go ahead and reload the folding code by saving `folding.vim` and running `:set
 ft=potion` in `factorial.pn`.  Our function returns `'0'` for every line, so
 Vim won't fold anything at all.
+继续并重新加载折叠代码(保存`folding.vim`并对`factorial.pn`执行`:set ft=potion`)。
+我们的函数对任意行均返回`0`,所以Vim将不会进行任何折叠。
 
 Blank Lines
+空行
 -----------
 
 Let's take care of the special case of blank lines first.  Modify the
 `GetPotionFold` function to look like this:
+让我们先解决空行的特殊情况。修改`GetPotionFold`函数成这样：
 
     :::vim
     function! GetPotionFold(lnum)
