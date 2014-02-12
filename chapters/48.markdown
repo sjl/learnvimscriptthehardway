@@ -1,62 +1,53 @@
-Basic Folding
+基本折叠
 =============
 
-If you've never used code folding in Vim, you don't know what you're missing.
-Read `:help usr_28` and spend some time playing around with it in your normal
-work.  Come back to this chapter once you've got it in your fingers.
+如果从未在Vim里使用过代码折叠，你不知道你都错过了什么。
+阅读`:help usr_28`并花费时间在日常工作中使用它。
+一旦到了铭记于指的程度，你就可以继续本章了。
 
-Types of Folding
+折叠类型
 ----------------
 
-Vim supports six different ways of defining how your text should be folded.
+Vim支持六种不同的决定如何折叠你的文本的折叠类型。
 
 ### Manual
 
-You create the folds by hand and they're stored in RAM by Vim.  When you close
-Vim they go away and you have to recreate them the next time you edit the file.
+你手动创建折叠并且折叠将被Vim储存在内存中。
+当你关闭Vim时，它们也将一并烟消云散，而下次你编辑文件时将不得不重新创建。
 
-This method can be handy if you combine it with some custom mappings to make it
-easy to create folds.  We won't do that in this book, but keep it in the back
-of your mind in case you run across a case where it could be handy.
+在你把它跟一些自定义的创建折叠的映射结合起来时，这种方式会很方便。
+在本书中，我们不会这么做，但当你想这么做的时候，它会帮上忙。
 
 ### Marker
 
-Vim folds your code based on characters in the actual text.
+Vim基于特定的字符组合折叠你的代码。
 
-Usually these characters are put in comments (like `// {{{`), but in some
-languages you can get away with using something in the language's syntax itself,
-like `{` and `}` in Javascript files.
+这些字符通常放置于注释中(比如`// {{{`)，
+不过在有些语言里，你可以使用该语言自己的语法代替，比如javascript的`{`和`}`。
 
-It may seem ugly to clutter up your code with comments that are purely for your
-text editor, but the advantage is that it lets you hand-craft folds for
-a specific file.  This can be really nice if you're working with a large file
-that you want to organize in a very specific way.
+纯粹为了你的编辑器，用注释割裂你的代码看上去有点丑，但好处是你可以定制特定的折叠。
+如果你想以特定的方式组织一个大文件，这个类型将是非常棒的选择。
 
 ### Diff
 
-A special folding mode used when diff'ing files.  We won't talk about this one
-at all because Vim automatically handles it.
+在diff文件时使用该特定的折叠类型。我们不会讨论它，因为Vim会自动使用它。
 
 ### Expr
 
-This lets you use a custom piece of Vimscript to define where folds occur.  It's
-the most powerful method, but also requires the most work.  We'll talk about
-this in the next chapter.
+这让你可以用自定义的Vimscript来决定折叠的位置。它是最为强大的方式，不过也需要最繁重的工作。
+下一章我们将讲到它。
 
 ### Indent
 
-Vim uses your code's indentation to determine folds.  Lines at the same
-indentation level fold together, and lines with only whitespace (and blank
-lines) are simply folded with their neighbors.
+Vim使用你的代码的缩进来折叠。同样缩进等级的代码折叠到一块，空行则被折叠到周围的行一起去。
 
-This is essentially free to use because your code is already indented; all you
-have to do is turn it on.  This will be our first method of adding folding to
-Potion files.
+这是最便捷的方式，因为你的代码已经缩进过了；你仅仅需要启动它。
+这将是我们用来折叠Potion代码的第一种方式。
 
-Potion Folding
+Potion折叠
 --------------
 
-Let's take a look at our sample Potion file once again:
+让我们再一次看一下Potion实例代码：
 
     :::text
     factorial = (n):
@@ -71,13 +62,10 @@ Let's take a look at our sample Potion file once again:
         factorial (i) string print
         "\n" print.
 
-The bodies of the function and loop are both indented.  This means we can get
-some basic folding with very little effort by using indent folding.
+函数体和循环体已经缩进好了。这意味着我们可以不怎么费力就能实现一些基本的缩进。
 
-Before we start, go ahead and add a comment above the `total *= i.` line so we
-have a nice multiple-line inner block to test with.  You'll learn why we need to
-do this when you do the exercises, but for now just trust me.  The file should
-now look like this:
+在我们开始之前，在`total *= i`上添加一个注释，这样我们就有一个供测试的多行内部块。
+你将在做练习的时候学到为什么我们需要这么做，但暂时先信任我。现在文件看上去就像这样：
 
     :::text
     factorial = (n):
@@ -93,56 +81,51 @@ now look like this:
         factorial (i) string print
         "\n" print.
 
-Create an `ftplugin` folder in your Potion plugin's repository, and create
-a `potion` folder inside that.  Finally, create a `folding.vim` file inside of
-*that*.
+在你的Potion插件的版本库下创建一个`ftplugin`文件夹，然后在里面创建一个`potion`文件夹。
+最后，在*`potion`文件夹*里面创建一个`folding.vim`文件。
 
-Remember that Vim will run the code in this file whenever it sets a buffer's
-`filetype` to `potion` (because it's in a folder named `potion`).
+不要忘了每次Vim设置一个buffer的`filetype`为`potion`时，它都会执行这个文件中的代码。
+(因为它位于一个叫`potion`的文件夹)
 
-Putting all folding-related code into its own file is generally a good idea and
-will help us keep the various functionality of our plugin organized.
+将所有的折叠相关的代码放在同一个文件显然是一个好主意，它能帮我们维护我们的插件的繁多的功能。
 
-Add the following line to this file:
+在这个文件中加入下面一行：
 
     :::vim
     setlocal foldmethod=indent
 
-Close Vim and open the `factorial.pn` file again.  Play around with the new
-folding with `zR`, `zM`, and `za`.
+关闭Vim，重新打开`factoria.pn`。用`zR`，`zM`和`za`尝试折叠功能。
 
-One line of Vimscript gave us some useful folding!  That's pretty cool!
+一行Vimscript代码就能带来一些有用的折叠！这真是太酷了！
 
-You might notice that the lines inside the inner loop of the `factorial`
-function aren't folded even though they're indented.  What's going on?
+你可能注意到`factorial`函数的内循环里面的那几行不能折叠，尽管它们缩进了。
+为什么会这样？
 
-It turns out that by default Vim will ignore lines beginning with a `#`
-character when using `indent` folding.  This works great when editing C files
-(where `#` signals a preprocessor directive) but isn't very helpful when you're
-editing other types of files.
+事实上，在使用`indent`折叠时，Vim默认忽略以`#`字符开头的行。
+这在编辑C文件时很有用(这时`#`表示一个预编译指令)，但在编辑其他文件时不怎么有意义。
 
-Let's add one more line to the `ftplugin/potion/folding.vim` file to fix this:
+让我们在`ftplugin/potion/folding.vim`中添加多一行来修复问题：
 
     :::vim
     setlocal foldmethod=indent
     setlocal foldignore=
 
-Close and reopen `factorial.pn` and now the inner block will be folded properly.
+关闭并重新打开`factorial.pn`，现在内部块可以正常地折叠了。
 
-Exercises
+练习
 ---------
 
-Read `:help foldmethod`.
+阅读`:help foldmethod`.
 
-Read `:help fold-manual`.
+阅读`:help fold-manual`.
 
-Read `:help fold-marker` and `:help foldmarker`.
+阅读`:help fold-marker`和`:help foldmarker`.
 
-Read `:help fold-indent`.
+阅读`:help fold-indent`.
 
-Read `:help fdl` and `:help foldlevelstart`.
+阅读`:help fdl`和`:help foldlevelstart`.
 
-Read `:help foldminlines`.
+阅读`:help foldminlines`.
 
-Read `:help foldignore`.
+阅读`:help foldignore`.
 
