@@ -46,9 +46,11 @@ regex       正则表达式
 
 ### S
 
+split       分割
+
 statusline  状态条
 
-split       分割
+string literals 字符串字面量
 
 syntax group 语法类型组
 
