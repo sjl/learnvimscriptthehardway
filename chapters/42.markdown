@@ -50,7 +50,7 @@ Vim将会查找`~/.vim/colors/mycolors.vim`并执行它。
 
 `~/.vim/ftplugin/`下的文件则各不相同。
 
-一切皆取决于它的名字!当Vim把一个buffer的`filetyye`设置成某个值时，
+一切皆取决于它的名字!当Vim把一个缓冲区的`filetype`设置成某个值时，
 它会去查找`~/.vim/ftplugin/`下对应的文件。
 比如：如果你执行`set filetype=derp`，Vim将查找`~/.vim/ftplugin/derp.vim`。
 一旦文件存在，Vim将执行它。
@@ -59,8 +59,8 @@ Vim也支持在`~/.vim/ftplugin/`下放置文件夹。
 再以我们刚才的例子为例：`set filetype=derp`将告诉Vim去执行`~/.vim/ftplugin/derp/`下的全部`*.vim`文件。
 这使得你可以按代码逻辑分割在`ftplugin`下的文件。
 
-因为每次在一个buffer中执行`filetype`时都会执行这些文件，所以它们*只能*设置buffer-local选项！
-如果在它们中设置了全局选项，所有打开的buffers的设置都会遭到覆盖！
+因为每次在一个缓冲区中执行`filetype`时都会执行这些文件，所以它们*只能*设置buffer-local选项！
+如果在它们中设置了全局选项，所有打开的缓冲区的设置都会遭到覆盖！
 
 ~/.vim/indent/
 --------------
@@ -75,7 +75,7 @@ Vim也支持在`~/.vim/ftplugin/`下放置文件夹。
 ~/.vim/compiler/
 ----------------
 
-`~/.vim/compiler`下的文件非常类似于`indent`文件。它们应该设置同类型名的当前buffer下的编译器相关选项。
+`~/.vim/compiler`下的文件非常类似于`indent`文件。它们应该设置同类型名的当前缓冲区下的编译器相关选项。
 
 不要担心不懂什么是"编译器相关选项"。我们等会会解释。
 
