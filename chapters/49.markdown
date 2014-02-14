@@ -278,66 +278,92 @@ Let's take care of the special case of blank lines first.  Modify the
 
 We've added an `if` statement to take care of the blank lines.  How does it
 work?
+我们增加了一个`if`语句来处理空行。它是怎么起效的？
 
 First we use `getline(a:lnum)` to get the content of the current line as
 a String.
+首先，我们使用`getline(a:lnum)`来以字符串形式获取当前行的内容。
 
 We compare this to the regex `\v^\s*$`.  Remember that `\v` turns on "very
 magic" ("sane") mode.  This regex will match "beginning of line, any number
 of whitespace characters, end of line".
+我们把结果跟正则表达式`\v^\s*$`。记得`\v`表示"very magic"(我的意思是，正常的)模式。
+这个正则表达式将匹配"行的开头，任何空白字符，行的结尾"。
 
 The comparison is using the case-insensitive match operator `=~?`.  Technically
 we don't have to be worried about case since we're only matching whitespace, but
 I prefer to be more explicit when using comparison operators on Strings.  You
 can use `=~` instead if you prefer.
+比较是用大小写不敏感比较符`=~?`完成的。
+技术上我们不用担心大小写，毕竟我们只匹配空白，但是我偏好在比较字符串时使用更清晰的方式。
+如果你喜欢，可以使用`=～`代替。
 
 If you need a refresher on using regular expressions in Vim you should go back
 and reread the "Basic Regular Expressions" chapter and the chapters on the "Grep
 Operator".
+如果需要唤起Vim中的正则表达式的回忆，你应该回头重读"基本正则表达式"和"Grep Operator"这两部分。
 
 If the current line has some non-whitespace characters it won't match and we'll
 just return `'0'` as before.
+如果当前行包括一些非空白字符，它将不会匹配，我们将如前返回`0`。
 
 If the current line *does* match the regex (i.e. if it's empty or just
 whitespace) we return the string `'-1'`.
+如果当前行*匹配*正则表达式(i.e. 比如它是空的或者只有空格)，就返回字符串`'-1'`。
 
 Earlier I said that a line's foldlevel can be zero or a positive integer, so
 what's happening here?
+之前我说过一行的foldlevel可以为0或者正整数，所以这会发生什么？
 
 Special Foldlevels
+特殊折叠
 ------------------
 
 Your custom folding expression can return a foldlevel directly, or return one of
 a few "special" strings that tell Vim how to fold the line without directly
 specifying its level.
+你自定义的表达式可以直接返回一个foldlevel，或者返回一个"特殊字符串"来告诉Vim如何折叠这一行。
 
 `'-1'` is one of these special strings.  It tells Vim that the level of this
 line is "undefined".  Vim will interpret this as "the foldlevel of this line is
 equal to the foldlevel of the line above or below it, whichever is smaller".
+`'-1'`正是其中一种特殊字符串。它告知Vim，这一行的foldlevel为"undefined"。
+Vim将把它理解为"该行的foldlevel等于其上一行或下一行的较小的那个foldlevel"。
 
 This isn't *exactly* what our plan called for, but we'll see that it's close
 enough and will do what we want.
+这不是我们计划中的*最终*结果，但我们可以看到，它已经足够接近了，而且必将达到我们的目标。
 
 Vim can "chain" these undefined lines together, so if you have two in a row
 followed by a line at level 1, it will set the last undefined line to 1, then
 the next to last to 1, then the first to 1.
+Vim可以把undefined的行串在一起，所以假设你有三个undefined的行和接下来的一个level1的行，
+它将设置最后一行为1,接着是倒数第二行为1,然后是第一行为1。
 
 When writing custom folding code you'll often find a few types of line that you
 can easily set a specific level for.  Then you'll use `'-1'` (and some other
 special foldlevels we'll see soon) to "cascade" the proper folding levels to the
 rest of the file.
+在写自定义的折叠代码时，你经常会发现有几种行你可以容易地设置好它们的foldlevel。
+然后你就可以使用`'-1'`(或我们等会会看到的其他特殊foldlevel)来"瀑布般地"设置好剩余的行的foldlevel。
 
 If you reload the folding code for `factorial.pn` Vim *still* won't fold any
 lines together.  This is because all the lines have a foldlevel of either zero
 or "undefined".  The level `0` will "cascade" through the undefined lines and
 eventually all the lines will have their foldlevel set to `0`.
+如果你重新加载了`factorial.pn`的折叠代码，Vim*依然*不会折叠任何行。
+这是因为所有的行的foldlevel要不是为0,就是为"undefined"。
+等级为0的行将影响undefined的行，最终导致所有的行的foldlevel都是`0`。
 
 An Indentation Level Helper
+缩进等级辅助函数
 ---------------------------
 
 To tackle non-blank lines we'll need to know their indentation level, so let's
 create a small helper function to calculate it for us.  Add the following
 function above `GetPotionFold`:
+为了处理非空行，我们需要知道它们的缩进等级，所以让我们来创建一个辅助函数替我们计算它。
+在`GetPotionFold`之上加上下面的函数：
 
     :::vim
     function! IndentLevel(lnum)
@@ -346,41 +372,54 @@ function above `GetPotionFold`:
 
 Reload the folding code.  Test out your function by running the following
 command in the `factorial.pn` buffer:
+重新加载折叠代码。在`factorial.pn`缓冲区执行下面的命令来测试你的函数：
 
     :::vim
     :echom IndentLevel(1)
 
 Vim displays `0` because line 1 is not indented.  Now try it on line 2:
+Vim显示`0`,因为第一行没有缩进。现在在第二行试试看：
 
     :::vim
     :echom IndentLevel(2)
 
 This time Vim displays `1`.  Line two has 4 spaces at the beginning, and
 `shiftwidth` is set to 4, so 4 divided by 4 is 1.
+这次Vim显示`1`。第二行开头有四个空格，而`shiftwidth`设置为4,所以4除以4得1。
 
 `IndentLevel` is fairly straightforward.  The `indent(a:lnum)` returns the
 number of spaces at the beginning of the given line number.  We divide that by
 the `shiftwidth` of the buffer to get the indentation level.
+`IndentLevel`是非常直白易懂的。`indent(a:lnum)`返回给定行开头的空格数。
+我们用它除以缓冲区的`shiftwidth`来得到缩进等级。
 
 Why did we use `&shiftwidth` instead of just dividing by 4?  If someone prefers
 two-space indentation in their Potion files, dividing by 4 would produce an
 incorrect result.  We use the `shiftwidth` setting to allow for any number of
 spaces per level.
+为什么我们使用`&shiftwidth`而不是直接除以4？
+如果有人偏好使用2个空格缩进他们的Potion代码，除以4将导致不正确的结果。
+使用`shiftwidth`可以允许任何缩进的空格数。
 
 One More Helper
+再来一个辅助函数
 ---------------
 
 It might not be obvious where to go from here.  Let's stop and think about what
 type of information we need to have to figure out how to fold a non-blank line.
+下一步的方向尚未明朗。让我们停下来想想为了确定折叠非空行，还需要什么信息。
 
 We need to know the indentation level of the line itself.  We've got that
 covered with the `IndentLevel` function, so we're all set there.
+我们需要知道每一行的缩进等级。我们已经通过`IndentLevel`函数得到了，所以这个条件已经满足了。
 
 We'll also need to know the indentation level of the *next non-blank line*,
 because we want to fold the "header" lines with their indented bodies.
+我们也需要知道*下一个非空行*的缩进等级，因为我们希望折叠段头行到对应的缩进段中去。
 
 Let's write a helper function to get the number of the next non-blank line after
 a given line.  Add the following function above `IndentLevel`:
+让我们写一个辅助函数来得到给定行的下一个非空行的foldlevel。在`IndentLevel`上面加入下面的函数：
 
     :::vim
     function! NextNonBlankLine(lnum)
@@ -400,45 +439,64 @@ a given line.  Add the following function above `IndentLevel`:
 
 This function is a bit longer, but is pretty simple.  Let's take it
 piece-by-piece.
+这个函数有点长，不过很简单。让我们逐个部分分析它。
 
 First we store the total number of lines in the file with `line('$')`.  Check
 out the documentation for `line()` to see how this works.
+首先我们用`line('$')`得到文件的总行数。查查文档来了解`line()`。
 
 Next we set the variable `current` to the number of the next line.
+接着我们设变量`current`为下一行的行号。
 
 We then start a loop that will walk through each line in the file.
+然后我们开始一个会遍历文件中每一行的循环。
 
 If the line matches the regex `\v\S`, which means "match a character that's
 *not* a whitespace character", then it must be non-blank, so we should return
 its line number.
+如果某一行匹配正则表达式`\v\S`，表示匹配"有一个*非*空白字符"，它就是非空行，所以返回它的行号。
 
 If the line doesn't match, we loop around to the next one.
+如果某一行不匹配，我们就循环到下一行。
 
 If the loop gets all the way to the end of the file without ever returning, then
 there are *no* non-blank lines after the current line!  We return `-2` if that
 happens to indicate this.  `-2` isn't a valid line number, so it's an easy way
 to say "sorry, there's no valid result".
+如果循环到达文件尾行而没有任何返回，这就说明当前行之后*没有*非空行！
+我们返回`-2`来指明这种情况。`-2`不是一个有效的行号，所以用来简单地表示"抱歉，没有有效的结果"。
 
 We could have returned `-1`, because that's not a valid line number either.
 I could have even picked `0`, since line numbers in Vim start at `1`!  So why
 did I pick `-2`, which seems like a strange choice?
+我们可以返回`-1`，因为它也是一个无效的行号。
+我甚至可以选择`0`,因为Vim中的行号从`1`开始！
+所以为何我选择`-2`这个看上去奇怪的选项？
 
 I chose `-2` because we're working with folding code, and `'-1'` (and `'0'`) is
 a special Vim foldlevel string.
+我选择`-2`是因为我们正处理着折叠代码，而`'-1'`(和`'0'`)是特殊的Vim foldlevel字符串。
 
 When my eyes are reading over this file and I see a `-1` my brain immediately
 thinks "undefined foldlevel".  The same is true with `0`.  I picked `-2` here
 simply to make it obvious that it's *not* a foldlevel, but is instead an
 "error".
+当眼睛正扫过代码时，看到`-1`，脑子里会立刻浮现起"undefined foldlevel"。
+这对于`0`也差不多。
+我在这里选择`-2`，就是为了突出它*不是*foldlevel，而是表示一个"错误"。
 
 If this feels weird to you, you can safely change the `-2` to a `-1` or a `0`.
 It's just a coding style preference.
+如果你觉得这不可理喻，你可以安心地替换`-2`为`-1`或`0`。
+这只是代码风格问题。
 
 Finishing the Fold Function
+完成折叠函数
 ---------------------------
 
 This is turning out to be quite a long chapter, so let's wrap up the folding
 function.  Change `GetPotionFold` to look like this:
+本章已经显得比较冗长了，所以现在把折叠函数包装起来(wrap up)吧。把`GetPotionFold`修改成这样：
 
     :::vim
     function! GetPotionFold(lnum)
@@ -459,33 +517,45 @@ function.  Change `GetPotionFold` to look like this:
     endfunction
 
 That's a lot of new code!  Let's step through it to see how it all works.
+这里的新代码真多！让我们分开一步步来看。
 
-### Blanks
+### 空行
 
 First we have our check for blank lines.  Nothing's changed there.
+首先我们检查空行。这里没有改动。
 
 If we get past that check we know we're looking at a non-blank line.
+如果不是空行，我们就准备好处理非空行的情况了。
 
-### Finding Indentation Levels
+### 获取缩进等级
 
 Next we use our two helper functions to get the indent level of the current
 line, and the indent level of the next non-blank line.
+接下来我们使用两个辅助函数来获取当前行和下一个非空行的折叠等级。
 
 You might wonder what happens if `NextNonBlankLine` returns our error condition
 of `-2`.  If that happens, `indent(-2)` will be run.  Running `indent()` on
 a nonexistent line number will just return `-1`.  Go ahead and try it yourself
 with `:echom indent(-2)`.
+你可能会疑惑万一`NextNonBlankLine`返回错误码`-2`该怎么办。
+如果这发生了，`indent(-2)`还会继续工作。对一个不存在的行号执行`indent()`将返回`-1`。
+你可以试试`:echom indent(-2)`看看。
 
 `-1` divided by any `shiftwidth` larger than `1` will return `0`.  This may seem
 like a problem, but it turns out that it won't be.  For now, don't worry about
 it.
+`-1`除以任意大于1的`shiftwidth`将返回`0`。
+这好像有问题，不过它实际上不会有。现在暂时不用纠结于此。
 
 ### Equal Indents
+### 同级缩进
 
 Now that we have the indentation levels of the current line and the next
 non-blank line, we can compare them and decide how to fold the current line.
+既然我们已经得到了当前行和下一非空行的缩进等级，我们可以比较它们并决定如何折叠当前行。
 
 Here's the `if` statement again:
+这里又是一个`if`语句：
 
     :::vim
     if next_indent == this_indent
@@ -498,8 +568,10 @@ Here's the `if` statement again:
 
 First we check if the two lines have the same indentation level.  If they do, we
 simply return that indentation level as the foldlevel!
+首先我们检查这两行是否有同样的缩进等级。如果相等，我们就直接把缩进等级当作foldlevel返回！
 
 An example of this would be:
+举个例子：
 
     :::text
     a
@@ -511,11 +583,15 @@ An example of this would be:
 If we're looking at the line containing "c", it has an indentation level of 1.
 This is the same as the level of the next non-blank line ("d"), so we return `1`
 as the foldlevel.
+假设我们正处理包含`c`的那一行，它的缩进等级为1。
+下一个非空行("d")的缩进等级也是一样的，所以返回`1`作为foldlevel。
 
 If we're looking at "a", it has an indentation level of 0.  This is the same as
 the level of the next non-blank line ("b"), so we return `0` as the foldlevel.
+假设我们正处理"a"，它的缩进等级为0。这跟下一非空行("b")的等级是一样的，所以返回`0`作为foldlevel。
 
 This case fills in two foldlevels in this simple example:
+在这个简单的示例中，可以分出两个foldlevel。
 
     :::text
     a       0
@@ -527,10 +603,14 @@ This case fills in two foldlevels in this simple example:
 By pure luck this also handles the special "error" case of the last line as
 well!  Remember we said that `next_indent` will be `0` if our helper function
 returns `-2`.
+纯粹出于运气，这种情况也处理了在最后一行对特殊的"error"情况。
+记得我们说过，如果我们的辅助函数返回`-2`,`next_indent`将会是`0`。
 
 In this example the line "e" has an indent level of `0`, and `next_indent` will
 also be set to `0`, so this case matches and returns `0`.  The foldlevels now
 look like this:
+在这个例子中，行"e"的缩进等级为`0`，而`next_indent`也被设为`0`，所以匹配这种情况并返回`0`。
+现在foldlevels是这样：
 
     :::text
     a       0
@@ -539,9 +619,10 @@ look like this:
         d   ?
     e       0
 
-### Lesser Indent Levels
+### 更低的缩进等级
 
 Once again, here's the `if` statement:
+我们再来看看那个`if`语句：
 
     :::vim
     if next_indent == this_indent
@@ -554,11 +635,14 @@ Once again, here's the `if` statement:
 
 The second part of the `if` checks if the indentation level of the next line is
 *smaller* than the current line.  This would be like line "d" in our example.
+`if`的第二部分检查下一行的缩进等级是否比当前行*小*。就像是例子中行"d"的情况。
 
 If that's the case, we once again return the indentation level of the current
 line.
+如果符合，将再一次返回当前行的缩进等级。
 
 Now our example looks like this:
+现在我们的例子看起来像这样：
 
     :::text
     a       0
@@ -570,9 +654,12 @@ Now our example looks like this:
 You could, of course, combine these two cases with `||`, but I prefer to keep
 them separate to make it more explicit.  You might feel differently.  It's
 a style issue.
+当然，你可以用`||`把两种情况连接起来，但是我偏好分开来写以显得更清晰。
+你的想法可能不同。这只是风格问题。
 
 Again, purely by luck, this case handles the other possible "error" case of our
 helper function.  Imagine that we have a file like this:
+又一次，纯粹出于运气，这种情况处理了其他来自辅助函数的"error"状态。设想我们有一个文件像这样：
 
     :::text
     a
@@ -580,6 +667,7 @@ helper function.  Imagine that we have a file like this:
         c
 
 The first case takes care of line "b":
+第一种情况处理行"b"：
 
     :::text
     a       ?
@@ -590,6 +678,8 @@ Line "c" is the last line, and it has an indentation level of 1.  The
 `next_indent` will be set to `0` thanks to our helper functions.  The second
 part of the `if` matches and sets the foldlevel to the current indentation
 level, or `1`:
+行"c"为最后一行，有着缩进等级1。由于我们的辅助函数，`next_indent`将设为`0`。
+这匹配`if`语句的第二部分，所以foldlevel设为当前缩进等级，也即是`1`。
 
     :::text
     a       ?
@@ -597,10 +687,12 @@ level, or `1`:
         c   1
 
 This works out great, because "b" and "c" will be folded together.
+结果如我们所愿，"b"和"c"折叠到一块去了。
 
-### Greater Indentation Levels
+### 更高的缩进等级
 
 Here's that tricky `if` statement for the last time:
+现在还剩下最后一个`if`语句：
 
     :::vim
     if next_indent == this_indent
@@ -612,6 +704,7 @@ Here's that tricky `if` statement for the last time:
     endif
 
 And our example file:
+而我们的例子现在是：
 
     :::text
     a       0
@@ -621,30 +714,42 @@ And our example file:
     e       0
 
 The only line we haven't figured out is "b", because:
+只剩下行"b"我们还不知道它的foldlevel，因为：
 
 * "b" has an indent level of `0`.
+* "b"的缩进等级为`0`。
 * "c" has an indent level of `1`.
+* "c"的缩进等级为`1`。
 * 1 is not equal to 0, nor is 1 less than 0.
+* 1既不等于0,又不小于0。
 
 The last case checks if the next line has a *larger* indentation level than the
 current one.
+最后一种情况检查下一行的缩进等级是否*大于*当前行。
 
 This is the case that Vim's `indent` folding gets wrong, and it's the entire
 reason we're writing this custom folding in the first place!
+这种情况下Vim的`indent`折叠并不理想，也是为什么我们一开始打算写自定义的折叠代码的原因！
 
 The final case says that when the next line is indented more than the current
 one, it should return a string of a `>` character and the indentation level of
 the *next* line.  What the heck is *that*?
+最后的情况表示，当下一行的缩进比当前行多，它将返回一个以`>`开头和*下一行*的缩进等级构成的字符串。
+这是什么意思呢？
 
 Returning a string like `>1` from the fold expression is another one of Vim's
 "special" foldlevels.  It tells Vim that the current line should *open* a fold
 of the given level.
+从折叠表达式中返回的，类似`>1`的字符串表示Vim的特殊foldlevel中的一种。
+它告诉Vim当前行需要*展开*一个给定level的折叠。
 
 In this simple example we could have just returned the number, but we'll see
 why this is important shortly.
+在这个简单的例子中，我们可以仅仅返回表示缩进等级的数字，但我们很快将看到为什么要这么做。
 
 In this case line "b" will open a fold at level 1, which makes our example look
 like this:
+这种情况下"b"将展开level1的折叠，使我们的例子变成这样：
 
     :::text
     a       0
@@ -654,17 +759,21 @@ like this:
     e       0
 
 That's exactly what we want!  Hooray!
+这就是我们想要的！万岁！
 
-Review
+复习
 ------
 
 If you've made it this far you should feel proud of yourself.  Even simple
 folding code like this can be tricky and mind bending.
+如果你一步步做到了这里，你应该为自己感到骄傲。即使像这样的简单折叠代码，也会是令人绞尽脑汁的。
 
 Before we end, let's go through our original `factorial.pn` code and see how our
 folding expression fills in the foldlevels of its lines.
+在我们结束之前，让我们重温最初的`factorial.pn`代码，看看我们的折叠表达式是怎么处理每一行的foldlevel的。
 
 Here's `factorial.pn` for reference:
+重新把`factorial.pn`代码列在这里：
 
     :::text
     factorial = (n):

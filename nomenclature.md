@@ -10,6 +10,12 @@ abbreviation abbreviation
 
 buffer      缓冲区
 
+### F
+
+fold        折叠
+
+foldlevel   foldlevel
+
 ### G
 
 group       组
@@ -21,6 +27,8 @@ highlight   高亮
 ### I
 
 idiom       惯用法
+
+indent[ation] level 缩进等级
 
 ### L
 
