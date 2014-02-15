@@ -54,6 +54,9 @@ regex       正则表达式
 
 ### S
 
+section     段
+
+section heading macro 段头符
 split       分割
 
 statusline  状态条

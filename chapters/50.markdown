@@ -1,27 +1,22 @@
-Section Movement Theory
+段移动原理
 =======================
 
-If you've never used Vim's section movement commands (`[[`, `]]`, `[]` and `][`)
-take a second and read the help for them now.  Go ahead and read `:help section`
-as well.
+如果你未曾用过Vim的段移动命令 (`[[`, `]]`, `[]` and `][`)，现在花上几秒读读它们的帮助文档。
+也顺便读读`:help section`。
 
-Confused yet?  That's okay, so was I the first time I read that stuff.  We're
-going to take a quick detour from writing code to learn about how these
-movements work, and then in the next chapter we'll make our Potion plugin
-support them.
+还是不懂？这不是什么问题，我第一次读这些的时候也是这样。
+在写代码之前，我们先岔开来学习这些移动是怎么工作的，然后在下一章我们将使得我们的Potion插件支持它们。
 
-Nroff Files
+Nroff文件
 -----------
 
-The four "section movement" commands are conceptually meant to move around
-between "sections" of a file.
+四个"段移动"命令正如其字面上的含义，可以用来在文件的"段"之间移动。
 
-All of these commands are designed to work with [nroff files][] by default.
-Nroff is a language like LaTeX or Markdown -- it's used to write text that will
-be reformatted later (it's actually the format used by UNIX man pages).
+这些命令默认为[nroff文件][]而设计。
+Nroff类似于LaTex或Markdown -- 它是用来写标记文本的(最终会生成UNIX man页面)。
 
-Nroff files use a certain set of "macros" to define "section headings".  For
-example, here's an excerpt from the `awk` man page:
+Nroff文件使用一组"macro"来定义"段头"。
+比如，这里有个来自于`awk`man页面的例子：
 
     :::nroff
     .SH NAME                                                     ***
@@ -51,31 +46,25 @@ example, here's an excerpt from the `awk` man page:
     .I file
     for lines that match ...
 
-The lines starting with `.SH` are section headings.  I've marked them with
-`***`.  The four section movement commands will move your cursor between these
-section heading lines.
+以`.SH`开头的行就是段头。我用`***`把它们标记出来。
+四个段移动命令将在段头行之间移动你的光标。
 
-Vim considers any line starting with `.` and one of the nroff heading macros to
-be a section header, *even when you're not editing an nroff file*!
+Vim以`.`和nroff的段头符开始的任何行当做一个段头，*即使你编辑的不是nroff文件*！
 
-You can change the macros by changing the `sections` setting, but Vim still
-requires a period at the beginning of the line, and the macros must be pairs of
-characters, so that setting doesn't add enough flexibility for Potion files.
+你可以改变`sections`设置来改变段头符，但Vim依旧需要在行开头有一个点，而且段头符必须是成对的字符，
+所以这样改对Potion文件不会有足够的灵活性。
 
-Braces
+括号
 ------
 
-Section movement commands *also* look for one more thing: an opening or closing
-curly brace (`{` or `}`) as the first character on a line.
+段移动命令*也*查看另一样东西：一个打开或关闭的大括号(`{`或`}`)作为行的第一个字符。
 
-`[[` and `]]` look for opening braces, while `[]` and `][` look for closing
-braces.
+`[[`和`]]`查看开括号，而`[]`和`][`查看闭括号。
 
-This extra "hack" allows you to move between sections of C-like languages
-easily.  However, these rules are always the same no matter what type of file
-you're in!
+这额外的"行为"使得你可以在C风格语言的段之间轻松移动。
+然而，这些规则也依旧没有顾及你正在编辑的文件类型！
 
-Put the following into a buffer:
+加入下面内容到一个缓冲区里：
 
     :::text
     Test           A B
@@ -96,20 +85,17 @@ Put the following into a buffer:
     Test
     Test           A B
 
-Now run `:set filetype=basic` to tell Vim that this is a BASIC file, and try the
-section movement comments.
+现在执行`:set filetype=basic`来告诉Vim这是一个BASIC文件，并尝试段移动命令。
 
-The `[[` and `]]` commands will move between the lines marked `A`, while `[]`
-and `][` move between the lines marked `B`.
+`[[`和`]]`命令将在标记为`A`的行之间移动，而`[]`和`][`将在标记为`B`的行之间移动。
 
-This shows us that Vim always uses these same two rules for section movement,
-even for languages where neither one makes sense (like BASIC)!
+这告诉我们，Vim总是用同样的两条规则来处理段移动，即使没有一条是起作用的(比如在BASIC中的情况)！
 
 [nroff files]: http://en.wikipedia.org/wiki/Nroff
 
-Exercises
+练习
 ---------
 
-Read `:help section` again, now that you know the story of section movement.
+再次阅读`:help section`，现在你应该可以理解段移动了。
 
-Read `:help sections` just for the fun of it.
+也顺便读读`:help sections`吧。
