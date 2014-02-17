@@ -6,11 +6,14 @@
 autocmd     自动命令
 
 abbreviation abbreviation
+
 ### B
 
 buffer      缓冲区
 
 ### F
+
+flag        标记
 
 fold        折叠
 
@@ -44,7 +47,11 @@ modal       模式
 
 motion      动作
 
+movement    移动
+
 ### O
+
+operator-pending    operator-pending(译注：该映射用于把一个函数映射成运算符)
 
 option      选项
 
@@ -52,7 +59,13 @@ option      选项
 
 regex       正则表达式
 
+repo        repo
+
+repository  代码库
+
 ### S
+
+script-local    脚本本地命名空间
 
 section     段
 
@@ -68,6 +81,12 @@ syntax group 语法类型组
 ### T
 
 tab         tab
+
+top level   顶级
+
+### V
+
+visual      可视(不过有时涉及到visual mode的时候不译)
 
 ### W
 
