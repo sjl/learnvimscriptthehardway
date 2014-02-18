@@ -3,6 +3,8 @@
 
 ### A
 
+append      附加
+
 autocmd     自动命令
 
 abbreviation abbreviation
