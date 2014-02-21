@@ -27,6 +27,8 @@ group       组
 
 ### H
 
+help        帮助
+
 highlight   高亮
 
 ### I
