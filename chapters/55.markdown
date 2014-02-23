@@ -1,94 +1,70 @@
-Distribution
+发布
 ============
 
-By now you have the Vimscript skills to make Vim plugins many other people might
-find useful.  This chapter will go over getting your plugins online and making
-them easily available, as well as how to get the word out about them to
-potential users.
+现在你拥有了足够的Vimscript技能来打造能帮助许多人的Vim插件。
+这一章涉及如何把你的插件发布在网上，以便人们获取，还有如何向潜在用户派小广告。
 
-Hosting
+托管
 -------
 
-The first thing you'll need to do is get your plugin online so other people can
-download it.  The canonical place for Vim plugins to live is [the scripts
-section of the Vim website][vimorg].
+你需要做的第一件事是把你的插件放在网上，让其他人可以下载它。
+最通常的选择是[Vim官网的script版面][vimorg]
 
-You'll need a free account on the website.  Once you've got one you can click
-the "Add Script" link and fill out the form.  It should be pretty self
-explanatory.
+你需要这个网站的一个免费账户。一旦有了，你可以点击"Add Script"链接并填写表单。
+到那里你就会明白了。
 
-A recent trend in the past few years has been to distribute plugins by hosting
-their repositories in a public place like Bitbucket or GitHub.  The rise in
-popularity of this method can probably be attributed to two factors.  First,
-Pathogen has made it trivial to keep each installed plugin's code in its own
-separate location. The rise of distributed version control systems like
-Mercurial and Git and public hosting sites like Bitbucket and GitHub has also
-probably had an impact.
+在过去的几年中有一个趋势，越来越多的插件托管在类似Bitbucket或GitHub的网络集市上。
+这种情况可能由于两个因素。首先，Pathogen使得每一个被安装的插件的文件不需要放在单独的位置。
+像Mercurial和Git这样的分布式版本控制系统以及像Bitbucket和GitHub这样的公共托管网站的崛起对此也有影响。
 
-Providing repositories is handy for people who keep their dotfiles in
-a version-controlled repository of their own.  Mercurial users can use
-Mercurial's "subrepositories" to keep track of plugin versions, and Git users
-can use submodules (though only for other Git repos, unlike Mercurial's
-subrepos).
+提供代码仓库对于想要用版本控制管理自己的dotfiles的人来说是十分方便的。
+Mercurial用户可以使用Mercurial的"subrepositories"来跟踪插件版本的变化，
+而Git用户可以使用submodules(尽管只能对其他Git代码仓库起作用，这跟Mercurial的subrepo不一样)。
 
-Having a full repository for each of your installed plugins also makes it easier
-to debug when something goes wrong with them.  You can use blame, bisection, and
-any of the other tools your VCS provides available to figure out what's going
-on.  It's also easier to contribute fixes back if you already have the
-repository on your machine.
+对你安装的每一个插件有一个完整的仓库，也使得在发现它们出现问题时debug更简单。
+你可以使用blame, bisection或其他你的VCS提供的工具来找出哪里的问题。
+如果你已经在自己的机器上有一个仓库，奉献fixes也会变得更简单。
 
-Hopefully I've convinced you that you should also make your plugin's repository
-available publicly.  It doesn't really matter which service you use, as long as
-the repository is available *somewhere*.
+希望你已经决定把你的插件代码仓库公开出来。无论你采用了哪家的服务，至少代码库需要能够被人们获取。
 
 [vimorg]: http://www.vim.org/scripts/
 
-Documentation
+文档
 -------------
 
-You've already documented your plugin thoroughly in Vim's internal help format,
-but your job isn't quite over yet.  You're still going to want to come up with
-a quick overview that summarizes a few things:
+你已经用Vim自己的帮助文档格式透彻地给插件作了文档。但你的工作还没完成呢。
+你还需要写出一个简介，包括下面几条：
 
-1. What is your plugin all about?
-2. Why would the user want to use it?
-3. Why is it better than competing plugins (if any)?
-4. What's the license?
-5. A link to a pretty version of the full documentation, rendered by the
-   [vim-doc][] website.
+1. 你的插件可以用来干什么？
+2. 为什么用户想要用它？
+3. 为什么它比同类的插件(如果有的话)要好？
+4. 它遵循什么协议？
+5. 一个到完整文档的链接，可以考虑用[vim-doc][]网站进行渲染。
 
-This should go in your README file (which will be displayed on the landing page
-of Bitbucket and GitHub repos), and you can use it as the description for the
-plugin's entry on Vim.org.
+这些应该放在你的README文件(它将会显示在Bitbucket或GitHub的版本库的主页面)，你也可以把它作为Vim.org上的插件描述。
 
-Including some screenshots is almost always a great idea.  Being a text-only
-editor doesn't mean Vim doesn't have a user interface.
+包括一些屏幕截图总是一个好主意。作为一个文本编辑器不意味着Vim没有一个用户界面。
 
 [vim-doc]: http://vim-doc.heroku.com/
 
-Publicity
+贴小广告
 ---------
 
-Once you've got your plugin settled into all its various homes on the web: tell
-the world about it!  You could share it with your followers on Twitter, post it
-to the [/r/vim][rvim] section of Reddit, write a blog entry about it on your own
-personal website, and announce it on the [Vim mailing list][vimml] for starters.
+一旦你已经把插件部署到各个托管网站上，是时候向全世界宣传它的到来！
+你可以在Twitter上向你的粉丝介绍，在Reddit的[/r/vim][rvim]版面推广它，在你的个人网站上写关于它的博客，
+在[Vim邮件列表][vimml]上给新手们派小广告。
 
-Whenever you release a creation of yours into the wild you're going to get some
-praise and some criticism.  Don't let negative words get to you too much.
-Listen to what they say, but keep a thick skin and don't get too emotional when
-someone points out flaws (valid or otherwise) in your work.  No one is perfect,
-and this is the Internet, so you'll need to be able to take some heat and shrug
-it off if you want to stay happy and motivated.
+无论何时，当你推出自己创作的东西，你总会收到一些赞美和批评。
+不要对不好的评价耿耿于怀。倾听他们的呼声，同时厚着脸皮，心态平和地对待作品中被指出的小瑕缺(不管对还是不对)。
+没有什么是十全十美的，而且这就是Internet，所以如果你想保持快乐和激情，你需要拿得起放得下。
 
 [rvim]: http://reddit.com/r/vim/
 [vimml]: http://www.vim.org/maillist.php
 
-Exercises
+练习
 ---------
 
-Create an account on Vim.org if you don't already have one.
+如果你还没有Vim.org账户，创建一个。
 
-Look at the README files for some of your favorite plugins to see how they're
-structured and what kind of information they include.
+查看你喜欢的插件的READEME文件，看看它们是怎么组织起来的以及它们包含的信息。
 
