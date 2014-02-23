@@ -1,58 +1,48 @@
-Documentation
+文档
 =============
 
-Our Potion plugin has a bunch of useful functionality in it, but it won't be
-really useful to anyone unless we document it so they know what it can do!
+我们的Potion插件有着许多有用的功能，但是无人知晓这一点，除非我们留下了文档！
 
-Vim's own documentation is superb.  It's not overly wordy, but it's extremely
-thorough.  It's also inspired many plugin authors to document their own plugins
-very well, which has resulted in a wonderful culture of strong documentation in
-the Vimscript community.
+Vim自身的文档非常棒。它不仅是详细地，而且也是非常透彻的。
+同时，它也启发了许多插件作者写出很好的插件文档，结果是在Vimscript社区里营造出强大的文档文化。
 
-How Documentation Works
+如何使用文档
 -----------------------
 
-When you read a `:help` topic in Vim you've surely noticed that some things are
-highlighted differently than others.  Let's take a look at how this works.
+当你阅读Vim里的`:help`条目时，你显然注意到了有些内容被高亮得跟别的不一样。
+让我们看一下这是怎么回事。
 
-Open up any help topic (such as `:help help`) and run `:set filetype?`.  Vim
-will display `filetype=help`.  Now run `:set filetype=text`, and you'll see that
-the highlighting goes away.  `:set filetype=help` again and it will come back.
+打开任何帮助条目(比如`:help help`)并执行`:set filetype?`。Vim显示`filetype=help`。
+现在执行`:set filetype=text`，你将看到高亮消失了。
+再次执行`:set filetype=help`，高亮又回来了。
 
-It turns out that Vim help files are simply syntax-highlighted text files like
-any other file format!  This means you can write your own and get the same
-highlighting.
+这表明Vim帮助文件只是获得了语法高亮的文本文件，一如其他的文件格式！
+这意味着你可以照着写并获得同样的高亮。
 
-Create a file called `doc/potion.txt` in your plugin repo.  Vim/Pathogen looks
-for files inside `doc` folders when indexing help topics, so this is where we'll
-write the help for our plugin.
+在你的插件repo中创建名为`doc/potion.txt`文件。
+Vim/Pathogen在索引帮助条目时查找在`doc`文件夹下的文件，所以我们在此写下插件的帮助文档。
 
-Open this file in Vim and run `:set filetype=help` so you can see the syntax
-highlighting as you type.
+用Vim打开这个文件并执行`:set filetype=help`，这样你在输入的时候就可以看到语法高亮。
 
-Help Header
+帮助的题头
 -----------
 
-The format of help files is a matter of personal taste.  With that said, I'll
-talk about one way to structure them that seems to be popular with the modern
-Vimscript community.
+帮助文件的格式是一个取决于个人品味的问题。
+尽管这么说，我还是讲讲一种在当前的Vimscript社区逐渐被广泛使用的文档格式。
 
-The first line of the file should contain the filename of the help file,
-followed by a one-line description of what the plugin does.  Add the following
-as the first line of your `potion.txt` file:
+文件的第一行应该包括帮助文件的文件名，接下来是一行对插件功能的描述。
+在你的`potion.txt`文件的第一行加上下面的内容：
 
     :::text
     *potion.txt* functionality for the potion programming language
 
-Surrounding a word with asterisks in a help file creates a "tag" that can be
-jumped to.  Run `:Helptags` to tell Pathogen to rebuild the index of help tags,
-and then open a new Vim window and run `:help potion.txt`.  Vim will open your
-help document like any other one.
+在帮助文件中用星号括起一个词创建了一个可以用于跳转的"tag"。
+执行`:Helptags`来让Pathogen重新索引帮助tags，接着打开一个新的Vim窗口并执行`:help potion.txt`。
+Vim将打开你的帮助文档，一如往日打开别人写的。
 
-Next you should put the title of your plugin along with a longer description.
-Some authors (including me) like to have a bit of fun with this and use some
-ASCII art to spice things up.  Add a nice title section to the `potion.txt`
-file:
+接下来你应该把你的插件的大名和一个老长老长的描述打上去。
+有些作者(包括我)喜欢在这上面花点心思，用一些ASCII艺术字点缀一下。
+在`potion.txt`文件内加上一个不错的标题节：
 
     :::text
     *potion.txt* functionality for the potion programming language
@@ -66,21 +56,18 @@ file:
               Functionality for the Potion programming language.
             Includes syntax highlighting, code folding, and more!
 
-I got those fun letters by running the `figlet -f ogre "Potion"` command.
-[Figlet][] is a great little program for generating ASCII art text.  The `~`
-characters at the end of the lines ensure that Vim doesn't try to highlight or
-hide individual characters inside the art.
+我是通过执行`figlet -f ogre "Potion"`命令来得到这些有趣的字符的。
+[Figlet][]是一个好玩的小程序，可以生成ACSII艺术字。
+每一行结尾的`~`字符保证Vim不会尝试高亮或隐藏艺术字中的某些字符。
 
 [Figlet]: http://www.figlet.org/
 
-What to Document
+写什么文档
 ----------------
 
-Next usually comes a table of contents.  First, though, let's decide what we
-actually want to document.
+接下来通常是一个内容目录。不过，首先，让我们决定我们想要写的文档内容。
 
-When writing documentation for a new plugin I usually start with the following
-list of sections and work from there:
+在给一个新插件写文档时，我通常从下面的列表开始：
 
 * Introduction
 * Usage
@@ -92,57 +79,42 @@ list of sections and work from there:
 * Changelog
 * Credits
 
-If the plugin is large and requires an "overview" I'll write an introductory
-section that summarizes how things work.  Otherwise I'll skip that and just move
-on.
+如果这是一个大插件，需要一个"大纲"，我将写一个介绍段落来概括它的主要功能。
+否则我会跳过它继续下一段。
 
-A "usage" section should explain in, general, how the user will actually *use*
-your plugin.  If they'll interact with it through mappings, tell them that.  If
-there aren't too many mappings you can simply list them here, otherwise you may
-want to create a separate "mappings" section that lists them all.
+一个"usage"段落应该解释，大体上用户将怎样*使用*你的插件。如果他们需要通过映射进行交互，告诉他们。
+如果映射数目不是很多，你可以简单地在这里列出来，否则你可能需要创建一个单独的"mappings"段落来一一列出。
 
-The "configuration" section should list each and every user-modifiable variable,
-along with its effects and its default value.
+"configuration"段落应该详尽列出用户可以自定义的变量，以及它们的功能和默认值。
 
-The "license" section should specify what license the plugin's code is under, as
-well as a URL where the user can find the full text of that license.  Don't
-include the full text in the actual help file -- most users know what the common
-licenses mean and it just clutters things up.
+"license"段落应该指出插件代码所用的协议，连同一个指向协议完整文本的URL。
+不要把整份协议放入帮助文件 -- 大多数用户知道这些常用的协议是什么意思，这样做只会徒增混乱。
 
-The "bugs" section should be short and sweet.  List any major bugs that you're
-aware of but haven't gotten around to fixing, and tell the user how they can
-report new bugs they find to you.
+"bugs"段落应该尽可能短小。列出所有你已知却尚未解决的主要的bugs，并告知用户如何向你报告他们抓到的新bug。
 
-If you want your users to be able to contribute bug fixes and features for the
-plugin back to you, they'll need to know how to do it.  Should they send a pull
-request on GitHub?  On Bitbucket?  Send a patch in an email?  Any/all of the
-above?  Include a "contributing" section makes it clear how you prefer to
-receive code.
+如果你希望你的用户可以向项目奉献bug fixes和features，他们需要怎么做。
+应该把pull request发到GitHub呢？还是Bitbucket?要用email寄补丁吗？
+要选择其中的一个还是全都得要？一个"contributing"段落可以清楚地表明你想要接受代码的方式。
 
-A changelog is a wonderful thing to include so that when users update your
-plugin from version X to version Y they can immediately see what changed.  Also,
-I highlight recommend you pick a sane versioning scheme like [Semantic
-Versioning][] for your plugin and stick to it.  Your users will thank you.
+一个changlog也是值得包含在内的，这样当用户从版本X更新到版本Y时，他们立即可以看到什么改变了。
+此外，我强烈推荐你为你的插件使用一个合理的版本号计划，比如[Semantic Versioning][]，并一直坚持。
+你的用户会感谢你的。
 
-Finally, I like to include a "credits" section to mention my own name, list
-other plugins that this one was inspired by, thank contributors, and so on.
+最后，我喜欢加入一个"credits"段落来留下自己的大名，列出影响该插件创作的其他插件，感谢奉献者，等等。
 
-This is usually a good starting point.  For more unique plugins you may feel the
-need to deviate from this list, and that's completely fine.  There are no hard
-and fast rules except the following:
+这样我们就有一个成功的开始了。对于许多特殊的插件，你可能觉得需要不这么做，那也没问题。
+你仅需追随下面几条规则：
 
-* Be thorough.
-* Don't be too wordy.
-* Take the user on a journey from having no idea what your plugin is to being an
-  expert user of it.
+* 透彻明了
+* 不要废话
+* 带领你的用户漫步于你的插件，从一无所知到了如指掌。
 
 [Semantic Versioning]: http://semver.org/
 
-Table of Contents
+内容目录
 -----------------
 
-Now that we have an idea of what sections we'll include, add the following to
-the `potion.txt` file:
+既然我们已经了解了应该要有的段落，把下面内容加入到`potion.txt`文件中：
 
     :::text
     ====================================================================
@@ -156,27 +128,22 @@ the `potion.txt` file:
         6. Changelog ............ |PotionChangelog|
         7. Credits .............. |PotionCredits|
 
-There are a couple things to note here.  First, the line of `=` characters will
-be syntax highlighted.  You can use these lines to visually divide up sections
-of your help document.  You can also use lines of `-` characters for
-subsections, if you want.
+有很多事情需要在这里提一下。
+首先，`=`字符组成的那行将被高亮。你可以用这些行醒目地隔开你的帮助文档各部分。
+你也可以使用`-`隔开子段落，如果想要的话。
 
-The `*PotionContents*` will create another tag, so a user can type `:help
-PotionContents` to go directly to the table of contents.
+`*PotionContents*`将创建另一个tag，这样用户可以输入`:help PotionContents`来直接跳到内容目录。
 
-Each of the words surrounded by `|` characters creates a link to a tag.  Users
-can place their cursor on the word in the help file and press `<c-]>` to jump to
-the tag, just as if they had typed `:help TheTag`.  They can also click them
-with their mouse.
+用`|`包起每一个词将创建一个跳转到tag的链接。
+用户可以把他们的光标移到词上并按下`<c-]>`跳转到对应tag，就像他们输入`:help TheTag`一样。
+他们也可以用鼠标点开。
 
-Vim will hide these `*` and `|` characters and syntax highlight them, so the
-result will be a nice, pretty table of contents people can use to get to what
-they're looking for.
+Vim将隐藏`*`和`|`并高亮其间的内容，所以用户将会看到一个整洁漂亮的目录，以便于跳到感兴趣的地方。
 
-Sections
+段落
 --------
 
-You can create section headers like this:
+你可以像这样创建一个段头：
 
     :::text
     ====================================================================
@@ -187,75 +154,58 @@ You can create section headers like this:
 
     It also...
 
-Make sure to create the correct tags with the `*` characters so that all the
-links in your table of contents work properly.
+确保对`*`围起的内容创建了正确的tags，这样你的目录的链接才能正常工作。
 
-Go ahead and create headers for each section in the table of contents.
+继续并为目录中每一部分创建段头。
 
-Examples
+例子
 --------
 
-I could try to go over all the syntax of help files and how to use it, but it's
-really a matter of taste.  So instead I'll give you a list of several Vim
-plugins with extensive documentation.
+我可以讲述所有的帮助文件语法和怎样使用它们，但我不喜欢这样。
+所以，不如我给你一系列不同类型的Vim插件文档作为例子。
 
-For each one, copy the raw source of the documentation into a Vim buffer and set
-its filetype to `help` to see how it renders.  Switch back to `text` when you
-want to see how an effect was created.
+对于每个例子，复制文档源代码到一个Vim缓冲区并设置它的filetype为`help`来观察它的渲染。
+如果你想比较每个渲染效果，切回`text`看看。
 
-You may find it useful to use your Vimscript skills create a key mapping to
-toggle the `help` and `text` filetypes for the current buffer.
+你也许需要使用你的Vimscript技能为当前缓冲区创建一个切换于`help`和`text`的映射。
 
-* [Clam][], my own plugin for working with shell commands.  It's a pretty short
-  example that hits most of the sections I talked about.
-* The [NERD tree][], a file navigation plugin by Scrooloose.  Note the general
-  structure, as well as how he summarizes the mappings in an easy-to-read list
-  before explaining every one in detail.
-* [Surround][], a plugin for handling "surrounding" characters by Tim Pope.
-  Note the lack of a table of contents, the different style of section
-  headers, and the table column headers.  Figure out how these things were done,
-  and decide if you like them.  It's a matter of taste.
-* [Splice][], my own plugin for resolving three-way merge conflicts in version
-  control systems.  Note how the lists of mappings are formatted, and how I used
-  ASCII-art diagrams to explain layouts.  Sometimes a picture really is worth
-  a thousand words.
+* [Clam][]，我自己用来写shell命令的插件。这是一个很小的范例，满足了我前面讲过的大多数内容。
+* [NERD tree][]，Scrooloose写的一个文件浏览插件。
+  注意大体结构，还有他如何在详尽解释每一项之前，总结出一个易读的列表。
+* [Surround][]，Tim Pope写的一个处理环绕字符的插件。
+  注意到它没有目录，以及不同的段头风格和表格列项(table column headers)。
+  弄懂他是怎么做到的，并想想你是否喜欢这种风格。这是个人风格问题啦。
+* [Splice][]，我自己用来解决版本控制中[three-way merge conflict][]的插件。
+  注意映射列表的排版方式，以及我怎样使用ASCII流派的图片来解释布局。有时候，一图胜千言。
 
-Remember that all of the vanilla Vim documentation can also be used as an
-example too.  That should give you plenty to study and learn from.
+不要忘了，Vim本身的文档也可以作为一个例子。这会给你许多可供学习的内容。
 
 [Clam]: https://github.com/sjl/clam.vim/blob/master/doc/clam.txt
 [Surround]: https://github.com/tpope/vim-surround/blob/master/doc/surround.txt
 [NERD tree]: https://github.com/scrooloose/nerdtree/blob/master/doc/NERD_tree.txt
 [Splice]: https://github.com/sjl/splice.vim/blob/master/doc/splice.txt
+[three-way merge conflict]: http://en.wikipedia.org/wiki/Merge_(revision_control)#Three-way_merge
 
-Write!
+写！
 ------
 
-Now that you've see how some other plugins structured and wrote their
-documentation, fill in the sections for your Potion plugin.
+既然你已经看过其他插件如何规划和撰写它们的文档，给你的Potion插件填补上文档内容吧。
 
-If you're not used to writing technical documentation this might be a challenge.
-Learning to write certainly isn't simple, but like any other skill it definitely
-requires practice, so just go to it!  It doesn't need to be perfect and you can
-always improve it later.
+如果你不熟悉技术文档的写作，这可能会是个挑战。
+学习如何去写并不容易，但一如其他技能，它需要的是更多的练习，所以现在开始吧！
+你不必苛求完美，从战争中学习战争即可。
 
-Don't be afraid to write something you're not completely sure about and then
-throw it away and rewrite it later.  Often just getting *something* in the
-buffer will get your mind in the mood to write.  It'll still be in version
-control if you ever want it back any way.
+不要惧于写你没有完全弄懂的事情，待会丢掉它重写即可。
+经常只要在缓冲区中*信手留下几笔*，将会带动你的头脑进入写作状态。
+任何时候你想重起炉灶，旧版本一直会在版本控制中等你。
 
-A good way to start is to imagine you've got a friend who also uses Vim sitting
-next to you.  They've never used your plugin before but are intrigued, and your
-goal is to turn them into an expert user of it.  Thinking about explaining
-things to an actual human being will help keep you grounded and avoid getting
-too deeply technical before you've established a good overview of how things
-work.
+一个开始的好方法是想象你身边也有一个使用Vim的好基友。
+他对你的插件很感兴趣却未曾用过，而你的目标是让他熟练掌握。
+在你写下插件工作的方式之前，考虑如何向人类进行介绍，可以让你脚踏实地，避免太深入于技术层面。
 
-If you're still stuck and feel like you're not up to the challenge of writing
-the documentation for a full plugin, try doing something smaller.  Pick
-a mapping in your `~/.vimrc` file and document it fully in a comment.  Explain
-what it's for, how to use it, and how it works.  For example, this is in my own
-`~/.vimrc` file:
+如果你依旧卡住了，感觉自己无力应对写一个完整插件的文档的挑战，尝试做点简单的。
+在你的`~/.vimrc`中找一个映射并给它写下完整的文档。解释它是干什么的，怎么用它，它怎么工作。
+比如，这是我的`~/.vimrc`的一个例子：
 
     :::vim
     " "Uppercase word" mapping.
@@ -284,17 +234,15 @@ what it's for, how to use it, and how it works.  For example, this is in my own
     " use it, but if you do you'll probably want to use another mark.
     inoremap <C-u> <esc>mzgUiw`za
 
-It's much shorter than the documentation for a full plugin, but it's a good
-exercise that will help you practice writing.  It's also very helpful for people
-reading your `~/.vimrc` if you put it up on Bitbucket or GitHub.
+它比一个完整插件的文档短很多，却是一个练习写作的好练习。
+如果你把`~/.vimrc`放到Bitbucket或GitHub，别人也更容易理解。
 
-Exercises
+练习
 ---------
 
-Write the documentation for each section of the Potion plugin.
+给Potion插件每一部分写下文档。
 
-Read `:help help-writing` for help about writing help.
+阅读`:help help-writing`来帮助你写帮助文档。
 
-Read `:help :left`, `:help :right`, and `:help :center` to learn about three
-useful commands for getting your ASCII art perfect.
+阅读`:help :left`, `:help :right`,和`:help :center`来学习三个有用的命令使得你的ASCII艺术字更好看。
 
