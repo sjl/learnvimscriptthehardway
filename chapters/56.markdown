@@ -1,92 +1,72 @@
-What Now?
+还剩下什么？
 =========
 
-If you've read up to this point and completed all the examples and exercises
-you now have a pretty solid grasp of the basics of Vimscript.  Don't worry
-though, there's still *plenty* left to learn!
+如果已经读到了这里并且完成了所有的例子和练习，你现在对Vimscript基础的掌握就很牢固了。
+不要担心，还有*许多*东西需要学呢！
 
-Here are a few ideas of topics to look into if you're hungry for more.
+如果你求知若渴，这里还有一些东西值得你去探索。
 
-Color Schemes
+配色方案
 -------------
 
-In this book we added syntax highlighting for Potion files.  The other side of
-the coin is the creation of custom color schemes that define what color to
-display each syntax element.
+在本书中我们给Potion文件添加了语法高亮。作为硬币的另一面，我们也可以创建配色方案来决定每种语法元素的颜色。
 
-Color schemes in Vim are fairly straightforward, if a bit repetitive, to make.
-Read `:help highlight` to learn the basics.  You may want to take a look at some
-of the built-in color schemes to see how they structure their files.
+制作Vim的配色方案非常简单直白，甚至有点重复。阅读`:help highlgiht`来学习基础知识。
+你可能想要看看一些内置的配色方案来看他们怎么组织文件的。
 
-If you're up for a challenge, take a look at the source of my own [Bad Wolf][]
-color scheme to see how I've used Vimscript to make the definition and
-maintenance much easier for myself.  Pay attention to the "palette" dictionary
-and the `HL` function that dynamically builds the `highlight` commands.
+如果你渴望挑战，看看我自己的[灰太狼][]配色方案来了解我是怎么用Vimscript来为我简化定义及维护工作的。
+注意"palette"字典和`HL`函数，它们动态地生成`highlight`命令。
 
-[Bad Wolf]: https://github.com/sjl/badwolf/blob/master/colors/badwolf.vim
+[灰太狼]: https://github.com/sjl/badwolf/blob/master/colors/badwolf.vim
 
-The Command Command
+Command命令
 -------------------
 
-Many plugins allow the user to interact with them through key mappings and
-function calls, but some prefer to create Ex commands instead.  For example, the
-[Fugitive][] plugin creates commands like `:Gbrowse` and `:Gdiff` and leaves it up
-to the user to decide how to call them.
+许多插件允许用户使用键映射和函数调用来交互，但有一些偏好使用Ex命令。
+举个例子，[Fugitive][]插件创建类似`:Gbrowse`和`:Gdiff`并把调用它们的方式留给用户定制。
 
-Commands like this are created with the `:command` command.  Read `:help
-user-commands` to learn how to make your own.  You should know enough Vimscript
-by now that reading Vim's documentation is sufficient for learning about new
-commands.
+像这样的命令是通过`:command`命令创建的。阅读`:help user-commands`来学习怎样给自己制作一个。
+你应该已经学会了足够的Vimscript知识来帮助自己理解Vim文档，并以此来学习新的命令。
 
 [Fugitive]: https://github.com/tpope/vim-fugitive
 
-runtimepath
+运行时路径
 -----------
 
-In this book I've kind of glossed over how Vim decides which files to load by
-saying "just use Pathogen".  Now that you know a decent amount of Vimscript you
-can read `:help runtimepath` and check out [Pathogen's source
-code][pathogen-src] to find out what's *really* happening under the hood.
+在本书中，关于Vim怎么加载某个文件时，我都是用"使用Pathogen"应付过去的。
+鉴于你已经懂得了许多Vimscript知识，你可以阅读`:help runtimepath`并查看[Pathogen源代码][pathogen-src]
+来找出幕后隐藏的真相。
 
 [pathogen-src]: https://github.com/tpope/vim-pathogen/blob/master/autoload/pathogen.vim
 
 Omnicomplete
 ------------
 
-Vim offers a number of different ways to complete text (read `:help
-ins-completion` for an overview).  Most are fairly simple, but the most powerful
-of them is "omnicomplete" which lets you call a custom Vimscript function to
-determine completions in just about any way you could possibly think of.
+Vim提供了许多不同的方法来补全文本(浏览`:help ins-completion`)。
+大多数都很简单，但其中最强大的是"omnicomplete"，
+它允许你调用一个自定义的Vimscript函数来决定你想到的各种补全方式。
 
-When you're ready to dive into the rabbit hole of omnicompletion you can start
-with `:help omnifunc` and `:help coml-omni` and follow the trail from there.
+当你决定对omnicomplete一探究竟，你可以从`:help omnifunc`和`:help coml-omni`开始你的征途。
 
-Compiler Support
+编译器支持
 ----------------
 
-In our Potion plugin we created some mappings to compile and run our Potion
-files.  Vim offers much deeper support for interacting with compilers, including
-parsing compile errors and providing a nice list that lets you jump to the line
-of each error.
+在我们的Potion插件中，我们创建了一些编译并执行Potion文件的映射。
+Vim提供了更深入的支持来跟编译器交互，包括解析编译器错误并生成一个整洁的列表让你跳转到对应的错误。
 
-If you're interested in this you can dive in by reading through `:help
-quickfix.txt` in its entirety.  However, I will warn you now that `errorformat`
-is *not* for the faint of heart!
+如果你对此感兴趣，你可以从通读整篇`:help quickfix.txt`开始深入。
+不过，我得提醒你`errorformat`不适合心脏虚弱的人阅读。
 
-Other Languages
+其他语言
 ---------------
 
-This book has focused on Vimscript, but Vim also offers interfaces in several
-other languages, like Python, Ruby, and Lua.  This means you can script Vim in
-a different language if you don't like Vimscript.
+这本书专注于Vimscript，但Vim也提供了其他语言的接口，比如Python, Ruby, 和Lua。
+这意味着如果不喜欢Vimscript，你可以使用其他语言拓展Vim。
 
-It's still good to know Vimscript for editing your `~/.vimrc`, and for
-understanding the API Vim presents in each language.  But using an alternate
-language can be a great way to escape from the cruftiness of Vimscript,
-especially for large plugins.
+当然还是需要了解Vimscript来编辑你的`~/.vimrc`，和理解Vim提供给其他语言的API。
+但使用一个替代语言可能是从Vimscript的局限之处解放出来的好办法，尤其在写大型插件的时候。
 
-If you want to learn more about scripting Vim in a particular language, check
-out the help documents for it:
+如果你想了解更多用特定语言拓展Vim，查看下列对应的帮助文档：
 
 * `:help Python`
 * `:help Ruby`
@@ -94,11 +74,10 @@ out the help documents for it:
 * `:help perl-using`
 * `:help MzScheme`
 
-Vim's Documentation
+Vim文档
 -------------------
 
-As a final parting note, here's a list of Vim help topics that are especially
-useful, informative, interesting, or just plain fun (in no particular order):
+作为最后的部分，这里列出了一些Vim帮助条目，它们非常有用，有趣，有道理，或者仅仅是好玩(排名不分先后)：
 
 * `:help various-motions`
 * `:help sign-support`
@@ -114,8 +93,7 @@ useful, informative, interesting, or just plain fun (in no particular order):
 * `:help usr_32.txt`
 * `:help usr_42.txt`
 
-Exercises
+练习
 ---------
 
-Go write a Vim plugin for something you've always wanted and share it with the
-world!
+去为你想要的功能写一个Vim插件，向全世界分享你的成果！
