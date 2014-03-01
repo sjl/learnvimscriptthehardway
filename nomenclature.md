@@ -55,6 +55,8 @@ movement    移动
 
 ### O
 
+omnicomplete omnicomplete
+
 operator-pending    operator-pending(译注：该映射用于把一个函数映射成运算符)
 
 option      选项
