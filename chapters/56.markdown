@@ -59,7 +59,7 @@ of them is "omnicomplete" which lets you call a custom Vimscript function to
 determine completions in just about any way you could possibly think of.
 
 When you're ready to dive into the rabbit hole of omnicompletion you can start
-with `:help omnifunc` and `:help coml-omni` and follow the trail from there.
+with `:help omnifunc` and `:help compl-omni` and follow the trail from there.
 
 Compiler Support
 ----------------
