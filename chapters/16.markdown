@@ -161,7 +161,7 @@ recap:
 Let's look at one more mapping before we move on.  Run the following command:
 
     :::vim
-    :onoremap ah :<c-u>execute "normal! ?^==\\+\r:nohlsearch\rg_vk0"<cr>
+    :onoremap ah :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rg_vk0"<cr>
 
 Try it by putting your cursor in a section's text and typing `cah`.  This time
 Vim will delete not only the heading's text but also the line of equal signs
