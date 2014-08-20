@@ -118,7 +118,7 @@ Let's try using it.  Run the following commands:
 What did we do here?
 
 * First we set the `textwidth` globally to `80`.
-* The we ran an if statement that checked if `TextwidthIsTooWide()` was truthy.
+* Then we ran an if statement that checked if `TextwidthIsTooWide()` was truthy.
 * This wound up not being the case, so the `if`'s body wasn't executed.
 
 Because we never explicitly returned a value, Vim returned `0` from the
