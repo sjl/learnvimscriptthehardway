@@ -256,5 +256,5 @@ Experiment a bit and find out how autoloading variables behaves.
 
 Suppose you wanted to programatically force a reload of an autoload file Vim has
 already loaded, without bothering the user.  How might you do this?  You may
-want to read `:help silent!`.  Please don't ever do this in real life.
+want to read `:help silent`.  Please don't ever do this in real life.
 
