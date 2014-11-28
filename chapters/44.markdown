@@ -38,7 +38,7 @@ If you don't get this output, or you get an error, stop and figure out what's
 gone wrong.  The code should work exactly as-is.
 
 Take some time to understand how the code works.  Refer to the Potion docs
-liberally.  It's not critical to understanding Vimscript but it will make you
+liberally.  It's not critical to understanding Potion but it will make you
 a better programmer.
 
 Detecting Potion Files
