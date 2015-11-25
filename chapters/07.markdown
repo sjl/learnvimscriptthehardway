@@ -1,86 +1,69 @@
-Editing Your Vimrc
-==================
+编辑你的Vimrc文件
+=================
 
-Before we move on to learning more Vimscript, let's find a way to make it easier
-to add new mappings to our `~/.vimrc` file.
+在继续学习Vimscript之前，我们先找个添加新映射到`~/.vimrc`文件中的更方便的方法。
 
-Sometimes you're coding away furiously at a problem and realize a new mapping
-would make your editing easier.  You should add it to your `~/.vimrc` file right
-then and there to make sure you don't forget, but you *don't* want to lose your
-concentration.
+有时你正在疯狂的编码，突然发现加个映射会加速你的进度。你要立即将其加到`~/.vimrc`
+文件中以防止忘记，但是你 *不想* 退出当前的文件，因为灵感稍纵即逝。
 
-The idea of this chapter is that you want to make it easier to make it easier to
-edit text.
+本章的主题是你想使编辑文件更为方便变得更为方便。
 
-That's not a typo.  Read it again.
+有点绕，但我没有拼错。再读一次。
 
-The idea of this chapter is that you want to (make it easier to (make it easier
-to (edit text))).
+本章的主题是你想使（（（编辑文件）更为方便）变得更为方便）。
 
-Editing Mapping
----------------
+编辑映射
+--------
 
-Let's add a mapping that will open your `~/.vimrc` file in a split so you can
-quickly edit it and get back to coding.  Run this command:
+我们在一个分屏中打开`~/.vimrc`文件以快速编辑添加映射，然后退出继续编码。运行命令：
 
     :::vim
     :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
-I like to think of this command as "**e**dit my **v**imrc file".
+我称这个命令为“ **编辑** 我的 **vimrc** 文件”。
 
-`$MYVIMRC` is a special Vim variable that points to your `~/.vimrc` file.  Don't
-worry about that for right now, just trust me that it works.
+`$MYVIMRC`是指定你的`~/.vimrc`文件的特殊Vim变量。现在不要担心，相信我不会有问题。
 
-`:vsplit` opens a new vertical split.  If you'd prefer a horizontal split you
-can replace it with `:split`.
+`:vsplit`打开一个新的纵向分屏。如果你喜好横向的分屏，你可以用`:split`替换它。
 
-Take a minute and think through that command in your mind.  The goal is: "open
-my `~/.vimrc` file in a new split".  Why does it work?  Why is every single
-piece of that mapping necessary?
+花一分钟彻底理解理解那个映射命令。命令的目的是：在一个新的分屏中打开我的`~/.vimrc`。
+它是如何工作的？映射中的每一个字符都是必不可少的？
 
-With that mapping you can open up your `~/.vimrc` file with three keystrokes.
-Once you use it a few times it will burn its way into your muscle memory and
-take less than half a second to type.
+通过哪个映射，你只要三个键就可以打开你的`~/.vimrc`文件。只要你多用几次，你就能
+半秒内敲出这个命令。
 
-When you're in the middle of coding and come up with a new mapping that would
-save you time it's now trivial to add it to your `~/.vimrc` file.
+当你编码过程中突然想到一个可以提高效率的新映射要加到`~/.vimrc`文件中，
+现在对你来说简直就是小菜一碟。
 
-Sourcing Mapping
-----------------
+重读映射配置
+------------
 
-Once you've added a mapping to your `~/.vimrc` file, it doesn't immediately take
-effect.  Your `~/.vimrc` file is only read when you start Vim.  This means you
-need to also run the command manually to make it work in the current session,
-which is a pain.
+`~/.vimrc`文件添加一个映射并不是立即生效的。`~/.vimrc`文件只在你启动Vim的时候才会读取。
+也就是说在当前的session中你还需要痛苦的再次拼写那个完整的命令。
 
-Let's add a mapping to make this easier:
+我们加个映射来解决这个问题：
 
     :::vim
     :nnoremap <leader>sv :source $MYVIMRC<cr>
 
-I like to think of this command as "**s**ource my **v**imrc file".
+我称这个命令为“ **重读** 我的 **vimrc** 文件”。
 
-The `source` command tells Vim to take the contents of the given file and
-execute it as Vimscript.
+`source`命令告诉Vim读取指定的文件，并将其当做Vimscript执行。
 
-Now you can easily add new mappings during the heat of coding:
+现在在编码时你可以方便的添加新映射了。
 
-* Use `<leader>ev` to open the file.
-* Add the mapping.
-* Use `:wq<cr>` (or `ZZ`) to write the file and close the split, bringing you
-  back to where you were.
-* Use `<leader>sv` to source the file and make our changes take effect.
+* `<leader>ev`打开配置文件。
+* 添加映射。
+* 使用`:wq<cr>`或`ZZ`保存文件并关闭分屏，回到之前的文件。
+* 使用`<leader>sv`重读配置使修改生效。
 
-That's eight keystrokes plus whatever it takes to define the mapping.  It's very
-little overhead, which reduces the chance of breaking focus.
+定义一个映射需要8次按键。减少了中断思维的可能性。
 
-Exercises
----------
+练习
+----
 
-Add mappings to "edit my `~/.vimrc`" and "source my `~/.vimrc`" to your
-`~/.vimrc` file.
+在你的`~/.vimrc`文件中添加映射，温习“编辑`~/.vimrc`”和“重读`~/.vimrc`”过程。
 
-Try them out a few times, adding dummy mappings each time.
+多练几遍，随意加些没意义的映射。
 
-Read `:help myvimrc`.
-
+阅读`:help myvimrc`。

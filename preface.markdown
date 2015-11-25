@@ -1,75 +1,55 @@
-Preface
-=======
+前言
+====
 
-Programmers shape ideas into text.
+程序猿们更喜欢实现自己的idea。
 
-That text gets turned into numbers and those numbers bump into other numbers
-and *make things happen*.
+idea形成算法，而算法又发展为算法，并使 *idea成真* 
 
-As programmers, we use text editors to get our ideas out of our heads and create
-the chunks of text we call "programs".  Full-time programmers will spend tens of
-thousands of hours of their lives interacting with their text editor, during
-which they'll be doing many things:
+作为一个程序猿，我们使用文本编辑器记录我们的idea，并为写程序实现它。全职的程序猿
+一生中的千分之十的时间都是在和他的文本编辑器打交道，这期间他们的所做的事情包括：
 
-* Getting raw text from their brains into their computers.
-* Correcting mistakes in that text.
-* Restructuring the text to formulate a problem in a different way.
-* Documenting how and why something was done a particular way.
-* Communicating with other programmers about all of these things.
+* 将他们的灵感记录到计算机上
+* 重新考虑并修改灵感中的错误
+* 用代码实现他们的灵感
+* 写文档记录某功能是如何及为什么那么实现
+* 与其他的程序猿交流这个经验
 
-Vim is incredibly powerful out of the box, but it doesn't truly shine until you
-take some time to customize it for your particular work, habits, and fingers.
-This book will introduce you to Vimscript, the main programming language used to
-customize Vim.  You'll be able to mold Vim into an editor suited to your own
-personal text editing needs and make the rest of your time in Vim more
-efficient.
+Vim是一个功能相当强大的编辑器，当然，前提是你需要根据你的工作、喜好以及习惯定制
+它。本书将向你介绍Vimscript，一门用于定制Vim的脚本语言。读完本书你将能够定制
+Vim使其更加适应你的文本编辑需求，以后再使用Vim将有更好的体验。
 
-Along the way I'll also mention things that aren't strictly about Vimscript, but
-are more about learning and being more efficient in general.  Vimscript isn't
-going to help you much if you wind up fiddling with your editor all day instead
-of working, so it's important to strike a balance.
+同时我也会提到一些与Vimscript关系不大的点，但那些内容通常都能加强你对Vimscript的认知。
+如果你一天仅很少的时间使用Vim，学习Vimscript对你没有多大意义，所以请慎重考虑并平衡你的时间。
 
-The style of this book is a bit different from most other books about
-programming languages.  Instead of simply presenting you with facts about how
-Vimscript works, it guides you through typing in commands to see what they do.
 
-Sometimes the book will lead you into dead ends before explaining the "right
-way" to solve a problem.  Most other books don't do this, or only mention the
-sticky issues *after* showing you the solution.  This isn't how things typically
-happen in the real world, though.  Often you'll be writing a quick piece of
-Vimscript and run into a quirk of the language that you'll need to figure out.
-By stepping through this process in the book instead of glossing over it I hope
-to get you used to dealing with Vimscript's peculiarities so you're ready when
-you find edge cases of your own.  Practice makes perfect.
+本书的写作风格与其他多数的编程书籍略有不同。本书将引领你敲写命令并查看其背后的奥秘
+，而不是仅仅简单的告诉你Vimscript是如何工作的。
 
-Each chapter of the book focuses on a single topic.  They're short but packed
-with information, so don't just skim them.  If you really want to get the most
-out of this book you need to actually type in all of the commands.  You may
-already be an experienced programmer who's used to reading code and
-understanding it straight away.  If so: it doesn't matter.  Learning Vim and
-Vimscript is a different experience from learning a normal programming language.
+有时本书会带你进入死胡同，然后才会给你解释解决问题的"正确方法"。其他的书籍通常不这么做，
+或者仅仅在解决问题 *之后* 提到其中的技巧。然而这并不是现实世界中事情的进展顺序。
+你时常会快速写一些Vimscript的代码段，运行却遇到不明缘由的故障。细致研读此书，不要
+局限于浏览，读完之后再次遇到上述问题你将能够顺利解决了。熟能生巧嘛！
 
-You need to **type in *all* the commands.**
+本书的每一章节都只讲述一个主题。每一章节都内容简短而信息丰富，所以不要跳过任何章节。
+如果你真想从本书中学到东西，你要动手敲写所有的命令。可能你已经是一个经验丰富的程序猿，
+能够快速阅读并理解代码的含义。但是不要掉以轻心，学习Vim/Vimscript有个与其他普通程序
+语言更加不同的体验。
 
-You need to **do *all* the exercises.**
+你需要 **敲写 *所有的* 命令**
 
-There are two reasons this is so important.  First, Vimscript is old and has
-a lot of dusty corners and twisty hallways.  One configuration option can change
-how the entire language works.  By typing *every* command in *every* lesson and
-doing *every* exercise you'll discover problems with your Vim build or
-configuration on the simpler commands, where they'll be easier to diagnose and
-fix.
+你需要 **完成 *所有的* 练习**
 
-Second, Vimscript *is* Vim.  To save a file in Vim, you type `:write` (or `:w`
-for short) and press return.  To save a file in a Vimscript, you use `write`.
-Many of the Vimscript commands you'll learn can be used in your day-to-day
-editing as well, but they're only helpful if they're in your muscle memory,
-which simply doesn't happen from just reading.
+两个理由解释上述内容的重要性！第一，Vimscript语言是一门古老的语言，其设计难免存在一些
+不妥之处。一个简单的配置项就可影响整个脚本的功能。敲写 *每个* 章节遇到的 *每个* 命令
+，完成 *每个* 练习，你就会发现很容易地发现并修复遇到的问题。
 
-I hope you'll find this book useful.  It's *not* meant to be a comprehensive
-guide to Vimscript.  It's meant to get you comfortable enough with the language
-to mold Vim to your taste, write some simple plugins for other users, read other
-people's code (with regular side-trips to `:help`), and recognize some of the
-common pitfalls.
+第二，Vimscript其实 *就是* Vim命令。在Vim中，保存一个文件使用命令`:write`（或者缩写
+`:w`）并回车确认。在Vimscript中，使用`write`实现文件保存功能。Vimscript中的许多
+命令都可用于日常文件编辑工作，必须勤加练习以记住那些命令才会有用，
+仅仅是看过是无法运用自如的。
 
-Good luck!
+我希望本书能够对你有所帮助。本书 *不是* 一本对Vimscript的综合指南。本书试图让你
+掌握Vimscript，能够利用它定制你的Vim环境，为其他用户编写一些简单的插件，
+能够阅读他人的代码（利用`:help`命令），能够分辨出一些常见的语法陷阱。
+
+祝你好运！

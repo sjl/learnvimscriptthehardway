@@ -1,66 +1,61 @@
-Echoing Messages
-================
+打印信息
+========
 
-The first pieces of Vimscript we'll look at are the `echo` and `echom` commands.
+Vimscript中，我们最先关注的是`echo`和`echom`命令。
 
-You can read their full documentation by running `:help echo` and `:help echom`
-in Vim.  As you go through this book you should try to read the `:help` for
-every new command you encounter to learn more about them.
+你可以在Vim中执行`:help echo`和`:help echom`命令以查看其帮助文档。读完本书之后，
+再次遇到新的命令时，你应该先执行`:help`命令查看其帮助文档。
 
-Try out `echo` by running the following command:
+执行如下命令，体验`echo`命令：
 
     :::vim
     :echo "Hello, world!"
 
-You should see `Hello, world!` appear at the bottom of the window.
+你应该会在屏幕的底部看到`Hello, world!`被打印出来。
 
-Persistent Echoing
-------------------
+还是打印消息
+------------
 
-Now try out `echom` by running the following command.
+现在执行如下命令，体验`echom`命令：
 
     :::vim
     :echom "Hello again, world!"
 
-You should see `Hello again, world!` appear at the bottom of the window.
+你应该会在屏幕的底部看到`Hello again, world!`被打印出来。
 
-To see the difference between these two commands, run the following:
+执行如下命令，查看上述两个打印命令的区别：
 
     :::vim
     :messages
 
-You should see a list of messages.  `Hello, world!` will *not* be in this list,
-but `Hello again, world!` *will* be in it.
+你应该会看到一些消息。`Hello, world!`应该*不在*其中，但是`Hello again, world!`
+*在*。
 
-When you're writing more complicated Vimscript later in this book you may find
-yourself wanting to "print some output" to help you debug problems.  Plain old
-`:echo` will print output, but it will often disappear by the time your script
-is done.  Using `:echom` will save the output and let you run `:messages` to
-view it later.
+当你写更为复杂的Vimscript时，你可能会想"打印一些信息"以方便调试程序。`:echo`命令
+会打印输出，但是一旦你的脚本运行完毕，那些输出信息就会消失。使用`:echom`打印的信息
+会保存下来，你可以执行`:messages`命令再次查看那些信息。
 
-Comments
---------
+注释
+----
 
-Before moving on, let's look at how to add comments.  When you write Vimscript
-code (in your `~/.vimrc` file or any other one) you can add comments with the
-`"` character, like this:
+继续之前，咱们先看看如何添加注释。当你写Vimscript脚本时(在你的`~/.vimrc`文件中或
+其它任意文件)，你可以通过`"`字符添加注释，例如：
 
     :::vim
     " Make space more useful
     nnoremap <space> za
 
-This doesn't *always* work (that's one of those ugly corners of Vimscript), but
-in most cases it does.  Later we'll talk about when it won't (and why that
-happens).
+这个注释方法并不*总是*有效(这就是Vimscript令人无语的一点)，但是更多的情况这个方法是
+可以正常工作的。以后我们会谈到什么情况、为什么这个方法会无效。
 
-Exercises
----------
+练习
+----
 
-Read `:help echo`.
+阅读`:help echo`帮助文档。
 
-Read `:help echom`.
+阅读`:help echom`帮助文档。
 
-Read `:help messages`.
+阅读`:help messages`帮助文档。
 
-Add a line to your `~/.vimrc` file that displays a friendly ASCII-art cat
-(`>^.^<`) whenever you open Vim.
+添加一行代码到你的`~/.vimrc`文件中，使得每个打开Vim时都会显示一个可爱的ASCII
+字符猫(`>^.^<`)。

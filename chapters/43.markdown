@@ -1,92 +1,77 @@
-A New Hope: Plugin Layout with Pathogen
+新希望：用Pathogen配置插件
 =======================================
 
-Vim's vanilla layout for plugin files makes sense if you're just adding a file
-here and there to customize your own Vim experience, but turns into a mess when
-you want to use plugins other people have written.
+Vim的插件配置方式，在你仅仅添加一个文件来自定义自己的Vim体验时很合理，
+但当你想要使用别人写的插件时，这种方式会导致一团糟。
 
-In the past, when you wanted to use a plugin someone else wrote you would
-download the files and place them, one-by-one, into the appropriate directories.
-You could also use `zip` or `tar` to do the placing for you.
+在过去，要想使用别人写好的插件，你得下载所有文件并逐一正确地放置它们。
+你也可能使用`zip`或`tar`来替你做放置的工作。
 
-There are a few significant problems with this approach:
+在这个过程中有些明显的问题：
 
-* What happens when you want to update a plugin?  You can overwrite the old
-  files, but how do you know if the author deleted a file that you now need to
-  delete by hand?
-* What if two plugins happen to have a file with the same name (like `utils.vim`
-  or something generic like that)?  Sometimes you can simply rename it, but if
-  it's in `autoload/` or another directory where the names matter you've got to
-  edit the plugin yourself.  Not fun.
+* 当你想更新插件的时候怎么办？你可以覆盖旧的文件，
+  但如果作者删除了某个文件，你怎么知道你要手工删除对应文件？
+* 假如有两个插件正好使用了同样的文件名(比如`utils.vim`或别的更大众的名字)呢？
+  有时你可以简单地重命名掉它，但如果它位于`autoload/`或别的名字相关的文件夹中呢？
+  你改掉文件名，就等于改掉插件。这一点也不好玩。
 
-People came up with several hacks to try to make things easier, like Vimballs.
-Luckily we don't need to suffer through these ugly hacks any more.  [Tim Pope][]
-created the wonderful [Pathogen][] plugin that makes managing multiple plugins
-a breeze, as long as plugin authors structure their plugins in a sane way.
+人们总结出一系列hacks来让事情变得简单些，比如Vimball。
+幸运的是，我们不再需要忍受这些肮脏的hacks。
+[Tim Pope][]创造了著名的[Pathogen][]插件让管理大量插件变得轻松愉快，
+只要插件作者神志清醒地安排好插件结构。(译注：现在推荐[vundle][]来代替Pathogen，前者支持使用git下载插件)
 
-Let's take a quick look at how Pathogen works and what we need to do to make our
-plugin compatible.
+让我们了解一下Pathogen的工作方式，以及为了让我们的插件更加兼容，我们需要做的事。
 
 [Tim Pope]: http://tpo.pe/
 [Pathogen]: http://www.vim.org/scripts/script.php?script_id=2332
+[vundle]: https://github.com/gmarik/vundle
 
-Runtimepath
+运行时路径
 -----------
 
-When Vim looks for files in a specific directory, like `syntax/`, it doesn't
-just look in a single place.  Much like `PATH` on Linux/Unix/BSD systems, Vim
-has the `runtimepath` setting which tells it where to find files to load.
+当Vim在特殊的文件夹，比如`syntax/`，中查找文件时，它不仅仅只到单一的地方上查找。
+就像Linux/Unix/BSD系统上的`PATH`，Vim设置`runtimepath`以便查找要加载的文件。
 
-Create a `colors` directory on your Desktop.  Create a file in that directory
-called `mycolor.vim` (you can leave it empty for this demonstration).  Open Vim
-and run this command:
+在你的桌面创建`colors`文件夹。在这个文件夹中创建一个叫`mycolor.vim`的文件(在本示例中你可以让它空着)。
+打开Vim并执行这个命令：
 
     :::vim
     :color mycolor
 
-Vim will display an error, because it doesn't know to look on your Desktop for
-files.  Now run this command:
+Vim将显示一个错误，因为它不懂得去你的桌面查找。现在执行这个命令：
 
     :::vim
     :set runtimepath=/Users/sjl/Desktop
 
-You'll need to change the path to match the path of your own Desktop, of course.
-Now try the color command again:
+当然，你得根据你的情况修改路径名。现在再尝试color命令：
 
     :::vim
     :color mycolor
 
-This time Vim doesn't throw an error, because it was able to find the
-`mycolor.vim` file.  Because the file was blank it didn't actually *do*
-anything, but we know it was found because it didn't throw an error.
+这次Vim找到了`mycolor.vim`，所以它将不再报错。由于文件是空的，它事实上什么都没*做*，
+但由于它不再报错，我们确信它找到了。
 
 Pathogen
 --------
 
-The Pathogen plugin automatically adds paths to your `runtimepath` when you load
-Vim.  Any directories inside `~/.vim/bundle/` will each be added to the
-`runtimepath`.
+Pathogen插件在你加载Vim的时候自动地把路径加到你的`runtimepath`中。
+所有在`~/.vim/bundle/`下的文件夹将逐个加入到`runtimepath`。(译注：vundle也是这么做的)
 
-This means that each directory inside `bundle/` should contain some or all of
-the standard Vim plugin directories, like `colors/` and `syntax/`.  Vim can now
-load files from each of those directories, which makes it simple to keep each
-plugin's files in its own directory.
+这意味着每个`bundle/`下的文件夹应该包括部分或全部的标准的Vim插件文件夹，比如`colors/`和`syntax/`。
+现在Vim可以从每个文件夹中加载文件，而且每个插件文件都独立于自己的文件夹中。
 
-This makes it trivial to update plugins.  You can simply blow away the old
-plugin's directory entirely and replace it with the new version.  If you keep
-your `~/.vim` directory under version control (and you should) you can use
-Mercurial's subrepos or Git's submodules to directly check out each plugin's
-repository into `~/.vim/bundle/` and then update it with a simple `hg pull; hg
-update` or `git pull origin master`.
+这么一来更新插件就轻松多了。你只需要整个移除旧的插件文件夹，并迎来新的版本。
+如果你通过版本控制来管理`~/.vim`文件夹(你应该这么做)，
+你可以使用Mercurial的subrepo或Git的submodule功能来直接签出(checkout)每个插件的代码库，
+然后用一个简单的`hg pull; hg update`或`git pull origin master`来更新。
 
-Being Pathogen-Compatible
+成为Pathogen兼容的
 -------------------------
 
-When we write our Potion plugin we want to let our users use it with Pathogen.
-Doing this is simple: we simply put our files in the appropriate directories
-inside the plugin's repository!
+我们计划让我们的用户通过Pathogen安装我们写的Potion插件。
+我们需要做的：在插件的代码库里，放置我们的文件到正确的文件夹中。就是这么简单！
 
-Our plugin's repository will wind up looking like this:
+我们插件的代码库展开后看起来就像这样：
 
     :::text
     potion/
@@ -102,20 +87,18 @@ Our plugin's repository will wind up looking like this:
             potion.vim
         ... etc ...
 
-We can put this on GitHub or Bitbucket and users can simply clone it down into
-`bundle/` and everything will just work!
+我们把它放置在GitHub或Bitbucket上，这样用户就能简单地clone它到`bundle/`，一切顺利！
 
-Exercises
+练习
 ---------
 
-Install [Pathogen][] if you haven't already done so.
+如果你还没有安装[vnudle][]，安装它。(译注：原文是安装[Pathogen][]，但是没有必要啦)
 
-Create a Mercurial or Git repository for your plugin, called `potion`.  You can
-put it anywhere you like and symlink it into `~/.vim/bundle/potion/` or just put
-it directly in `~/.vim/bundle/potion/`.
+给你的插件创建Mercurial或Git代码库，起名叫`potion`。
+你可以把它放到你喜欢的地方，并链接到`~/.vim/bundle/potion/`或就把它直接放到`~/.vim/bindle/potion/`。
 
-Create `README` and `LICENSE` files in the repository and commit them.
+在代码库中创建`README`和`LICENSE`文件，然后commit。
 
-Push the repository up to Bitbucket or GitHub.
+Push到Bitbucket或GitHub。
 
-Read `:help runtimepath`.
+阅读`:help runtimepath`。

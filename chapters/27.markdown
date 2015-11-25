@@ -1,102 +1,85 @@
-String Functions
+字符串函数
 ================
 
-Vim has many built-in functions to manipulate strings.  In this chapter we'll
-look at a few of the most important ones.
+Vim有许多内置(built-in)函数来操作字符串。本章中我们将介绍一些最为重要的字符串函数。
 
-Length
+长度
 ------
 
-The first function we'll look at is `strlen`.  Run the following command:
+第一个介绍的函数是`strlen`。执行下面的命令：
 
     :::vim
     :echom strlen("foo")
 
-Vim displays `3`, which is the length of the string `"foo"`.  Now try the
-following command:
+Vim显示`3`，也即`"foo"`的长度。现在尝试下面的命令：
 
     :::vim
     :echom len("foo")
 
-Vim once again displays `3`.  When used with Strings `len` and `strlen` have
-identical effects.  We'll come back to `len` later in the book.
+Vim再一次显示`3`。对于字符串，`len`和`strlen`有同样的效果。在本书稍后的章节我们会回过头来探讨`len`。
 
-Splitting
+切割
 ---------
 
-Run the following command (note that it's an `echo` and not an `echom`):
+执行下面的命令(注意是`echo`而不是`echom`)：
 
     :::vim
     :echo split("one two three")
 
-Vim displays `['one', 'two', 'three']`.  The `split` function splits a String
-into a List.  We'll talk about Lists shortly, but for now don't worry too much
-about them.
+Vim显示`['one','two','three']`。`split`函数把字符串切割成列表。我们将简要介绍列表，
+但现在不要纠结于此。
 
-You can also tell Vim to use a separator other than "whitespace" for splitting.
-Run the following command:
+你也可以指定一个分隔符来代替"空白"。
 
     :::vim
     :echo split("one,two,three", ",")
 
-Vim will once again display `['one', 'two', 'three']`, because the second
-argument to `split` tells it to split the string on the comma character instead
-of on whitespace.
+Vim再一次显示`['one','two','three']`，因为`split`的第二个参数是","，表示以","切割。
 
-Joining
+连接
 -------
 
-Not only can you split strings, you can also join them.  Run the following
-command:
+你不仅可以切割字符串，还可以连接它们。执行下面命令：
 
     :::vim
     :echo join(["foo", "bar"], "...")
 
-Vim will display `foo...bar`.  Don't worry about the list syntax for now.
+Vim将显示`foo...bar`。暂时不要在意列表语法。
 
-`split` and `join` can be paired to great effect.  Run the following command:
+`split`和`join`可以合作无间。执行下面的命令：
 
     :::vim
     :echo join(split("foo bar"), ";")
 
-Vim displays `foo;bar`.  First we split the string `"foo bar"` into a list, then
-we joined that list together using a semicolon as the separator.
+Vim显示`foo;bar`。首先我们把`"foo bar"`切割成列表，接着用分号作为分隔符把列表连接成字符串。
 
-Lower and Upper Case
+大小写转换
 --------------------
 
-Vim has two functions to change the case of Strings.  Run the following
-commands:
+Vim有两个函数来转换字符串大小写。执行下面的命令：
 
     :::vim
     :echom tolower("Foo")
     :echom toupper("Foo")
 
-Vim displays `foo` and `FOO`.  This should be pretty easy to understand.
+Vim显示`foo`和`FOO`。这很浅显易懂吧。
 
-In many languages (like Python) a common idiom is to force strings to lowercase
-before comparing them to perform a case-insensitive comparison.  In Vimscript
-this isn't necessary because we have the case-insensitive comparison operators.
-Reread the chapter on comparisons if you don't remember those.
+在许多语言(如Python)有一个惯例是在进行比较之前把字符串强制转换成小写来实现大小写无关的比较。
+在Vimscript里不需要这么做，因为有大小写不敏感的比较运算符。如果你回忆不起来，重新读关于比较的那一章。
+(译注：如果你回忆不起来，那是第22章)
 
-It's up to you to decide whether to use `tolower` and `==#`, or just `==?` to
-perform case-sensitive comparisons.  There doesn't seem to be any strong
-preference in the Vimscript community.  Pick one and stick to it for all of your
-scripts.
+你可以自由选择使用`tolower`或`==#`以及`==?`来实现大小写敏感的比较。Vimscript社区对此还没有明显的偏好。
+选定一个并在你所有的脚本中保持一致。
 
-Exercises
+练习
 ---------
 
-Run `:echo split('1   2')` and `:echo split('1,,,2', ',')`.  Do they behave the
-same?
+执行`:echo split('1   2')`和`:echo split('1,,,2',',')`。它们表现一致吗？
 
-Read `:help split()`.
+阅读`:help splt()`。
 
-Read `:help join()`.
+阅读`:help join()`。
 
-Read `:help functions` and skim the list of built-in functions for ones that
-mention the word "String".  Use the `/` command to make it easier (remember,
-Vim's help files can be navigated like any other kind of file).  There are
-a *lot* of functions here, so don't feel like you need to read the documentation
-for every single one.  Just try to get an idea of what's available if you need
-it in the future.
+阅读`:help functions`并浏览有关String的内置函数。使用`/`命令来辅助你(记住，Vim的帮助文件可以以一般文件的方式浏览)。
+这里有着*许多*函数，所以不要纠结于每一个函数的文档。给自己留下印象，以便于将来的不时之用，
+这就够了。

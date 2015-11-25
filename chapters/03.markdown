@@ -1,85 +1,74 @@
-Basic Mapping
-=============
+基本映射
+========
 
-If there's one feature of Vimscript that will let you bend Vim to your will more
-than any other, it's the ability to map keys.  Mapping keys lets you tell Vim:
+如果说Vimscript有一个特性使得你能够按照你的意愿定制Vim，那就非键盘映射莫属。
+你可以通过键盘映射告诉Vim：
 
-> When I press this key, I want you to do this stuff instead of whatever you
-> would normally do.
+> 当我按下这个键时，我需要你放弃默认操作，按我的想法做。
 
-We're going to start off by mapping keys in normal mode.  We'll talk about how
-to map keys in insert and other modes in the next chapter.
+我们先从normal模式的键盘映射开始。我们将在下一章节讨论insert模式和其他模式下的
+键盘映射。
 
-Type a few lines of text into a file, then run:
+随意在文本中敲写几行文字，然后运行命令：
 
     :::vim
     :map - x
 
-Put your cursor somewhere in the text and press `-`.  Notice how Vim deleted the
-character under the cursor, just like if you had pressed `x`.
+将光标置于文本中的某处，按下`-`。注意Vim删除了当前光标下的字符，就好像你按了`x`一样。
 
-We already have a key for "delete the character under the cursor", so let's
-change that mapping to something slightly more useful.  Run this command:
+我们本来就有个按键用于 "删除当前光标下的字符" ，所以我们将`-`重新映射到稍微有用的
+功能。执行命令：
 
     :::vim
     :map - dd
 
-Now put your cursor on a line somewhere and press `-` again.  This time Vim
-deletes the entire line, because that's what `dd` does.
+现在移动光标到任意一行，再按下`-`，这次Vim删除了整行的文本，因为`dd`的功能就是删除整行。
 
-Special Characters
-------------------
+特殊字符
+--------
 
-You can use `<keyname>` to tell Vim about special keys.  Try running this
-command:
+你可以使用`<keyname>`告诉Vim一个特殊的按键。尝试如下命令：
 
     :::vim
     :map <space> viw
 
-Put your cursor on a word in your text and press the space bar.  Vim will
-visually select the word.
+移动光标到一个单词上，按下空格键。Vim将高亮选中整个单词。
 
-You can also map modifier keys like Ctrl and Alt.  Run this:
+你也可以映射修饰键入Ctrl和Alt。执行：
 
     :::vim
     :map <c-d> dd
 
-Now pressing `Ctrl+d` on your keyboard will run `dd`.
+现在在键盘上按下`Ctrl+d`将执行`dd`命令。
 
-Commenting
-----------
+注释
+----
 
-Remember in the first lesson where we talked about comments?  Mapping keys is
-one of the places where Vim comments don't work.  Try running this command:
+还记得我们在第一章讨论的注释么？键盘映射就无法使用注释。尝试如下命令：
 
     :::vim
     :map <space> viw " Select word
 
-If you try pressing space now, something horrible will almost certainly happen.
-Why?
+现在你再按下空格键，一些恐怖的事情就会发生。想一想为什么会这样呢？
 
-When you press the space bar now, Vim thinks you want it to do what
-`viw<space>"<space>Select<space>word` would do.  Obviously this isn't what we
-want.
+当你按下空格键时，Vim认为你是想执行命令`viw<space>"<space>Select<space>word`。
+很明显，这不是你的本意。
 
-If you look closely at the effect of this mapping you might notice something
-strange.  Take a few minutes to try to figure out exactly what happens when you
-use it, and *why* that happens.
+如果你仔细查看了这个映射的结果，可能你会发现一些奇怪的事。利用几分钟时间，
+弄明白使用这个映射时到底发生了什么，以及 *为什么* 会是那样的结果。
 
-Don't worry if you don't get it right away -- we'll talk about it more soon.
+暂时搞不明白也不要担心，我们很快就会再次谈论这个问题。
 
-Exercises
----------
+练习
+----
 
-Map the `-` key to "delete the current line, then paste it below the one we're
-on now".  This will let you move lines downward in your file with one keystroke.
+映射按键`-`为 "删除当前行，然后将其粘贴到下一行" 。然后你就可以一次按键就将一行
+文本移动到下一行。
 
-Add that mapping command to your `~/.vimrc` file so you can use it any time
-you start Vim.
+将那个映射命令添加到你的`~/.vimrc`文件中，以后每次启动Vim你都可以使用那个映射了。
 
-Figure out how to map the `_` key to move the line up instead of down.
+试试如何映射按键`_`，使其将当前行上移一行。
 
-Add that mapping to your `~/.vimrc` file too.
+将这个映射也加到你的的`~/.vimrc`文件中。
 
-Try to guess how you might remove a mapping and reset a key to its normal
-function.
+想想如果你想取消一个映射或重置一个按键为默认功能时该怎么操作。

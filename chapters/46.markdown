@@ -1,69 +1,55 @@
-Advanced Syntax Highlighting
+高级语法高亮
 ============================
 
-So far we've defined some simple syntax highlighting for Potion files: keywords
-and functions.
+目前我们已经为Potion文件实现了简单的关键字和函数的语法高亮。
 
-If you didn't do the exercises in the last chapter, you need to go back and do
-them.  I'm going to assume you did them.
+如果没有做上一章的练习，你需要回去完成。我将假设你做了练习。
 
-In fact, you should go back and do *any* exercises you skipped.  Even if you
-think you don't need them, you *need* to do them for this book to be effective.
-Please trust me on this.
+事实上，你应该回去完成你跳过的*任何*练习。即使你觉得你不需要，为了更好的学习效果，
+你都得把它们完成了。请在这一点上相信我。
 
-Highlighting Comments
+高亮注释
 ---------------------
 
-One obvious part of Potion that we need to highlight is comments.  The problem
-is that Potion comments start with `#` which is (almost always) not in
-`iskeyword`.
+接下来我们需要高亮Potion的一个重要组成部分——注释。
+问题是，Potion的注释以`#`开头，而`#`并不在`iskeyword`里。
 
-If you don't know what `iskeyword` means, you didn't listen to me.  Go back and
-*do the damn exercises*.  I'm not just throwing useless busywork at you when
-I write the exercises for each chapter.  You *really* need to do them to
-understand the book.
+如果不知道什么是`iskeyword`，你没有认真听讲。回去并*完成那该死的练习*。
+在写每一章的内容时，我不会把无意义的粗重活丢给你。你*真的*需要完成它们来跟上本书的进度。
 
-Because `#` isn't a keyword character we need to use a regular expression to
-match it (and the rest of the comment).  We'll do this with `syntax match`
-instead of `syntax keyword`.  Add the following lines to your syntax file:
+因为`#`不是一个keyword字符，我们需要使用正则表达式来匹配它(以及接下来的注释)。
+我们将用`syntax match`代替`syntax keyword`。在你的syntax文件中加入下面几行：
 
     :::vim
     syntax match potionComment "\v#.*$"
     highlight link potionComment Comment
 
-I'm not going to tell you where to put them in the file any more.  You're
-a programmer: use your judgement.
+我不会再唠叨要把它们放到文件的哪里。你已经是个程序猿了：由你自己判断。
 
-Close and reopen `factorial.pn`.  Add a comment somewhere in the file and you'll
-see that it's highlighted as a comment.
+关闭并重新打开`factorial.pn`。在文件的某处添加一个注释，你将看到它被当作注释高亮了。
 
-The second line is simple: it tells Vim to highlight anything in the
-`potionComment` syntax group as a `Comment`.
+第二行是简单的：它告诉Vim高亮`potionComment`语法类型组里的任何东西为`Comment`。
 
-The first line is something new.  We use `syntax match` which tells Vim to match
-*regexes* instead of literal keywords.
+第一行有点新东西。我们使用`syntax match`来告诉Vim用*正则表达式*而不是关键词来匹配。
 
-Notice that the regular expression we're using starts with `\v` which tells Vim
-to use "very magic" mode.  Reread the chapter on basic regular expressions if
-you're not sure what that means.
+注意正则表达式以`\v`开头，表示使用"very magic"模式。
+如果你不太清楚，重读关于基本正则表达式的那一章。(译注：第31章)
 
-In this particular case the "very magic" mode isn't necessary.  But in the
-future we might change this regex and wonder why it's not working, so I'd
-recommend *always* using "very magic" regexes for consistency.
+当前状况下，"very magic"模式不是必须的。
+但将来我们可能会改变这个正则表达式，然后苦思冥想为何它不工作了，
+所以我建议总是使用"very magic"来保证一致性。
 
-As for the regex itself, it's fairly simple: comments start with a hash and
-include all characters from there to the end of the line.
+至于正则表达式的功能，非常简单：匹配以`#`开头的注释，包括以此开始到行末的所有字符。
 
-If you need a refresher course on regular expressions you should take a look at
-[Learn Regex the Hard Way][regex] by Zed Shaw.
+如果你需要重新唤起对正则表达式的记忆，你应该看一下
+Zed Shaw的[Learn Regex the Hard Way][regex]。
 
 [regex]: http://regex.learncodethehardway.org/
 
-Highlighting Operators
+高亮运算符
 ----------------------
 
-Another part of Potion we need regexes to highlight is operators.  Add the
-following to your syntax file:
+另一个需要正则表达式来高亮的部分是运算符。在你的syntax文件中加入下列内容：
 
     :::vim
     syntax match potionOperator "\v\*"
@@ -78,66 +64,50 @@ following to your syntax file:
 
     highlight link potionOperator Operator
 
-Close and reopen `factorial.pn`.  Notice that the `*=` in the factorial function
-is now highlighted.
+关闭并重新打开`factorial.pn`。注意到阶乘函数的`*=`现在被高亮了。
 
-The first thing you probably noticed about this hunk of code is that I put each
-regex on its own line instead of grouping them like I did with keywords.  This
-is because `syntax match` does *not* support multiple groups on a single line.
+你可能首先注意到，我把每个正则表达式独立成一行而不是像对关键字一样分成组。
+这是因为`syntax match`*不*支持在一行里放多个组。
 
-You should also note that I used `\v` at the beginning of every regular
-expression, even when it wasn't strictly necessary.  I prefer to keep my regex
-syntax consistent when writing Vimscript, even if it means a few extra
-characters.
+你应该也注意到每个正则表达式都以`\v`开头，即使并不是必须的。
+在写Vimscript时，我希望保持正则表达式的一致性，即使这样做需要多打几个符号。
 
-You might be wondering why I didn't use a regex like `"\v-\=?"` to match both
-`-` *and* `-=` in one line.  You can absolutely do that if you want to.  It will
-work just fine.  I just tend to think of `-` and `-=` as separate operators, so
-I put them on separate lines.
+你可能会奇怪，为什么我不用类似于`"\v-\=?"`的正则表达式来同时匹配`-`*以及*`-=`。
+你想要的话也可以这么做。它会正常工作。
+我只是坚持认为`-`和`-=`是不同的运算符，所以把它们放到不同行里。
 
-Defining those operators as separate matches simplifies the regexes at the cost
-of some extra verbosity.  I prefer doing it like that, but you may feel
-differently.  Use your judgement.
+把每个运算符放在单独的匹配中，简化了正则表达式，代价是输入了额外的字符。
+我喜欢这么做，但你可能不这么认为。你自己决定吧。
 
-I also never defined `=` as an operator.  We'll do that in a second, but
-I wanted to avoid it for now so I could teach you a lesson.
+我也没有把`=`定义成一个运算符。我们等会会这么做，但我希望暂时先不这样做，这样就能给你考上一题了。
 
-Because I used separate regexes for `-` and `-=` I had to define `-=` *after*
-`-`!
+因为分开了`-`和`-=`的正则表达式，我不得不在定义`-`*之后*定义`-=`！
 
-If I did it in the opposite order and used `-=` in a Potion file, Vim would
-match `-` (and highlight it, of course) and only `=` would remain for matching.
-This shows when you're building groups with `syntax match` each group "consumes"
-pieces of the file that can't be matched later.
+如果以相反的顺序定义，并在Potion文件里使用`-=`，Vim将匹配`-`(当然，同时也高亮它)，
+剩下`=`等待匹配。这意味着在构建`syntax match`组时，每个组"消耗"的文本片段在之后不能被匹配到。
 
-This is an oversimplification, but I don't want to get bogged down in the
-details just yet.  For now, your rule of thumb should be to match larger groups
-after smaller groups later because groups defined *later* have priority over
-groups defined *earlier*.
+这讲得太笼统了，但我暂时并不打算纠结于细节。
+总之，你应该在匹配较小的组之后匹配较大的组，因为在*之后*定义的组优先于在*之前*定义的组。
 
-Let's go ahead and add `=` as an operator, now that we've had our lesson:
+让我们继续并添加`=`作为运算符。现在请听题：
 
     :::vim
     syntax match potionOperator "\v\="
 
-Take a second and think about where you need to put this in the syntax file.
-Reread the last few paragraphs if you need a hint.
+花一点时间想想你应该把它放在syntax文件的哪个位置。如果你需要提示，重读前几章。
 
-Exercises
+练习
 ---------
 
-Read `:help syn-match`.
+阅读`:help syn-match`.
 
-Read `:help syn-priority`.
+阅读`:help syn-priority`.
 
-We didn't make `:` an operator in our example.  Read the Potion docs and make
-a conscious decision about whether to make `:` an operator.  If you decide to do
-so, add it to the syntax file.
+在例子中，我们没有把`:`当作运算符。阅读Potion文档并审慎地决定是否把`:`当作一个运算符。
+如果你决定这么做，把它加到syntax文件中。
 
-Do the same for `.` and `/`.
+同样考虑`.`和`/`。
 
-Add a syntax group `potionNumber` that highlights numbers.  Link it to the
-highlight group `Number`.  Remember that Potion supports numbers like `2`,
-`0xffaf`, `123.23`, `1e-2`, and `1.9956e+2`.  Remember to balance the time it
-takes to handle edge cases with the amount of time those edge cases will
-actually be used.
+增加一个高亮数字的语法类型分组`potionNumber`。链接它到高亮组`Number`。
+不要忘了Potion支持`2`，`0xffaf`，`123.23`，`1e-2`和`1.9956e+2`这几种形式。
+记得在处理边际状态的花费的时间和这些边际状态出现的次数之间取得平衡。

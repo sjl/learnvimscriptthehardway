@@ -1,37 +1,27 @@
-Variable Scoping
+变量作用域
 ================
 
-So far Vimscript's variables may seem familiar if you come from a dynamic
-language like Python or Ruby.  For the most part variables act like you would
-expect, but Vim adds a certain twist to variables: scoping.
+如果你之前用过像Python或者Ruby之类的动态语言，现在你可能已经熟悉了Vim脚本的变量。你会发现Vim变量的大部分内容跟你想的一样，不过有一个东西可能会不同，那就是变量的作用域。
 
-Open two different files in separate splits, then go into one of them and run
-the following commands:
+在两个分隔的窗口中分别打开两个不同的文件，然后在其中一个窗口中执行下面的命令：
 
     :::vim
     :let b:hello = "world"
     :echo b:hello
 
-As expected, Vim displays `world`.  Now switch to the other buffer and run the
-`echo` command again:
+如你所愿，Vim会显示`world`。现在切换到另外一个缓冲区再次执行`echo`命令：
 
     :::vim
     :echo b:hello
 
-This time Vim throws an error, saying it can't find the variable.
+这一次Vim会抛出一个无法找到变量的错误，
 
-When we used `b:` in the variable name we told Vim that the variable `hello`
-should be local to the current buffer.
+当你在变量名中使用`b:`，这相当于告诉Vim变量`hello`是当前缓冲区的本地变量。
 
-Vim has many different scopes for variables, but we need to learn a little more
-about Vimscript before we can take advantage of the rest.  For now, just
-remember that when you see a variable that start with a character and a colon
-that it's describing a scoped variable.
+Vim有很多不同的变量作用域，不过在使用其他类型变量作用域之前我们需要先学习更多Vim脚本编程的知识。就目前而言，你只需要记住当某个变量由一个字符和冒号开头，那么这就表示它是一个作用域变量。
 
-Exercises
+练习
 ---------
 
-Skim over the list of scopes in `:help internal-variables`.  Don't worry if you
-don't know what some of them mean, just take a look and keep them in the back of
-your mind.
+浏览`:help internal-variables`中的作用域列表。先看看，熟悉熟悉，即使有不明白的地方也没关系。
 

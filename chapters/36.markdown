@@ -1,20 +1,17 @@
-Looping
+循环
 =======
 
-You might be surprised to realize that we've gone through thirty five chapters
-of a programming language book without even mentioning loops!  Vimscript offers
-so many other options for performing actions on text (`normal!`, etc) that loops
-aren't as necessary as they are in most other languages.
+你可能会惊讶地发现，作为一本关于编程语言的书，在前35章里我们压根就没有提到循环！
+Vimscript提供了非常多的方式操作文本(比如，`normal!`)，
+因此循环并不像在其他大多数语言中的那么必要。
 
-Even so, you'll definitely need them some day, so now we'll take a look at the
-two main kinds of loops Vim supports.
+即使如此，总有一天你会需要用到它的，所以现在让我们探讨Vim支持的两种主要的循环。
 
-For Loops
+For循环
 ---------
 
-The first kind of loop is the `for` loop.  This may seem odd if you're used to
-Java, C or Javascript `for` loops, but turns out to be quite elegant.  Run the
-following commands:
+第一种循环是`for`循环。如果你习惯了Java,C或Javascript中的`for`循环，它看上去有点古怪。
+但是你会发现这种写法十分地优雅。执行下面的命令：
 
     :::vim
     :let c = 0
@@ -25,17 +22,16 @@ following commands:
 
     :echom c
 
-Vim displays `10`, which is the result of adding together each element in the
-list.  Vimscript `for` loops iterate over lists (or dictionaries, which we'll
-cover later).
+Vim显示`10`，就是把列表中的每一个元素的加起来的结果。Vimscript的`for`循环遍历整个列表
+(或我们待会会提到的字典)。
 
-There's no equivalent to the C-style `for (int i = 0; i < foo; i++)` loop form in
-Vimscript.  This might seem bad at first, but in practice you'll never miss it.
+Vimscript中不存在C风格的`for (int i = 0; i < foo; i++)`。这一开始可能难以适应，
+但一旦习惯你就不会再怀念C风格的for循环了。
 
-While Loops
+While循环
 -----------
 
-Vim also supports the classic `while` loop.  Run the following commands:
+Vim也支持经典的`while`循环。执行下面命令：
 
     :::vim
     :let c = 1
@@ -48,14 +44,12 @@ Vim also supports the classic `while` loop.  Run the following commands:
 
     :echom total
 
-Once again Vim displays `10`.  This loop should be familiar to just about anyone
-who's programmed before, so we won't spend any time on it.  You won't use it
-very often.  Keep it in the back of your mind for the rare occasions that you
-want it.
+Vim再次显示`10`。几乎每一个程序猿都熟悉这个循环，所以我们不会浪费时间讲解。
+你将会很少用到它。铭记它以备不时之需。
 
-Exercises
+练习
 ---------
 
-Read `:help for`.
+阅读`:help for`.
 
-Read `:help while`.
+阅读`:help while`.

@@ -1,129 +1,107 @@
 Abbreviations
 =============
 
-Vim has a feature called "abbreviations" that feel similar to mappings but are
-meant for use in insert, replace, and command modes.  They're extremely flexible
-and powerful, but we're just going to cover the most common uses here.
+Vim有个称为"abbreviations"的特性，与映射有点类似，但是它用于insert、replace和
+command模式。这个特性灵活且强大，不过本节只会谈及最常用的用法。
 
-We're only going to worry about insert mode abbreviations in this book. Run the
-following command:
+本书只会讲述insert模式下的abbreviations。运行如下命令：
 
     :::vim
     :iabbrev adn and
 
-Now enter insert mode and type:
+进入insert模式并输入：
 
     :::text
     One adn two.
 
-As soon as you hit space after typing the `adn` Vim will replace it with `and`.
+在输入`adn`之后输入空格键，Vim会将其替换为`and`。
 
-Correcting typos like this is a great use for abbreviations.  Run these
-commands:
+诸如这样的输入纠错是abbreviations的一个很实用的用法。运行命令：
 
     :::vim
     :iabbrev waht what
     :iabbrev tehn then
 
-Now enter insert mode again and type:
+再次进入insert模式并输入：
 
     :::text
     Well, I don't know waht we should do tehn.
 
-Notice how *both* abbreviations were substituted, even though you didn't type
-a space after the second one.
+注意 *两个* abbreviations的替换时机，第二个没有输入空格却也替换了。
 
 Keyword Characters
 ------------------
 
-Vim will substitute an abbreviation when you type any "non-keyword character"
-after an abbreviation.  "Non-keyword character" means any character not in the
-`iskeyword` option.  Run this command:
+紧跟一个abbreviation输入"non-keyword character"后Vim会替换那个abbreviation。
+"non-keyword character"指那些不在`iskeyword`选项中的字符。运行命令：
 
     :::vim
     :set iskeyword?
 
-You should see something like `iskeyword=@,48-57,_,192-255`.  This format is
-very complicated, but in essence it means that all of the following are
-considered "keyword characters":
+你将看到类似于`iskeyword=@,48-57,_,192-255`的结果。这个格式很复杂，但本质上
+"keyword characters"包含一下几种：
 
-* The underscore character (`_`).
-* All alphabetic ASCII characters, both upper and lower case, and their accented
-  versions.
-* Any characters with an ASCII value between 48 and 57 (the digits zero through
-  nine).
-* Any characters with an ASCII value between 192 and 255 (some special ASCII
-  characters).
+* 下划线字符 (`_`).
+* 所有字母字符，包括大小写。
+* ASCII值在48到57之间的字符（数字0-9）。
+* ASCII值在192到255之间的字符（一些特殊ASCII字符）。
 
-If you want to read the *full* description of this option's format you can check
-out `:help isfname`, but I'll warn you that you'd better have a beer at the
-ready for this one.
+如果你想阅读这个选项格式的 *完整* 描述，你可以运行命令`:help isfname`，另外
+阅读之前最好准备点吃的。
 
-For our purposes you can simply remember that abbreviations will be expanded
-when you type anything that's not a letter, number, or underscore.
+你只要记住输入非字母、数字、下划线的字符就会引发abbreviations替换。
 
-More Abbreviations
-------------------
+更多关于abbreviations
+---------------------
 
-Abbreviations are useful for more than just correcting typos.  Let's add a few
-more that can help in day-to-day text editing.  Run the following commands:
+Abbreviations不仅仅只能纠错笔误。我们可以加几个日常编辑中常用的abbreviations。
+运行如下命令：
 
     :::vim
     :iabbrev @@    steve@stevelosh.com
     :iabbrev ccopy Copyright 2013 Steve Losh, all rights reserved.
 
-Feel free to replace my name and email address with your own, then enter insert
-mode and try them out.
+随意更换我的名字和邮箱地址为你的，然后试试这两个abbreviations吧~
 
-These abbreviations take large chunks of text that you type often and compress
-them down to a few characters.  Over time, this can save you a lot of typing, as
-well as wear and tear on your fingers.
+这些abbreviations将你常用的一长串字符压缩至几个字符，省的每次都要那么麻烦。
 
 Why Not Use Mappings?
----------------------
+为什么不用Mappings?
+-------------------
 
-If you're thinking that abbreviations seem similar to mappings, you're right.
-However, they're intended to be used for different things.  Let's look at an
-example.
+不错，abbreviations和mappings很像，但是他们的定位不同。看个例子：
 
-Run this command:
+运行命令：
 
     :::vim
     :inoremap ssig -- <cr>Steve Losh<cr>steve@stevelosh.com
 
-This is a *mapping* intended to let you insert your signature quickly.  Try it
-out by entering insert mode and typing `ssig`.
+这个 *mapping* 用于快速插入你的签名。进入insert模式并输入`ssig`试试看。
 
-It seems to work great, but there's a problem.  Try entering insert mode and
-typing this text:
+看起来一切正常，但是还有个问题。进入insert模式并输入如下文字：
 
     :::text
     Larry Lessig wrote the book "Remix".
 
-You'll notice that Vim has expanded the `ssig` in Larry's name!  Mappings don't
-take into account what characters come before or after the map -- they only look
-at the specific sequence that you mapped to.
+注意到Vim将Larry名字中的`ssig`也替换了！mappings不管被映射字符串的前后字符是什么--
+它只在文本中查找指定的字符串并替换他们。
 
-Remove the mapping and replace it with an abbreviation by running the following
-commands:
+运行下面的命令删除上面的mappings并用一个abbreviation替换它：
 
     :::vim
     :iunmap ssig
     :iabbrev ssig -- <cr>Steve Losh<cr>steve@stevelosh.com
 
-Now try out the abbreviation again.
+再次试试这个abbreviation。
 
-This time Vim will pay attention to the characters before and after `ssig` and
-only expand it when we want.
+这次Vim会注意`ssig`的前后字符，只会在需要的时候替换它。
 
 Exercises
 ---------
 
-Add abbreviations for some common typos you know you personally make to your
-`~/.vimrc` file.  Be sure to use the mappings you created in the last chapter to
-open and source the file!
+在你的`~/.vimrc`文件中为经常拼写错误的单词增加abbreviations配置。一定要使用
+上一章中你创建的mappings来重新打开读取`~/.vimrc`文件。
 
-Add abbreviations for your own email address, website, and signature as well.
+为你的邮箱地址、博客网址、签名添加abbreviations配置。
 
-Think of some pieces of text you type very often and add abbreviations for them
-too.
+为你经常输入的文本添加abbreviations配置。

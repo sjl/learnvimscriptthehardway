@@ -1,148 +1,120 @@
-Variables
+变量
 =========
 
-Up to this point we've covered single commands.  For the next third of the book
-we're going to look at Vimscript as a *programming language*.  This won't be as
-instantly gratifying as the rest of what you've learned, but it will lay the
-groundwork for the last part of the book, which walks through creating
-a full-fledged Vim plugin from scratch.
+到目前为止我们已经讲完了单行命令。在本书后面的三分之一个章节中将会把Vim脚本当作一个*脚本语言*。这部分东西不会像前面的你学到的东西一样马上可以学以致用，不过这是为本书的最后一部分打基础，最后一部分会讲解创建一个插件所需要的各个方面的东西。
 
-Let's get started.  The first thing we need to talk about are variables.  Run
-the following commands:
+我们开始吧。我们首先要了解的是变量。执行下面的命令。
 
     :::vim
     :let foo = "bar"
     :echo foo
 
-Vim will display `bar`.  `foo` is now a variable, and we've assigned it
-a string: `"bar"`.  Now run these commands:
+Vim会显示`bar`。`foo`现在是一个变量，我们将一个字符串`"bar"`赋值给它。现在执行这些命令：
 
     :::vim
     :let foo = 42
     :echo foo
 
-Vim will display `42`, because we've reassigned `foo` to the integer `42`.
+Vim会显示`42`，因为我们将`foo`赋值为整型`42`。
 
-From these short examples it may seem like Vimscript is dynamically typed.
-That's not the case, but we'll talk more about that later.
+从这些小例子似乎可以看出Vim脚本是动态类型的。事实并非如此，我们之后会说明。
 
-Options as Variables
+作为变量的选项
 --------------------
 
-You can read and set *options* as variables by using a special syntax.  Run the
-following commands:
+你可以通过一种特殊语法将*选项*作为变量来设置。执行下面的命令：
 
     :::vim
     :set textwidth=80
     :echo &textwidth
 
-Vim will display `80`.  Using an ampersand in front of a name tells Vim that
-you're referring to the option, not a variable that happens to have the same
-name.
+Vim会显示`80`。在名称的前面加一个`&`符号是告诉Vim你正在引用这个选项，而不是在使用一个名称刚好相同的变量。
 
-Let's see how Vim works with boolean options.  Run the following commands:
+我们来看下Vim是怎么处理布尔选项的。执行下面的命令：
 
     :::vim
     :set nowrap
     :echo &wrap
 
-Vim displays `0`.  Now try these commands:
+Vim显示`0`。然后再试试这些选项：
 
     :::vim
     :set wrap
     :echo &wrap
 
-This time Vim displays `1`.  This is a very strong hint that Vim treats the
-integer `0` as "false" and the integer `1` as "true".  It would be reasonable to
-assume that Vim treats *any* non-zero integer as "truthy", and this is indeed
-the case.
+这次Vim会显示`1`。这些输出很明确提示Vim会将整型`0`当作"false"，整型`1`当作"true"。我们可以更进一步假设Vim会将所有的非0值整型当作"truthy"，而事实确实如此。
 
-We can also *set* options as variables using the `let` command.  Run the
-following commands:
+我们也可以使用`let`命令来*设置*作为变量的选项。执行下面的命令：
 
     :::vim
     :let &textwidth = 100
     :set textwidth?
 
-Vim will display `textwidth=100`.
+Vim会显示`textwidth=100`。
 
-Why would we want to do this when we could just use `set`? Run the following
-commands:
+既然`set`可以搞定选项的设置，那我们为什么还要用`let`呢？执行下面的命令：
 
     :::vim
     :let &textwidth = &textwidth + 10
     :set textwidth?
 
-This time Vim displays `textwidth=110`.  When you set an option using `set` you
-can only set it to a single literal value.  When you use `let` and set it as
-a variable you can use the full power of Vimscript to determine the value.
+这一次Vim显示`textwidth=110`。当你用`set`来设置某个选项，你只能给它设置一个常量值。当你使用`let`并将它作为一个变量来设置，你可以使用Vim脚本的所有强大之处来决定它的值。
 
-Local Options
+本地选项
 -------------
 
-If you want to set the *local* value of an option as a variable, instead of the
-*global* value, you need to prefix the variable name.
+如果你想将某个选项作为变量来设置它的*本地*值，而不是*全局*值，你需要在变量名前面加前缀。
 
-Open two files in separate splits.  Run the following command:
+在两个分隔的窗口中分别打开两个文件。执行下面的命令：
 
     :::vim
     :let &l:number = 1
 
-Now switch to the other file and run this command:
+然后切换到另一文件，然后再执行下面的命令：
 
     :::vim
     :let &l:number = 0
 
-Notice that the first window has line numbers and the second does not.
+注意第一个窗口会出现行号，而第二个没有。
 
-Registers as Variables
+作为变量的寄存器(Register)
 ----------------------
 
-You can also read and set *registers* as variables.  Run the following command:
+你也可以将*寄存器*当作变量来读取和设置。执行下面的命令：
 
     :::vim
     :let @a = "hello!"
 
-Now put your cursor somewhere in your text and type `"ap`.  This command tells
-Vim to "paste the contents of register `a` here".  We just set the contents of
-that register, so Vim pastes `hello!` into your text.
+现在把光标放到文本中的某个地方然后敲击`"ap`。这个命令会告诉Vim“在这里粘贴寄存器`a`中的内容”。我们设置了这个寄存器的内容，所以Vim会将`hello!`粘贴到你的文本中。
 
-Registers can also be read.  Run the following command:
+还可以读寄存器的内容。执行下面的命令：
 
     :::vim
     :echo @a
 
-Vim will echo `hello!`.
+Vim会输出`hello!`。
 
-Select a word in your file and yank it with `y`, then run this command:
+在你的文件中选择一个单词然后用`y`复制，再执行下面的命令：
 
     :::vim
     :echo @"
 
-Vim will echo the word you just yanked.  The `"` register is the "unnamed"
-register, which is where text you yank without specifying a destination will go.
+Vim会输出你刚才复制的单词。`"`寄存器是“未命名(unnamed)”寄存器，在复制的时候没有指定寄存器的文本都会放到这里。
 
-Perform a search in your file with `/someword`, then run the following command:
+在你的文件中执行搜索`/someword`，然后执行下面的命令：
 
     :::vim
     :echo @/
 
-Vim will echo the search pattern you just used.  This lets you programmatically
-read *and modify* the current search pattern, which can be very useful at times.
+Vim会输出你刚刚使用的搜索模式。这样你就可以通过编程来读*和修改*当前的搜索模式，有些时候这会很有用。
 
-Exercises
+练习
 ---------
 
-Go through your `~/.vimrc` file and change some of the `set` and `setlocal`
-commands to their `let` forms.  Remember that boolean options still need to be
-set to something.
+检查你的`~/.vimrc`文件，然后将其中的一些`set`和`setlocal`命令替换为它们的`let`形式。记住布尔选项仍然需要被设置为某个值。
 
-Try setting a boolean option like `wrap` to something other than zero or one.
-What happens when you set it to a different number?  What happens if you set it
-to a string?
+尝试将某个布尔选项设置为0和1之外的值，例如`wrap`。当你将它设置为一个不同的数字时会怎么样？如果设置为字符串又会是什么情况？
 
-Go back through your `~/.vimrc` file and undo the changes.  You should never use
-`let` if `set` will suffice -- it's harder to read.
+回到你的`~/.vimrc`文件，然后恢复所有的修改。在`set`可以搞定的时候，永远都不要用`let`，这是因为`let`更难于阅读。
 
-Read `:help registers` and look over the list of registers you can read and
-write.
+阅读`:help registers`，然后看看你可以进行读和写的寄存器列表。

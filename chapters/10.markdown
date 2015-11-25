@@ -1,83 +1,57 @@
-Training Your Fingers
+锻炼你的手指
 =====================
 
-In this chapter we're going to talk about how to learn Vim more effectively, but
-we need to do a bit of preparation first.
+这一章我们会讲到怎么更有效地学习Vim，不过在此之前需要先做一些小小的准备。
 
-Let's set up one more mapping that will save more wear on your left hand than
-any other mapping you ever create.  Run the following command:
+让我们先创建一个mapping，这个mapping会为你的左手减轻很多负担。执行下面的命令：
 
     :::vim
     :inoremap jk <esc>
 
-Now enter insert mode and type `jk`.  Vim will act as if you pressed the escape
-key and return you to normal mode.
+ok，现在进入插入模式然后敲击`jk`。Vim会返回到常用模式，就像你敲击了escape按键一样。
 
-There are a number of ways to exit insert mode in Vim by default:
+在Vim中有很多默认的方式可以退出插入模式：
 
 * `<esc>`
 * `<c-c>`
 * `<c-[>`
 
-Each of those requires you to stretch your fingers uncomfortably.  Using `jk` is
-great because the keys are right under two of your strongest fingers and you
-don't have to perform a chord.
+使用上面的这几种方式，你都需要伸出你的爪子，这会让你感到很不自在。使用`jk`会很棒，因为这两个按键正好就在你最强健有力的两个手指下面，并且你不用搞得好像在演奏吉他和弦似的移动手指。
 
-Some people prefer using `jj` instead of `jk`, but I prefer `jk` for two
-reasons:
+有些人可能更喜欢使用`jj`，但我更钟意`jk`，有两个原因：
 
-* It's typed with two separate keys, so you can "roll" your fingers instead of
-  using the same one twice.
-* Pressing `jk` in normal mode out of habit will move down and then up, leaving
-  you exactly where you started.  Using `jj` in normal mode will move you to
-  a different place in your file.
+* 使用两个不同的按键，你可以“滚动”你的手指而不是把同一个按键按两次。
+* 如果你出于习惯在常用模式下按了`jk`，只会将光标向下移动一下，然后又向上移动一下，最终光标还是停留在原来的位置。但是在常用模式下按了`jj`的话，只会把光标移动到一个不同的地方。
 
-If you write in a language where `jk` is a frequently used combination of
-letters (like Dutch) you'll probably want to pick a different mapping.
+不过需要注意的是，如果在你所用的语言中`jk`会经常组合出现（例如德语）,你可能就需要选择一个不同的mapping了。
 
-Learning the Map
+学习Map
 ----------------
 
-Now that you've got a great new mapping, how can you learn to use it?  Chances
-are you've already got the escape key in your muscle memory, so when you're
-editing you'll hit it without even thinking.
+ok，现在你已经有了一个新的mapping，你会怎么学习使用它呢？特别是你已经用了这么久的escape按键，使用escape按键都已经刻入了你的脑子中，以至于在编辑的时候你会不假思索的敲击它。
 
-The trick to relearning a mapping is to *force* yourself to use it by
-*disabling* the old key(s).  Run the following command:
+重新学习一个mapping的窍门就是*强制*将之前的按键设置为不可用，*强迫*自己使用新的mapping。执行下面的命令：
 
     :::vim
     :inoremap <esc> <nop>
 
-This effectively disables the escape key in insert mode by telling Vim to
-perform `<nop>` (no operation) instead.  Now you *have* to use your `jk` mapping
-to exit insert mode.
+这个命令会告诉Vim在插入模式下敲击escape按键后执行`<nop>`(no operation)，这样escape按键在插入模式下就无效了。ok，现在你就*不得不*使用`jk`这个mapping来退出插入模式了。
 
-At first you'll forget, type escape and start trying to do something in normal
-mode and you'll wind up with stray characters in your text.  It will be
-frustrating, but if you stick with it you'll be surprised at how fast your mind
-and fingers absorb the new mapping.  Within an hour or two you won't be
-accidentally hitting escape any more.
+一开始你可能不太适应，你还是会在插入模式下敲击escape按键，并且以为已经退出到了常用模式，然后开始敲击按键准备在常用模式下做一些事情，从而导致一些不需要的字符出现在你的文本中。这会让你感到有些不爽，但如果你坚持一段时间后，你会惊讶的发现你的思维和手指会多么快的适应 新的mapping。用不到一到两个小时你就不会再在插入模式下敲击escape了。 
 
-This idea applies to any new mapping you create to replace an old one, and even
-to life in general.  When you want to change a habit, make it harder or
-impossible to do!
+这个方法适用于所有的用于替代原有操作方式的新mapping，包括在生活中也是如此。当你想改掉一个坏习惯的时候，你最好能够想一些办法使得这个坏习惯很难甚至是不能发生。
 
-If you want to start cooking meals instead of microwaving TV dinners, don't buy
-any TV dinners when you go shopping.  You'll cook some real food when you get
-hungry enough.
+如果你想学会自己做饭，不想每天都吃盖浇饭，那么每天下班的时候就不要去成都小吃了。这样你就会在饿了的时候想办法去做点东西吃，当前你先要确保你家里没有泡面。
 
-If you want to quit smoking, always leave your cigarettes in your car's trunk.
-When you get the urge to have a casual cigarette you'll think of what a pain in
-the ass it will be to walk out to the car and are less likely to bother doing
-it.
+如果你想戒烟，那你就不要把烟带在身上，把它放到车上。这样当你的烟瘾又犯了的时候，你会觉得走到车里去取烟是一件很蛋疼的事，这样你就不会吸了。
 
-Exercises
+练习
 ---------
 
-If you still find yourself using the arrow keys to navigate around Vim in normal
-mode, map them to `<nop>` to make yourself stop.
+如果还是会在Vim的常用模式中使用方向键移动光标，那么就将它们映射为`<nop>`。
 
-If you still use the arrow keys in insert mode, map them to `<nop>` there too.
-The right way to use Vim is to get out of insert mode as soon as you can and use
-normal mode to move around.
+如果你在编辑模式下也会使用方向键，同样的，映射为`<nop>`吧。
+
+正确使用Vim的关键就是使得自己能够快速的离开插入模式，然后在常用模式下进行移动。
+
 

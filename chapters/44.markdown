@@ -1,9 +1,7 @@
-Detecting Filetypes
+检测文件类型
 ===================
 
-Let's create a Potion file we can use as a sample as we're working on our
-plugin.  Create a `factorial.pn` file somewhere and put the following Potion
-code inside it:
+让我们创建一个Potion文件作为插件的测试样本。
 
     :::text
     factorial = (n):
@@ -18,9 +16,8 @@ code inside it:
         factorial (i) string print
         "\n" print.
 
-This code creates a simple factorial function and calls it ten times, printing
-the results each time.  Go ahead and run it with `potion factorial.pn`.  The
-output should look like this:
+这个代码创建了一个简单的阶乘函数并调用它10次，逐次输出结果。继续前进并用`potion factorial.pn`执行它。
+输出结果应该像这样：
 
     :::text
     0! is: 0
@@ -34,56 +31,47 @@ output should look like this:
     8! is: 40320
     9! is: 362880
 
-If you don't get this output, or you get an error, stop and figure out what's
-gone wrong.  The code should work exactly as-is.
+如果你得不到这个输出，或者你得到一个错误，停下来并排查问题所在。
+这个代码应该会正常工作的。
 
-Take some time to understand how the code works.  Refer to the Potion docs
-liberally.  It's not critical to understanding Vimscript but it will make you
-a better programmer.
+这跟学习Vimscript没有关系，不过它能让你成为更好的程序猿。
 
-Detecting Potion Files
+检测Potion文件
 ----------------------
 
-Open `factorial.pn` in Vim and run the following command:
+用Vim打开`factorial.pn`并执行下面命令：
 
     :::vim
     :set filetype?
 
-Vim will display `filetype=` because it doesn't know what a `.pn` file is yet.
-Let's fix that.
+Vim将显示`filetype=`，因为它还不认识`.pn`文件。让我们解决这个问题。
 
-Create `ftdetect/potion.vim` in your plugin's repo.  Put the following lines
-into it:
+在你的插件的repo中创建`ftdetect/potion.vim`。在它里面加入下面几行：
 
     :::vim
     au BufNewFile,BufRead *.pn set filetype=potion
 
-This creates a single autocommand: a command to set the filetype of `.pn` files
-to `potion`.  Pretty straightforward.
+这创建了一个单行自动命令：一个设置`.pn`文件的filetype为`potion`的命令。很简明吧。
 
-Notice that we *didn't* use an autocommand group like we usually would.  Vim
-automatically wraps the contents of `ftdetect/*.vim` files in autocommand groups
-for you, so you don't need to worry about it.
+注意我们*没有*像之前经常做的那样使用一个自动命令组。
+Vim自动替你把`ftdetect/*.vim`文件包装成自动命令组，所以你不需要操心。
 
-Close the `factorial.pn` file and reopen it.  Now run the previous command
-again:
+关闭`factorial.pn`并重新打开它。现在再执行前面的命令：
 
     :::vim
     :set filetype?
 
-This time Vim displays `filetype=potion`.  When Vim started up it loaded the
-autocommand group inside `~/.vim/bundle/potion/ftdetect/potion.vim`, and when it
-opened `factorial.pn` the autocommand fired, setting the `filetype` to `potion`.
+这次Vim显示`filetype=potion`。当Vim启动时，它加载`~/.vim/bundle/potion/ftdetect/potion.vim`里的自动命令组，
+而当它打开`factorial.pn`时，自动命令起效，设置`filetype`为`potion`。
 
-Now that we've taught Vim to recognize Potion files we can move on to actually
-creating some useful behavior in our plugin.
+既然已经让Vim识别了Potion文件，我们可以继续前进来做些有用的东西了。
 
-Exercises
+练习
 ---------
 
-Read `:help ft`.  Don't worry if you don't understand everything there.
+阅读`:help ft`。不要担心你看不懂里面的内容。
 
-Read `:help setfiletype`.
+阅读`:help setfiletype`。
 
-Modify the Potion plugin's `ftdetect/potion.vim` script to use `setfiletype`
-instead of `set filetype`.
+修改Potion插件中的`ftdetect/potion.vim`。
+用`setfiletype`代替`set filetype`。

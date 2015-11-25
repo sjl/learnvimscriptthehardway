@@ -1,161 +1,126 @@
-Status Lines
+状态条
 ============
 
-Vim allows you to customize the text in the status line at the bottom of each
-window.  This is done through the `statusline` option.  Run the following
-command:
+Vim允许自定义每个窗口底部的状态条显示的文字，你可以通过设置`statusline`选项来进行自定义。执行下面的命令：
 
     :::vim
     :set statusline=%f
 
-You should see the path to the file (relative to the current directory) in the
-status line.  Now run this command:
+你可以在状态条上看到当前所编辑文件的路径（相对于当前路径）。再执行这个命令：
 
     :::vim
     :set statusline=%f\ -\ FileType:\ %y
 
-Now you'll see something like `foo.markdown - FileType: [markdown]` in the
-status line.
+现在你可以在状态条中看到类似`foo.markdown - FileType: [markdown]`这样的文字。
 
-If you're familiar with C's `printf` or Python's string interpolation the format
-of this option may look familiar.  If not, the only trick is that things that
-start with `%` are expanded to different text depending on what comes after
-them.  In our example `%f` is replaced with the filename and `%y` is replaced
-with the type of the file.
+如果你熟悉C语言中的`printf`或者Python的字符串插值，那么这个选项的格式看起来会比较眼熟。如果不熟悉，你只需要记住以`%`开头的字符串会被展开为不同的文字，这取决于`%`后面的字符。在上面的示例中，`%f`会被替换为文件名，`%y`会被替换为文件类型。
 
-Notice how the spaces in the status line need to be escaped with backslashes.
-This is because `set` allows you to set multiple options at once, as we saw in
-the second chapter.
+注意状态条中的空格需要反斜线进行转义，这是因为`set`可以同时设置多个选项，这些选项会用空格分隔，我们在第二章讲过这个。
 
-Status lines can get extremely complicated very quickly, so there's a better way
-to set them that will let us be more clear.  Run the following commands:
+状态条设置可以很快变得非常复杂，不过有一个更好的办法来设置它们以至于让它们看起来更清晰。执行下面的命令：
 
     :::vim
-    :set statusline=%f         " Path to the file
-    :set statusline+=\ -\      " Separator
-    :set statusline+=FileType: " Label
-    :set statusline+=%y        " Filetype of the file
+    :set statusline=%f         " 文件的路径
+    :set statusline+=\ -\      " 分隔符
+    :set statusline+=FileType: " 标签
+    :set statusline+=%y        " 文件的类型
 
-In the first command we used `=` to wipe out any existing value present.  In the
-rest we used `+=` to build up the option one piece at a time.  We also added
-comments explaining each piece for other people reading the code (or ourselves
-several months later).
+第一个命令使用`=`来设置状态条只显示文件名，从而将之前的所有会在状态条中显示的值都屏蔽掉。之后再使用`+=`逐渐添加其他要显示的内容，一次添加一条。同时还使用注释来说明每一条所表示的含义以方便其他的人阅读我们的代码（也会方便我们自己以后阅读）。
 
-Run the following commands:
+执行下面的命令：
 
     :::vim
-    :set statusline=%l    " Current line
-    :set statusline+=/    " Separator
-    :set statusline+=%L   " Total lines
+    :set statusline=%l    " 当前行号
+    :set statusline+=/    " 分隔符
+    :set statusline+=%L   " 总行数
 
-Now the status line contains only the current line number and number of lines in
-the file, and looks something like `12/223`.
+现在状态条只包含当前所在行以及文件的总行数，并且显示成`12/223`这个样子。
 
-Width and Padding
+宽度和边距
 -----------------
 
-Additional characters can be used in some of the various `%` codes to change how
-the information is displayed.  Run the following command:
+可以在`%`后面添加额外的字符来改变状态条中信息的显示样式。执行下面的命令：
 
     :::vim
     :set statusline=[%4l]
 
-The line number in the status line will now be preceded by enough spaces to make
-it at least four characters wide (for example: `[  12]`).  This can be useful to
-prevent the text in the status line from shifting around distractingly.
+现在状态条中的文件行数会至少显示为4个字符的宽度（例如：`[  12]`），这可以用于防止状态条中的文字总是令人厌烦地跳来跳去。
 
-By default the padding spaces are added on the left side of the value.  Run this
-command:
+默认情况下在值的左边添加边距。执行下面的命令：
 
     :::vim
     :set statusline=Current:\ %4l\ Total:\ %4L
 
-Your status line will now look like this:
+你的状态条看来会是这个样子：
 
     :::text
     Current:   12 Total:  223
 
-You can use `-` to place padding on the right instead of the left.  Run this
-command:
+你可以使用`-`将边距添加在右边，而不是左边。执行下面的命令：
 
     :::vim
     :set statusline=Current:\ %-4l\ Total:\ %-4L
 
-Your status line will now look like this:
+现在你的状态条看起来会是这个样子：
 
     :::text
     Current: 12   Total: 223 
 
-This looks much nicer because the numbers are next to their labels.
+这样就好看多了，因为数字值是紧挨着它的标签的。
 
-For codes that result in a number you can tell Vim to pad with zeros instead of
-spaces.  Run the following command:
+对于会被显示为数字的代码，你可以让Vim使用0代替空格来填充边距。执行下面的命令：
 
     :::vim
     :set statusline=%04l
 
-Now your status line will read `0012` when on line twelve.
+现在当光标位于第12行的时候你的状态条会显示`0012`。
 
-Finally, you can also set the maximum width of a code's output.  Run this
-command:
+最后，你可以设置一个代码所要输出的值的最大宽度。执行下面命令：
 
     :::vim
     :set statusline=%F
 
-`%F` displays the *full* path to the current file.  Now run this command to
-change the maximum width:
+`%F`会显示当前文件的*完整*路径。现在执行下面的命令改变最大宽度：
 
     :::vim
     :set statusline=%.20F
 
-The path will be truncated if necessary, looking something like this:
+如果有必要路径会被删简，像下面这样：
 
     :::text
     <hapters/17.markdown
 
-This can be useful for preventing paths and other long codes from taking up the
-entire line.
+这可以用于防止路径或者是其他的很长的代码占用整个行。
 
-General Format
+通用格式
 --------------
 
-The general format for a code in a status line is shown in `:help statusline`:
+阅读`:help statusline`查看状态条中代码的通用格式：
 
     :::text
     %-0{minwid}.{maxwid}{item}
 
-Everything except the `%` and the item is optional.
+除了`%`和item外其他都是可选的。
 
-Splitting
+分割
 ---------
 
-We're not going to cover status lines in too much detail here (Vim's own
-documentation on them is very extensive if you want to learn more), but there's
-one more simple code that can be very useful immediately.  Run the following
-commands:
+我们不会探讨状态条的更多细节（Vim的文档有非常详细的说明，如果你想学到更多，建议阅读它们），不过我们会介绍一个简单的代码，这个代码可以立即带来价值。执行下面的命令：
 
     :::vim
-    :set statusline=%f         " Path to the file
-    :set statusline+=%=        " Switch to the right side
-    :set statusline+=%l        " Current line
-    :set statusline+=/         " Separator
-    :set statusline+=%L        " Total lines
+    :set statusline=%f         " 文件的路径
+    :set statusline+=%=        " 切换到右边
+    :set statusline+=%l        " 当前行
+    :set statusline+=/         " 分隔符
+    :set statusline+=%L        " 总行数
 
-Now the status line will contain the path to the file on the left side, and the
-current/total lines on the right side.  The `%=` code tells Vim that everything
-coming after that should be aligned (as a whole) to the right instead of the
-left.
+现在状态条的左边会包含文件的路径，当前行/总行数会显示在状态条的右边。`%=`这个代码告诉Vim所有在此之后要在状态条上显示的信息都应该右对齐（作为一个整体），而不是左对齐。
 
-Exercises
+练习
 ---------
 
-Skim the list of available codes in `:help statusline`.  Don't worry if you
-don't understand some of them just yet.
+浏览`:help statusline`中的可用代码。先别在意那些你现在理解不了的代码。
 
-Add some lines to your `~/.vimrc` file to build yourself a custom status line.
-Be sure to use the `+=` form of `set` to split the definition across multiple
-lines, and add a comment on each line to document what each piece does.
+编辑你的`~/.vimrc`文件创建一个自定义的状态条。确保在`set`中使用`+=`来一条一条地定义要显示的代码，并且每一行的设置添加注释来说明每一条的含义。
 
-Try using autocommands and `setlocal` to define different status lines for
-different filetypes.  Make sure to wrap the autocommands in groups to prevent
-duplication (as always).
+尝试使用自动命令和`setlocal`来为不同的文件定义不同的状态条。确保使用了自动命令组防止自动命令被重复创建（永远记住）。

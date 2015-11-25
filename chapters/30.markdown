@@ -1,50 +1,40 @@
-Execute Normal!
+执行normal!
 ===============
 
-Now that we've seen `execute` and `normal!` we can talk about a common Vimscript
-idiom in more detail.  Run the following command:
+既然已经学了`execute`和`normal!`，我们就可以深入探讨一个Vimscript惯用法。
+执行下面的命令：
 
     :::vim
     :execute "normal! gg/foo\<cr>dd"
 
-This will move to the top of the file, search for the first occurrence of `foo`,
-and delete the line that contains it.
+这将移动到文件的开头，查找`foo`的首次出现的地方，并删掉那一行。
 
-Previously we tried to use `normal!` with a search command but couldn't enter
-the return needed to actually perform the search.  Combining `normal!` with
-`execute` fixes that problem.
+之前我们尝试过用`normal!`来执行一个搜索命令却无法输入必须的回车来开始进行搜索。
+结合`execute`和`normal!`将解决这个问题。
 
-`execute` lets you build commands programmatically, so you can use Vim's normal
-string escape sequences to generate the non-printing characters you need.  Try
-the following command:
+`execute`允许你创建命令，因而你能够使用Vim普通的转义字符串来生成你需要的"打不出"的字符。
+尝试下面的命令：
 
     :::vim
     :execute "normal! mqA;\<esc>`q"
 
-What does this do?  Let's break it apart:
+这个命令做了什么？让我们掰开来讲：
 
-* `:execute "normal! ..."`: run the sequence of commands as if they were entered
-  in normal mode, ignoring all mappings, and replacing string escape sequences
-  with their results.
-* `mq`: store the current location in mark "q".
-* `A`: move to the end of the current line and enter insert mode after the last
-  character.
-* `;`: we're now in insert mode, so just put a literal semicolon in the file.
-* `\<esc>`: this is a string escape sequence which resolves to a press of the
-  escape key, which takes us out of insert mode.
-* ```q``: return to the exact location of mark "q".
+* `:execute "normal! ..."`：执行命令序列，一如它们是在normal模式下输入的，忽略所有映射，
+  并替换转义字符串。
+* `mq`：保存当前位置到标记"q"。
+* `A`：移动到当前行的末尾并在最后一个字符后进入insert模式。
+* `;`：我们现在位于insert模式，所以仅仅是写入了一个";"。
+* `\<esc>`：这是一个表示Esc键的转义字符串序列，把我们带离insert模式。
+* ```q``：回到标记"q"所在的位置。
 
-It looks a bit scary but it's actually quite useful: it puts a semicolon at the
-end of the current line while leaving your cursor in place.  A mapping for this
-could come in handy if you forget a semicolon when writing Javascript, C, or any
-other language with semicolons as statement terminators.
+看上去有点绕，不过它真的很有用：它在当前行的末尾补上一个分号并保持光标不动。
+在写Javascript，C或其他以分号作为语句分隔符的语言时，一旦忘记加上分号，这样的映射将助你一臂之力。
 
-Exercises
+练习
 ---------
 
-Read `:help expr-quote` again (you've seen it before) to remind yourself how to
-use string escapes to pass special characters to `normal!` with `execute`.
+重读`:help expr-quote`(你之前应该看过)来提醒你怎么用`execute`通过转义字符串传递特殊字符给`normal!`。
 
-Put down this book for a while before you go on to the next chapter.  Get
-a sandwich or a cup of coffee, feed your pets if you have them, and relax for
-a bit before continuing.
+在翻开下一章之前，放下本书休息一下。吃一个三明治或喝一杯咖啡(译注：或者茶！)，
+喂一下你的宠物——如果你有的话。

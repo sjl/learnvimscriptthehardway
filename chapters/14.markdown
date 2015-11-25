@@ -1,68 +1,54 @@
-Autocommand Groups
+自动命令组
 ==================
 
-A few chapters ago we learned about autocommands.  Run the following command:
+前面几章我们学习了自动命令。执行下面命令：
 
     :::vim
     :autocmd BufWrite * :echom "Writing buffer!"
 
-Now write the current buffer with `:write` and run `:messages` to view the
-message log.  You should see the `Writing buffer!` message in the list.
+现在使用`:write`命令将当前缓冲区写入文件，然后执行`:messages`命令查看消息日志。你会看到`Writing buffer!`在消息列表中。
 
-Now write the current buffer again and run `:messages` to view the message log.
-You should see the `Writing buffer!` message in the list twice.
+然后将当前缓冲区写入文件，执行`:messages`查看消息日志。你会看到`Writing buffer!`在消息列表中出现了两次。
 
-Now run the exact same autocommand again:
+现在再次执行上面的自动命令：
 
     :::vim
     :autocmd BufWrite * :echom "Writing buffer!"
 
-Write the current buffer one more time and run `:messages`.  You will see the
-`Writing buffer!` message in the list *four* times.  What happened?
+再次将当前缓冲区写入文件并执行`:messages`命令。你会看到`Writing buffer!`在消息列表中出现了*4*次，这是怎么回事？
 
-When you create an autocommand like this Vim has no way of knowing if you want
-it to replace an existing one.  In our case, Vim created two *separate*
-autocommands that each happen to do the same thing.
+这是因为当你以上面的方式创建第二个自动命令的时候，Vim没办法知道你是想替换第一个自动命令。在上面的示例中，Vim创建了两个*不同*的自动命令，并且这两个命令刚好做同样的事情。
 
-The Problem
+这会有什么问题？
 -----------
 
-Now that you know it's possible to create duplicate autocommands, you may be
-thinking: "So what?  Just don't do that!"
+既然你现在知道了Vim可能创建两个完全一样的自动命令，你可能会想：“有什么大不了？只要别这么干就可以！”。
 
-The problem is that sourcing your `~/.vimrc` file rereads the entire file,
-including any autocommands you've defined!  This means that every time you
-source your `~/.vimrc` you'll be duplicating autocommands, which will make Vim
-run slower because it executes the same commands over and over.
+问题是当你加载你的`~/.vimrc`文件的时候，Vim会重新读取整个文件，包括你所定义的任何自动命令！这就意味着每次你加载你的`~/.vimrc`文件的时候，Vim都会复制之前的自动命令，这会降低Vim的运行速度，因为它会一次又一次地执行相同的命令。
 
-To simulate this, try running the following command:
+
+你可以执行下面的命令模拟这种情况：
 
     :::vim
     :autocmd BufWrite * :sleep 200m
 
-Now write the current buffer.  You may or may not notice a slight sluggishness
-in Vim's writing time.  Now run the command three more times:
+现在将当前缓冲区写入文件。你可能注意到Vim在写入文件的时候有点缓慢，当然也你可能注意不到。现在执行上面的自动命令三次：
 
     :::vim
     :autocmd BufWrite * :sleep 200m
     :autocmd BufWrite * :sleep 200m
     :autocmd BufWrite * :sleep 200m
 
-Write the file again.  This time the slowness will be more apparent.
+再次写文件。这次会更明显。
 
-Obviously you won't have any autocommands that do nothing but sleep, but the
-`~/.vimrc` of a seasoned Vim user can easily reach 1,000 lines, many of which will
-be autocommands.  Combine that with autocommands defined in any installed
-plugins and it can definitely affect performance.
+当然你不会创建任何只是进行sleep而不做任何事情的自动命令，不过一个使用Vim的老鸟的`~/.vimrc`文件可以轻易达到1000行，其中会有很多自动命令。再加上安装的插件中的自动命令，这肯定会影响Vim的速度。
 
-Grouping Autocommands
+把自动命令放到组中（Grouping Autocommands）
 ---------------------
 
-Vim has a solution to the problem.  The first step is to group related
-autocommands into named groups. 
+对于这个问题，Vim有一个解决方案。这个解决方案的第一步是将相关的自动命令收集起来放到一个已命名的组（groups）中。
 
-Open a fresh instance of Vim to clear out the autocommands from before, then run
-the following commands:
+新开一个Vim实例，这样可以清除之前所创建的自动命令。然后运行下面的命令：
 
     :::vim
     :augroup testgroup
@@ -70,33 +56,27 @@ the following commands:
     :    autocmd BufWrite * :echom "Bar"
     :augroup END
 
-The indentation in the middle two lines is insignificant.  You don't have to
-type it if you don't want to.
+中间两行的缩进没有什么含义，如果你不想输入的话可以不输。
 
-Write a buffer and check `:messages`.  You should see both `Foo` and `Bar`.  Now
-run the following commands:
+将一个缓冲区写入文件然后执行`:messages`。你应该可以在消息日志列表中看到`Foo`和`Bar`。现在执行下面的命令：
 
     :::vim
     :augroup testgroup
     :    autocmd BufWrite * :echom "Baz"
     :augroup END
 
-Try to guess what will happen when you write the buffer again.  Once you have
-a guess in mind, write the buffer and check `:messages` to see if you were
-correct.
+当你再次将缓冲区写入文件的时候猜猜会发生什么。ok，你也许已经有结果了，重新写入缓冲区，然后执行`:messages`命令，看看你猜对了没。
 
-Clearing Groups
+清除自动命令组
 ---------------
 
-What happened when you wrote the file?  Was it what you expected?
+当你写入文件的时候发生什么了？猜对了么？
 
-If you thought Vim would replace the group, you can see that you guessed
-wrong.  Don't worry, most people think the same thing at first (I know I did).
+如果你认为Vim会替换那个组，那么你猜错了。不要紧，很多人刚开始的时候都会这么想（我也是）。
 
-When you use `augroup` multiple times Vim will *combine* the groups each time.
+当你多次使用`augroup`的时候，Vim每次都会组合那些组。
 
-If you want to *clear* a group you can use `autocmd!` inside the group.  Run the
-following commands:
+如果你想清除一个组，你可以把`autocmd!`这个命令包含在组里面。执行下面的命令：
 
     :::vim
     :augroup testgroup
@@ -104,17 +84,14 @@ following commands:
     :    autocmd BufWrite * :echom "Cats"
     :augroup END
 
-Now try writing your file and checking `:messages`.  This time Vim only echoed
-`Cats` when you wrote the file.
+现在试试写入文件然后执行`:messages`查看消息日志。这次Vim只会输出`Cats`在消息列表中。
 
-Using Autocommands in Your Vimrc
+在Vimrc中使用自动命令
 --------------------------------
 
-Now that we know how to group autocommands and clear those groups, we can use
-this to add autocommands to `~/.vimrc` that don't add a duplicate every time we
-source it.
+既然我们现在知道了怎么把自动命令放到一个组里面以及怎么清除这些组，我们可以使用这种方式将自动命令添加到`~/.vimrc`中，这样每次加载它的时候就不会复制自动命令了。
 
-Add the following to your `~/.vimrc` file:
+添加下面的命令到你的`~/.vimrc`文件中：
 
     :::vim
     augroup filetype_html
@@ -122,18 +99,14 @@ Add the following to your `~/.vimrc` file:
         autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
     augroup END
 
-We enter the `filetype_html` group, immediately clear it, define an autocommand,
-and leave the group.  If we source `~/.vimrc` again the clearing will prevent
-Vim from adding duplicate autocommands.
+当进入`filetype_html`这个组的时候，我们会立即清除这个组，然后定义一个自动命令，然后退出这个组。当我们再次加载`~/.vimrc`文件的时候，清除组命令会阻止Vim添加一个一模一样的自动命令。
 
-Exercises
+练习
 ---------
 
-Go through your `~/.vimrc` file and wrap *every* autocommand you have in groups
-like this.  You can put multiple autocommands in the same group if it makes
-sense to you.
+查看你的`~/.vimrc`文件，然后把所有的自动命令用上面组的方式包裹起来。如果你觉得有必要，可以把多个自动命令放到一个组里面。
 
-Try to figure out what the mapping in the last example does.
+想想上一节的示例中的自动命令是干啥的。
 
-Read `:help autocmd-groups`.
+阅读`:help autocmd-groups`。
 

@@ -1,54 +1,48 @@
-Setting Options
-===============
+设置选项
+========
 
-Vim has many options you can set to change how it behaves.
+Vim拥有很多选项可以设置以改变其展现方式。
 
-There are two main kinds of options: boolean options (either "on" or "off") and
-options that take a value.
+主要有两种选项：布尔选项（值为"on"或"off"）和键值选项。
 
-Boolean Options
----------------
+布尔选项
+--------
 
-Run the following command:
+执行如下命令：
 
     :::vim
     :set number
 
-Line numbers should appear on the left side of the window if they weren't there
-already.  Now run this:
+如果之前屏幕左侧没有显示行号，那么现在你就会看见行号。执行命令：
 
     :::vim
     :set nonumber
 
-The line numbers should disappear.  `number` is a boolean option: it can be off
-or on.  You turn it "on" by running `:set number` and "off" with `:set
-nonumber`.
+行号应该消失。`number`是一个布尔选项：可以off、可以on。通过`:set number`命令打开、
+`:set nonumber`命令关闭。
 
-All boolean options work this way.  `:set <name>` turns the option on and `:set
-no<name>` turns it off.
+所有的布尔选项都是这种配置方法。`:set <name>`打开选项、`:set no<name>`关闭选项。
 
-Toggling Boolean Options
-------------------------
+切换布尔选项
+------------
 
-You can also "toggle" boolean options to set them to the *opposite* of whatever
-they are now.  Run this:
+你可以"切换"布尔选项的值，即从开启切为关闭或从关闭切为开启。执行命令：
 
     :::vim
     :set number!
 
-The line numbers should reappear.  Now run it again:
+行号会再次显示出来。再次执行命令：
 
     :::vim
     :set number!
 
-They should disappear once more.  Adding a `!` (exclamation point or "bang") to
-a boolean option toggles it.
+行号应该会再次消失。添加一个`!`（感叹号）至布尔选项后面就会切换对于选项的值。
 
-Checking Options
-----------------
+查看选项当前值
+--------------
 
-You can ask Vim what an option is currently set to by using a `?`.  Run these
-commands and watch what happens after each:
+你可以使用一个`?`符号向Vim获取一个选项的当前值。执行如下命令并查看每个命令的
+返回结果：
 
     :::vim
     :set number
@@ -56,14 +50,12 @@ commands and watch what happens after each:
     :set nonumber
     :set number?
 
-Notice how the first `:set number?` command displayed `number` while the second
-displayed `nonumber`.
+注意第一次`:set number?`命令返回的是`number`而第二次返回的是`nonumber`。
 
-Options with Values
--------------------
+键值选项
+--------
 
-Some options take a value instead of just being off or on.  Run the following
-commands and watch what happens after each:
+有些选项并不只有off或on两种状态，它们需要一个值。执行如下命令，查看返回结果：
 
     :::vim
     :set number
@@ -71,43 +63,41 @@ commands and watch what happens after each:
     :set numberwidth=4
     :set numberwidth?
 
-The `numberwidth` option changes how wide the column containing line numbers
-will be.  You can change non-boolean options with `:set <name>=<value>`, and
-check them the usual way (`:set <name>?`).
+`numberwidth`选项改变行号的列宽。你可以通过`:set <name>=<value>`命令改变
+非布尔选项的选项值，并使用`:set <name>?`命令查看选项的当前值。
 
-Try checking what a few other common options are set to:
+来看看一些常用选项的值：
 
     :::vim
     :set wrap?
     :set shiftround?
     :set matchtime?
 
-Setting Multiple Options at Once
---------------------------------
+一次性设置多个选项
+------------------
 
-Finally, you can specify more than one option in the same `:set` command to save
-on some typing.  Try running this:
+最后，你可以在一个`:set`命令中设置多个选项的值。试试如下命令：
 
     :::vim
     :set numberwidth=2
     :set nonumber
     :set number numberwidth=6
 
-Notice how both options were set and took effect in the last command.
+注意最后一个命令是如何一次性设置两个选项值的。
 
-Exercises
----------
+练习
+----
 
-Read `:help 'number'` (notice the quotes).
+阅读`:help 'number'`（注意有单引号）帮助文档。
 
-Read `:help relativenumber`.
+阅读`:help relativenumber`帮助文档。
 
-Read `:help numberwidth`.
+阅读`:help numberwidth`帮助文档。
 
-Read `:help wrap`.
+阅读`:help wrap`帮助文档。
 
-Read `:help shiftround`.
+阅读`:help shiftround`帮助文档。
 
-Read `:help matchtime`.
+阅读`:help matchtime`帮助文档。
 
-Add a few lines to your `~/.vimrc` file to set these options however you like.
+按你自己的喜好在你的`~/.vimrc`文件中添加几个设置选项。

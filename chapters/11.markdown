@@ -1,123 +1,101 @@
-Buffer-Local Options and Mappings
+本地缓冲区的选项设置和映射
 =================================
 
-Now we're going to take a few minutes to revisit three things we've already
-talked about: mappings, abbreviations, and options, but with a twist.  We're
-going to set each of them in a single buffer at a time.
+现在我们先花点时间复习一下我们已经谈论过的三个东西：映射（mappings），缩写（abbreviations）和选项设置（options），这个过程中会讲到一些新的东西。我们将在一个单一的缓冲区中同时设置它们。
 
-The true power of this idea will become apparent in the next chapter, but we
-need to lay the groundwork for it now.
+这一章所讲到的东西会在下一章中真正的显示它们的作用，目前我们只需先打下基础。
 
-For this chapter you'll need to open two files in Vim, each in its own split.
-I'll call them `foo` and `bar`, but you can name them whatever you like.  Put
-some text into each of them.
+在这一章中你需要在Vim中打开两个文件，两个文件是分开的。我先将它们命名为`foo`和`bar`，你可以随便对它们命名。然后为每个文件输入一些文字。
 
-Mappings
+映射
 --------
 
-Switch to file `foo` and run the following commands:
+选择文件`foo`，然后执行下面的命令：
 
     :::vim
     :nnoremap          <leader>d dd
     :nnoremap <buffer> <leader>x dd
 
-Now stay in file `foo`, make sure you're in normal mode, and type `<leader>d`.
-Vim will delete a line.  This is nothing new.
+现在保持在文件`foo`下面，确保当前处于常用模式下，然后敲击`<leader>d`。Vim会删除一行。这个之前讲到过，没什么新鲜的。
 
-Still in file `foo`, type `<leader>x`.  Vim will delete a line again.  This
-makes sense because we mapped `<leader>x` to `dd` as well.
+仍然保持在文件`foo`下面，敲击`<leader>x`。Vim也会删除一行。这很正常，因为我们也将`<leader>x`映射到`dd`了。
 
-Now move over to file `bar`.  While in normal mode, type `<leader>d`.  Again,
-Vim deletes the current line.  Nothing surprising here either.
+现在切换到文件`bar`。在常用模式下敲击`<leader>d`。同样的，Vim会删除当前行，也没有什么新鲜的。
 
-Now for the twist: while still in file `bar`, type `<leader>x`.
+ok，现在来点新鲜的：在文件`bar`下敲击`<leader>x`。
 
-Instead of deleting the entire line, Vim just deleted a single character!
-What happened?
+Vim只删除了一个字符，而不是删除整个行！
+为什么会这样？
 
-The `<buffer>` in the second `nnoremap` command told Vim to only consider that
-mapping when we're in the buffer where we defined it.
+第二个`nnoremap`命令中的`<buffer>`告诉Vim这个映射只在定义它的那个缓冲区中有效：
 
-When you typed `<leader>x` in file `bar` Vim couldn't find a mapping that
-matched it, so it treated it as two commands: `<leader>` (which does nothing on
-its own) and `x` (the normal command to delete a single character.)
+当你在`bar`文件下敲击`<leader>x`，Vim找不到一个跟它匹配的映射，它将会被解析了两个命令：`<leader>`（这个什么都不会干）和 `x`（通常会删除一个字符）。 
 
-Local Leader
+
+本地Leader
 ------------
 
-In our example we used `<leader>x` for our buffer-local mapping, but this is bad
-form.  In general, when you create a mapping that only applies to specific
-buffers you should use `<localleader>` instead of `<leader>`.
+在这个例子中，`<leader>x`是一个本地缓冲区映射，不过这种定义方式并不合适。如果我们需要设定一个只会用于特定缓冲区的映射，一般会使用`<localleader>`，而不是`<leader>`。
 
-Using two separate leader keys provides a sort of "namespacing" that will help
-you keep all your various mappings straight in your head.
 
-It's even more important when you're writing a plugin for other people to use.
-The convention of using `<localleader>` for local mappings will prevent your
-plugin from overwriting someone else's `<leader>` mapping that they've
-painstakingly burned into their fingers over time.
+使用两种不同的leader按键就像设置了一种命名空间，这会帮助你保证所有不同的映射对你而言更加清晰直接。
 
-Settings
+但你在编写一个会被其他人用到的插件的时候，这点显得尤其重要。使用`<localleader>`来设置本地映射会防止你的插件覆盖别人用`<leader>`设置的全局映射，因为他们可能已经对他们做设置的全局映射非常之习惯了。
+
+设置
 --------
 
-In one of the earliest chapters of the book we talked about settings options
-with `set`.  Some options always apply to all of Vim, but others can be set on
-a per-buffer basis.
+在这本书的前面几个章节里，我们谈论了使用`set`来设置选项。有一些选项总是会适用于整个Vim，但是有些选项可以基于缓冲区进行设置。
 
-Switch to file `foo` and run the following command:
+切回到文件`foo`，执行下面的命令： 
 
     :::vim
     :setlocal wrap
 
-Now switch to file `bar` and run this command:
+然后切换到文件`bar`，执行下面的命令： 
 
     :::vim
     :setlocal nowrap
 
-Make your Vim window smaller and you'll see that the lines in `foo` wrap, but
-the lines in `bar` don't.
+把你的Vim窗口调小一些，你会发现有些行在`foo`中会自动换行，而在`bar`中则不会。
 
-Let's try another option.  Switch to `foo` and run this command:
+
+让我们来测试下另外一个选项。切换到`foo`执行下面的命令： 
 
     :::vim
     :setlocal number
 
-Now switch over to `bar` and run this command:
+现在切换到`bar`，然后执行下面的命令： 
 
     :::vim
     :setlocal nonumber
 
-You now have line numbers in `foo` but not in `bar`.
+现在在文件`foo`中会出现行号，而在`bar`则没有。
 
-Not all options can be used with `setlocal`.  To see if you can set a particular
-option locally, read its `:help`.
+不是所有的选项都可以使用`setlocal`进行设置。如果你想知道某个特定的选项是否可以设置为本地选项，执行`:help`查看它的帮助文档。
 
-I've glossed over a bit of detail about how local options *actually* work for
-now.  In the exercises you'll learn more about the gory details.
+对于本地选项如何*真正地*地工作，我说的有些简略。在练习中你会学到更多这方面的细节。
 
-Shadowing
+遮盖
 ---------
 
-Before we move on, let's look at a particularly interesting property of local
-mappings.  Switch over to `foo` and run the following commands:
+ok，在开始下一节之前，我们先来看关于本地映射的一个非常有趣的特性。切换到文件`foo`，然后执行下面的命令： 
 
     :::vim
     :nnoremap <buffer> Q x
     :nnoremap          Q dd
 
-Now type `Q`.  What happens?
+然后敲击`Q`，看看会发生什么？
 
-When you press `Q`, Vim will run the first mapping, not the second, because the
-first mapping is *more specific* than the second.
+当你敲击`Q`，Vim会执行第一个映射，而不是第二个，因为第一个映射比起第二个要显得*更具体*，这可以看成第二个映射被第一个映射遮盖了。
 
-Switch to file `bar` and type `Q` to see that Vim uses the second mapping,
-because it's not shadowed by the first in this buffer.
+切换回文件`bar`，然后敲击`Q`，Vim会使用第二个映射。这是因为在这个缓冲区中第二个映射没有被第一个映射遮盖。
 
-Exercises
+练习
 ---------
 
-Read `:help local-options`.
+阅读`:help local-options`。
 
-Read `:help setlocal`.
+阅读`:help setlocal`。
 
-Read `:help map-local`.
+阅读`:help map-local`。

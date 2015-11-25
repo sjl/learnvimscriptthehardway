@@ -1,55 +1,46 @@
-Even More Advanced Syntax Highlighting
+更高级的语法高亮
 ======================================
 
-Syntax highlighting in Vim is a topic that could easily fill a book of its own.
+我们甚至可以为Vim里面的语法高亮另开一本书了。
 
-We're going to cover one last important part of it here and then move on to
-other things.  If you want to learn more you can read the Vim documentation with
-`:help syntax` and look at syntax files other people have made.
+我们将在此讲解它最后的重要内容，然后继续讲别的东西。
+如果你想要学到更多，去读`:help syntax`并阅读别人写的syntax文件。
 
-Highlighting Strings
+高亮字符串
 --------------------
 
-Potion, like most programming languages, supports string literals like `"Hello,
-world!"`.  We should highlight these as strings.  To do this we'll use the
-`syntax region` command.  Add the following to your Potion syntax file:
+Potion，一如大多数编程语言，支持诸如`"Hello,world!"`的字符串字面量。
+我们应该把这些高亮成字符串。为此我们将使用`syntax region`命令。
+在你的Potion syntax文件中加入下面内容：
 
     :::vim
     syntax region potionString start=/\v"/ skip=/\v\\./ end=/\v"/
     highlight link potionString String
 
-Close and reopen your `factorial.pn` file and you'll see that the string at the
-end of the file is highlighted!
+关闭并重新打开你的`factorial.pn`，你将看到文件结尾的字符串被高亮了！
 
-The last line here should be familiar.  Reread the previous two chapters if you
-don't understand what it does.
+最后一行应该很熟了。如果你不懂，重读前两章。
 
-The first line adds to a syntax group using a "region".  Regions have a "start"
-pattern and an "end" pattern that specify where they start and end.  In this
-case, a Potion string starts when we see a double quote and ends when we see the
-next double quote.
+第一行用一个"region"添加一个语法类型分组。
+区域(Regions)有一个"start"模式和一个"end"模式来指定开头和结束的位置。
+这里，一个Potion字符串从一个双引号开始，到另一个双引号结束。
 
-The "skip" argument to `syntax region` allows us to handle string escapes like
-`"She said: \"Vimscript is tricky, but useful\"!"`.
+`syntax region`的"skip"参数允许我们处理转义字符串，比如
+`"She said: \"Vimscript is tricky, but useful\"!"`。
 
-If we didn't use the `skip` argument Vim would end the string at the `"` before
-`Vimscript`, which is not what we want!
+如果不提供`skip`参数，Vim将在`Vimscript`之前的`"`停止匹配字符串，这不是我们想要的！
 
-In a nutshell, the `skip` argument to `syntax region` tells Vim: "once you start
-matching this region, I want you to ignore anything that matches `skip`, even if
-it would normally be considered the end of the region".
+简明扼要地说，`syntax region`中的`skip`参数告诉Vim：
+"一旦你开始匹配这个区域，我希望你忽略`skip`匹配的内容，即使它会被当作区域结束的标志"。
 
-Take a few minutes and think through this.  What happens with something like
-`"foo \\" bar"`?  Is that the correct behavior?  Will that *always* be the
-correct behavior?  Close this book, take a few minutes and really *think* about
-this!
+花上几分钟去想透彻。如果遇到的是`"foo \\" bar"`会怎样？那会是正确的行为吗？
+那*总是*正确的行为吗？放下本书，花上几分钟来认真*想一想*！
 
-Exercises
+练习
 ---------
 
-Add syntax highlighting for single quoted strings.
+给单引号字符串加上语法高亮。
 
-Read `:help syn-region`.
+阅读`:help syn-region`.
 
-Reading that should take longer than reading this chapter.  Pour yourself
-a drink, you've earned it!
+阅读`:help syn-region`将比阅读本章花费更多的时间。给自己倒杯饮料，这是你应得的！
