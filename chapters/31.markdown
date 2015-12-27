@@ -184,7 +184,7 @@ Read `:help magic` carefully.
 Read `:help pattern-overview` to see the kinds of things Vim regexes support.
 Stop reading after the character classes.
 
-Read `:help match`.  Try running the `:match Error /\v.../` command a few times
+Read `:help :match`.  Try running the `:match Error /\v.../` command a few times
 by hand.
 
 Edit your `~/.vimrc` file to add a mapping that will use `match` to highlight
