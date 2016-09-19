@@ -33,7 +33,7 @@ This time Vim displays `5`, because the strings are coerced to the numbers `3`
 and `2` respectively.
 
 When I said "Number" I really *meant* Number.  Vim will *not* coerce strings to
-Floats!  Try this command to see prove this:
+Floats!  Try this command to see proof of this:
 
     :::vim
     :echom 10 + "10.10"

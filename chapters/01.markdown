@@ -60,7 +60,7 @@ Read `:help echo`.
 
 Read `:help echom`.
 
-Read `:help messages`.
+Read `:help :messages`.
 
 Add a line to your `~/.vimrc` file that displays a friendly ASCII-art cat
 (`>^.^<`) whenever you open Vim.
