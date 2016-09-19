@@ -37,7 +37,7 @@ all the text inside the parentheses.  You can think of this new movement as
 "parameters".
 
 The `onoremap` command tells Vim that when it's waiting for a movement to give
-to an operator and it sees `p`, it should treat it like `i(`.  When we ran `dp`
+to an operator and it sees `p`, it should treat it as `i(`.  When we ran `dp`
 it was like saying "delete parameters", which Vim translates to "delete inside
 parentheses".
 
