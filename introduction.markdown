@@ -29,12 +29,6 @@ You can buy a [hardcover copy][hard] for $40 on Lulu.
 [leanpub]: http://leanpub.org/learnvimscriptthehardway
 [paper]: http://bit.ly/lvsthw-paperback
 [hard]: http://bit.ly/lvsthw-hardcover
-
-The source code to the book is available [on BitBucket][hg] and [on
-GitHub][git].  If you find any mistakes or feel you could improve it feel free
-to send a pull request, but I'm retaining the copyright on the book, so if
-you're not comfortable with that I understand.
-
 [book]: http://learnvimscriptthehardway.stevelosh.com/
 [Vim]: http://www.vim.org/
 [hg]: http://bitbucket.org/sjl/learnvimscriptthehardway/
