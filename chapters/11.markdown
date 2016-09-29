@@ -40,7 +40,7 @@ mapping when we're in the buffer where we defined it.
 
 When you typed `<leader>x` in file `bar` Vim couldn't find a mapping that
 matched it, so it treated it as two commands: `<leader>` (which does nothing on
-its own) and `x` (the normal command to delete a single character.)
+its own) and `x` (the normal command to delete a single character).
 
 Local Leader
 ------------
