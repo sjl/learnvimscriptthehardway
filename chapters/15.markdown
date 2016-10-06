@@ -144,7 +144,7 @@ General Rules
 -------------
 
 A good way to keep the multiple ways of creating operator-pending mappings
-straight is the remember the following two rules:
+straight is to remember the following two rules:
 
 * If your operator-pending mapping ends with some text visually selected, Vim
   will operate on that text.
