@@ -25,7 +25,7 @@ should be local to the current buffer.
 
 Vim has many different scopes for variables, but we need to learn a little more
 about Vimscript before we can take advantage of the rest.  For now, just
-remember that when you see a variable that start with a character and a colon
+remember that when you see a variable that starts with a character and a colon
 that it's describing a scoped variable.
 
 Exercises
