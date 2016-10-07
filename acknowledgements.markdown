@@ -16,6 +16,7 @@ requests, pointed out typos, raised issues, and otherwise contributed:
 * [chiphogg](https://github.com/chiphogg)
 * [ciwchris](https://github.com/ciwchris)
 * [cwarden](https://github.com/cwarden)
+* [danderss](https://bitbucket.org/danderss/)
 * [dmedvinsky](https://github.com/dmedvinsky)
 * [flatcap](https://github.com/flatcap)
 * [helixbass](https://bitbucket.org/helixbass)
