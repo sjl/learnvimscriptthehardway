@@ -28,6 +28,7 @@ requests, pointed out typos, raised issues, and otherwise contributed:
 * [manojkumarm](https://github.com/manojkumarm)
 * [markscholtz](https://github.com/markscholtz)
 * [marlun](https://github.com/marlun)
+* [martica](https://github.com/martica)
 * [mattsacks](https://github.com/mattsacks)
 * [Mr-Happy](https://github.com/Mr-Happy)
 * [mrgrubb](https://github.com/mrgrubb)
