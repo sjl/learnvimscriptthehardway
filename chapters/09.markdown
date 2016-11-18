@@ -35,7 +35,7 @@ You've seen a bunch of simple mappings so far, so it's time to look at something
 with a bit more meat to it.  Run the following command:
 
     :::vim
-    :nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+    :nnoremap <leader>" ea"<esc>hbi"<esc>lel
 
 Now *that's* an interesting mapping!  First, go ahead and try it out.  Enter
 normal mode, put your cursor over a word in your text and type `<leader>"`.  Vim
@@ -45,11 +45,9 @@ How does this work?  Let's split it apart into pieces and think of what each one
 does:
 
     :::text
-    viw<esc>a"<esc>hbi"<esc>lel
+    ea"<esc>hbi"<esc>lel
 
-* `viw`: visually select the current word
-* `<esc>`: exit visual mode, which leaves the cursor on the last character of
-  the word
+* `e`: move to the end of the word
 * `a`: enter insert mode *after* the current character
 * `"`: insert a `"` into the text, because we're in insert mode
 * `<esc>`: return to normal mode
