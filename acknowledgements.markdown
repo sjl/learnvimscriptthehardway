@@ -38,6 +38,7 @@ requests, pointed out typos, raised issues, and otherwise contributed:
 * [nkalvi](https://github.com/nkalvi)
 * [nvie](https://github.com/nvie)
 * [Psycojoker](https://github.com/Psycojoker)
+* [rhilenova](https://github.com/rhilenova)
 * [riceissa](https://github.com/riceissa)
 * [rodnaph](https://github.com/rodnaph)
 * [rramsden](https://github.com/rramsden)
