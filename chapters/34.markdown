@@ -9,11 +9,14 @@ Saving Registers
 ----------------
 
 By yanking the text into the unnamed register we destroy anything that was
-previously in there.
+previously in there.  Further, by using a visual selection to yank the text in
+the case that our operator is applied with a motion, we also destroy any record
+of the most recent visual selection.
 
-This isn't very nice to our users, so let's save the contents of that register
-before we yank and restore it after we've done.  Change the code to look like
-this:
+This isn't very nice to our users, so let's avoid using a visual selection in
+that case and also save the contents of the unnamed register before we yank in
+all cases so that we can restore it after we're done.  Change the code to look
+like this:
 
     :::vim
     nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
@@ -25,7 +28,7 @@ this:
         if a:type ==# 'v'
             normal! `<v`>y
         elseif a:type ==# 'char'
-            normal! `[v`]y
+            normal! `[y`]
         else
             return
         endif
@@ -38,6 +41,8 @@ this:
 
 We've added two `let` statements at the top and bottom of the function.  The
 first saves the contents of `@@` into a variable and the second restores it.
+Additionally, we've applied yank with a motion rather than a visual selection in
+the case that our operator is applied with a motion.
 
 Write and source the file.  Make sure it works by yanking some text, then
 pressing `<leader>giw` to run our operator, then pressing `p` to paste the text
