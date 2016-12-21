@@ -45,6 +45,7 @@ requests, pointed out typos, raised issues, and otherwise contributed:
 * [rodnaph](https://github.com/rodnaph)
 * [rramsden](https://github.com/rramsden)
 * [sedm0784](https://github.com/sedm0784)
+* [semanticart](https://github.com/semanticart)
 * [sherrillmix](https://github.com/sherrillmix)
 * [tapichu](https://github.com/tapichu)
 * [ZyX-I](https://github.com/ZyX-I)
