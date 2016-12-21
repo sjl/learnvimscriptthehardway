@@ -53,7 +53,7 @@ fairly simple.
 Make sure you can get the first couple examples in the pamphlet working in the
 Potion interpreter and by putting them in a `.pn` file.  If it seems like the
 interpreter isn't working check out [this
-issue](https://github.com/fogus/potion/issues/12) for a possible cause.
+issue](https://github.com/perl11/potion/issues/12) for a possible cause.
 
-[Potion]: http://fogus.github.com/potion/index.html
+[Potion]: http://perl11.github.com/potion/index.html
 [Io]: http://iolanguage.com/
