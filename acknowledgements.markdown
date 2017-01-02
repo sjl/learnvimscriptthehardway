@@ -21,6 +21,7 @@ requests, pointed out typos, raised issues, and otherwise contributed:
 * [dmedvinsky](https://github.com/dmedvinsky)
 * [flatcap](https://github.com/flatcap)
 * [helixbass](https://bitbucket.org/helixbass)
+* [hk3380](https://github.com/hk3380)
 * [hoelzro](https://github.com/hoelzro)
 * [inside](https://github.com/inside)
 * [jlmuir](https://bitbucket.org/jlmuir/)
