@@ -155,7 +155,7 @@ chapter:
 
     :::vim
     if !exists("g:potion_command")
-        let g:potion_command = "/Users/sjl/src/potion/potion"
+        let g:potion_command = "potion"
     endif
 
     function! PotionCompileAndRunFile()
@@ -221,7 +221,7 @@ directory and file name where they live.  Now change the
 
     :::vim
     if !exists("g:potion_command")
-        let g:potion_command = "/Users/sjl/src/potion/potion"
+        let g:potion_command = "potion"
     endif
 
     nnoremap <buffer> <localleader>r
