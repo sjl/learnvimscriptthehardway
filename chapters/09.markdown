@@ -35,7 +35,7 @@ You've seen a bunch of simple mappings so far, so it's time to look at something
 with a bit more meat to it.  Run the following command:
 
     :::vim
-    :nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+    :nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 
 Now *that's* an interesting mapping!  First, go ahead and try it out.  Enter
 normal mode, put your cursor over a word in your text and type `<leader>"`.  Vim
@@ -53,7 +53,6 @@ does:
 * `a`: enter insert mode *after* the current character
 * `"`: insert a `"` into the text, because we're in insert mode
 * `<esc>`: return to normal mode
-* `h`: move left one character
 * `b`: move back to the beginning of the word
 * `i`: enter insert mode *before* the current character
 * `"`: insert a `"` into the text again
