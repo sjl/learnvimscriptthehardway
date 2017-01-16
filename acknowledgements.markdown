@@ -29,6 +29,7 @@ requests, pointed out typos, raised issues, and otherwise contributed:
 * [lheiskan](https://github.com/lheiskan)
 * [lightningdb](https://github.com/lightningdb)
 * [manojkumarm](https://github.com/manojkumarm)
+* [markmontymark](https://github.com/markmontymark)
 * [markscholtz](https://github.com/markscholtz)
 * [marlun](https://github.com/marlun)
 * [martica](https://github.com/martica)
