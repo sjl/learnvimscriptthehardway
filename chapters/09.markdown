@@ -45,7 +45,7 @@ How does this work?  Let's split it apart into pieces and think of what each one
 does:
 
     :::text
-    viw<esc>a"<esc>hbi"<esc>lel
+    viw<esc>a"<esc>bi"<esc>lel
 
 * `viw`: visually select the current word
 * `<esc>`: exit visual mode, which leaves the cursor on the last character of
