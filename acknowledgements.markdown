@@ -39,6 +39,7 @@ requests, pointed out typos, raised issues, and otherwise contributed:
 * [NagatoPain](https://github.com/NagatoPain)
 * [nathanaelkane](https://github.com/nathanaelkane)
 * [nielsbom](https://github.com/nielsbom)
+* [nirenjan](https://github.com/nirenjan)
 * [nkalvi](https://github.com/nkalvi)
 * [nvie](https://github.com/nvie)
 * [Psycojoker](https://github.com/Psycojoker)
