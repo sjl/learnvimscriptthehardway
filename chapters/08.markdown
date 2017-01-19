@@ -47,11 +47,11 @@ You should see something like `iskeyword=@,48-57,_,192-255`.  This format is
 very complicated, but in essence it means that all of the following are
 considered "keyword characters":
 
-* The underscore character (`_`).
 * All alphabetic ASCII characters, both upper and lower case, and their accented
   versions.
 * Any characters with an ASCII value between 48 and 57 (the digits zero through
   nine).
+* The underscore character (`_`).
 * Any characters with an ASCII value between 192 and 255 (some special ASCII
   characters).
 
