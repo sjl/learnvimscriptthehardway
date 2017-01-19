@@ -34,6 +34,7 @@ requests, pointed out typos, raised issues, and otherwise contributed:
 * [marlun](https://github.com/marlun)
 * [martica](https://github.com/martica)
 * [mattsacks](https://github.com/mattsacks)
+* [mjperrone](https://github.com/mjperrone)
 * [Mr-Happy](https://github.com/Mr-Happy)
 * [mrgrubb](https://github.com/mrgrubb)
 * [NagatoPain](https://github.com/NagatoPain)
