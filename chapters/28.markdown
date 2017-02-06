@@ -34,9 +34,9 @@ We'll look at the function more later, but for now just trust that it returns
 the path of the previous buffer.  You can play with it using `echom` if you want
 to see for yourself.
 
-Once `bufname` is evaluated Vim the string `"rightbelow vsplit bar.txt"`.  The
-`execute` command evaluates this as a Vimscript command which opens the split
-with the file.
+Once `bufname` is evaluated Vim builds the string `"rightbelow vsplit
+bar.txt"`.  The `execute` command evaluates this as a Vimscript command which
+opens the split with the file.
 
 Is Execute Dangerous?
 ---------------------
