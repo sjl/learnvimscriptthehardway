@@ -15,8 +15,8 @@ The book is divided roughly into three sections:
   distribution to other Vim users.
 
 The book is [copyright][license] 2013 by Steve Losh, all rights reserved.  You
-can redistribute it as long as you don't make any changes and don't charge for
-it.
+can redistribute this HTML version as long as you don't make any changes and
+don't charge for it.
 
 The book will always be free to read online.
 
