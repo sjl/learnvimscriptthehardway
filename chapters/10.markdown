@@ -42,21 +42,10 @@ Now that you've got a great new mapping, how can you learn to use it?  Chances
 are you've already got the escape key in your muscle memory, so when you're
 editing you'll hit it without even thinking.
 
-The trick to relearning a mapping is to *force* yourself to use it by
-*disabling* the old key(s).  Run the following command:
-
-    :::vim
-    :inoremap <esc> <nop>
-
-This effectively disables the escape key in insert mode by telling Vim to
-perform `<nop>` (no operation) instead.  Now you *have* to use your `jk` mapping
-to exit insert mode.
-
 At first you'll forget, type escape and start trying to do something in normal
-mode and you'll wind up with stray characters in your text.  It will be
-frustrating, but if you stick with it you'll be surprised at how fast your mind
-and fingers absorb the new mapping.  Within an hour or two you won't be
-accidentally hitting escape any more.
+mode.  It will be frustrating, but if you stick with it you'll be surprised at 
+how fast your mind and fingers absorb the new mapping.  Within an hour or two 
+you won't be accidentally hitting escape any more.
 
 This idea applies to any new mapping you create to replace an old one, and even
 to life in general.  When you want to change a habit, make it harder or
