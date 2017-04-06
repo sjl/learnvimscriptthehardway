@@ -31,7 +31,9 @@ that it's describing a scoped variable.
 Exercises
 ---------
 
-Skim over the list of scopes in `:help internal-variables`.  Don't worry if you
-don't know what some of them mean, just take a look and keep them in the back of
-your mind.
+Skim over the list of scopes in [`:help internal-variables`][internal-variables].
+Don't worry if you don't know what some of them mean, just take a look and keep
+them in the back of your mind.
+
+[internal-variables]: http://vimdoc.sourceforge.net/htmldoc/eval.html#internal-variables
 
