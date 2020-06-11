@@ -72,7 +72,7 @@ code.  Edit the file to look like this:
         if a:type ==# 'v'
             normal! `<v`>y
         elseif a:type ==# 'char'
-            normal! `[v`]y
+            normal! `[y`]
         else
             return
         endif
