@@ -37,7 +37,7 @@ putting a line like `let g:potion_command = "/Users/sjl/src/potion/potion"` in
 their `~/.vimrc` file.
 
 The last line adds a buffer-local mapping that calls a function we've defined
-above.  Remember that because this file is in the `ftdetect/potion` directory it
+above.  Remember that because this file is in the `ftplugin/potion` directory it
 will be run every time a file's `filetype` is set to `potion`.
 
 The real functionality is in the `PotionCompileAndRunFile()` function.  Go ahead
