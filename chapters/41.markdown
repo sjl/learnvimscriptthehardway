@@ -55,5 +55,5 @@ Potion interpreter and by putting them in a `.pn` file.  If it seems like the
 interpreter isn't working check out [this
 issue](https://github.com/perl11/potion/issues/12) for a possible cause.
 
-[Potion]: http://perl11.github.com/potion/index.html
+[Potion]: https://perl11.github.io/potion/index.html
 [Io]: http://iolanguage.com/
