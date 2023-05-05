@@ -5,7 +5,7 @@ Now it's time to start taking a closer look at the different types of variables
 you can use.  First we'll go over Vim's numeric types.
 
 Vimscript has two types of numeric variables: Numbers and Floats.  A Number is
-a 32 bit signed integer.  A Float is a floating point number.
+a 64 bit signed integer.  A Float is a floating point number.
 
 Number Formats
 --------------
